@@ -12,7 +12,7 @@ import com.hyundai.thehandsome.service.MemberService;
 
 
 @Controller
-@RequestMapping("/")
+@RequestMapping("/test")
 public class MemberController {
 	
 	
