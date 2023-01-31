@@ -94,6 +94,18 @@
 			<groupId>com.oracle.ojdbc</groupId>
 			<artifactId>ojdbc8</artifactId>
 			<version>19.3.0.0</version>
+			
+			<!-- oracle ons Error and speedUP -->
+			<exclusions>
+				<exclusion>
+					<groupId>com.oracle.ojdbc</groupId>
+					<artifactId>simplefan</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>com.oracle.ojdbc</groupId>
+					<artifactId>ons</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 
 	</dependencies>

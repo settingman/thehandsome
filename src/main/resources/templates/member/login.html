@@ -1,0 +1,434 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<title>로그인 | 더한섬닷컴</title>
+
+<th:block th:replace="member/head :: headFragment"></th:block>
+
+<body class="back">
+	<script>
+		(function() {
+			if (document.cookie.indexOf('thehyundai=true') > -1) {
+				var d = new Date();
+				d.setTime(d.getTime() + (365 * 24 * 60 * 60 * 1000));
+				document.cookie = 'sslvisit=true; expires=' + d.toUTCString()
+						+ '; path=/';
+			} else if (document.cookie.indexOf('rakuten=') > -1) {
+				var d = new Date();
+				d.setTime(d.getTime() + (365 * 24 * 60 * 60 * 1000));
+				document.cookie = 'sslvisit1=true; expires=' + d.toUTCString()
+						+ '; path=/';
+			} else if (document.cookie.indexOf('hyundaihmall=true') > -1) {
+				var d = new Date();
+				d.setTime(d.getTime() + (365 * 24 * 60 * 60 * 1000));
+				document.cookie = 'sslvisit2=true; expires=' + d.toUTCString()
+						+ '; path=/';
+			} else if (document.cookie.indexOf('fromSite') > -1) {
+				var d = new Date();
+				d.setTime(d.getTime() + (365 * 24 * 60 * 60 * 1000));
+				document.cookie = 'sslvisit3=' + "" + '; expires='
+						+ d.toUTCString() + '; path=/';
+			} else if (document.cookie.indexOf('recommender') > -1) {
+				var d = new Date();
+				d.setTime(d.getTime() + (365 * 24 * 60 * 60 * 1000));
+				document.cookie = 'sslvisit4=' + "" + '; path=/';
+			}
+		})();
+	</script>
+	<!-- Loading -->
+	<div style="display: none;">
+		<div id="loadingBarDiv" style="display: none;"></div>
+	</div>
+	<!-- //Loading -->
+
+
+	<div id="mapleMainPopwrap"
+		style="position: fixed; top: 50%; left: 50%; width: 81.333333%; z-index: 805; transform: translate(-50%, -50%); display: none"
+	></div>
+
+	<div class="layerArea" id="mapleLayer" style="display: none;">
+		<div class="layerBg"></div>
+	</div>
+
+	<div class="hsome_allContents_wrapper">
+
+		<div class="hsome_allContents">
+			<script type="text/javascript">
+				function goMainpage() {
+					window.sessionStorage.removeItem('moveYn');
+					location.href = "/ko/main";
+				}
+			</script>
+		</div>
+	</div>
+
+	<!-- ################## header ################## -->
+	<header class="hsome_header">
+		<h1 class="h_ttl ellipsis" id="headerTitle">로그인</h1>
+		<a href="/ko/main" class="h_top_home"><span>홈</span></a> <a href="javascript:noLink();" onclick="goBack();" class="h_prev">이전 페이지로 가기</a>
+		<ul class="h_gnbMenu">
+			<li class="search"><a href="/ko/mobilecommon/search" onclick="GA_Event('공통', '헤더', '검색');"><span>search</span></a></li>
+			<li class="cart"><a href="/ko/shoppingbag" onclick="GA_Event('공통', '헤더', '쇼핑백');"><span>cart</span><i>0</i></a></li>
+		</ul>
+
+	</header>
+	<!-- //################## header ################## -->
+	<script type="text/javascript">
+		//<![CDATA[
+		var tempData = "";
+		$(document)
+				.ready(
+						function() {
+							deletecookiePath("joinChkYn", "", "");
+
+							// #1130 로그인 입력창 탭위치변경
+							var loginLayer = document
+									.getElementById("loginLayer");
+							var loginError = "";
+							isShow('h');
+
+							//로그인 오류횟수 관련
+							if ("" != "") {
+								if ("" == "true") {
+									var la = new layerAlert(
+											"잘못된 비밀번호를 5회 입력하셨습니다.<br/>비밀번호가 보호조치되었으니, 고객센터로 문의하시길 바랍니다.");
+									la.confirmAction = function() {//확인 버튼 클릭시 추가 호출 펑션
+									};
+								} else {
+
+									if (Number("") == 3 || Number("") == 4
+											|| Number("") == 5) {
+										var la = new layerAlert(
+												"잘못된 비밀번호를 {0}회 입력하셨습니다.<br/>5회 이상 입력시 로그인은 제한됩니다.");
+										la.confirmAction = function() {//확인 버튼 클릭시 추가 호출 펑션
+										};
+									}
+
+								}
+							}
+
+							$("#login_btn")
+									.click(
+											function() {
+												var id = $("#loginForm").find(
+														"#j_username").val();
+												var pw = $("#loginForm").find(
+														"#j_password").val();
+
+												document
+														.getElementById("loginLayer").value = "E";
+
+												//            console.log("id : " + id);
+												//            console.log("pw : " + pw);
+
+												if (false) {
+													if (id == "") {
+														document
+																.getElementById("hpErrMsg").textContent = "이메일을 입력하셔야 합니다.";
+														//layerAlert("이메일을 입력하셔야 합니다.");
+														return;
+													}
+
+													if (pw == "") {
+														document
+																.getElementById("hpErrMsg").textContent = "Please enter your password";
+														//layerAlert("Please enter your password");
+														return;
+													}
+												}
+
+												if (true) {
+													if (id == "") {
+														document
+																.getElementById("hpErrMsg").textContent = "아이디/이메일을 입력하세요.";
+														//layerAlert("아이디/이메일을 입력해 주십시요.");
+														return;
+													}
+
+													if (pw == "") {
+														document
+																.getElementById("hpErrMsg").textContent = "비밀번호를 입력하세요.";
+														//layerAlert("비밀번호를 입력해 주십시요.");
+														return;
+													}
+												}
+
+												// 에러 메시지 영역을 초기화
+												displayHpErrMsg("");
+												$("#loginForm").submit();
+
+												return false;
+
+											});
+
+							//enter key event 추가
+							$("#loginForm").find("#j_password").keypress(
+									function(event) {
+										if (event.which == 13) {
+											event.preventDefault();
+											$("#login_btn").click();
+											$(this).blur();
+										}
+									});
+
+							$("#otpNo").keypress(function(event) {
+								if (event.which == 13) {
+									event.preventDefault();
+									$("#otplogin").click();
+									$(this).blur();
+								}
+							});
+
+							//통합맴버십 회원가입 요청
+							$("#hpoinJoinBtn").click(function() {
+								hpoinJoin();
+							});
+
+							//통합맴버십 회원가입 요청
+							$("#hpoinJoinBtn2").click(function() {
+								hpoinJoin();
+							});
+
+							function displayOtpErrMsg(msg) {
+								document.getElementById("otpErrMsg").textContent = msg;
+							}
+
+							function displayHpErrMsg(msg) {
+								document.getElementById("hpErrMsg").textContent = msg;
+							}
+
+							$("#idShow").click(function() {
+								isShow('h')
+							});
+
+							$("#_spring_security_remember_me")
+									.click(
+											function() {
+												if ($(
+														"#_spring_security_remember_me")
+														.is(":checked")) {
+													$(
+															"#hp_spring_security_remember_me")
+															.val("1");
+													$(
+															"#bio_spring_security_remember_me")
+															.val("1");
+												} else {
+													$(
+															"#hp_spring_security_remember_me")
+															.val("");
+													$(
+															"#bio_spring_security_remember_me")
+															.val("");
+												}
+											});
+
+						});
+
+		var bioType = "";
+		var loginMethod = "";
+
+		//바이오인증 등록 페이지 이동전 로그인화면 제어를 위한  COOKIE설정값 조회
+		var registerBioLoginYn = getCookieAndDelete("registerBioLogin");
+
+		function hpSsoSuccess() {
+			$("#hpointLoginForm").submit();
+		}
+
+		function isShow(custType) {
+			if (custType == 'h') {
+				$('.id_login').show();
+				$('.otp_login').hide();
+				$("#loginForm").find("input[name='j_username']").focus();
+			} else {
+				$('.id_login').hide();
+				$('.otp_login').show();
+				$("#hpOtpForm").find("input[name='otpNo']").focus();
+			}
+
+			loginError = "";
+			if (loginError != 'true') {
+				var ssoUrl = "https://sso.h-point.co.kr:29865"
+						+ "/co/setSsoReqJSONP.hd";
+				gfnSsoReqAjax(ssoUrl, ssoTokenSuc);
+			}
+
+		}
+
+		function hpoinJoin() {
+			var hdUrl = "https://www.h-point.co.kr/cu/join/start.nhd";
+			//window.open(hdUrl,"joinStart_window");
+			// #1158 통합 멤버십 가입 device 구분 추가
+			var cookieValue = getCookie2("app");
+			if (cookieValue == "android" || cookieValue == "ios") {
+				document.getElementById("ptcoReqnMdaInf").value = "app";
+			} else {
+				document.getElementById("ptcoReqnMdaInf").value = "web";
+			}
+			// #1158 통합 멤버십 가입 device 구분 추가
+			$("#hpointHiddenForm").attr("action", hdUrl);
+			$("#hpointHiddenForm").submit();
+		}
+
+		function ssoTokenSuc(data) {
+			if (data.succYn == "Y") {
+				$.ajax({
+					type : "GET",
+					url : "/ko/member/hpAutoLogin",
+					data : {
+						"mcustNo" : data.mcustNo
+					},
+					success : function(data) {
+						if (data.resultCode == "S") {
+							$("#hpointLoginForm").find("#j_username").val(
+									data.tempId);
+							//                            $("#hpointLoginForm").find("#j_password").val(data.tempPw);
+							hpSsoSuccess();
+						}
+					},
+					error : function(e) {
+					}
+				});
+			}
+		}
+
+		function simpJoin() {
+			var hdUrl = "https://www.h-point.co.kr/cu/join/simpJoinStart.nhd";
+
+			// #1158 통합 멤버십 가입 device 구분 추가
+			var cookieValue = getCookie2("app");
+			if (cookieValue == "android" || cookieValue == "ios") {
+				document.getElementById("ptcoReqnMdaInf").value = "app";
+			} else {
+				document.getElementById("ptcoReqnMdaInf").value = "web";
+			}
+			// #1158 통합 멤버십 가입 device 구분 추가
+			$("#simpJoinForm").attr("action", hdUrl);
+			$("#simpJoinForm").submit();
+			$(".simplejoin").hide().removeClass("active")
+					.removeClass("visible");
+			holdBodyHide();
+			$(".id_login").show();
+		}
+
+		//가입 유도 팝업
+		function layerPopup(division) {
+			$.cookie("handsomeappreturnurl", location.href, {
+				path : "/"
+			});
+			if (division == "open") {
+				$(".id_login").hide();
+				$(".otp_login").hide();
+				$(".simplejoin").show().addClass("active").addClass("visible");
+				holdBodyShow();
+			} else {
+				$(".simplejoin").hide().removeClass("active").removeClass(
+						"visible");
+				holdBodyHide();
+				$(".otp_login").hide();
+				$(".id_login").show();
+			}
+		}
+
+		function hpIdFind() {
+			var t_w = window
+					.open(
+							"https://www.h-point.co.kr/cu/config/findCustId.nhd?prtnrId=D080&chnnlId=1705",
+							"windowHpFind");
+			t_w.focus();
+			return false;
+		}
+
+		function hpPasswordFind() {
+			var t_w = window.open(
+					"https://www.h-point.co.kr/cu/config/findCustPwd.nhd",
+					"windowHpFind");
+			t_w.focus();
+			return false;
+		}
+
+		function goMemberRegistration() {
+			if ("" != "") {
+				location.href = "/ko/member/joinGuidePage?egift=Y";
+			} else {
+				location.href = "/ko/member/joinGuidePage";
+			}
+		}
+
+		function userIdClick() {
+			$("#loginForm").find("input[name='j_username']").focus();
+		}
+
+		//]]>
+	</script>
+
+
+	<form id="simpJoinForm" method="post" action="">
+		<input type="hidden" name="prtnrId" value="D080">
+		<input type="hidden" name="chnnlId" value="1705">
+		<input type="hidden" name="ssoMcustNo" id="ssoMcustNo" value="">
+		<input type="hidden" name="ptcoReqnMdaInf" id="ptcoReqnMdaInf" value="">
+	</form>
+	<form id="dormMcustForm" action="/ko/member/login" method="post">
+		<input type="hidden" name="mcustNo" id="mcustNoD" value="">
+		<input type="hidden" name="otpId" id="otpIdD" value="">
+		<div>
+			<input type="hidden" name="CSRFToken" value="f0d63867-6e22-47d9-9461-764be43de28c">
+		</div>
+	</form>
+	<input type="hidden" name="loginLayer" id="loginLayer" value="E">
+	<!-- CNT -->
+	<!-- ID/PWD Login contents s -->
+	<div class="hsome_contents mem_ct_wrap id_login" id="handsomeCust">
+		<div class="mem_login_input_area">
+			<form id="loginForm" action="/member/login" method="post">
+				<!-- 로그인 정보 입력 -->
+				<div class="input_group">
+					<input type="hidden" name="inputId" id="inputId" value="">
+					<!-- 아이디 입력 -->
+					<div class="input_login_id">
+						<input id="j_username" name="mId" type="text" class="login_id" placeholder="아이디/이메일을 입력하세요." title="아이디/이메일을 입력하세요.">
+					</div>
+					<!-- 패스워드 입력 -->
+					<div class="input_login_pw">
+						<input type="password" id="j_password" name="password" placeholder="비밀번호를 입력하세요." title="비밀번호를 입력하세요.">
+					</div>
+					<!-- [TO DEV] Error msg here. -->
+					<div class="err_wrap">
+						<p id="hpErrMsg" class="err_txt"></p>
+					</div>
+					<div th:if="error">
+						<p id="valid" style="color: red; font-size: 12px;">
+							<a th:text="${exception}"></a>
+						</p>
+					</div>
+					<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+					<div class="btn_wrap">
+						<button type="button" id="login_btn" class="btn btn_bg_b btn_login btn_popup">로그인</button>
+					</div>
+					<div class="login_option bio">
+						<ul>
+							<li class="check_area"><input id="_spring_security_remember_me" name="_spring_security_remember_me" path="_spring_security_remember_me"
+									class="check" type="checkbox" checked=""
+								> <label for="_spring_security_remember_me" class="check_txt">자동 로그인</label></li>
+							<li></li>
+						</ul>
+					</div>
+					<div class="login_option two_type_opt_wrap">
+						<ul class="two_type_opt">
+							<li><a href="#" class="btn_login_otp" id="otpShow">OTP 인증번호 로그인</a></li>
+							<li><a href="/member/nonMemberLogin" class="btn_login_nonmem">비회원 주문조회</a></li>
+						</ul>
+					</div>
+				</div>
+				<input type="hidden" name="returnType" value="">
+			</form>
+		</div>
+	</div>
+	<!-- //################## contents ################## -->
+
+
+
+
+	<th:block th:replace="member/footer :: footFragment"></th:block>
+</body>
+</html>

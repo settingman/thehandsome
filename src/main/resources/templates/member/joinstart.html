@@ -1,0 +1,178 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<title>회원가입시작 | 더한섬닷컴</title>
+<th:block th:replace="member/head :: headFragment"></th:block>
+<!-- //################## header ################## -->
+<script type="text/javascript">
+	//<![CDATA[
+	var doubleSubmitFlag = true;
+	$(document)
+			.ready(
+					function() {
+						$("#id").unbind("keypress").bind("keypress",
+								function() {
+									if ($("#id").val().length > 0) {
+										$("#uidMsg").text("");
+									}
+								});
+
+						$("#emailAuthBtn")
+								.click(
+										function() {
+											var id = $("#id").val().trim();
+
+											if (id == "") {
+												$("#uidMsg")
+														.text("이메일을 입력하세요.");
+												return;
+											} else if (emailRegExp.test(id) !== true) {
+												$("#uidMsg").text(
+														"잘못된 E-mail 형식입니다.");
+												return;
+											} else {
+												$("#uidMsg").text("");
+
+												showLoadingLp(); //로딩레이어 호출
+
+												$
+														.ajax({
+															type : "GET",
+															url : "/ko/member/isdupluid?uid="
+																	+ $("#id")
+																			.val(),
+															success : function(
+																	response) {
+																if (response == true) {
+																	hideLoadingLp(); //로딩레이어 숨기
+																	$("#uidMsg")
+																			.text(
+																					"사용중인 이메일입니다.");
+																	return;
+																} else {
+																	$
+																			.ajax({
+																				type : "GET",
+																				url : "/ko/member/easyjoinsendmail?userMail="
+																						+ id,
+																				success : function(
+																						data) {
+																					if (data.resultCode == "S") {
+																						layerAlert("["
+																								+ id
+																								+ "]으로<br/>발송된 인증메일의<br/>인증링크를 유효시간 30분 안에<br/>선택해주세요.");
+																						$(
+																								"#emailAuthBtn")
+																								.hide();
+																						hideLoadingLp(); //로딩레이어 숨기
+																						return;
+																					} else {
+																						layerAlert("인증메일발송중 에러가 발생했습니다.");
+																						hideLoadingLp(); //로딩레이어 숨기
+																						return;
+																					}
+																				},
+																				error : function(
+																						e) {
+																					hideLoadingLp(); //로딩레이어 숨기
+																					layerAlert("인증메일발송중 에러가 발생했습니다.");
+																					return;
+																				},
+																			});
+																}
+															},
+															error : function(e) {
+																hideLoadingLp(); //로딩레이어 숨기
+																return;
+															},
+														});
+											}
+										});
+
+						$("#joinHP").click(function() {
+							hpoinJoin();
+						});
+					});
+
+	function hpoinJoin() {
+		var hdUrl = "https://www.h-point.co.kr" + "/cu/join/start.nhd";
+
+		document.getElementById("ptcoReqnMdaInf").value = "web";
+		$("#hpointHiddenForm").attr("action", hdUrl);
+		$("#hpointHiddenForm").submit();
+	}
+
+	//]]>
+</script>
+<form id="hpointHiddenForm" method="post" action="" target="hpMember">
+	<input type="hidden" name="prtnrReqGb" value="02" />
+	<input type="hidden" name="prtnrId" value="D080" />
+	<input type="hidden" name="chnnlId" value="1705" />
+	<input type="hidden" name="ptcoReqnMdaInf" id="ptcoReqnMdaInf" value="" />
+</form>
+
+<input type="hidden" name="uidDuplChk" id="uidDuplChk" value="" />
+<!-- contents s -->
+<div class="hsome_contents mbr_signup_wrap">
+	<div class="mem_ct_wrap_bg">
+		<h5>더한섬닷컴 가입을 환영합니다!</h5>
+		<p>
+			본인인증 절차 없이, 더한섬닷컴에서 제공하는 서비스만<br />제한적으로 이용할 수 있습니다.
+		</p>
+	</div>
+	<div class="mem_ct_wrap">
+		<dl>
+			<dt>오프라인 매장 사용불가</dt>
+			<dd>
+				더 한섬닷컴에서 사용이 가능하며, 오프라인 매장에서는<br />사용할 수 없습니다.
+			</dd>
+			<dt>회원 전용혜택 제공 불가</dt>
+			<dd>
+				한섬마일리지와 현대백화점 그룹 H.Point 혜택, 한섬의 온라인<br />맴버쉽 서비스 ‘THE 클럽’의 혜택은 제공되지 않습니다.
+			</dd>
+		</dl>
+		<hr />
+		<form id="memberJoinForm" action="/ko/member/joinstart" method="POST">
+			<div class="input_group">
+				<div class="txt_wrap">아이디로 사용하실 이메일 계정을 입력하세요.</div>
+				<div class="input_user_email">
+					<input type="text" id="id" name="id" class="user_email" placeholder="이메일을 입력하세요." title="이메일을 입력하세요." maxlength="50" />
+				</div>
+				<!-- [TO DEV] Error msg here. -->
+				<div class="err_wrap">
+					<p class="err_txt" id="uidMsg"></p>
+				</div>
+			</div>
+			<div>
+				<input type="hidden" name="CSRFToken" value="cd9050c6-105b-4660-8eff-bcdaba320336" />
+			</div>
+		</form>
+		<div class="btn_wrap">
+			<button class="btn btn_bg_b btn_confirm_email" id="emailAuthBtn">이메일 인증하기</button>
+		</div>
+		<!-- [TODO] bullet_list 추가 -->
+		<ul class="ul_dot">
+			<li>정보통신망법(2012.08.18 시행) 제 23조 2(주민번호 사용제한)<br />규정에 따라 온라인 상 주민번호 수집/이용을 제한합니다.
+			</li>
+			<li>입력하신 정보는 본인확인을 위해 나이스정보통신에 제공되며,<br />본인확인용도 외에 사용되거나 저장되지 않습니다.
+			</li>
+			<li>타인의 정보 및 주민등록번호를 부정하게 사용하는 경우 3년<br />이하의 징역 또는 1천만원 이하의 벌금에 처해지게 됩니다.<br />관련법률 : 주민등록법 제21조(벌칙)
+			</li>
+		</ul>
+
+		<div class="login_signup_area no_bg no_border">
+			<hr />
+			<div class="txt_wrap">
+				<h5>더 큰 혜택으로 보다 즐거운 쇼핑을!</h5>
+				<p class="sub_tit">H.POINT 통합회원에게만 드리는 특별한 혜택을 경험해 보세요.</p>
+			</div>
+			<div class="btn_wrap">
+				<button class="btn btn_bd_g btn_signup" id="joinHP">통합회원 가입</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- //################## contents ################## -->
+
+<th:block th:replace="member/footer :: footFragment"></th:block>
+</body>
+</html>
