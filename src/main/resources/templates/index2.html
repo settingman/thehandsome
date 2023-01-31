@@ -1,10 +1,30 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:sec="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Spring boot index page example</title>
+<meta charset="UTF-8">
+<title>Title</title>
 </head>
 <body>
-    This is spring boot index page available inside resources/static/index.html
+	<h1>For Member ....................</h1>
+	<!--ROLE_ADMIN 권한을 갖는다면 이 글이 보임-->
+	<h1 sec:authorize="hasRole('ADMIN')">Has admin Role</h1>
+	<!--ROLE_USER 권한을 갖는다면 이 글이 보임-->
+	<h1 sec:authorize="hasRole('USER')">Has user Role</h1>
+	<!--ROLE_MANAGER 권한을 갖는다면 이 글이 보임-->
+	<h1 sec:authorize="hasRole('MANAGER')">Has MANAGER ROLE</h1>
+	<!--어떤 권한이건 상관없이 인증이 되었다면 이 글이 보임-->
+	<div sec:authorize="isAuthenticated()">Only Authenticated user can see this Text</div>
+	<!--인증시 사용된 객체에 대한 정보-->
+	<b>Authenticated DTO:</b>
+	<div sec:authentication="principal"></div>
+	<!--인증시 사용된 객체의 Username (ID)-->
+	<b>Authenticated username:</b>
+	<div sec:authentication="name"></div>
+	<div th:text="${#authentication.name}"></div>
+	<!--객체의 권한-->
+	<b>Authenticated user role:</b>
+	<div sec:authentication="principal.authorities"></div>
+	<div sec:authentication="principal"></div>
+	
 </body>
 </html>

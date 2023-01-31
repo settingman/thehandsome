@@ -10,7 +10,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.hyundai.thehandsome.domain.member.Member;
 import com.hyundai.thehandsome.mapper.MemberMapper;
 
-import jdk.internal.org.jline.utils.Log;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 

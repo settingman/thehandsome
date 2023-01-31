@@ -72,4 +72,11 @@ public class Member {
 		return member;
 	}
 
+	@Override
+	public String toString() {
+		return "Member [mId=" + mId + ", mPassword=" + mPassword + ", mName=" + mName + ", mPhone=" + mPhone
+				+ ", mEmail=" + mEmail + ", mZipCode=" + mZipCode + ", mAddress1=" + mAddress1 + ", mAddress2="
+				+ mAddress2 + ", mBirth=" + mBirth + ", mGender=" + mGender + ", mRole=" + mRole + "]";
+	}
+
 }
