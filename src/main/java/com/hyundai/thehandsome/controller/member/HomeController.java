@@ -14,6 +14,8 @@ public class HomeController {
 
 	@GetMapping(value = "/")
 	public String memberForm(Model model) {
+		
+		
 
 		return "index2";
 	}

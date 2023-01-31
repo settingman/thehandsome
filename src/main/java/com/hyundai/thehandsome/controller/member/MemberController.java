@@ -4,7 +4,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
@@ -20,6 +22,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.hyundai.thehandsome.domain.member.Member;
 import com.hyundai.thehandsome.domain.member.MemberFormDto;
 import com.hyundai.thehandsome.mapper.MemberMapper;
+import com.hyundai.thehandsome.security.dto.SecurityMember;
 import com.hyundai.thehandsome.service.MemberService;
 
 import lombok.RequiredArgsConstructor;
@@ -51,7 +54,6 @@ public class MemberController {
 		return "member/joininfoform";
 	}
 
-	
 	// 회원가입 진행
 	@PostMapping(value = "joininfoform")
 	public String memberForm(@Valid MemberFormDto memberFormDto, BindingResult bindingResult, Model model) {
@@ -78,7 +80,6 @@ public class MemberController {
 		return "redirect:/";
 	}
 
-	
 	// 회원가입 아이디 중복 체크 AJAX
 	@ResponseBody
 	@GetMapping("/check")
@@ -94,8 +95,7 @@ public class MemberController {
 		return result;
 
 	}
-	
-	
+
 	// 로그인
 	@GetMapping("/login")
 	public String login(@RequestParam(value = "error", required = false) String error,
@@ -107,7 +107,6 @@ public class MemberController {
 		return "/member/login";
 	}
 
-	
 	// 로그인 에러페이지 접근
 	@GetMapping(value = "/login/error")
 	public String loginError(Model model) {
@@ -115,12 +114,19 @@ public class MemberController {
 		return "/member/memberLoginForm";
 	}
 
-	
-	// Secuirty 로그아웃 
+	// Secuirty 로그아웃
 	@GetMapping(value = "/logout")
 	public String logoutPage(HttpServletRequest request, HttpServletResponse response) {
 		new SecurityContextLogoutHandler().logout(request, response,
 				SecurityContextHolder.getContext().getAuthentication());
 		return "redirect:/login";
+	}
+
+	@GetMapping("/test")
+	public String exMember(@AuthenticationPrincipal SecurityMember user) {
+		log.info("exMember.....");
+		log.info("--------------");
+		log.info(user.toString());
+		return "index2";
 	}
 }
