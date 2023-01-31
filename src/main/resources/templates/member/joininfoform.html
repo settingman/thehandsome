@@ -1,3 +1,11 @@
+<!--
+ @Date : 2023. 1. 31.
+ @작성자 : 박성환
+ @설명 : 회원가입 페이지
+ 	   : 로그인 속성 validation 적용 / 아이디 중복확인  AJAX
+-->
+
+
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <title>회원가입 | 더한섬닷컴</title>
@@ -464,33 +472,6 @@
 										}
 									});
 
-									// 20201120 이메일 필수입력 항목 X
-									$("#emailAddress")
-											.keyup(
-													function() {
-														var chkVal = $(
-																"#emailAddress")
-																.val();
-														if (chkVal != "") {
-															var email1 = "95parksh@naver.com";
-															var email2 = $(
-																	"#emailAddress")
-																	.val();
-
-															if (email1 != email2) {
-																$("#chk_email")
-																		.prop(
-																				"checked",
-																				false);
-																$("#chk_email")
-																		.attr(
-																				"checked",
-																				false);
-															}
-															chkEmail();
-														}
-													});
-
 									$("#cancleBtn").click(
 											function() {
 												var lc = new layerConfirm(
@@ -615,13 +596,6 @@
 
 														$("#bdayMsg").text("");
 
-														$("#cancleBtn").attr(
-																"disabled",
-																true);
-														$("#joinBtn").attr(
-																"disabled",
-																true);
-
 														$(
 																"#collectionAgreementYN")
 																.val("Y");
@@ -641,10 +615,10 @@
 																.attr("action",
 																		"/member/joininfoform");
 
-														showLoadingLp(); //로딩레이어 호출
-
 														$("#memberJoinForm")
 																.submit();
+
+														return;
 													});
 								});
 
@@ -657,7 +631,7 @@
 					<h5 class="no_margin">더한섬닷컴 가입을 환영합니다!</h5>
 				</div>
 				<div class="mem_ct_wrap">
-					<form id="memberJoinForm" action="/member/joininfoform" method="POST" th:object="${memberFormDto}">
+					<form id="memberJoinForm" onsubmit="return validate()" action="/member/joininfoform" method="POST" th:object="${memberFormDto}">
 						<input type="hidden" name="emailDuplChk" id="emailDuplChk" value="Y" title="이메일 중복" />
 						<input type="hidden" name="pwTypeChk" id="pwTypeChk" value="" title="비밀번호 형식" />
 						<input type="hidden" name="pwConfirmChk" id="pwConfirmChk" value="" title="비밀번호 일치" />
@@ -665,14 +639,26 @@
 						<input type="hidden" id="collectionAgreementYN" name="collectionAgreementYN" value="" />
 
 						<div class="chk_agree_wrap">
-							
+
 							<div class="input_group">
-								<div class="input_user_id">
-									<input type="text" id="uid" th:field="*{mId}" class="user_id" placeholder="이메일 아이디를 입력하세요." title="아이디를 입력하세요." maxlength="100" />
+								<div class="req_txt">
+									<i class="txt_point">*</i>표시는 필수항목입니다.
 								</div>
-								<br>
-							
-							
+								<h5>
+									아이디<i class="txt_point">*</i>
+								</h5>
+								<div class="input_user_id" style="display: flex">
+									<input type="text" id="uid" th:field="*{mId}" class="user_id" placeholder="이메일 아이디를 입력하세요." title="아이디를 입력하세요." maxlength="100"
+										style="width: 91%"
+									/>
+									<button type="button" onclick="nameCheck()" class="btnstl3 border_btn_gray btn_cnl" style="padding: 0px 10px" id="check_dup_btn">중복확인</button>
+								</div>
+								<div class="err_wrap">
+									<p id="hpErrMsg" class="err_txt"></p>
+								</div>
+								<h5>
+									비밀번호<i class="txt_point">*</i>
+								</h5>
 								<div class="input_user_pw">
 									<input type="password" id="pw" th:field="*{mPassword}" class="user_pw" placeholder="비밀번호를 입력하세요." title="비밀번호를 입력하세요." maxlength="100" />
 								</div>
@@ -692,12 +678,10 @@
 									</p>
 								</div>
 
-								<div class="req_txt">
-									<i class="txt_point">*</i>표시는 필수항목입니다.
-								</div>
+
 								<h5 class="w_helper">
 									이메일(정보수신용)
-									
+
 									<!-- tootip s -->
 									<span class="cmt_email"><div class="icon_help btn_tooltip" data-tooltip-target="tooltip_cmt_email_guide"></div></span>
 									<!-- tootip : contents_area s -->
@@ -731,16 +715,17 @@
 									>자세히보기</a>
 								</div>
 
-								<div class="input_user_name"></div>
-
 								<h5>
 									이름<i class="txt_point">*</i>
 								</h5>
 								<div class="input_user_name">
 									<input type="text" id="name" th:field="*{mName}" class="user_name" placeholder="이름을 입력하세요." title="이름을 입력하세요." maxlength="100" />
 								</div>
+								<!-- [TO DEV] Error msg here. -->
+								<div class="err_wrap">
+									<p class="err_txt" id="nameMsg"></p>
+								</div>
 
-								<br>
 								<h5>
 									핸드폰번호<i class="txt_point">*</i>
 								</h5>
@@ -766,10 +751,7 @@
 
 
 
-								<!-- [TO DEV] Error msg here. -->
-								<div class="err_wrap">
-									<p class="err_txt" id="nameMsg"></p>
-								</div>
+
 								<h5 class="pd_title">
 									생년월일<i class="txt_point">*</i>
 								</h5>
@@ -1075,6 +1057,58 @@
 									.focus();
 						}
 					}).open();
+		}
+
+		var checkedID = false;
+
+		var inputID = document.getElementById("uid");
+
+		function changeID() {
+			checkedID = false;
+
+		}
+
+		inputID.onchange = changeID;
+
+		function validate() {
+			if (!checkedID) {
+				alert("아이디 중복체크를 해주세요");
+			}
+
+			return checkedID;
+		}
+
+		function nameCheck() {
+
+			var tfUsername = $('input#uid').val();
+
+			console.log(tfUsername);
+
+			$.ajax({
+				type : 'get',
+				url : '/member/check?checkid=' + tfUsername,
+
+				success : function(result) {
+					console.log(result);
+					console.log('아이디 중복 체크 실행: success')
+
+					if (result == 1) {
+						alert('아이디가 중복되었습니다.')
+					} else if (result == 0) {
+						alert('사용하실 수 있는 아이디 입니다.')
+						checkedID = true;
+					} else if (result == 2) {
+						alert('아이디를 입력해주세요')
+					} else {
+						console.log('develop: 서버오류');
+					}
+
+				},
+				error : function(error) { // 결과 에러 콜백함수
+					console.log(error)
+				}
+			})
+
 		}
 	</script>
 

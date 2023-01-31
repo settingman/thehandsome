@@ -17,7 +17,7 @@ import lombok.Setter;
  * @Date : 2023. 1. 30.
  * @FileName: MemberFormDto.java
  * @작성자 : 박성환
- * @설명 : 회원가입 화면에서 넘어오는 가입정보 dto
+ * @설명 : 회원가입 화면에서 넘어오는 가입정보 DTO
  */
 
 @NoArgsConstructor
@@ -54,15 +54,11 @@ public class MemberFormDto {
 
 	private Integer mBirth;
 
-	
 	private Integer mGender;
-	
-	
 
-	
 	@Builder
-	public MemberFormDto(String mId, String mPassword, String mName, String mPhone, String mEmail, String mZipCode, String mAddress1,
-			String mAddress2, Integer mBirth, Integer mGender) {
+	public MemberFormDto(String mId, String mPassword, String mName, String mPhone, String mEmail, String mZipCode,
+			String mAddress1, String mAddress2, Integer mBirth, Integer mGender) {
 		this.mId = mId;
 		this.mPassword = mPassword;
 		this.mName = mName;

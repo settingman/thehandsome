@@ -1,6 +1,5 @@
 package com.hyundai.thehandsome.domain.member;
 
-
 import java.sql.Date;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -9,10 +8,17 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+/**
+ * @Date : 2023. 1. 31.
+ * @FileName: Member.java
+ * @작성자 : 박성환
+ * @설명 : DateBase Member Object
+ */
+
 @NoArgsConstructor
 @Getter
 public class Member {
-	
+
 	private String mId;
 
 	private String mPassword;
@@ -32,7 +38,7 @@ public class Member {
 	private Date mBirth;
 
 	private Integer mGender;
-	
+
 	private MemberRole mRole;
 
 	@Builder
@@ -50,29 +56,20 @@ public class Member {
 		this.mGender = mGender;
 		this.mRole = mRole;
 	}
-	
-	
-	
+
+	/**
+	 * @param memberFormDto
+	 * @param passwordEncoder
+	 * @return
+	 */
 	public static Member createMember(MemberFormDto memberFormDto, PasswordEncoder passwordEncoder) {
-        Member member = Member.builder()
-                .mId(memberFormDto.getMId())
-                .mPassword(passwordEncoder.encode(memberFormDto.getMPassword()))  //암호화처리
-                .mName(memberFormDto.getMName())
-                .mPhone(memberFormDto.getMPhone())
-                .mEmail(memberFormDto.getMEmail())
-                .mZipCode(memberFormDto.getMZipCode())
-                .mAddress1(memberFormDto.getMAddress1())
-                .mAddress2(memberFormDto.getMAddress2())
-                .mBirth(new Date(memberFormDto.getMBirth()))
-                .mGender(memberFormDto.getMGender())                
-                .mRole(MemberRole.USER)
-                .build();
-        return member;
-    }
-
-
-
-
-	
+		Member member = Member.builder().mId(memberFormDto.getMId())
+				.mPassword(passwordEncoder.encode(memberFormDto.getMPassword())) // 암호화처리
+				.mName(memberFormDto.getMName()).mPhone(memberFormDto.getMPhone()).mEmail(memberFormDto.getMEmail())
+				.mZipCode(memberFormDto.getMZipCode()).mAddress1(memberFormDto.getMAddress1())
+				.mAddress2(memberFormDto.getMAddress2()).mBirth(new Date(memberFormDto.getMBirth()))
+				.mGender(memberFormDto.getMGender()).mRole(MemberRole.USER).build();
+		return member;
+	}
 
 }

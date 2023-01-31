@@ -1,3 +1,11 @@
+<!--
+ @Date : 2023. 1. 31.
+ @작성자 : 박성환
+ @설명 : 중복 Footer fragment
+-->
+
+
+
 <html xmlns:th="http://www.thymeleaf.org">
   <th:block th:fragment="footFragment">
   <!-- ################## footer ################## -->
@@ -3013,6 +3021,7 @@
 			return stringVal;
 		}
 	</script>
+	
 	<!-- //sns공유 -->
 	<!-- loading_layerpop s -->
 	<!-- layerpop_wrap | 처리중 s -->
@@ -3709,18 +3718,6 @@
 		}
 	</script>
 
-	<!-- adinsight 공통스크립트 start -->
-	<script type="text/javascript">
-		var TRS_AIDX = 11865;
-		var TRS_PROTOCOL = document.location.protocol;
-		document.writeln();
-		var TRS_URL = TRS_PROTOCOL
-				+ '//'
-				+ ((TRS_PROTOCOL == 'https:') ? 'analysis.adinsight.co.kr'
-						: 'adlog.adinsight.co.kr') + '/emnet/trs_esc.js';
-		document
-				.writeln("<scr"+"ipt language='javascript' src='" + TRS_URL + "'></scr"+"ipt>");
-	</script>
   
   
   

@@ -14,7 +14,12 @@ import jdk.internal.org.jline.utils.Log;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-
+/**
+ * @Date : 2023. 1. 31.
+ * @FileName: MemberService.java
+ * @작성자 : 박성환
+ * @설명 : 회원서비스 정의
+ */
 
 @Slf4j
 @RequiredArgsConstructor
@@ -22,37 +27,37 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 public class MemberService implements UserDetailsService {
 
-    private final MemberMapper memberMapper;
+	private final MemberMapper memberMapper;
 
-    public Member saveMember(Member member) {
-        validateDuplicateMember(member);
-        memberMapper.save(member);
+	// 회원 저장
+	public Member saveMember(Member member) {
+		validateDuplicateMember(member);
+		memberMapper.save(member);
 
-        return memberMapper.findById(member.getMId());
-    }
+		return memberMapper.findById(member.getMId());
+	}
 
-    private void validateDuplicateMember(Member member) {
-        Member findMember = memberMapper.findById(member.getMId());
-        if (findMember != null) {
-            throw new IllegalStateException("이미 가입된 회원입니다.");
-        }
-    }
+	// 회원가입 중복확인
+	private void validateDuplicateMember(Member member) {
+		Member findMember = memberMapper.findById(member.getMId());
+		if (findMember != null) {
+			throw new IllegalStateException("이미 가입된 회원입니다.");
+		}
+	}
 
-		@Override
-	    public UserDetails loadUserByUsername(String mId) throws UsernameNotFoundException {
-	        Member member = memberMapper.findById(mId);
-	        log.info("userdetails");
+	// Security User 생성
+	@Override
+	public UserDetails loadUserByUsername(String mId) throws UsernameNotFoundException {
+		Member member = memberMapper.findById(mId);
+		log.info("userdetails");
 
-	        if (member == null) {
-	        	log.info("No user");
-	            throw new UsernameNotFoundException(mId);
-	            
-	        }
+		if (member == null) {
+			log.info("No user");
+			throw new UsernameNotFoundException(mId);
 
-	        return User.builder()
-	                .username(member.getMId())
-	                .password(member.getMPassword())
-	                .roles(member.getMRole().toString())
-	                .build();
-	    }
+		}
+
+		return User.builder().username(member.getMId()).password(member.getMPassword())
+				.roles(member.getMRole().toString()).build();
+	}
 }

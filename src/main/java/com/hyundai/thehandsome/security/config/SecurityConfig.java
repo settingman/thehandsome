@@ -43,11 +43,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	MemberService memberService;
 
+	// Application 접근 정보 설정
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 
 		http.authorizeRequests() // 6
-				.antMatchers("/member/login", "/signup", "/user","/member/joininfoform").permitAll() // 누구나 접근 허용
+				.antMatchers("/member/login", "/signup", "/user", "/member/joininfoform", "/member/check").permitAll() // 누구나
+																														// 접근허용
 				.antMatchers("/").hasRole("USER") // USER, ADMIN만 접근 가능
 				.antMatchers("/admin").hasRole("ADMIN") // ADMIN만 접근 가능
 				.anyRequest().authenticated(); // 나머지 요청들은 권한의 종류에 상관 없이 권한이 있어야 접근
@@ -98,20 +100,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.logoutSuccessUrl("/");
 	}
 
+	// passwordEncoding
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		auth.userDetailsService(memberService).passwordEncoder(passwordEncoder());
 	}
 
+	// 인증하지 않을 페이지 목록 지정
 	@Override
 	public void configure(WebSecurity web) throws Exception {
-		web.ignoring().antMatchers("/static/js/**", "/static/css/**", "/static/img/**", "/static/frontend/**"); // 인증
-																												// 하지않을
-																												// 페이지
-																												// 목록
+		web.ignoring().antMatchers("/static/js/**", "/static/css/**", "/static/img/**", "/static/frontend/**");
 	}
 
-	@Bean // 비밀번호를 그대로 저장하지않고 암호화.
+	@Bean // 비밀번호를 그대로 저장하지않고 암호화 bean.
 	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
