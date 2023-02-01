@@ -63,11 +63,11 @@ public class MemberService implements UserDetailsService {
 		log.info("-------------------");
 		List<GrantedAuthority> authorities = new ArrayList<>();
 		authorities.add(new SimpleGrantedAuthority("ROLE_" + member.getMRole()));
-		
+
 		log.info(member.getMPassword());
 		SecurityMember securityMember = new SecurityMember(member.getMId(), member.getMPassword(), authorities);
 		log.info(securityMember.toString());
-		
+
 		securityMember.setMName(member.getMName());
 
 		log.info(securityMember.toString());

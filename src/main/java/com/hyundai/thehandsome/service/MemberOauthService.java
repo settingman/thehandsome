@@ -92,8 +92,10 @@ public class MemberOauthService extends DefaultOAuth2UserService {
 
 		try {
 			Member socialMember = saveSocialMember(email);
+			
 			log.info("---saveSocialMember--");
 			log.info(socialMember.toString());
+			
 			List<GrantedAuthority> authorities = new ArrayList<>();
 			authorities.add(new SimpleGrantedAuthority("ROLE_" + socialMember.getMRole()));
 			SecurityMember securityMember = new SecurityMember(socialMember.getMId(), socialMember.getMPassword(),

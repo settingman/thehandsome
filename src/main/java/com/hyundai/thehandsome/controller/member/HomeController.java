@@ -19,6 +19,15 @@ public class HomeController {
 
 		return "index2";
 	}
+	
+	
+	@GetMapping(value = "/main2")
+	public String main(Model model) {
+		
+		
+		
+		return "main";
+	}
 
 	@GetMapping(value = "/test")
 	public String memberForm(@AuthenticationPrincipal User user, Model model) {

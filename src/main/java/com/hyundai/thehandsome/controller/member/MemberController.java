@@ -6,7 +6,6 @@ import javax.validation.Valid;
 
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
@@ -98,13 +97,15 @@ public class MemberController {
 
 	// 로그인
 	@GetMapping("/login")
-	public String login(@RequestParam(value = "error", required = false) String error,
+	public String login(@RequestParam(value="mId", required=false) String mId, @RequestParam(value = "error", required = false) String error,
 			@RequestParam(value = "exception", required = false) String exception, Model model) {
 
 		/* 에러와 예외를 모델에 담아 view resolve */
+		model.addAttribute("mId",mId);
 		model.addAttribute("error", error);
 		model.addAttribute("exception", exception);
 		return "/member/login";
+
 	}
 
 	// 로그인 에러페이지 접근
@@ -119,7 +120,7 @@ public class MemberController {
 	public String logoutPage(HttpServletRequest request, HttpServletResponse response) {
 		new SecurityContextLogoutHandler().logout(request, response,
 				SecurityContextHolder.getContext().getAuthentication());
-		return "redirect:/login";
+		return "redirect:/member/login";
 	}
 
 	@GetMapping("/test")
