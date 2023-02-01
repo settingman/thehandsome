@@ -51,13 +51,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 
-		http.authorizeRequests() 
-				.antMatchers("/member/login", "/signup", "/user", "/member/joininfoform", "/member/check",
-						"/member/test")
-				.permitAll() // 누구나
-				// 접근허용
-				.antMatchers("/").hasRole("USER") // USER, ADMIN만 접근 가능
+		http.authorizeRequests().antMatchers("/", "/member/mypage").hasRole("USER") // USER, ADMIN만 접근 가능
 				.antMatchers("/admin").hasRole("ADMIN") // ADMIN만 접근 가능
+				.antMatchers("/member/**").permitAll() // 누구나 접근허용
 				.anyRequest().authenticated(); // 나머지 요청들은 권한의 종류에 상관 없이 권한이 있어야 접근
 		http.formLogin()// Form 로그인 인증 기능이 작동함
 				.loginPage("/member/login")// 사용자 정의 로그인 페이지
@@ -82,9 +78,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 							AuthenticationException exception) throws IOException, ServletException {
 
 						String errorMessage;
-						
-						
-						
+
 						request.setAttribute("mId", request.getParameter("mId"));
 
 						if (exception instanceof BadCredentialsException) {
@@ -100,21 +94,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 						}
 
 						errorMessage = URLEncoder.encode(errorMessage, "UTF-8"); /* 한글 인코딩 깨진 문제 방지 */
-						
-						
+
 						// 로그인 실패시 에러메세지 출력 및 로그인 아이디 저장하여 다시 보여주기.
-						setDefaultFailureUrl("/member/login?error=true&exception=" + errorMessage+"&mId="+request.getParameter("mId"));
-						
-						
+						setDefaultFailureUrl("/member/login?error=true&exception=" + errorMessage + "&mId="
+								+ request.getParameter("mId"));
+
 						super.onAuthenticationFailure(request, response, exception);
 					}
 				})// 로그인 실패 후 핸들러 (해당 핸들러를 생성하여 핸들링 해준다.)
 				.permitAll() // 사용자 정의 로그인 페이지 접근 권한 승인
 
-				.and()
-						.logout()
-						.logoutRequestMatcher(new AntPathRequestMatcher("/member/logout"))
-						.logoutSuccessUrl("/member/login")
+				.and().logout().logoutRequestMatcher(new AntPathRequestMatcher("/member/logout"))
+				.logoutSuccessUrl("/member/login")
 
 		;
 

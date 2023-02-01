@@ -97,11 +97,12 @@ public class MemberController {
 
 	// 로그인
 	@GetMapping("/login")
-	public String login(@RequestParam(value="mId", required=false) String mId, @RequestParam(value = "error", required = false) String error,
+	public String login(@RequestParam(value = "mId", required = false) String mId,
+			@RequestParam(value = "error", required = false) String error,
 			@RequestParam(value = "exception", required = false) String exception, Model model) {
 
 		/* 에러와 예외를 모델에 담아 view resolve */
-		model.addAttribute("mId",mId);
+		model.addAttribute("mId", mId);
 		model.addAttribute("error", error);
 		model.addAttribute("exception", exception);
 		return "/member/login";
@@ -123,11 +124,10 @@ public class MemberController {
 		return "redirect:/member/login";
 	}
 
-	@GetMapping("/test")
-	public String exMember(@AuthenticationPrincipal SecurityMember user) {
-		log.info("exMember.....");
-		log.info("--------------");
-		log.info(user.toString());
-		return "index2";
+	// id, pw Page
+	@GetMapping(value = "/findIdPwPage")
+	public String findIdPwPage(Model model) {
+
+		return "/member/findidpwpage";
 	}
 }
