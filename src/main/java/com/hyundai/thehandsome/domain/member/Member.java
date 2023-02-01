@@ -7,6 +7,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 /**
  * @Date : 2023. 1. 31.
@@ -17,6 +18,7 @@ import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
 @Getter
+@Setter
 public class Member {
 
 	private String mId;
@@ -57,11 +59,7 @@ public class Member {
 		this.mRole = mRole;
 	}
 
-	/**
-	 * @param memberFormDto
-	 * @param passwordEncoder
-	 * @return
-	 */
+	
 	public static Member createMember(MemberFormDto memberFormDto, PasswordEncoder passwordEncoder) {
 		Member member = Member.builder().mId(memberFormDto.getMId())
 				.mPassword(passwordEncoder.encode(memberFormDto.getMPassword())) // 암호화처리

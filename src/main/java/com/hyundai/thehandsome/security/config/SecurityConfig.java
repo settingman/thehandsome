@@ -30,6 +30,8 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import com.hyundai.thehandsome.service.MemberOauthService;
 import com.hyundai.thehandsome.service.MemberService;
 
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * @Date : 2023. 1. 30.
  * @FileName: SecurityConfig.java
@@ -37,6 +39,7 @@ import com.hyundai.thehandsome.service.MemberService;
  * @설명 : Security config setting
  */
 
+@Slf4j
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
@@ -44,22 +47,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	MemberService memberService;
 
-
-
 	// Application 접근 정보 설정
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 
-		http
-				.authorizeRequests() // 6
-				.antMatchers("/member/login", "/signup", "/user", "/member/joininfoform", "/member/check","/member/test").permitAll() // 누구나
-																														// 접근허용
+		http.authorizeRequests() // 6
+				.antMatchers("/member/login", "/signup", "/user", "/member/joininfoform", "/member/check",
+						"/member/test")
+				.permitAll() // 누구나
+				// 접근허용
 				.antMatchers("/").hasRole("USER") // USER, ADMIN만 접근 가능
 				.antMatchers("/admin").hasRole("ADMIN") // ADMIN만 접근 가능
 				.anyRequest().authenticated(); // 나머지 요청들은 권한의 종류에 상관 없이 권한이 있어야 접근
-		http
-				.formLogin()// Form 로그인 인증 기능이 작동함
-				//.loginPage("/member/login")// 사용자 정의 로그인 페이지
+		http.formLogin()// Form 로그인 인증 기능이 작동함
+				// .loginPage("/member/login")// 사용자 정의 로그인 페이지
 				.defaultSuccessUrl("/")// 로그인 성공 후 이동 페이지
 				.failureUrl("/login.html?error=true")// 로그인 실패 후 이동 페이지
 				.usernameParameter("mId")// 아이디 파라미터명 설정
@@ -101,12 +102,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				})// 로그인 실패 후 핸들러 (해당 핸들러를 생성하여 핸들링 해준다.)
 				.permitAll() // 사용자 정의 로그인 페이지 접근 권한 승인
 
-				.and()
-						.logout().logoutRequestMatcher(new AntPathRequestMatcher("/members/logout")).logoutSuccessUrl("/")
+				.and().logout().logoutRequestMatcher(new AntPathRequestMatcher("/members/logout")).logoutSuccessUrl("/")
 
-				;
-		
-				http.oauth2Login();
+		;
+
+		http.oauth2Login().successHandler(new AuthenticationSuccessHandler() {
+
+			@Override
+			public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
+					Authentication authentication) throws IOException, ServletException {
+				log.info("------------------------");
+				log.info("onAuthenticationSuccess");
+				response.sendRedirect("/");
+			}
+		});
 
 	}
 
