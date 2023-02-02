@@ -1,6 +1,9 @@
 package com.hyundai.thehandsome.mapper;
 
+import java.sql.Date;
+
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import com.hyundai.thehandsome.domain.member.Member;
 
@@ -13,7 +16,11 @@ import com.hyundai.thehandsome.domain.member.Member;
 
 @Mapper
 public interface MemberMapper {
+	
 	Member findById(String mId);
 
 	void save(Member member);
+	
+	Member findByNameBirth(@Param("mName") String mName, @Param("mBirth")  String mBirth);
+	
 }

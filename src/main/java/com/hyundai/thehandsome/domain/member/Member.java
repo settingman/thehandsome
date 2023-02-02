@@ -61,11 +61,17 @@ public class Member {
 
 	
 	public static Member createMember(MemberFormDto memberFormDto, PasswordEncoder passwordEncoder) {
+		
+		String date = memberFormDto.getMBirth().toString();
+		String sqldate = date.substring(0,4)+"-"+date.substring(4,6)+"-"+date.substring(6,8);
+		System.out.println(sqldate);
+		
+		
 		Member member = Member.builder().mId(memberFormDto.getMId())
 				.mPassword(passwordEncoder.encode(memberFormDto.getMPassword())) // 암호화처리
 				.mName(memberFormDto.getMName()).mPhone(memberFormDto.getMPhone()).mEmail(memberFormDto.getMEmail())
 				.mZipCode(memberFormDto.getMZipCode()).mAddress1(memberFormDto.getMAddress1())
-				.mAddress2(memberFormDto.getMAddress2()).mBirth(new Date(memberFormDto.getMBirth()))
+				.mAddress2(memberFormDto.getMAddress2()).mBirth(Date.valueOf(sqldate))
 				.mGender(memberFormDto.getMGender()).mRole(MemberRole.USER).build();
 		return member;
 	}

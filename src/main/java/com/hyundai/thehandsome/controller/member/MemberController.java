@@ -1,10 +1,11 @@
 package com.hyundai.thehandsome.controller.member;
 
+import java.sql.Date;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
@@ -21,7 +22,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.hyundai.thehandsome.domain.member.Member;
 import com.hyundai.thehandsome.domain.member.MemberFormDto;
 import com.hyundai.thehandsome.mapper.MemberMapper;
-import com.hyundai.thehandsome.security.dto.SecurityMember;
 import com.hyundai.thehandsome.service.MemberService;
 
 import lombok.RequiredArgsConstructor;
@@ -66,6 +66,7 @@ public class MemberController {
 		}
 
 		try {
+						
 			Member member = Member.createMember(memberFormDto, passwordEncoder);
 			memberService.saveMember(member);
 			log.info("try Error");
@@ -128,6 +129,31 @@ public class MemberController {
 	@GetMapping(value = "/findIdPwPage")
 	public String findIdPwPage(Model model) {
 
+		return "/member/findidpwpage";
+	}
+	
+	// find id,pw page
+	@PostMapping(value = "/findIdPwPage")
+	public String findIdPwPage(@RequestParam("mName") String mName,
+			@RequestParam("mBirth") Integer mBirth, Model model) {
+		
+		log.info(mName);
+		log.info(mBirth.toString());
+		
+		Member findMember = memberMapper.findByNameBirth(mName, mBirth.toString());
+		
+		if(findMember==null) {
+			log.info("fail");
+			return "/member/findidpwpage";
+		}
+		log.info("before");
+		
+		model.addAttribute("findMember", findMember);
+		
+		log.info("after");
+		
+		
+		
 		return "/member/findidpwpage";
 	}
 }

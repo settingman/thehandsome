@@ -17,6 +17,17 @@
 		where
 		MID=#{mId}
 	</select>
+	
+	
+	<select id="findByNameBirth"
+		resultType="com.hyundai.thehandsome.domain.member.Member">
+		SELECT MID, MPassword, MName, MPhone, MEmail, MZipCode,
+		MAddress1, MAddress2, MBirth, MGender, MRole
+		FROM MEMBER
+		where
+		MName=#{mName} and MBirth=#{mBirth}
+	</select>
+	
 
 
 	<insert id="save"

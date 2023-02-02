@@ -225,7 +225,7 @@
 																birthday);
 														$("#easyIdSearchForm")
 																.attr("action",
-																		"/ko/member/searchEasyId");
+																		"/member/findIdPwPage");
 														$("#easyIdSearchForm")
 																.submit();
 
@@ -431,6 +431,16 @@
 
 				function isShow(custType) {
 					if (custType == "e") {
+						$("#tabIdPw").removeClass(
+								"mem_ct_wrap simple_mbr_wrap idpw_find_result");
+						$("#tabIdPw").addClass("mem_ct_wrap hs_mbr_wrap");
+						$("#h1").addClass("on");
+						$("#e1").removeClass("on");
+						$("#handsomeM").show();
+						$("#easyM").hide();
+
+					} else {
+
 						$("#tabIdPw").removeClass("mem_ct_wrap hs_mbr_wrap");
 						$("#tabIdPw").addClass(
 								"mem_ct_wrap simple_mbr_wrap idpw_find_result");
@@ -440,14 +450,7 @@
 						$("#easyM").show();
 						$(".easyPwInputDiv").show();
 						$(".easyPwResultDiv").hide();
-					} else {
-						$("#tabIdPw").removeClass(
-								"mem_ct_wrap simple_mbr_wrap idpw_find_result");
-						$("#tabIdPw").addClass("mem_ct_wrap hs_mbr_wrap");
-						$("#h1").addClass("on");
-						$("#e1").removeClass("on");
-						$("#handsomeM").show();
-						$("#easyM").hide();
+
 					}
 				}
 
@@ -613,12 +616,12 @@
 			</form>
 			<!-- contents s -->
 			<div class="hsome_contents simplemember_wrap">
-				<ul class="grey_bg_header_tab">
-					<li class="on" id="h1"><a href="#none" class="tab_li_hs_mem"><span>한섬회원</span></a></li>
+				<ul class="grey_bg_header_tab" >
+					<li class="" id="h1" style="display:none"><a href="#none" class="tab_li_hs_mem"><span>한섬회원</span></a></li>
 					<li id="e1"><a href="#none" class="tab_li_simple_mem"><span>간편회원</span></a></li>
 				</ul>
 				<!-- 한성회원 시작 -->
-				<div id="tabIdPw" class="hs_mbr_wrap mem_ct_wrap">
+				<div id="tabIdPw" class="mem_ct_wrap simple_mbr_wrap idpw_find_result">
 					<!-- <div class="mem_ct_wrap simple_mbr_wrap idpw_find_result"> -->
 
 					<ul class="ui_tab red_border_tab">
@@ -626,7 +629,7 @@
 						<li id="findPw"><a href="#tab_02">비밀번호 찾기</a></li>
 					</ul>
 
-					<div class="tab_cont" id="handsomeM">
+					<div class="tab_cont" id="handsomeM" style="display: none;">
 						<!-- tab_01 아이디 찾기 s -->
 						<div class="cont findId" style="display: block">
 							<!-- search ID -->
@@ -708,12 +711,13 @@
 						<!-- tab_01 아이디 찾기 s -->
 						<div class="cont on" id="tab_01">
 							<!-- Start: easyId Input -->
-							<form id="easyIdSearchForm" name="easyIdSearchForm" action="/ko/member/findIdPwPage" method="POST">
+							<form id="easyIdSearchForm" name="easyIdSearchForm" action="/member/findIdPwPage" method="POST">
 								<div class="input_group">
 									<div class="txt_wrap">간편회원 가입 시 입력한 이름, 생년월일을 입력하세요.</div>
 									<div class="input_user_name">
-										<input type="text" id="iUserName" name="iUserName" class="user_name" placeholder="이름을 입력하세요." title="이름을 입력하세요." />
-										<input type="hidden" id="iBirthday" name="iBirthday" />
+										<input type="text" id="iUserName" name="mName" class="user_name" placeholder="이름을 입력하세요." title="이름을 입력하세요." />
+										<input type="hidden" id="iBirthday" name="mBirth" />
+										<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
 									</div>
 									<div class="input_user_bday">
 										<div class="bday_year">
