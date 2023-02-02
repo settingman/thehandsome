@@ -146,14 +146,17 @@ public class MemberController {
 			log.info("fail");
 			return "/member/findidpwpage";
 		}
-		log.info("before");
+		
+		String mId = findMember.getMId();
+		
+		findMember.setMId(mId.replaceAll("(?<=.{3}).(?=.*@)", "*")); 
 		
 		model.addAttribute("findMember", findMember);
 		
-		log.info("after");
 		
 		
 		
-		return "/member/findidpwpage";
+		
+		return "/member/searchEasyId";
 	}
 }
