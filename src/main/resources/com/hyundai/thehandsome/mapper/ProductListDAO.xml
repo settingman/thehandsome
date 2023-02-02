@@ -1,29 +1,65 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<!-- /**
- * ProductListDAO.xml
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 
+/**
+ * ProductListDAO.XML
  * @author 박세영
  * @since 2023.02.01
  * @version 1.0
  * 
  * <pre>
  * 수정일        	수정자       			수정내용
- * ==========  =======    =================================
- * 2023.02.01  	박세영        최초 생성, getProductList 추가
+ * 2023.02.01  	박세영        최초 생성, getProductList() 추가
+ * 2023.02.02  	박세영        getPListWithCategory() 추가
  * </pre>
- */ -->
+ */ 
+ -->
 <mapper namespace="com.hyundai.thehandsome.mapper.ProductListDAO">
-	<select id="getProductList" 
+	<select id="getProductList"
 		resultType="com.hyundai.thehandsome.Vo.product.ListVO">
-	select brand.BNAME, pcommon.PNAME,  
-       pcolor.PCID, pcolor.PCIMG1, pcolor.PCIMG3,
-       pcolor.PCCHIPIMG, pcolor.PCCOLORCODE,pcolor.PCPRICE,
-       pcommon.PID
-	from product_common pcommon
-	inner join product_color pcolor
-	on pcommon.pid = pcolor.pid
-	inner join brand brand
-	on brand.BNO = pcommon.BNO
+		select brand.BNAME, pcommon.PNAME,
+		pcolor.PCID,
+		pcolor.PCIMG1, pcolor.PCIMG3,
+		pcolor.PCCHIPIMG,
+		pcolor.PCCOLORCODE,pcolor.PCPRICE,
+		pcommon.PID
+		from product_common
+		pcommon
+		inner join product_color pcolor
+		on pcommon.pid = pcolor.pid
+		inner join brand brand
+		on brand.BNO = pcommon.BNO
+	</select>
+
+	<select id="getPListWithCategory"
+		resultType="com.hyundai.thehandsome.Vo.product.CatePListVO">
+		SELECT DISTINCT
+		brand.bname,
+		pcommon.pname,
+		pcolor.pcprice,
+		pcommon.pid,
+		v.depth1name,
+		v.depth2name,
+		v.depth3name
+		FROM
+		product_common pcommon
+		INNER
+		JOIN product_color pcolor ON
+		pcommon.pid = pcolor.pid
+		INNER JOIN brand
+		brand ON brand.bno =
+		pcommon.bno
+		INNER JOIN pid_with_category_view v ON
+		v.pid = pcommon.pid
+		<if test="!@com.hyundai.thehandsome.test.MybatisCheckNull@isEmpty(depth1name)">
+			where v.depth1name = #{depth1name}
+		</if>
+		<if test="!@com.hyundai.thehandsome.test.MybatisCheckNull@isEmpty(depth2name)">
+			and v.depth2name = #{depth2name}
+		</if>
+		<if test="!@com.hyundai.thehandsome.test.MybatisCheckNull@isEmpty(depth3name)">
+			and v.depth3name = #{depth3name}
+		</if>
 	</select>
 </mapper>
