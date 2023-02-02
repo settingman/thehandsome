@@ -23,4 +23,8 @@ public interface MemberMapper {
 	
 	Member findByNameBirth(@Param("mName") String mName, @Param("mBirth")  String mBirth);
 	
+	Member findByNameId(@Param("mName") String mName, @Param("mId")  String mId);
+	
+	void updatePassword(@Param("mId") String mId, @Param("encryptPassword")  String encryptPassword);
+	
 }

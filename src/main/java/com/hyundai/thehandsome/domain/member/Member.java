@@ -82,5 +82,12 @@ public class Member {
 				+ ", mEmail=" + mEmail + ", mZipCode=" + mZipCode + ", mAddress1=" + mAddress1 + ", mAddress2="
 				+ mAddress2 + ", mBirth=" + mBirth + ", mGender=" + mGender + ", mRole=" + mRole + "]";
 	}
+	
+	public void updatePassword(String password){
+        this.mPassword = password;
+    }
+
+
+
 
 }

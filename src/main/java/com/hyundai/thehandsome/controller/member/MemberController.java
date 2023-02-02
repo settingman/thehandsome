@@ -1,7 +1,5 @@
 package com.hyundai.thehandsome.controller.member;
 
-import java.sql.Date;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
@@ -19,9 +17,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.hyundai.thehandsome.domain.mail.MailVo;
 import com.hyundai.thehandsome.domain.member.Member;
 import com.hyundai.thehandsome.domain.member.MemberFormDto;
 import com.hyundai.thehandsome.mapper.MemberMapper;
+import com.hyundai.thehandsome.service.MailServiceImpl;
 import com.hyundai.thehandsome.service.MemberService;
 
 import lombok.RequiredArgsConstructor;
@@ -43,6 +43,7 @@ public class MemberController {
 	private final MemberService memberService;
 	private final MemberMapper memberMapper;
 	private final PasswordEncoder passwordEncoder;
+	private final MailServiceImpl mailService;
 
 	// 회원가입페이지 접근
 	@GetMapping(value = "/joininfoform")
@@ -132,7 +133,7 @@ public class MemberController {
 		return "/member/findidpwpage";
 	}
 	
-	// find id,pw page
+	// find id 
 	@PostMapping(value = "/findIdPwPage")
 	public String findIdPwPage(@RequestParam("mName") String mName,
 			@RequestParam("mBirth") Integer mBirth, Model model) {
@@ -153,10 +154,46 @@ public class MemberController {
 		
 		model.addAttribute("findMember", findMember);
 		
-		
-		
-		
-		
 		return "/member/searchEasyId";
 	}
+	
+	
+		@ResponseBody
+		@GetMapping(value = "/findPw")
+		public String findIdPwPage(@RequestParam("mName") String mName,
+				@RequestParam("mId") String mId, Model model) {
+			
+			
+			log.info(mName);
+			log.info(mId);
+			
+			Member findMember = memberMapper.findByNameId(mName, mId);
+			
+			if(findMember==null) {
+				log.info("fail");
+				return "/member/findidpwpage";
+			}
+			
+			log.info("findPw");
+			
+			String tmpPassword = mailService.getTmpPassword();
+			
+			log.info(tmpPassword);
+
+	        /** 임시 비밀번호 저장 **/
+			mailService.updatePassword(tmpPassword, mId);
+
+	        /** 메일 생성 & 전송 **/
+	        MailVo mail = mailService.createMail(tmpPassword, mId);
+	        
+	        mailService.sendMail(mail);
+
+	        log.info("임시 비밀번호 전송 완료");
+			
+			
+			
+		
+			
+			return "S";
+		}
 }

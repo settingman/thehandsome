@@ -280,12 +280,12 @@
 														$
 																.ajax({
 																	type : "GET",
-																	url : "/ko/member/searcheasyjoinpw",
+																	url : "/member/findPw",
 																	data : formData,
 																	cache : false,
 																	success : function(
 																			data) {
-																		if (data.resultCode == "S") {
+																		if (data == "S") {
 																			hideLoadingLp(); //로딩레이어 숨기
 																			$(
 																					"#easyPwForm")
@@ -296,7 +296,7 @@
 																			return;
 																		} else {
 																			hideLoadingLp(); //로딩레이어 숨기
-																			layerAlert(data.resultMessageM);
+																			layerAlert("비밀번호 찾기중 오류가 발생했습니다.");
 																			$(
 																					"#easyPwForm")
 																					.show();
@@ -618,7 +618,7 @@
 			<div class="hsome_contents simplemember_wrap">
 				<ul class="grey_bg_header_tab" style="text-align : center">
 					<li class="" id="h1" style="display:none"><a href="#none" class="tab_li_hs_mem"><span>한섬회원</span></a></li>
-					<li id="e1"><a href="#none" class="tab_li_simple_mem"><span>간편회원</span></a></li>
+					<li id="e1"><a href="#none" class="tab_li_simple_mem"><span>한섬회원</span></a></li>
 				</ul>
 				<!-- 한성회원 시작 -->
 				<div id="tabIdPw" class="mem_ct_wrap simple_mbr_wrap idpw_find_result">
@@ -920,10 +920,10 @@
 									<div class="input_group">
 										<div class="txt_wrap easyPwInputDiv">간편회원 가입 시 입력한 이름과 이메일을 입력하세요.</div>
 										<div class="input_user_name easyPwInputDiv">
-											<input type="text" id="pUserName" name="pUserName" class="user_name" placeholder="이름을 입력하세요." title="이름을 입력하세요." />
+											<input type="text" id="pUserName" name="mName" class="user_name" placeholder="이름을 입력하세요." title="이름을 입력하세요." />
 										</div>
 										<div class="input_user_email easyPwInputDiv">
-											<input type="text" id="pUserEmail" name="pUserEmail" class="user_email" placeholder="이메일을 입력하세요." title="이메일을 입력하세요." />
+											<input type="text" id="pUserEmail" name="mId" class="user_email" placeholder="이메일을 입력하세요." title="이메일을 입력하세요." />
 										</div>
 										<!-- [TO DEV] Error msg here. -->
 										<div class="err_wrap">
@@ -948,7 +948,7 @@
 									</p>
 								</div>
 								<div class="btn_wrap">
-									<button class="btn btn_bg_b btn_login" onclick="javascript:goPage('/ko/member/login');">로그인</button>
+									<button class="btn btn_bg_b btn_login" onclick="javascript:goPage('/member/login');">로그인</button>
 								</div>
 							</div>
 							<!-- End: easyPw finding result -->
