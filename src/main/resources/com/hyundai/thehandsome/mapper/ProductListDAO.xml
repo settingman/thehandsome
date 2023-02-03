@@ -35,14 +35,24 @@
 		pcommon.bno
 		INNER JOIN pid_with_category_view v ON
 		v.pid = pcommon.pid
-		<if test="!@com.hyundai.thehandsome.test.MybatisCheckNull@isEmpty(depth1name)">
+		<if
+			test="!@com.hyundai.thehandsome.test.MybatisCheckNull@isEmpty(depth1name)">
 			where v.depth1name = #{depth1name}
 		</if>
-		<if test="!@com.hyundai.thehandsome.test.MybatisCheckNull@isEmpty(depth2name)">
+		<if
+			test="!@com.hyundai.thehandsome.test.MybatisCheckNull@isEmpty(depth2name)">
 			and v.depth2name = #{depth2name}
 		</if>
-		<if test="!@com.hyundai.thehandsome.test.MybatisCheckNull@isEmpty(depth3name)">
+		<if
+			test="!@com.hyundai.thehandsome.test.MybatisCheckNull@isEmpty(depth3name)">
 			and v.depth3name = #{depth3name}
 		</if>
+	</select>
+	<select id="getProductColor"
+		resultType="com.hyundai.thehandsome.Vo.product.ColorVO">
+		SELECT PID, PCIMG1, PCCHIPIMG, PCCOLORCODE
+		FROM
+		PRODUCT_COLOR
+		WHERE PID = #{PID}
 	</select>
 </mapper>
