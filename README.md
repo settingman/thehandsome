@@ -56,7 +56,7 @@ Android 기술 요구 사항
  - API Level 31 or 32               		    [필수]
  - 모든  소스에 주석 작성            	     [필수]
  - Samsung Galaxy S21  스킨               [권장*]
-============================================
+
 Spring Boot  기술 요구사항
   - java 8                               [필수]
   - Spring Tools 4 for Eclipse   	       [필수]
@@ -78,7 +78,7 @@ Spring Boot  기술 요구사항
   - 페어 프로그래밍_pair programming        [권장*]   
   - 참조 소스 원본 표시                     [권장*] 
 *과제 소스는 현대It&E에 전달 예정임  
-============================================
+
 Database 요구 사항
   - Oracle DB (11G OR 18Cxe OR ATP)        [필수]                    
   - 더한섬닷컴_상품데이터_ERD [1,2,3] 
