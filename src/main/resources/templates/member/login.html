@@ -332,7 +332,7 @@
 		function hpIdFind() {
 			var t_w = window
 					.open(
-							"https://www.h-point.co.kr/cu/config/findCustId.nhd?prtnrId=D080&chnnlId=1705",
+							"/member/findIdPwPage",
 							"windowHpFind");
 			t_w.focus();
 			return false;
@@ -340,7 +340,7 @@
 
 		function hpPasswordFind() {
 			var t_w = window.open(
-					"https://www.h-point.co.kr/cu/config/findCustPwd.nhd",
+					"/member/findIdPwPage",
 					"windowHpFind");
 			t_w.focus();
 			return false;
@@ -348,9 +348,9 @@
 
 		function goMemberRegistration() {
 			if ("" != "") {
-				location.href = "/ko/member/joinGuidePage?egift=Y";
+				location.href = "/member/joininfoform";
 			} else {
-				location.href = "/ko/member/joinGuidePage";
+				location.href = "/member/joininfoform";
 			}
 		}
 
