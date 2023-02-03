@@ -56,9 +56,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 
-		http.authorizeRequests().antMatchers("/", "/member/mypage").hasRole("USER") // USER, ADMIN만 접근 가능
+		http.authorizeRequests()
+				.antMatchers("/member/**", "/mypage/**").permitAll() // 누구나 mypage 접근허용 - 02/03 mypage 테스트때문에
+				.antMatchers("/", "/member/mypage").hasRole("USER") // USER, ADMIN만 접근 가능
 				.antMatchers("/admin").hasRole("ADMIN") // ADMIN만 접근 가능
-				.antMatchers("/member/**","/test/**").permitAll() // 누구나 접근허용   - 02/03 mypage 테스트때문에 permitALㅣ
 				.anyRequest().authenticated(); // 나머지 요청들은 권한의 종류에 상관 없이 권한이 있어야 접근
 		http.formLogin()// Form 로그인 인증 기능이 작동함
 				.loginPage("/member/login")// 사용자 정의 로그인 페이지
@@ -136,7 +137,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	// 인증하지 않을 페이지 목록 지정
 	@Override
 	public void configure(WebSecurity web) throws Exception {
-		web.ignoring().antMatchers("/static/js/**", "/static/css/**", "/static/img/**", "/static/frontend/**");
+		web.ignoring().antMatchers("/js/**", "/css/**", "/img/**", "/frontend/**");
 	}
 
 	@Bean // 비밀번호를 그대로 저장하지않고 암호화 bean.

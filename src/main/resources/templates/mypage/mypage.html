@@ -8,7 +8,6 @@
 <title>마이페이지 | 더한섬닷컴</title>
 
 <th:block th:replace="common/head :: headFragment"></th:block>
-마이
 <body>
 	<script>
 	
@@ -1330,6 +1329,9 @@
           }
         }
 
+        
+        
+        // -박성환 : 위시리스트 마이페이지 살려보기.
         function getWishList() {
           $.ajax({
             url: "/ko/mypage/myWishList",
@@ -1658,6 +1660,9 @@
           return configInfo;
         }
 
+        
+        
+        // 마이페이지 쿠폰 조회 AJAX 살려보기 - 박성환 02/03
         function getMypageVoucherList() {
           //$("#mypageCouponList").html("");
 
