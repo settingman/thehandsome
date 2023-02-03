@@ -1,4 +1,4 @@
-package com.hyundai.thehandsome.product;
+package com.hyundai.thehandsome.mapper;
 
 import java.util.List;
 
