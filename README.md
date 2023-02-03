@@ -87,4 +87,4 @@
   - DB table 중 1개는 row 1만개이상          [권장*]
 
 ## 5. UI
- - ![image](https://user-images.githubusercontent.com/65829111/206622331-b5be3cf1-fc5c-4159-a2d4-e9fae4dfe73a.png)
+ - ![image]
