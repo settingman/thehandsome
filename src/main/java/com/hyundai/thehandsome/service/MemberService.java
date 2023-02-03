@@ -20,12 +20,17 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * @Date : 2023. 1. 31.
+ * @since : 2023. 2. 3.
  * @FileName: MemberService.java
- * @작성자 : 박성환
- * @설명 : 회원서비스 정의
+ * @author : 박성환
+ * @설명 : @
+ * 
+ *     <pre>
+ *   수정일         수정자               수정내용
+ * ----------      --------    ---------------------------
+ * 2023. 2. 3.     박성환      회원서비스 정의
+ *     </pre>
  */
-
 @Slf4j
 @RequiredArgsConstructor
 @Transactional
@@ -76,8 +81,5 @@ public class MemberService implements UserDetailsService {
 		return securityMember;
 
 	}
-
-
-	
 
 }

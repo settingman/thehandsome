@@ -26,13 +26,21 @@ import com.hyundai.thehandsome.service.MemberService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-
 /**
- * @Date : 2023. 1. 31.
+ * @since   : 2023. 1. 31.
  * @FileName: MemberController.java
- * @작성자 : 박성환
- * @설명 : 회원가입, 로그인 기능 구현
+ * @author  : 박성환
+ * @설명    : @
+
+ * <pre>
+ * 수정일           수정자               수정내용
+ * ----------      --------    ---------------------------
+ * 2023. 1. 31.     박성환      회원가입, 로그인 기능 구현
+ * </pre>
  */
+
+
+
 
 @Slf4j
 @RequiredArgsConstructor

@@ -1,12 +1,17 @@
 package com.hyundai.thehandsome.domain.member;
 
 /**
- * @Date : 2023. 1. 30.
+ * @since   : 2023. 2. 3.
  * @FileName: MemberRole.java
- * @작성자 : 박성환
- * @설명 : User Role 정의.
- */
+ * @author  : 박성환
+ * @설명    : @
 
+ * <pre>
+ *   수정일         수정자               수정내용
+ * ----------      --------    ---------------------------
+ * 2023. 2. 3.     박성환      User Role 정의.
+ * </pre>
+ */
 public enum MemberRole {
 	USER, ADMIN
 

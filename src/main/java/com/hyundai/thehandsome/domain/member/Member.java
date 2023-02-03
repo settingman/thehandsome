@@ -9,13 +9,19 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-/**
- * @Date : 2023. 1. 31.
- * @FileName: Member.java
- * @작성자 : 박성환
- * @설명 : DateBase Member Object
- */
 
+/**
+ * @since   : 2023. 2. 3.
+ * @FileName: Member.java
+ * @author  : 박성환
+ * @설명    : @
+
+ * <pre>
+ *   수정일         수정자               수정내용
+ * ----------      --------    ---------------------------
+ * 2023. 2. 3.     박성환      DateBase Member Object
+ * </pre>
+ */
 @NoArgsConstructor
 @Getter
 @Setter

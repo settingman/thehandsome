@@ -14,11 +14,17 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 /**
-  * @Date    : 2023. 2. 2.
-  * @FileName: MailServiceImpl.java
-  * @작성자  : 박성환
-  * @설명    : 메일 시스템, 임시 비밀번호 전송 및 업데이트
-  */
+ * @since   : 2023. 2. 3.
+ * @FileName: MailServiceImpl.java
+ * @author  : 박성환
+ * @설명    : @
+
+ * <pre>
+ *   수정일         수정자               수정내용
+ * ----------      --------    ---------------------------
+ * 2023. 2. 3.     박성환      메일 시스템, 임시 비밀번호 전송 및 업데이트
+ * </pre>
+ */
 @Service
 @Transactional
 @RequiredArgsConstructor

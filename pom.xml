@@ -102,7 +102,7 @@
 			<artifactId>ojdbc8</artifactId>
 			<version>19.3.0.0</version>
 
-			<!-- oracle ons Error and speedUP -->
+			<!-- 박성환: oracle ons Error and speedUP -->
 			<exclusions>
 				<exclusion>
 					<groupId>com.oracle.ojdbc</groupId>

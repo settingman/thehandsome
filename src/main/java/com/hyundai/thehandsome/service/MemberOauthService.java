@@ -23,10 +23,16 @@ import com.hyundai.thehandsome.security.dto.SecurityMember;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * @Date : 2023. 2. 1.
+ * @since : 2023. 2. 3.
  * @FileName: MemberOauthService.java
- * @작성자 : 박성환
- * @설명 : 소셜로그인 서비스
+ * @author : 박성환
+ * @설명 : @
+ * 
+ *     <pre>
+ *   수정일         수정자               수정내용
+ * ----------      --------    ---------------------------
+ * 2023. 2. 3.     박성환      소셜로그인 서비스(구글)
+ *     </pre>
  */
 @Slf4j
 @Service
@@ -92,10 +98,10 @@ public class MemberOauthService extends DefaultOAuth2UserService {
 
 		try {
 			Member socialMember = saveSocialMember(email);
-			
+
 			log.info("---saveSocialMember--");
 			log.info(socialMember.toString());
-			
+
 			List<GrantedAuthority> authorities = new ArrayList<>();
 			authorities.add(new SimpleGrantedAuthority("ROLE_" + socialMember.getMRole()));
 			SecurityMember securityMember = new SecurityMember(socialMember.getMId(), socialMember.getMPassword(),

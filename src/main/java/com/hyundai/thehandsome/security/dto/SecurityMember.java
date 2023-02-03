@@ -13,11 +13,17 @@ import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 
 /**
-  * @Date    : 2023. 2. 1.
-  * @FileName: SecurityMember.java
-  * @작성자  : 박성환
-  * @설명    : Principal User 사용자 정의
-  */
+ * @since : 2023. 2. 3.
+ * @FileName: SecurityMember.java
+ * @author : 박성환
+ * @설명 : @
+ * 
+ *     <pre>
+ *   수정일         수정자               수정내용
+ * ----------      --------    ---------------------------
+ * 2023. 2. 3.     박성환      Principal User 사용자 정의
+ *     </pre>
+ */
 @Slf4j
 @Getter
 @Setter

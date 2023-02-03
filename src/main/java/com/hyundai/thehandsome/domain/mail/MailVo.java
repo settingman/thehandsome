@@ -6,12 +6,17 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 /**
- * @Date : 2023. 2. 2.
+ * @since   : 2023. 2. 2.
  * @FileName: MailVo.java
- * @작성자 : 박성환
- * @설명 : 메일서비스 VO
- */
+ * @author  : 박성환
+ * @설명    : 메일서비스 VO
 
+ * <pre>
+ *   수정일         수정자               수정내용
+ * ----------      --------    ---------------------------
+ * 2023. 2. 3.     박성환      @
+ * </pre>
+ */
 @Getter
 @Builder
 @AllArgsConstructor
