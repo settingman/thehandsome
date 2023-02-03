@@ -1,0 +1,3186 @@
+<!--
+ @Date : 2023. 2. 03.
+ @작성자 : 박성환
+ @설명 : 마이페이지
+-->
+
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<title>마이페이지 | 더한섬닷컴</title>
+
+<th:block th:replace="common/head :: headFragment"></th:block>
+마이
+<body>
+	<script>
+	
+	
+	
+	
+      (function () {
+        if (document.cookie.indexOf("thehyundai=true") > -1) {
+          var d = new Date();
+          d.setTime(d.getTime() + 365 * 24 * 60 * 60 * 1000);
+          document.cookie =
+            "sslvisit=true; expires=" + d.toUTCString() + "; path=/";
+        } else if (document.cookie.indexOf("rakuten=") > -1) {
+          var d = new Date();
+          d.setTime(d.getTime() + 365 * 24 * 60 * 60 * 1000);
+          document.cookie =
+            "sslvisit1=true; expires=" + d.toUTCString() + "; path=/";
+        } else if (document.cookie.indexOf("hyundaihmall=true") > -1) {
+          var d = new Date();
+          d.setTime(d.getTime() + 365 * 24 * 60 * 60 * 1000);
+          document.cookie =
+            "sslvisit2=true; expires=" + d.toUTCString() + "; path=/";
+        } else if (document.cookie.indexOf("fromSite") > -1) {
+          var d = new Date();
+          d.setTime(d.getTime() + 365 * 24 * 60 * 60 * 1000);
+          document.cookie =
+            "sslvisit3=" + "" + "; expires=" + d.toUTCString() + "; path=/";
+        } else if (document.cookie.indexOf("recommender") > -1) {
+          var d = new Date();
+          d.setTime(d.getTime() + 365 * 24 * 60 * 60 * 1000);
+          document.cookie = "sslvisit4=" + "" + "; path=/";
+        }
+      })();
+    </script>
+	<!-- Loading -->
+	<div style="display: none">
+		<div id="loadingBarDiv" style="display: none"></div>
+	</div>
+	<!-- //Loading -->
+
+	<form id="CSRFForm" action="/ko/mypage/mypageFloatingPopup" method="post">
+		<div>
+			<input type="hidden" name="CSRFToken" value="7ed3c051-00b5-4737-a812-836eb733c946" />
+		</div>
+	</form>
+	<div id="mapleMainPopwrap"
+		style="position: fixed; top: 50%; left: 50%; width: 81.333333%; z-index: 805; transform: translate(-50%, -50%); display: none;"
+	></div>
+
+	<div class="layerArea" id="mapleLayer" style="display: none">
+		<div class="layerBg"></div>
+	</div>
+
+	<!-- ################## hsome_allContents_wrapper | ë³¸ë¬¸ ì»¨íì¸  ìì­ ################## -->
+	<!-- <div class="hsome_allContents_wrapper">
+      <div class="hsome_allContents disabled">
+        <script type="text/javascript">
+          $(document).ready(function () {
+            $(".hsome_quickMenu").removeClass("active");
+            $("#gnbMypagePopupBtn").click();
+          });
+        </script>
+      </div>
+    </div> -->
+	<!-- ################## //hsome_allContents_wrapper | ë³¸ë¬¸ ì»¨íì¸  ìì­ ################## -->
+	<a href="noLink();" class="hsome_topBtn upper" id="handsomeTopBtn">mobile.bottom.top</a>
+	<!-- 20180530 추가 -->
+
+	<script type="text/javascript">
+      function goMypage() {
+        //if("N" == "Y") {
+        //	$("#gnbMypageBtn").click();
+        //} else {
+        //$.cookie("handsomeappreturnurl", location.href, {path:"/"});
+        $.cookie("handsomeappreturnurl", "/ko/", { path: "/" });
+        location.href = "/ko/mypage/mypageFloatingPopup";
+        //}
+      }
+
+      $(window).load(function () {
+        //모든 리소스 로드 후에 처리
+        $(".hsome_quickMenu").addClass("active");
+      });
+
+      function goMainpage() {
+        window.sessionStorage.removeItem("moveYn");
+        window.sessionStorage.removeItem("width");
+        window.sessionStorage.removeItem("height");
+        location.href = "/ko/main";
+      }
+    </script>
+
+	<!-- ################## hsome_quickMenu | 퀵메뉴 ################## -->
+	<aside class="hsome_quickMenu hsome_quickMenu1909 active">
+		<ul>
+			<li class="shop"><a href="/ko/mobilecommon/navShop" onclick="GA_Event('공통', '네비게이션_바', '샵');"><i>메뉴</i></a></li>
+			<li class="sns"><a href="/ko/sns/main" onclick="GA_Event('공통', '네비게이션_바', '타임라인');"><i>스타일 LIVE</i></a></li>
+			<li class="home"><a href="javascript:noLink();" onclick="goMainpage();GA_Event('공통', '네비게이션_바', '홈');"><i>홈</i></a></li>
+			<li class="myheart" id="gnbMyheartBtn"><a href="/ko/mypage/myWish" onclick="GA_Event('공통', '네비게이션_바', '마이하트');"><i>마이하트</i></a>
+			</li>
+			<li class="mypage active" id="gnbMyPageBtn"><a href="javascript:noLink();" onclick="goMypage();GA_Event('공통', '네비게이션_바', '마이페이지');"><i>마이페이지</i></a>
+			</li>
+			<li class="mypage pageMove" style="display: none"><a href="" id="gnbMypageBtn"></a></li>
+			<li class="mypage" style="display: none"><a href="/ko/mobilecommon/myPagePopup" id="gnbMypagePopupBtn"></a></li>
+		</ul>
+	</aside>
+	<!-- ################## //hsome_quickMenu | 퀵메뉴 ################## -->
+
+	<div class="fixed_dim_layer" onclick="familySiteSelectClosed();"></div>
+	<div class="family_site_popup_191108">
+		<ul>
+			<li><a href="http://m.hfashionmall.com/sfmmbl/mbl/main.do" target="_blank" onclick="GA_Event('공통', '푸터_CNT', 'FAMILYSITE_H패션몰');">H패션몰<!-- H패션몰 --></a>
+			</li>
+			<li><a href="https://m.hyundaihmall.com/front/index.do" target="_blank" onclick="GA_Event('공통', '푸터_CNT', 'FAMILYSITE_현대홈쇼핑');">현대홈쇼핑<!-- (주)현대홈쇼핑 --></a>
+			</li>
+			<li><a href="https://m.thehyundai.com/Home.html" target="_blank" onclick="GA_Event('공통', '푸터_CNT', 'FAMILYSITE_더현대닷컴');">더현대닷컴<!-- 더현대닷컴 --></a>
+			</li>
+			<li><a href="http://mall.hyundailivart.co.kr/front/index_org.lv" target="_blank" onclick="GA_Event('공통', '푸터_CNT', 'FAMILYSITE_현대리바트');">현대리바트<!-- (주)현대 리바트 --></a>
+			</li>
+			<li><a href="https://www.h-point.co.kr/cu/main/index.nhd" target="_blank" onclick="GA_Event('공통', '푸터_CNT', 'FAMILYSITE_H.Point');">H.Point</a>
+			</li>
+			<li><a href="http://www.ehyundai.com/newPortal/ir/main.do" target="_blank" onclick="GA_Event('공통', '푸터_CNT', 'FAMILYSITE_현대백화점그룹');">현대백화점그룹<!-- 현대백화점 그룹 --></a>
+			</li>
+		</ul>
+		<a href="#;" class="family_site_popup_close" onclick="familySiteSelectClosed();">닫기<!-- 닫기 --></a>
+	</div>
+	<!-- ################## hsome_quickMenu_contents | 퀵메뉴 컨텐츠 영역 ################## -->
+	<div class="hsome_quickMenu_contents active absolute">
+		<script type="text/javascript">
+        $(function () {
+          $(document).on("click", ".myorderAddrModifyPopup", function () {
+            myOrderAddressModify($(this));
+          });
+
+          $(document).on("click", ".shippingInfoBtn", function () {
+            layerShippingInfo($(this).attr("ocode"), $(this).attr("pcode"));
+            return false;
+          });
+
+          $(document).on("click", ".layerpopupOpen", function (event) {
+            event.preventDefault();
+            var $this = $(this);
+            if ($this.data("loading") == true) return;
+            $this.data("loading", true);
+            callLayerPopupShow("depth1", function (obj) {
+              $.ajax({
+                url: $this.attr("href"),
+                type: "get",
+                cache: false,
+                dataType: "html",
+              })
+                .done(function (data) {
+                  var $l = $(obj);
+                  $l.html(data);
+                })
+                .always(function () {
+                  $this.data("loading", false);
+                });
+            });
+          });
+        });
+
+        var setDeliveryCompleted = function (
+          orderNo,
+          productCode,
+          entryNumber
+        ) {
+          var paramDatas =
+            "ocode=" +
+            orderNo +
+            "&pcode=" +
+            productCode +
+            "&entryNumber=" +
+            entryNumber;
+
+          msg =
+            "주문하신 상품을 수령하셨습니까?<br/>확인을 클릭하시면 주문상태가 배송완료로<br/>변경됩니다.";
+          var lc = new layerConfirm(msg, "확인", "취소");
+
+          lc.confirmAction = function () {
+            $.ajax({
+              type: "get",
+              url: "/ko/mypage/order/setDeliveryCompleted",
+              data: paramDatas,
+              dataType: "json",
+              error: function (request, status, error) {
+                layerAlert("배송완료 처리에 실패하였습니다.");
+                //console.log( "code:" + request.status+"\n" + "message:" + request.responseText+"\n" + "error:" + error );
+              },
+              success: function (result) {
+                layerAlert("배송완료 처리 하였습니다.", true);
+              },
+            });
+          };
+        };
+
+        var layerShippingInfo = function (orderCode, productCode) {
+          var paramDatas = "ocode=" + orderCode + "&pcode=" + productCode;
+          $.ajax({
+            type: "get",
+            url: "/ko/mypage/order/getdelno",
+            data: paramDatas,
+            dataType: "json",
+            cache: false,
+            error: function (request, status, error) {
+              alert(error);
+              //console.log( "code:" + request.status+"\n" + "message:" + request.responseText+"\n" + "error:" + error );
+            },
+            success: function (result) {
+              if (true) {
+                if (result.companyName == "현대택배") {
+                  var documentResult = "";
+                  documentResult +=
+                    '<div class="layerArea" style="z-index;" allowtransparency="true">';
+                  documentResult += '<div class="layerBg"></div> ';
+                  documentResult +=
+                    '<div class="popwrap image_layer position2">';
+                  documentResult +=
+                    '<div class="pop_cls"><a href="#;" id="closeLayer"><img src="https://www.thehandsome.com/_ui/mobile/common/images/common/pop_cls.png" alt="닫기"></a></div>';
+                  documentResult +=
+                    '<div id="DeliveryFrame" style="margin-top: 63px;">' +
+                    result.hdHtml +
+                    "</div>";
+                  documentResult += "</div>";
+                  documentResult += "</div>";
+
+                  documentResult = documentResult.replace(
+                    "/images/lotte/Lotte_Global_Logistics_h_sm.png",
+                    "http://www.hydex.net/images/lotte/Lotte_Global_Logistics_h_sm.png"
+                  );
+                  documentResult = documentResult.replace(
+                    "/hydex/images/dot.gif",
+                    ""
+                  );
+                  documentResult = documentResult.replace(
+                    "/ehydex/css/home/style.css",
+                    ""
+                  );
+
+                  $("#DeliveryLayer").append(documentResult);
+
+                  var h = 0;
+                  $("#DeliveryFrame > table").each(function () {
+                    h += $(this).height();
+                  });
+
+                  $(".image_layer.position2").height(h - 30);
+
+                  $("#DeliveryFrame tbody").css("font-size", "10px");
+
+                  $("#DeliveryFrame img").each(function () {
+                    if ($(this).attr("src") == "") {
+                      $(this).remove();
+                    }
+                  });
+
+                  $(
+                    "#DeliveryFrame > table:eq(1) tbody tr:eq(1) > td:even"
+                  ).width("24%");
+
+                  $("#DeliveryFrame td").each(function () {
+                    if ($(this).text() == result.trackingNumber) {
+                      $(this).parent().find("td").width("25%");
+                    }
+                  });
+
+                  $("#closeLayer").click(function () {
+                    $("#DeliveryLayer").html("");
+                  });
+                } else if (result.companyName == "DHL") {
+                  window.open(
+                    "" + result.trackingNumber + "&LAN=KOR&TID=us_en&LINKS=NO",
+                    "배송조회"
+                  ); //배송조회
+                } else if (result.companyName.indexOf("우체국") > -1) {
+                  var tempHtml = "";
+                  var tempHtml1 = result.epostHtml.substring(
+                    0,
+                    result.epostHtml.indexOf('<div class="header">')
+                  );
+                  var tempHtml2 = result.epostHtml.substring(
+                    result.epostHtml.indexOf("</div>"),
+                    result.epostHtml.indexOf("</article>")
+                  );
+                  var SCRIPT_REGEX =
+                    /<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi;
+                  tempHtml = tempHtml1 + tempHtml2;
+                  while (SCRIPT_REGEX.test(tempHtml)) {
+                    tempHtml = tempHtml.replace(SCRIPT_REGEX, "");
+                  }
+
+                  var documentResult = "";
+                  documentResult +=
+                    '<div class="layerpop_wrap layerpop_wrap_full lp_edit_dlvr_wrap">';
+                  documentResult += '	<div class="lyrpp_top">';
+                  documentResult +=
+                    '		<a href="javascript:;" class="lyrpp_close lyrpp_close_stl1 btn_lyrpp_close"><span>닫기<!-- 닫기 --></span></a>';
+                  documentResult += "		<h2>배송조회<!-- 배송조회 --></h2>";
+                  documentResult += "	</div>";
+                  documentResult += '<div class="lyrpp_mid">';
+                  documentResult +=
+                    '<div id="DeliveryFrame" style=" height="100%" margin-top: 63px;">' +
+                    tempHtml +
+                    "</div>";
+                  documentResult += "</div>";
+                  documentResult += "</div>";
+                  documentResult += "<script>";
+                  documentResult += "$(document).ready(function(){";
+                  documentResult +=
+                    "$(\".tb_guide:eq(0) col:eq(0)\").css('width','16%');";
+                  documentResult +=
+                    "$(\".tb_guide:eq(0) col:eq(0)\").after(\"<col style='width: 18%;'><col style='width: 30%;'>\");";
+                  documentResult +=
+                    '$(".popwrap col:eq(0)").after("<col style=\'width: 45px;\'>");';
+                  documentResult += '$(".card.mgma.overh").remove();';
+                  documentResult +=
+                    '$(".image_layer.position2").css("margin-top","23%");';
+                  documentResult += '$("#DeliveryFrame .btntype").remove();';
+                  documentResult += "});";
+                  documentResult += "<\/script>";
+
+                  callLayerPopupShow(
+                    "depth1",
+                    function openShippingInfo(obj) {
+                      var $l = $(obj);
+                      $l.html(documentResult);
+                    },
+                    function closeShippingInfo(obj) {
+                      $(obj).empty();
+                    }
+                  );
+                } else if (result.companyName.indexOf("QUICK") > -1) {
+                  $.ajax({
+                    type: "get",
+                    url: "/ko/mypage/order/deliveryHistory",
+                    data: { code: orderCode },
+                    dataType: "json",
+                    async: false,
+                    error: function (request, status, error) {
+                      alert(error);
+                    },
+                    success: function (result) {
+                      var html = "";
+                      for (var i = 0; i < result.length; i++) {
+                        html += "<tr>";
+                        html +=
+                          '    <td class="date">' + result[i].date + "</td>";
+                        html +=
+                          '    <td class="status">' +
+                          result[i].status +
+                          "</td>";
+                        html += "</tr>";
+                      }
+                      html += "<tr>";
+                      html +=
+                        '    <td colspan="2" class="last" style="display: table-cell;text-align:center">※ 퀵배송 주문 후, 고객사유로 미수령 시 반품처리 됩니다.</td>';
+                      html += "</tr>";
+                      $("#quickDeliveryInfoBody").html(html);
+                      $(".pop_alert_confirm").addClass("pd");
+                      $(".btn_more_action_ul_close").click();
+                      var lc = new layerAlert($(".shippingcheck").html());
+                      $("#alertCloseDiv").css("z-index", "1000");
+                      $(".dvp_content").css({
+                        "margin-top": "0px",
+                        "padding-top": "0px",
+                      });
+                      $(".btn-alert-confirm").html("닫기");
+                    },
+                  });
+                } else if (result.companyName == "CJ대한통운") {
+                  window.open(result.cjUrl, "배송조회"); //배송조회
+                } else if (result.companyName.indexOf("굿투럭") > -1) {
+                  window.open(result.goodsToLuckUrl, "배송조회"); //배송조회
+                } else if (result.companyName.indexOf("로젠택배") > -1) {
+                  //로젠택배 추가 hyunbae 20220603
+                  window.open(result.logenUrl, "배송조회"); //배송조회
+                } else {
+                  layerAlert(
+                    result.companyName + "<br />" + result.trackingNumber
+                  );
+                }
+              }
+              if (false) {
+                if (result.companyName == "DHL") {
+                  //&LAN=KOR&TID=KR_KOR&LINKS=NO 20210330 hyunbaeKim 영문으로 교체
+                  window.open(
+                    "http://www.dhl.com/cgi-bin/tracking.pl?awb=" +
+                      result.trackingNumber +
+                      "&LAN=EN&TID=US_EN&LINKS=NO",
+                    "배송조회"
+                  ); //배송조회
+                } else if (result.companyName == "FASTBOX") {
+                  window.open(
+                    "http://fastbox.co.kr/DHUB/tracking.php?fb_invoice_no=" +
+                      result.trackingNumber,
+                    "mypage.order.history.list.tracking03.mobile"
+                  ); //배송조회
+                } else {
+                  layerAlert(
+                    result.companyName + "<br />" + result.trackingNumber
+                  );
+                }
+              }
+            },
+          });
+        };
+
+        var myOrderAddressModify = function (_obj) {
+          var $btn = $(_obj);
+          callLayerPopupShow("depth1", function (obj) {
+            $.ajax({
+              url: "/ko/mypage/order/addressModifyPopup",
+              type: "get",
+              cache: false,
+              dataType: "html",
+            }).done(function (data) {
+              $l = $(obj);
+              $l.html(data);
+              if (true) {
+                $l.find("#code").val($btn.attr("code"));
+                $l.find("#zipCode").val($btn.attr("zip"));
+                $l.find("#address1").val($btn.attr("addr1"));
+                $l.find("#address2").val($btn.attr("addr2"));
+                $l.find("#addressInfomation").val(
+                  $btn.attr("addr1") + " " + $btn.attr("addr2")
+                );
+                $l.find("#name").val($btn.attr("rcname"));
+                $l.find("#hp1").val($btn.attr("hp1"));
+                $l.find("#hp2").val($btn.attr("hp2"));
+                $l.find("#hp3").val($btn.attr("hp3"));
+                $l.find("#ph1").val($btn.attr("ph1"));
+                $l.find("#ph2").val($btn.attr("ph2"));
+                $l.find("#ph3").val($btn.attr("ph3"));
+                $l.find("#emailId").val($btn.attr("emailId"));
+                $l.find("#emailDomain").val($btn.attr("emailDomain"));
+                $l.find("select.sodsb").selectOrDie();
+                if ($btn.attr("or")) {
+                  $l.find("#orderr").val($btn.attr("or"));
+                }
+                if ($btn.attr("frontDoorSelectMessage")) {
+                  $l.find("#selectListWrapItem")
+                    .parent()
+                    .find(".slct_list_con")
+                    .stop()
+                    .slideToggle(200);
+                  $l.find("#selectListWrapItem")
+                    .parent()
+                    .toggleClass("select_list_wrap_on");
+                  $l.find("#enter_door").val(
+                    $btn.attr("frontDoorSelectMessage")
+                  );
+                  if (
+                    $btn.attr("frontDoorSelectMessage") === "공동현관 출입번호"
+                  ) {
+                    $l.find("#enter_door_04").prop("checked", true);
+                    $l.find("#enter_door_04")
+                      .find("~input")
+                      .val($btn.attr("frontDoorMessage"));
+                  } else if (
+                    $btn.attr("frontDoorSelectMessage") === "자유 출입 가능"
+                  ) {
+                    $l.find("#enter_door_05").prop("checked", true);
+                  } else {
+                    $l.find("#enter_door_06").prop("checked", true);
+                    $l.find("#enter_door_06")
+                      .find("~input")
+                      .val($btn.attr("frontDoorMessage"));
+                  }
+                }
+                if ($btn.attr("frontDoorMessage")) {
+                  $l.find("#frontDoorMessage").val(
+                    $btn.attr("frontDoorMessage")
+                  );
+                }
+
+                $l.find("input[numberonly]").blur(function () {
+                  $(this).val(
+                    $(this)
+                      .val()
+                      .replace(/[^0-9]/gi, "")
+                  );
+                });
+                $l.find("input[numberonly]").keydown(function () {
+                  $(this).val(
+                    $(this)
+                      .val()
+                      .replace(/[^0-9]/gi, "")
+                  );
+                });
+
+                chkInputCount($l.find("#orderr"), $l.find("#textCnt"), 20);
+
+                if ($.trim($btn.attr("or")) != "") {
+                  var deliveryMessageCheck = false;
+                  $l.find('[name="gl_radio_dlvr_msg"]').each(function (
+                    idx,
+                    msgObj
+                  ) {
+                    if (
+                      $(this)
+                        .parent()
+                        .find(".slct_con")
+                        .attr("deliveryRequestMessage") == undefined ||
+                      $(this)
+                        .parent()
+                        .find(".slct_con")
+                        .attr("deliveryRequestMessage") == "" ||
+                      $(this)
+                        .parent()
+                        .find(".slct_con")
+                        .attr("deliveryRequestMessage") == null
+                    ) {
+                      var tempSlted = $(msgObj).val();
+                    } else {
+                      var tempSlted = $(msgObj)
+                        .parent()
+                        .find(".slct_con")
+                        .attr("deliveryRequestMessage");
+                    }
+                    if ($.trim($btn.attr("or")) == tempSlted) {
+                      $(msgObj).click();
+                      deliveryMessageCheck = true;
+                    }
+                  });
+                  if (!deliveryMessageCheck) {
+                    $l.find('[name="gl_radio_dlvr_msg"]').last().click();
+                  }
+                }
+
+                $(".select_list_dlvr_msg .slct_list_con .slct_list_item").click(
+                  function () {
+                    if ($(this).hasClass("slct_list_item_self")) {
+                      $('.slct_list_item_self_input [name="orderr"]').val("");
+                    }
+                  }
+                );
+
+                $l.find("#emailDomainSel").change(function () {
+                  $("#emailDomain").val($(this).val());
+                });
+                // validation 체크
+                $l.find("#applyBtn").click(function () {
+                  $l.find(".err_box").hide();
+
+                  if (
+                    $.trim($l.find("#zipCode").val()) == "" ||
+                    $.trim($l.find("#address1").val()) == "" ||
+                    $.trim($l.find("#address2").val()) == ""
+                  ) {
+                    $l.find("#zipCodeErr").show();
+                    return;
+                  }
+                  if ($.trim($l.find("#name").val()) == "") {
+                    $l.find("#nameErr").show();
+                    return;
+                  }
+                  if (
+                    $.trim($l.find("#hp1").val()) == "" ||
+                    $.trim($l.find("#hp2").val()) == "" ||
+                    $.trim($l.find("#hp3").val()) == ""
+                  ) {
+                    $l.find("#hp1Err").show();
+                    return;
+                  }
+                  if (
+                    $.trim(
+                      $l.find("[name='gl_radio_dlvr_msg']:checked").val()
+                    ) != ""
+                  ) {
+                    if (
+                      $l.find("[name='gl_radio_dlvr_msg']:checked").val() !=
+                      "직접입력"
+                    ) {
+                      $l.find("#orderr").val(
+                        $l.find("[name='gl_radio_dlvr_msg']:checked").val()
+                      );
+                    }
+                  }
+                  //공동현관출입 hyunbae
+                  //값 셋팅
+                  var selectedMessage = $(
+                    "input[name=frontDoorSelectMessage]:checked"
+                  );
+                  if ($.trim(selectedMessage) != "") {
+                    if (selectedMessage.val() === "자유 출입 가능") {
+                      $l.find("#frontDoorMessage").val("자유출입가능");
+                    } else {
+                      var message = selectedMessage.find("~ input").val();
+                      $l.find("#frontDoorMessage").val(message);
+                    }
+                  }
+                  //valid
+                  if (
+                    $.trim($l.find("#orderr").val()) ===
+                    "부재 시 문 앞에 놓아주세요"
+                  ) {
+                    if (typeof selectedMessage.val() === "undefined") {
+                      $l.find("#frontDoorErr").show();
+                      return;
+                    } else if ($l.find("#frontDoorMessage").val() == "") {
+                      $l.find("#frontDoorErr").show();
+                      return;
+                    }
+                  }
+
+                  if (
+                    $.trim(
+                      $l.find("[name='gl_radio_dlvr_msg']:checked").val()
+                    ) === "직접입력"
+                  ) {
+                    $l.find("#frontDoorMessage").val("");
+                  }
+
+                  //# => 특수문자로 치환
+                  if ($l.find("#frontDoorMessage").val()) {
+                    $l.find("#frontDoorMessage").val(
+                      $l.find("#frontDoorMessage").val().replace(/#/gi, "＃")
+                    );
+                  }
+
+                  $l.find("#hp").val(
+                    $l.find("#hp1").val() +
+                      "-" +
+                      $l.find("#hp2").val() +
+                      "-" +
+                      $l.find("#hp3").val()
+                  );
+                  $l.find("#ph").val(
+                    $l.find("#ph1").val() +
+                      "-" +
+                      $l.find("#ph2").val() +
+                      "-" +
+                      $l.find("#ph3").val()
+                  );
+                  $l.find("#email").val(
+                    $l.find("#emailId").val() +
+                      "@" +
+                      $l.find("#emailDomain").val()
+                  );
+                  addressModifySubmit();
+                });
+              } else {
+                $l.find("#code").val($btn.attr("code"));
+                $l.find("#prk").val($btn.attr("prk"));
+                $l.find("#globalZip").val($btn.attr("zip"));
+                $l.find("#globalCity").val($btn.attr("town"));
+
+                if ($btn.attr("fname") != null && $btn.attr("fname") != "") {
+                  $l.find("#lastName").val(
+                    $btn.attr("fname") + " " + $btn.attr("rcname")
+                  );
+                } else {
+                  $l.find("#lastName").val($btn.attr("rcname"));
+                }
+
+                if (
+                  $btn.attr("localfname") != null &&
+                  $btn.attr("localfname") != ""
+                ) {
+                  $l.find("#localLastName").val(
+                    $btn.attr("localfname") + " " + $btn.attr("locallname")
+                  );
+                } else {
+                  $l.find("#localLastName").val($btn.attr("locallname"));
+                }
+                $l.find("#globalPhone").val($btn.attr("cellphone"));
+                $l.find("#globalStreet").val($btn.attr("addr1"));
+                $l.find("#globalStreet2").val($btn.attr("addr2"));
+                $l.find("#globalState").val($btn.attr("state"));
+
+                var countryCode = $btn.attr("countryCode");
+
+                $.ajax({
+                  type: "GET",
+                  url: "/ko/common/getcountrylist",
+                  cache: false,
+                  contentType: "application/json; charset=utf-8",
+                  dataType: "json",
+                  success: function (response) {
+                    $l.find("#countryCode").html(
+                      '<option value="">Select Your Conutry</option>'
+                    );
+                    $.each(response, function () {
+                      $l.find("#countryCode").append(
+                        '<option value="' +
+                          this.countryCode +
+                          '">' +
+                          this.countryName +
+                          "</option>"
+                      );
+                    });
+                    $l.find("#countryCode").val(countryCode);
+                  },
+                  error: function (e) {
+                    alert(e);
+                  },
+                });
+
+                chkInputCount(
+                  $l.find("#globalStreet"),
+                  $l.find("#textCnt1"),
+                  40
+                );
+                chkInputCount(
+                  $l.find("#globalStreet2"),
+                  $l.find("#textCnt2"),
+                  40
+                );
+
+                $l.find("#globalConfrim").click(function () {
+                  $l.find(".err_box").hide();
+                  if ($l.find("#countryCode").val() == "") {
+                    $l.find("#countryErr")
+                      .html("Please select a country")
+                      .show();
+                    return;
+                  }
+                  if ($l.find("#globalStreet").val() == "") {
+                    $l.find("#countryErr")
+                      .html("Please enter address Line 1")
+                      .show();
+                    return;
+                  }
+                  if ($l.find("#globalCity").val() == "") {
+                    $l.find("#countryErr")
+                      .html("Please enter a Town/City")
+                      .show();
+                    return;
+                  }
+                  if ($l.find("#globalZip").val() == "") {
+                    $l.find("#countryErr")
+                      .html("Please enter post code")
+                      .show();
+                    return;
+                  }
+                  // 					if($l.find('#firstName').val() == ''){
+                  // 						$l.find('#nameErr').html("address.contactName.invalid").show();
+                  // 						return;
+                  // 					}
+                  if ($l.find("#lastName").val() == "") {
+                    $l.find("#nameErr")
+                      .html("address.contactName.invalid")
+                      .show();
+                    return;
+                  }
+                  // 					if($l.find('#localFirstName').val() == ''){
+                  // 						$l.find('#localNameErr').html("address.localContactName.invalid").show();
+                  // 						return;
+                  // 					}
+                  if ($l.find("#localLastName").val() == "") {
+                    $l.find("#localNameErr")
+                      .html("address.localContactName.invalid")
+                      .show();
+                    return;
+                  }
+                  if ($l.find("#globalPhone").val() == "") {
+                    $l.find("#phoneErr").html("휴대폰번호를 입력하세요").show();
+                    return;
+                  }
+                  var lc = new layerConfirm(
+                    "입력하신 내용으로 신규 배송지를 등록하시겠습니까?",
+                    "확인",
+                    "취소"
+                  ); // 입력하신 내용으로 신규 배송지를 등록하시겠습니까?, 확인, 취소
+                  lc.confirmAction = function () {
+                    addressModifySubmit();
+                  };
+                });
+              }
+            });
+          });
+        };
+
+        var fn_addressModifyZipcode = function (data) {
+          var $addrModForm = $("#addrModForm");
+          $addrModForm
+            .find("#addressInfomation")
+            .val(data.address1 + " " + data.address2);
+          $addrModForm.find("#zipCode").val(data.zipcode);
+          $addrModForm.find("#address1").val(data.address1);
+          $addrModForm.find("#address2").val(data.address2);
+        };
+
+        var RenewalPageList = function (
+          formId,
+          listArea,
+          pageArea,
+          pageSize,
+          searchBtnId,
+          pageCallback
+        ) {
+          var t = this;
+          this.PARAMS = {};
+          var paging = null;
+          t.PARAMS.formId = formId;
+          t.PARAMS.pageSize = pageSize != null ? pageSize : 10;
+          t.PARAMS.pageNum = 1;
+          t.PARAMS.totalNumberOfResults = 0;
+          t.PARAMS.defaultListHtml = $(listArea).html();
+          this.setRowHtml = function () {};
+          this.searchAction = function () {
+            t.PARAMS.pageNum = 1;
+            t.doWork();
+          };
+          this.setPage = function (currpage) {
+            t.PARAMS.pageNum = currpage;
+            t.doWork();
+          };
+          if ($.trim(searchBtnId) != "") {
+            $("#" + searchBtnId).click(function () {
+              t.searchAction();
+            });
+          }
+          this.doWork = function (currpage) {
+            t.PARAMS.pageNum = currpage || 1;
+            var paramDatas = $("form#" + formId).serialize();
+            if (paramDatas != "") paramDatas += "&";
+            paramDatas +=
+              "pageNum=" + t.PARAMS.pageNum + "&pageSize=" + t.PARAMS.pageSize;
+
+            $.ajax({
+              type: "get",
+              url: $("form#" + formId).attr("action"),
+              data: paramDatas,
+              dataType: "json",
+              cache: false,
+              error: function (request, status, error) {
+                console.log(
+                  "code:" +
+                    request.status +
+                    "\n" +
+                    "message:" +
+                    request.responseText +
+                    "\n" +
+                    "error:" +
+                    error
+                );
+              },
+              success: function (result) {
+                if (result == null) {
+                  return;
+                }
+                var rowHtml = t.setRowHtml(result.results);
+                if ($.trim(rowHtml) == "") rowHtml = t.PARAMS.defaultListHtml;
+                $(listArea).html(rowHtml);
+                $(pageArea).empty();
+
+                if (result.pagination != null) {
+                  var pagination = result.pagination;
+                  t.PARAMS.pageNum = pagination.currentPage + 1;
+                  t.PARAMS.totalNumberOfResults =
+                    pagination.totalNumberOfResults;
+
+                  if (pagination.totalNumberOfResults > 0) {
+                    var pageHtml = SettingPagination(
+                      "pagenation",
+                      t.PARAMS.pageNum,
+                      t.PARAMS.totalNumberOfResults,
+                      t.PARAMS.pageSize,
+                      5,
+                      pageCallback
+                    );
+                    $(pageArea).html(pageHtml);
+                    $("html, body").animate({ scrollTop: 0 }, 0);
+                  }
+                }
+              },
+            });
+          };
+        };
+      </script>
+		<script type="text/javascript">
+        //<![CDATA[
+        $(function () {
+          // 상품평 유도 팝업 추가
+
+          // 상품평 유도 팝업 추가
+
+          bulletActive();
+          createBullet($(".card-type.order").length, 0);
+
+          if (
+            getCookie("egiftCode") != "" &&
+            getCookie("egiftPinCode") != "" &&
+            getCookie("egiftCode") != null &&
+            getCookie("egiftPinCode") != null
+          ) {
+            deletecookiePath("egiftCode", "", "");
+            deletecookiePath("egiftPinCode", "", "");
+            var lc = new layerAlert(
+              "간편회원은 e-Gift Card 구매 및 등록이 불가능합니다.<br>통합회원 가입 후 이용해 주세요."
+            );
+          }
+
+          $(".hsome_quickMenu").removeClass("active");
+
+          /* 	$.get("/ko/mobilecommon/mydeliveryList", function (data) {
+  if (data == null) return;
+  
+  var $myPagePopupDelivery = $("#myPagePopupDelivery .delivery_stage");
+
+  var defaultAddress = data.defaultAddress;
+  if (defaultAddress != null) {
+    subtitle = "<b>기본 배송지</b> ";
+    $myPagePopupDelivery.find('.s-txt').html(subtitle + defaultAddress.streetname + " " + defaultAddress.streetnumber);
+    $myPagePopupDelivery.find('.s-txt').show();
+    return;
+  }
+  var recentAddrees = data.recentDeliveryAddrees;
+  if (recentAddrees != null) {
+    subtitle = "<b>최근 배송지</b> "; 
+    $myPagePopupDelivery.find('.s-txt').html(subtitle + recentAddrees.streetname + " " + recentAddrees.streetnumber);
+    $myPagePopupDelivery.find('.s-txt').show();
+    return;
+  }
+}); */
+
+          //이름 마스킹
+          $(".u_name a").html(maskingName($(".u_name a").html()));
+          if ("true" == "true") {
+            if ($(".u_nickname a").html() != undefined) {
+              $(".u_nickname a").html(maskingId($(".u_nickname a").html()));
+            }
+          }
+
+          // 한섬 멤버십 통합 전환 여부 조회
+
+          $(".close-btn").on("click", function () {
+            $(".membership-popup-wrap").hide();
+          });
+        });
+
+        $(document).ready(function () {
+          var flagWrapSwiper2 = new Swiper(
+            ".flag_wrap.case.swiper-container.e-gift1811",
+            {
+              slidesPerView: "auto",
+              freeMode: true,
+              spaceBetween: 6,
+            }
+          );
+
+          flagWrapSwiper2.update();
+
+          $.ajax({
+            url: "/ko/mypage/myWishList",
+            type: "GET",
+            datatype: "json",
+            data: {
+              pageNum: 1,
+              pageSize: 3,
+              show: "Page",
+            },
+            success: function (data) {
+              var txtHtml = "";
+
+              var wishlists = data.results;
+              if (wishlists.length === 0) {
+                txtHtml +=
+                  "<p><span>위시리스트에 저장된 상품이 없습니다.</span></p>";
+                txtHtml += '<a href="/ko/mypage/myWish" class="more">+0</a>';
+              } else {
+                txtHtml += "<ul>";
+                for (var i = 0; i < wishlists.length; i++) {
+                  txtHtml += "  <li>";
+                  txtHtml +=
+                    '    <a href="/ko/p/' + wishlists[i].productCode + '">';
+                  var product = wishlists[i].productData;
+                  if (product.productImages != null) {
+                    for (var j = 0; j < product.productImages.length; j++) {
+                      var images = product.productImages[j];
+                      if (images.imageDivisionCode.code == "T01") {
+                        txtHtml +=
+                          '    <img src="' +
+                          images.image.url +
+                          '" style="width:86px;height:130px;" alt="">';
+                      }
+                    }
+                  }
+
+                  txtHtml += "    </a>";
+                  txtHtml += "  </li>";
+                }
+                txtHtml += "</ul>";
+                if (data.pagination.totalNumberOfResults > 3) {
+                  txtHtml +=
+                    '<a href="/ko/mypage/myWish" class="more">+' +
+                    (data.pagination.totalNumberOfResults - wishlists.length) +
+                    "</a>";
+                }
+              }
+
+              $("#myWishlists").html(txtHtml);
+            },
+          });
+
+          $("#profileNickname").on("change", function () {
+            $(".nick_label").html($("#profileNickname").val());
+            if ($("#profileNickname").val().trim() == "") {
+              $(".hs_default_input input").val("");
+              $(".nick_label").html("닉네임");
+            }
+          });
+          $(
+            '.pop_profile_cont .name_wrap .hs_check01 input[type="radio"]'
+          ).click(function () {
+            if ($(this).parent(".hs_check01").hasClass("nick_check")) {
+              $(this).parent(".hs_check01").addClass("on");
+            } else {
+              $(".pop_profile_cont .name_wrap .hs_check01").removeClass("on");
+            }
+          });
+        });
+
+        //2019.03.28 포인트 정보가져오기 ajax처리
+        function getPointInfo() {}
+
+        var vipGraph;
+        var onGraph;
+        function getMemGradeInfo(data) {
+          var vvipList = data.vVip;
+          var custGrdCd = "";
+          var custGrdNm = "";
+          var vipInfo = "";
+          var vipcode = data.vipcode;
+
+          //     vipInfo = "FRIEND";
+
+          if (vvipList != null) {
+            for (var i = 0; i < vvipList.length; i++) {
+              if (vvipList[i].myYn == "Y") {
+                custGrdCd = vvipList[i].custGrdCd;
+                //                 custGrdCd = 'V1';//TEST용도
+
+                custGrdNm = vvipList[i].custGrdNm;
+              }
+            }
+          }
+
+          //     console.log(custGrdCd+":" +custGrdNm);
+
+          if (custGrdNm == "SILVER") {
+            vipGraph = 25;
+          } else if (custGrdNm == "GOLD") {
+            vipGraph = 50;
+          } else if (custGrdNm == "PLATINUM") {
+            vipGraph = 75;
+          } else if (
+            custGrdCd == "V1" ||
+            custGrdCd == "V2" ||
+            custGrdCd == "V3"
+          ) {
+            vipGraph = 100;
+          }
+
+          if (vipInfo == "FRIEND" || vipInfo == "" || vipInfo == null) {
+            onGraph = 20;
+          } else if (vipInfo == "CREW") {
+            onGraph = 40;
+          } else if (vipInfo == "MANIA") {
+            onGraph = 60;
+          } else if (vipInfo == "STAR") {
+            onGraph = 80;
+          } else if (vipInfo == "THESTAR") {
+            onGraph = 100;
+          }
+
+          var date = new Date();
+          var endDate = new Date("2019/08/01 12:00:00");
+
+          var innerHtml = "";
+
+          if (custGrdCd != "" && custGrdCd != null) {
+            <!-- VVIP / 온라인 등급 s -->
+            innerHtml +=
+              '  <div class="card_type_inner1903">                                                          ';
+            innerHtml +=
+              '    <div class="stage grade_stage">                                                          ';
+            innerHtml +=
+              '        <div class="s-tit">                                                                  ';
+            innerHtml +=
+              "            <b>고객 등급</b>                                                                 ";
+            innerHtml +=
+              '            <a href="/ko/svcenter/theClubInfo" class="more">등급별 혜택</a>    ';
+            innerHtml +=
+              "        </div>                                                                               ";
+            innerHtml +=
+              '        <div class="grade_chartBox1901">                                                     ';
+            innerHtml +=
+              '            <div class="thehsGrade hsgrd1902">                                               ';
+            innerHtml +=
+              '                <strong class="tit">온라인 등급</strong>                                     ';
+            innerHtml +=
+              '                <div class="sch_searchTgArea sch_searchGraph">                               ';
+            innerHtml +=
+              '                    <div class="chartViewBg" style=""></div>                                 ';
+            innerHtml +=
+              '                    <div class="chartView" id="customerGrade1901_2"></div>                   ';
+            innerHtml +=
+              '                    <div class="chartViewTit">                                               ';
+            innerHtml +=
+              '                    <a href="/ko/mypage/myGradeInfo" class="dtl_more">         ';
+            if (vipInfo == "FRIEND" || vipInfo == "" || vipInfo == null) {
+              innerHtml += "                  <span>FRIEND</span> ";
+            } else {
+              if (vipInfo == "THESTAR") {
+                innerHtml += "                  <span>THE STAR</span> ";
+              } else {
+                innerHtml += "                  <span>" + vipInfo + "</span> ";
+              }
+            }
+            innerHtml +=
+              "                    </a>						                                                ";
+            innerHtml +=
+              "                   </div>                                                                    ";
+            innerHtml +=
+              "               </div>                                                                        ";
+            innerHtml +=
+              "           </div>                                                                            ";
+            innerHtml +=
+              '           <div class="hsomembershipGrade hsgrd1902">                                        ';
+            innerHtml +=
+              '               <strong class="tit">한섬 VVIP 등급</strong>                                     ';
+            innerHtml +=
+              '               <div class="sch_searchTgArea sch_searchGraph">                                ';
+            innerHtml +=
+              '                   <div class="chartViewBg" style=""></div>                                  ';
+            innerHtml +=
+              '                   <div class="chartView" id="customerGrade1901_1"></div>                    ';
+            innerHtml +=
+              '                   <div class="chartViewTit">                                                ';
+            innerHtml +=
+              '                   <a href="/ko/mypage/myGradeInfo?onlineYn=Y" class="dtl_more">';
+            innerHtml += "                		 <span>" + custGrdNm + "</span> 											";
+            innerHtml +=
+              "                   </a>						                                                ";
+            innerHtml +=
+              "            </div>                                                                           ";
+            innerHtml +=
+              "        </div>                                                                               ";
+            innerHtml +=
+              "    </div>                                                                                   ";
+            innerHtml +=
+              "</div>                                                                                       ";
+            innerHtml +=
+              '        <p class="member_crd_txt1902">한섬 멤버십 카드 <strong>' +
+              maskingName("박성환") +
+              "</strong></p>  ";
+            innerHtml +=
+              '        <div class="barCode1902">                                                                                                                ';
+            innerHtml +=
+              '            <div class="card_img">                                                                                                               ';
+            /* if(custGrdNm == 'SILVER'){
+         innerHtml += '                <img src="http://cdn.thehandsome.comhttps://www.thehandsome.com/_ui/handsomemobile/images/mypage/infor-card-membership-img.png" alt="카드이미지">        ';
+       }else{ */
+            innerHtml +=
+              '                <img src="http://cdn.thehandsome.comhttps://www.thehandsome.com/_ui/handsomemobile/images/mypage/infor-card-vvip-img-220201.jpg" alt="카드이미지">        ';
+            // }
+            innerHtml +=
+              "            </div>                                                                                                                               ";
+            innerHtml +=
+              '            <p class="s-guide">카드를 터치하면 바코드가 열려요!</p>                                                                              ';
+            innerHtml +=
+              '            <div class="bar1902" style="display:none;">                                                                                          ';
+            innerHtml +=
+              '                   <img src="/ko/mobilecommon/barcode4j?barcode=' +
+              vipcode +
+              '" alt="bar code" style="width:146px; height:79px">       ';
+            innerHtml +=
+              '                   <p class="txt">' +
+              vipcode +
+              "</p>                                                                               ";
+            innerHtml +=
+              '                <a href="#;" class="cl_btn">닫기</a>                                                                                             ';
+            innerHtml +=
+              "            </div>                                                                                                                               ";
+            innerHtml +=
+              "        </div>                                                                                                                                   ";
+            innerHtml +=
+              "    </div>                                                                                                                                       ";
+            innerHtml +=
+              "  </div>                                                                                                                                         ";
+            $(".swiper-slide.infomation.start").attr(
+              "id",
+              "slideChartView1901"
+            );
+            $("#slideChartView1901").html(innerHtml);
+            setTimeout(function () {
+              eChartMypage("customerGrade1901_1", "#fe8867", vipGraph);
+            }, 300); // VVIP 등급
+            setTimeout(function () {
+              eChartMypage("customerGrade1901_2", "#648cdc", onGraph);
+            }, 300); // 온라인 등급
+
+            <!-- VVIP / 온라인 등급 e -->
+          } else {
+            <!-- 온라인 등급 s -->                                                                                                         ';
+            innerHtml +=
+              '  <div class="card_type_inner1903">                                                                              ';
+            innerHtml +=
+              '      <div class="stage grade_stage">                                                                            ';
+            innerHtml +=
+              '          <div class="s-tit">                                                                                    ';
+            innerHtml +=
+              "              <b>고객 등급</b>                                                                                   ";
+            innerHtml +=
+              '              <a href="/ko/svcenter/theClubInfo" class="more">등급별 혜택</a>                      ';
+            innerHtml +=
+              "          </div>                                                                                                 ";
+            innerHtml +=
+              '          <div class="grade_chartBox1901">                                                                       ';
+            innerHtml +=
+              '              <div class="hsomembershipGrade hsgrd1902 one">                                                     ';
+            innerHtml +=
+              '                  <strong class="tit">온라인 등급</strong>                                                       ';
+            innerHtml +=
+              '                  <div class="sch_searchTgArea sch_searchGraph">                                                 ';
+            innerHtml +=
+              '                      <div class="chartViewBg" style=""></div>                                                   ';
+            innerHtml +=
+              '                      <div class="chartView" id="customerGrade1901_3"></div>                                     ';
+            innerHtml +=
+              '                      <div class="chartViewTit">                                                                 ';
+            innerHtml +=
+              '                      <a href="/ko/mypage/myGradeInfo" class="dtl_more">                           ';
+            if (vipInfo == "FRIEND" || vipInfo == "" || vipInfo == null) {
+              innerHtml += "                      <span>FRIEND</span> ";
+            } else {
+              if (vipInfo == "THESTAR") {
+                innerHtml += "                  <span>THE STAR</span> ";
+              } else {
+                innerHtml +=
+                  "                      <span>" + vipInfo + "</span> ";
+              }
+            }
+            innerHtml +=
+              "                      </a>					                                                                   ";
+            innerHtml +=
+              "                      </div>                                                                                     ";
+            innerHtml +=
+              "                  </div>                                                                                         ";
+            innerHtml +=
+              "              </div>                                                                                             ";
+            innerHtml +=
+              "          </div>                                                                                                 ";
+            innerHtml +=
+              '          <p class="member_crd_txt1902">한섬 멤버십 카드 <strong>' +
+              maskingName("박성환") +
+              "</strong></p>  ";
+            innerHtml +=
+              '          <div class="barCode1902">                                                                              ';
+            innerHtml +=
+              '              <div class="card_img">                                                                             ';
+            if (date.getTime() <= endDate.getTime()) {
+              if (vipInfo == "FRIEND" || vipInfo == "" || vipInfo == null) {
+                innerHtml +=
+                  '                      <img src="https://www.thehandsome.com/_ui/handsomemobile/images/mypage/c_online_grd_friend.png" alt="카드이미지">  ';
+              } else if (vipInfo == "CREW") {
+                innerHtml +=
+                  '                      <img src="https://www.thehandsome.com/_ui/handsomemobile/images/mypage/c_online_grd_crew.png" alt="카드이미지">    ';
+              } else if (vipInfo == "MANIA") {
+                innerHtml +=
+                  '                      <img src="https://www.thehandsome.com/_ui/handsomemobile/images/mypage/c_online_grd_mania.png" alt="카드이미지">   ';
+              } else if (vipInfo == "STAR") {
+                innerHtml +=
+                  '                      <img src="https://www.thehandsome.com/_ui/handsomemobile/images/mypage/c_online_grd_star.png" alt="카드이미지">    ';
+              }
+            } else {
+              //8월1일이후 적용버전
+              if (vipInfo == "FRIEND" || vipInfo == "" || vipInfo == null) {
+                innerHtml +=
+                  '                      <img src="http://cdn.thehandsome.comhttps://www.thehandsome.com/_ui/handsomemobile/images/mypage/thestar-20-card-friend.png" alt="카드이미지">  ';
+              } else if (vipInfo == "CREW") {
+                innerHtml +=
+                  '                      <img src="http://cdn.thehandsome.comhttps://www.thehandsome.com/_ui/handsomemobile/images/mypage/thestar-20-card-crew.png" alt="카드이미지">    ';
+              } else if (vipInfo == "MANIA") {
+                innerHtml +=
+                  '                      <img src="http://cdn.thehandsome.comhttps://www.thehandsome.com/_ui/handsomemobile/images/mypage/thestar-20-card-mania.png" alt="카드이미지">   ';
+              } else if (vipInfo == "STAR") {
+                innerHtml +=
+                  '                      <img src="http://cdn.thehandsome.comhttps://www.thehandsome.com/_ui/handsomemobile/images/mypage/thestar-20-card-star.png" alt="카드이미지">    ';
+              } else if (vipInfo == "THESTAR") {
+                innerHtml +=
+                  '                      <img src="http://cdn.thehandsome.comhttps://www.thehandsome.com/_ui/handsomemobile/images/mypage/thestar-20-card-thestar.png" alt="카드이미지">    ';
+              }
+            }
+            innerHtml +=
+              "              </div>                                                                                          ";
+            innerHtml +=
+              '              <p class="s-guide">카드를 터치하면 바코드가 열려요!</p>                                         ';
+            innerHtml +=
+              '              <div class="bar1902" style="display:none;">                                                     ';
+            innerHtml +=
+              '                  <img src="/ko/mobilecommon/barcode4j?barcode=' +
+              vipcode +
+              '" alt="bar code" style="width:146px; height:79px">   ';
+            innerHtml +=
+              '                  <p class="txt">' + vipcode + "</p>   ";
+            innerHtml +=
+              '                  <a href="#;" class="cl_btn">닫기</a>              ';
+            innerHtml +=
+              "              </div>                                                ";
+            innerHtml +=
+              "          </div>                                                    ";
+            innerHtml +=
+              "      </div>                                                        ";
+            innerHtml +=
+              "  </div>                                                            ";
+            $(".swiper-slide.infomation.start").attr(
+              "id",
+              "slideChartView1902"
+            );
+            $("#slideChartView1902").html(innerHtml);
+            setTimeout(function () {
+              eChartMypage("customerGrade1901_3", "#648cdc", onGraph);
+            }, 300); // 온라인 등급
+
+            <!-- 온라인 등급 e -->
+          }
+        }
+
+        function getWishList() {
+          $.ajax({
+            url: "/ko/mypage/myWishList",
+            type: "GET",
+            datatype: "json",
+            data: {
+              pageNum: 1,
+              pageSize: 3,
+              show: "Page",
+            },
+            success: function (data) {
+              var txtHtml = "";
+
+              txtHtml += '<div class="s-tit"> ';
+              txtHtml += "    <b>위시리스트</b> ";
+              txtHtml += "</div> ";
+              txtHtml += '<div id="myWishlists" class="s-thumb"> ';
+
+              var wishlists = data.results;
+              if (wishlists.length === 0) {
+                txtHtml +=
+                  "<p><span>위시리스트에 저장된 상품이 없습니다.</span></p>";
+                txtHtml += '<a href="/ko/mypage/myWish" class="more">+0</a>';
+              } else {
+                txtHtml += "<ul>";
+                for (var i = 0; i < wishlists.length; i++) {
+                  txtHtml += "  <li>";
+                  txtHtml +=
+                    '    <a href="/ko/p/' + wishlists[i].productCode + '">';
+                  var product = wishlists[i].productData;
+                  if (product.productImages != null) {
+                    for (var j = 0; j < product.productImages.length; j++) {
+                      var images = product.productImages[j];
+                      if (images.imageDivisionCode.code == "T01") {
+                        txtHtml +=
+                          '    <img src="' +
+                          images.image.url +
+                          '" style="width:86px;height:130px;" alt="">';
+                      }
+                    }
+                  }
+
+                  txtHtml += "    </a>";
+                  txtHtml += "  </li>";
+                }
+                txtHtml += "</ul>";
+                if (data.pagination.totalNumberOfResults > 3) {
+                  txtHtml +=
+                    '<a href="/ko/mypage/myWish" class="more">+' +
+                    (data.pagination.totalNumberOfResults - wishlists.length) +
+                    "</a>";
+                }
+              }
+
+              txtHtml += "</div>";
+              txtHtml += '<div class="s-link s_link1905">';
+              txtHtml += "    <ul>";
+              txtHtml += "        <li>";
+              txtHtml += '            <a href="/ko/mypage/myreview">';
+              txtHtml +=
+                '                <span class="btn_txt1905">상품평</span>';
+              txtHtml +=
+                '                <span class="sub_btn_txt1905">상품평 작성하고<br>추가 마일리지 적립하세요.</span>';
+              txtHtml += "            </a>";
+              txtHtml += "        </li>";
+              txtHtml +=
+                '        <li><a href="/ko/mypage/mymantomaninquiry">1:1 문의</a></li>';
+              txtHtml +=
+                '        <li><a href="/ko/mypage/event/myevents">이벤트 참여현황</a></li>';
+              txtHtml +=
+                '        <li><a href="/ko/mypage/myqna">상품 Q&A</a></li>';
+              txtHtml += "    </ul>";
+              txtHtml += "</div>";
+
+              $("#myWishList").html(txtHtml);
+            },
+          });
+        }
+
+        //add indicator
+        function createBullet(tabL, tabSlideIdx) {
+          var indicatorHtml = "";
+          for (var i = 0; i < tabL; i++) {
+            indicatorHtml += '<span class="swiper-pagination-bullet"></span>';
+          }
+          $(".mpg_card_indicator1903").html(indicatorHtml);
+          $(".mpg_card_indicator1903")
+            .find("span")
+            .eq(tabSlideIdx)
+            .addClass("swiper-pagination-bullet-active");
+        }
+
+        function bulletActive() {
+          var idx = 0;
+          $(".mpgCardCon1903 .card-type").each(function () {
+            var $this = $(this);
+            if ($this.hasClass("start")) {
+              idx = 0;
+            }
+            $this.attr("data-index", idx);
+            idx++;
+          });
+        }
+
+        // 하단 메뉴 슬라이드 on
+        $(document).on(
+          "click",
+          ".flag_wrap.e-gift1811 .swiper-slide.flag",
+          function () {
+            if (
+              $(".flag_wrap.e-gift1811 .swiper-slide.flag").hasClass("on") ==
+              true
+            ) {
+              $(".flag_wrap.e-gift1811 .swiper-slide.flag").removeClass("on");
+              $(this).addClass("on");
+            }
+          }
+        );
+
+        function eChartMypage(customerGradeId, colorC, value) {
+          var data = [
+            {
+              name: "",
+              value: value,
+              itemStyle: {
+                normal: { color: colorC },
+              },
+            },
+          ];
+          var searchChart = echarts.init(
+            document.getElementById(customerGradeId)
+          );
+          var searchChartOption = {
+            angleAxis: {
+              min: 0,
+              max: 100,
+              interval: 10,
+              startAngle: 90,
+              axisLine: { show: false },
+              axisTick: { show: false },
+              axisLabel: { show: false },
+              splitLine: { show: false },
+            },
+            radiusAxis: {
+              min: -12,
+              max: 3,
+              type: "category",
+              axisLine: { show: false },
+            },
+            polar: { radius: "100%" },
+            series: [
+              {
+                type: "bar",
+                data: data,
+                coordinateSystem: "polar",
+                hoverAnimation: false,
+                animationDuration: 2000,
+              },
+              {
+                type: "custom",
+                coordinateSystem: "polar",
+                renderItem: function (params, api) {
+                  var values = [api.value(0), api.value(1)];
+                  var coord = api.coord(values);
+                  return {
+                    /*
+             type: 'circle',
+             shape: {
+               cx: coord[0], cy: coord[1], r: 3.5
+             },
+             style: api.style()
+             */
+                    type: "rect",
+                    position: [coord[0], coord[1]],
+                    rotation: coord[3],
+                    shape: {
+                      x: -10,
+                      y: 0,
+                      width: 20,
+                      height: 3,
+                    },
+                    style: api.style(),
+                  };
+                },
+                data: data,
+                animationDuration: 1000,
+                animationDelay: 1500,
+              },
+            ],
+          };
+          searchChart.setOption(searchChartOption);
+          window.onresize = function () {
+            searchChart.resize();
+          };
+        }
+
+        function mypage_chart(redVal, greyVal) {
+          //180627 마이페이지 > 온라인 회원 등급 그래프 스크립트 추가 시작
+          var myGradeChart = echarts.init(document.getElementById("chartView"));
+          var myGradeChartOption = {
+            color: "#f1f1f1",
+            series: [
+              {
+                name: "Line 1",
+                type: "pie",
+                clockWise: true,
+                radius: ["50%", "47%"],
+                itemStyle: {
+                  normal: {
+                    label: {
+                      show: false,
+                    },
+                    labelLine: {
+                      show: false,
+                    },
+                  },
+                },
+                hoverAnimation: false,
+                data: [
+                  {
+                    value: redVal,
+                    name: "01",
+                    itemStyle: {
+                      normal: {
+                        color: "#e46764",
+                        label: {
+                          show: false,
+                        },
+                        labelLine: {
+                          show: false,
+                        },
+                      },
+                    },
+                  },
+                  {
+                    name: "02",
+                    value: greyVal,
+                  },
+                ],
+              },
+            ],
+          };
+          myGradeChart.setOption(myGradeChartOption);
+          //180627 마이페이지 > 온라인 회원 등급 그래프 스크립트 추가 끝
+        }
+
+        //var mypageConfigYn = "N";
+        function mypagePopupClose(obj) {
+          //if(mypageConfigYn == "N") {
+          if (!window.netscape) {
+            // FireFox에서 해당 이벤트 불가
+            event.preventDefault();
+          }
+          $(".hsome_quickMenu_contents").removeClass("absolute");
+          $(".hsome_quickMenu_contents").removeClass("active");
+          $(".hsome_allContents").css({ marginTop: 0 * -1 });
+          $(".hsome_allContents").removeClass("disabled");
+
+          location.href = /ko/ + "main";
+
+          /* 
+          setTimeout(function () {
+              history.back();
+          }, 200);
+       */
+          //} else {
+          //	mypageConfigYn = "N";
+          //window.history.go(-2);
+          // 		location.href = "/ko/mobilecommon/appreturnurl";
+          //	history.back();
+          //}
+        }
+
+        function mypageConfigClick() {}
+
+        function transMember() {
+          var hdUrl = "https://www.h-point.co.kr" + "/cu/join/start.nhd";
+
+          document.getElementById("ptcoReqnMdaInf").value = "web";
+          $("#userHiddenForm").attr("action", hdUrl);
+          $("#userHiddenForm").submit();
+        }
+
+        var storePickupTicketSending = false;
+
+        function storePickupTicketSend(obj) {
+          //<span>매장수령교환권 재발급(3회)</span>
+          var sendcount = $(obj).data("sendcount") || 0;
+          if (sendcount >= 3) return;
+          if (storePickupTicketSending) return;
+          storePickupTicketSending = true;
+          $(obj).html("<span>매장수령교환권 재발급중</span>");
+          $.ajax({
+            type: "get",
+            url:
+              "/ko/mypage/order/pickupticketsend?code=" + $(obj).data("code"),
+            dataType: "json",
+            success: function (result) {
+              if (result == null) return;
+              switch (result.resultCode) {
+                case "SUCCESS":
+                  $(obj).data("sendcount", result.pickupSmsSendTimes);
+                  layerAlert("매장수령 교환권이 발급되었습니다.");
+                  break;
+                default:
+                  layerAlert("매장 수령 문자를 발송을 실패하였습니다.");
+                  break;
+              }
+            },
+            error: function () {
+              layerAlert("매장 수령 문자를 발송을 실패하였습니다.");
+            },
+          }).always(function () {
+            storePickupTicketSending = false;
+            $(obj).html(
+              "<span>매장수령교환권 재발급(" +
+                $(obj).data("sendcount") +
+                "/3회)</span>"
+            );
+          });
+        }
+
+        function configInfo() {
+          var configInfo =
+            '{"provideLocationYN":"true","pushSilentYN":"true","pushBenefitYN":"true","pushOrderYN":"true","pushEventYN":"true","pushAllYN":"true"}';
+          return configInfo;
+        }
+
+        function getMypageVoucherList() {
+          //$("#mypageCouponList").html("");
+
+          $.ajax({
+            type: "GET",
+            url: "/ko/mypage/voucherOnline?pageSize=3",
+            success: function (response) {
+              var rows = "";
+              var todayDate = new Date();
+
+              rows += '<div class="s-tit"> ';
+              rows += "<b>쿠폰</b> ";
+              rows += '<a href="/ko/mypage/voucher" class="more">전체조회</a> ';
+              rows += "</div> ";
+              rows += '<div id="mypageCouponList">';
+
+              if (response.results != null && response.results.length > 0) {
+                for (var i = 0; i < response.results.length; i++) {
+                  rows += '<div class="s-coupon">';
+                  rows += '   <div class="s-coupon-inner">';
+                  rows +=
+                    "       <strong>" + response.results[i].name + "</strong>";
+
+                  if (response.results[i].value == 0) {
+                    rows += "   <b>반품 시 배송비 무료</b>";
+                  } else {
+                    if (response.results[i].currency == null) {
+                      rows +=
+                        "<b>" +
+                        addComma(response.results[i].value) +
+                        "% 할인</b>";
+                    } else {
+                      rows +=
+                        "<b>" +
+                        addComma(response.results[i].value) +
+                        "원 할인</b>";
+                    }
+                  }
+
+                  rows +=
+                    "       <span>" +
+                    response.results[i].startdate +
+                    " ~ " +
+                    response.results[i].enddate +
+                    "</span>";
+
+                  var endDate = new Date(response.results[i].enddate);
+                  var diff = Math.abs(endDate.getTime() - todayDate.getTime());
+                  var day = 1000 * 60 * 60 * 24; // 밀리세컨드 초,초,분,시간
+
+                  rows +=
+                    "       <i>소멸<br>D-" + Math.ceil(diff / day) + "</i>";
+                  rows += "   </div>";
+                  rows += "</div>";
+                }
+              } else {
+                rows +=
+                  '<p class="mypage_card_nodata">사용 가능한 쿠폰내역이 없습니다.</p>';
+              }
+              rows += "</div> ";
+
+              $("#myCouponList").html(rows);
+              return false;
+            },
+            error: function (e) {
+              return false;
+            },
+          });
+        }
+
+        function getDeliveryList() {
+          $.ajax({
+            type: "GET",
+            url: "/ko/mobilecommon/mydeliveryList",
+            success: function (data) {
+              if (data == null) return;
+
+              var $myPagePopupDelivery = $(
+                "#myPagePopupDelivery .delivery_stage"
+              );
+
+              var defaultAddress = data.defaultAddress;
+              if (defaultAddress != null) {
+                subtitle = "<b>기본 배송지</b> ";
+                $myPagePopupDelivery
+                  .find(".s-txt")
+                  .html(
+                    subtitle +
+                      maskingAddress(
+                        defaultAddress.streetname +
+                          " " +
+                          defaultAddress.streetnumber,
+                        false
+                      )
+                  );
+                $myPagePopupDelivery.find(".s-txt").show();
+                return;
+              }
+              var recentAddrees = data.recentDeliveryAddrees;
+              if (recentAddrees != null) {
+                subtitle = "<b>최근 배송지</b> ";
+                $myPagePopupDelivery
+                  .find(".s-txt")
+                  .html(
+                    subtitle +
+                      maskingAddress(
+                        recentAddrees.streetname +
+                          " " +
+                          recentAddrees.streetnumber,
+                        false
+                      )
+                  );
+                $myPagePopupDelivery.find(".s-txt").show();
+                return;
+              }
+            },
+            error: function (e) {
+              return false;
+            },
+          });
+        }
+
+        function getcardList() {
+          var $myPagePopupWpay = $("#myPagePopupWpay"),
+            $myPagePopupWpayCard = $myPagePopupWpay.find(".s-card");
+
+          $.ajax({
+            type: "GET",
+            url: "/ko/wpay/cardList",
+            success: function (data) {
+              if (data.resultCode == "0000") {
+                $.each(data.payList, function (idx, pay) {
+                  $myPagePopupWpayCard.removeClass();
+
+                  var cardName = decodeURIComponent(pay.cardName),
+                    cardClass = "";
+
+                  switch (pay.bankCardCode) {
+                    case "03":
+                      cardClass = "lotte";
+                      break;
+                      롯데;
+                    case "04":
+                      cardClass = "hyundai";
+                      break;
+                      현대;
+                    case "06":
+                      cardClass = "kb";
+                      break;
+                      국민;
+                    case "11":
+                      cardClass = "bc";
+                      break;
+                      BC;
+                    case "12":
+                      cardClass = "samsung";
+                      break;
+                      삼성;
+                    case "14":
+                      cardClass = "shinhan";
+                      break;
+                      신한;
+                    case "16":
+                      cardClass = "nh";
+                      break;
+                      NH;
+                    case "01":
+                      cardClass = "hana";
+                      break;
+                      하나;
+                    case "17":
+                      cardClass = "hana";
+                      break;
+                      하나;
+                  }
+
+                  $myPagePopupWpayCard.addClass("s-card");
+                  $myPagePopupWpayCard.addClass(cardClass);
+                  $myPagePopupWpayCard.html(
+                    "<b>" +
+                      cardName +
+                      "</b> " +
+                      $.trim(pay.bankCardNo).replace(/-/g, " ")
+                  );
+                  return false;
+                });
+              }
+            },
+            error: function (e) {
+              return false;
+            },
+          });
+        }
+
+        var eGiftBuySmsReSend = function (obj, orderCode, eGiftCardCode) {
+          var lc = new layerConfirm(
+            "SMS 재 전송은 1회 가능합니다.<br />재전송하시겠습니까?",
+            "확인",
+            "취소"
+          );
+          lc.confirmAction = function () {
+            $.ajax({
+              type: "GET",
+              url: "/ko/mypage/order/eGiftBuySmsReSend",
+              async: false,
+              data: { orderCode: orderCode, eGiftCode: eGiftCardCode },
+              dataType: "json",
+              success: function (data) {
+                if (data == true) {
+                  //$(obj).prop("display", "none");
+                  layerAlert("재전송하였습니다.");
+                  $("#reSendEGift").addClass("dis_a1812");
+                  $("#reSendEGift").attr("href", "javascript:void(0);");
+
+                  /*  $("#reSendEGift").parents(".btn_wrap").removeClass("btn_wrap_div2");
+                  $("#reSendEGift").parents(".btn_wrap").addClass("btn_wrap_div1");
+                  $("#reSendEGift").remove(); */
+                } else {
+                  layerAlert("재전송에 실패하였습니다.");
+                }
+              },
+              error: function (xhr, status, err) {
+                // var console = window.console || {log:function(){}};
+                // console.log("status : " + status + "\n error : " + err);
+              },
+            });
+          };
+        };
+
+        function goReview() {
+          setReviewCookie("reviewPopup", "N", 1);
+          location.href = "/ko/mypage/myreview";
+        }
+
+        function induceReviewPopup() {
+          var addTxt = "";
+          addTxt +=
+            '<div class="b-modal __b-popup1__" id="induceReviewPopupBack" style="background-color: rgb(0, 0, 0); position: fixed; top: 0px; right: 0px; bottom: 0px; left: 0px; opacity: 0.7; z-index: 9998;"></div>';
+          addTxt +=
+            '<div class="divpop_wrap_dev pop_mbr" id="induceReviewPopupDiv" style="position: fixed;z-index: 9999; opacity: 1; display:block;top:50%;margin:0;margin-top:-223px;">';
+          addTxt += '	<div class="dvp_container">';
+          addTxt +=
+            '		<div class="dvp_close_btn b-close" id="alertCloseDiv" style="cursor:pointer;"><span>닫기</span></div>';
+          addTxt += '		<div class="review_write_recom_pop1905">';
+          addTxt += '			<div class="desc_box">';
+          addTxt +=
+            '				<p class="tit"><strong>상품평</strong>을 남겨보세요.<br><span class="cl_point">추가 마일리지</span>를 적립해 드립니다.</p>';
+          addTxt += "				<ul>";
+          addTxt += '					<li class="list1">';
+          addTxt += '						<div class="tbl1905">';
+          addTxt +=
+            "							<strong>정상상품</strong><span>구매금액의 <strong>0.5%</strong></span>";
+          addTxt += "						</div>";
+          addTxt += "					</li>";
+          addTxt += '					<li class="list2">';
+          addTxt += '						<div class="tbl1905">';
+          addTxt +=
+            "							<strong>아울렛상품</strong><span>구매금액의 <strong>0.1%</strong></span>";
+          addTxt += "						</div>";
+          addTxt += "					</li>";
+          addTxt += '					<li class="list3">';
+          addTxt += '						<div class="tbl1905">';
+          addTxt += "							상품별 최초 <strong>포토 상품평</strong><br>";
+          addTxt += "							<span><strong>2,000마일리지</strong> 추가 지급</span>";
+          addTxt += "						</div>";
+          addTxt += "					</li>";
+          addTxt += "				</ul>";
+          addTxt += "			</div>";
+          addTxt += "		</div>";
+          addTxt += '		<div class="btn_wrap btn_wrap_div2">';
+          addTxt +=
+            '			<button class="btn btnst btn_bg_b" onclick="javascript:goReview();">상품평 작성하기</button>';
+          addTxt += "		</div>";
+          addTxt += "	</div>";
+          addTxt += "</div>";
+
+          $(".hand_footer_gnb_wrap.mypage").after(addTxt);
+        }
+
+        //쿠키 생성
+        function setReviewCookie(cName, cValue, cDay) {
+          var currentDate = new Date();
+          var expire = new Date(
+            currentDate.getFullYear(),
+            currentDate.getMonth(),
+            currentDate.getDate() + cDay,
+            0,
+            0,
+            0
+          );
+          cookies = cName + "=" + escape(cValue) + "; path=/ ";
+          if (typeof cDay != "undefined")
+            cookies += ";expires=" + expire.toGMTString() + ";";
+          document.cookie = cookies;
+        }
+
+        function membershipMergeInfoPopup() {
+          var addTxt = "";
+          addTxt += '<div class="membership-popup-wrap">';
+          addTxt += '	<div class="popup-rela">';
+          addTxt += '		<div class="popup-con">';
+          addTxt +=
+            '			<a class="close-btn"><img src="http://cdn.thehandsome.comhttps://www.thehandsome.com/_ui/handsomemobile/images/common_sub/ico_close_14.png" alt="닫기"></a>';
+          // 	addTxt += '			<strong class="tt">한성 멤버십 통합 전환</strong>';
+          // 	addTxt += '			<p class="con">';
+          // 	addTxt += '				한섬 오프라인 &amp; 온라인(더한섬닷컴, H패션몰, EQL)<br class="small-device">';
+          // 	addTxt += '				멤버십을 통합하여 사용하실 수 있습니다.<br><br>';
+          // 	addTxt += '				한섬 멤버십 통합을 진행 하실려면<br class="small-device">';
+          // 	addTxt += '				‘한섬 멤버십 통합 전환 바로가기’를 선택해 주세요.';
+          // 	addTxt += '			</p>';
+          addTxt +=
+            '			<img style="width:100%;display:block;" src="http://cdn.thehandsome.comhttps://www.thehandsome.com/_ui/handsomemobile/images/mypage/m_membership_popup_200728.jpg" alt="한성 멤버십 통합 전환" />';
+          addTxt += '			<div class="btn">';
+          addTxt +=
+            '				<a href="/ko/mypage/mergeCustomerInfo">한섬 멤버십 통합 전환 바로가기</a>';
+          addTxt += "			</div>";
+          addTxt += "		</div>";
+          addTxt += '		<div class="popup-foot" style="background:#f3f3f3;">';
+          addTxt += "			<label>";
+          addTxt +=
+            "				<input type=\"checkbox\" onclick=\"dayClose('mergeInfoPopup', 'Y', 1)\">";
+          addTxt += '				<span style="color:#555;">오늘 그만 보기</span>';
+          addTxt += "			</label>";
+          addTxt += "		</div>";
+          addTxt += "	</div>";
+          addTxt += "</div>";
+
+          $(".hand_footer_gnb_wrap.mypage").after(addTxt);
+
+          $(".close-btn").on("click", function () {
+            $(".membership-popup-wrap").hide();
+          });
+        }
+
+        function dayClose(cName, cValue, cDay) {
+          $(".membership-popup-wrap").hide();
+          var currentDate = new Date();
+          var expire = new Date(
+            currentDate.getFullYear(),
+            currentDate.getMonth(),
+            currentDate.getDate() + cDay,
+            0,
+            0,
+            0
+          );
+          cookies = cName + "=" + escape(cValue) + "; path=/ ";
+          if (typeof cDay != "undefined")
+            cookies += ";expires=" + expire.toGMTString() + ";";
+          document.cookie = cookies;
+        }
+
+        function onBlurF() {
+          var comment = $("#profileComment").val();
+          if (comment == "") {
+            $(".textarea_placeholder2008").html(
+              "자기소개 입력<br/>(스타일 LIVE > 마이페이지에 적용됩니다)"
+            );
+            $(".textarea_placeholder2008").stop().show();
+          }
+        }
+        function vocOpn() {
+          $(".textarea_placeholder2008").stop().hide();
+          $("#profileComment").focus();
+        }
+        function saveProfile() {
+          //닉네임 선택
+          if (
+            $(".hs_check01 input[name=pro_name_check]:checked")
+              .attr("id")
+              .includes("nickname")
+          ) {
+            if (
+              $("#profileNickname").val().trim() != $("#profileNickname").val()
+            ) {
+              layerAlert("닉네임 공백 불가능");
+              return;
+            } else {
+              if (
+                $("#profileNickname").val().trim() == "95nanoland@naver.com"
+              ) {
+                layerAlert("닉네임은 아이디와 같을 수 없습니다.");
+                return;
+              } else if ($("#profileNickname").val().trim() == "") {
+                layerAlert("닉네임을 입력해주세요");
+                return;
+              } else {
+                $("#profileEditForm").append(
+                  '<input type="hidden" name="profileName" value="' +
+                    $("#profileNickname").val() +
+                    '">'
+                );
+              }
+            }
+          } else {
+            $("#profileEditForm").append(
+              '<input type="hidden" name="profileName" value="95nanoland@naver.com">'
+            );
+          }
+
+          $("#profileEditForm").ajaxForm({
+            url: "/ko/sns/saveProfile",
+            contentType: "text/html",
+            enctype: "multipart/form-data",
+            type: "POST",
+            success: function (result) {
+              if (result == "duplicatesNickname") {
+                var la = new layerAlert("닉네임 중복");
+                la.confirmAction = function () {};
+              } else if (result == "success") {
+                var la = new layerAlert("프로필이 수정되었습니다.");
+                la.confirmAction = function () {
+                  location.reload();
+                };
+                la.cancleAction = function () {
+                  location.reload();
+                }; //취소 호출 펑션
+              } else if (result == "fail") {
+                var la = new layerAlert(
+                  "일시적인 오류가 발생하였습니다.<br/>잠시 후 다시 이용해 주세요"
+                );
+                la.confirmAction = function () {
+                  location.reload();
+                };
+                la.cancleAction = function () {
+                  location.reload();
+                }; //취소 호출 펑션
+              }
+
+              $("#alertCloseDiv").click(function () {
+                la.confirmAction();
+              });
+            },
+          });
+
+          $("#profileEditForm").submit();
+
+          $("#profileEditForm input[name=profileName]").remove();
+
+          /* 	$(".hs_check01 input[name=pro_name_check]:checked").attr("id")
+//id
+$(".hs_check01 input[name=pro_name_check]:checked").siblings("label").html();
+//nickname
+$(".hs_check01 input[name=pro_name_check]:checked").siblings("label").find("span").html() */
+        }
+
+        $("#profileImg").on("change", function () {
+          if (this.files && this.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+              $(".pop_profile_cont img").attr("src", e.target.result);
+            };
+
+            reader.readAsDataURL(this.files[0]);
+          }
+        });
+
+        //180627추가 레이어 팝업 닫기 시작
+        $(".hsome_layer_popup03 .pop-comm-cls").click(function () {
+          $(".hsome_layer_popup03").removeClass("active");
+          $(".hsome_layer_popup03").addClass("disabled");
+          $(".hs_pro_view_layer").fadeOut("fast");
+
+          setTimeout(function () {
+            $(".hsome_layer_popup03").removeClass("disabled");
+          }, 400);
+
+          return false;
+        });
+        // 180627추가 레이어 팝업 닫기 끝
+
+        //]]>
+      </script>
+		<!-- Contents -->
+		<div class="hand_footer_gnb_wrap mypage">
+			<div class="header">
+				<h2 class="sel">
+					<select id="headerMypageSelect" onchange="GA_Event('마이페이지', 'MY_GNB', this.selectedOptions[0].text.replaceAll(' ', '').replace('신청/조회',''));">
+						<option value="" style="display: none"></option>
+						<option value="/ko/mypage/mypageFloatingPopup">마이페이지
+							<!-- 마이페이지 -->
+						</option>
+						<option value="/ko/mypage/order/myorders">주문/배송조회
+							<!-- 주문/배송조회 -->
+						</option>
+
+						<option value="/ko/mypage/rsalarm">재입고 알림
+							<!-- 재입고/세일 알림 -->
+						</option>
+						<option value="/ko/mypage/myWish">마이하트
+							<!-- 위시리스트 -->
+						</option>
+						<option value="/ko/svcenter/mobilemain">고객센터
+							<!-- 고객센터 -->
+						</option>
+						<option value="/ko/mypage/personInfomationChange">개인정보변경
+							<!-- 개인정보변경 -->
+						</option>
+						<option value="/ko/mypage/mydelivery">배송지 관리
+							<!-- 배송지 관리 -->
+						</option>
+						<option value="/ko/mypage/voucher">쿠폰
+							<!-- 쿠폰 --></option>
+						<option value="/ko/mypage/myreview">상품평
+							<!-- 상품평 --></option>
+						<option value="/ko/mypage/mymantomaninquiry">1:1 문의
+							<!-- 1:1 문의 -->
+						</option>
+						<option value="/ko/mypage/myqna">상품 Q&amp;A
+							<!-- 상품 Q&A -->
+						</option>
+						<option value="/ko/mypage/event/myevents">나의 이벤트
+							<!-- 나의 이벤트 -->
+						</option>
+					</select>
+					<div class="selected_text">
+						<span> 마이페이지</span>
+					</div>
+
+					<script type="text/javascript">
+              $(document).on("change", "#headerMypageSelect", function () {
+                if ($(this).val() == "") return;
+
+                if ($(this).val() == "/ko/mypage/mymantomaninquiry") {
+                  location.href =
+                    "/ko/mypage/mymantomaninquiry?refererUrl=mypage";
+                } else {
+                  location.href = $(this).val();
+                }
+              });
+              $("#headerMypageSelect > option").each(function (idx, obj) {
+                if ($(obj).attr("value") == "") return true;
+                if (location.pathname == $(obj).attr("value")) {
+                  $(obj).prop("selected", "selected");
+                }
+
+                if (
+                  location.pathname.indexOf("mantomaninquiry") > -1 &&
+                  $(obj).attr("value").indexOf("mymantomaninquiry") > -1
+                ) {
+                  $(obj).prop("selected", "selected");
+                }
+              });
+            </script>
+				</h2>
+				<ul class="red_border_tab">
+					<li class="on"><a href="#" class="order" tab="order" onclick="GA_Event('마이페이지', 'GNB', this.text);" style="">주문</a></li>
+					<li><a href="#" class="benefit" tab="benefit" onclick="GA_Event('마이페이지', 'GNB', this.text);">혜택</a></li>
+					<li><a href="#" class="infomation" tab="info" onclick="GA_Event('마이페이지', 'GNB', this.text);">정보</a></li>
+					<li><a href="#" class="activity" tab="activity" onclick="GA_Event('마이페이지', 'GNB', this.text);">활동</a></li>
+					<li class="fcs" style="transform: translateX(61.6667px); width: 34px"></li>
+				</ul>
+			</div>
+
+			<div class="container">
+				<div
+					class="swiper-container mypage_card_container mpgCardCon1903 swiper-container-horizontal swiper-container-android swiper-container-wp8-horizontal"
+				>
+					<div class="swiper-wrapper" style="transform: translate3d(0px, 0px, 0px)">
+						<script type="text/javascript">
+                $(document).ready(function () {
+                  $(".address_cont .address").each(function () {
+                    var arrAddress = $(this).html().split(" ");
+                    var replaceAddr = "";
+                    if (arrAddress.length > 3) {
+                      replaceAddr =
+                        arrAddress[0] +
+                        " " +
+                        arrAddress[1] +
+                        " " +
+                        arrAddress[2] +
+                        " " +
+                        arrAddress[3];
+                    }
+
+                    for (var i = 4; i < arrAddress.length; i++) {
+                      var temp = "";
+                      for (var j = 0; j < arrAddress[i].length; j++) {
+                        temp += "*";
+                      }
+                      replaceAddr += " " + temp;
+                    }
+                    $(this).html(replaceAddr);
+                  });
+
+                  $(".address_cont .info").each(function () {
+                    var temp = $(this).html().split("/");
+                    var hpTemp = $.trim(temp[1]);
+                    var arrHp = hpTemp.split("-");
+
+                    $(this).html(
+                      maskingName(temp[0]) +
+                        " / " +
+                        arrHp[0] +
+                        "-" +
+                        maskingStr(arrHp[1]) +
+                        "-" +
+                        arrHp[2]
+                    );
+                  });
+                });
+
+                /**
+                 * 2020.01.22 hmk
+                 * 결품 여부 확인
+                 */
+                function getOnlineStock(code) {
+                  $.ajax({
+                    type: "get",
+                    url: "/ko/mypage/order/getOnlineStock?code=" + code,
+                    dataType: "json",
+                    success: function (r) {
+                      if ($.parseJSON(r)[code]) {
+                        $("p[name=__p_" + code + "]").show();
+                      }
+                    },
+                  });
+                }
+              </script>
+						<!--  -->
+						<div class="swiper-slide card-type order swiper-slide-active" data-index="0" style="width: 330px; margin-right: 30px">
+							<div class="stage order_stage">
+								<div class="card_type_inner1903">
+									<div class="s-tit">
+										<b>주문조회</b> <a href="/ko/mypage/order/myorders" class="more">주문배송조회</a>
+									</div>
+									<p class="mypage_card_nodata">주문 내역이 없습니다.</p>
+								</div>
+							</div>
+						</div>
+						<!-- 혜택// -->
+						<div class="swiper-slide card-type benefit start swiper-slide-active" data-index="0" style="width: 1111px; margin-right: 30px;">
+							<div class="card_type_inner1903">
+								<div class="stage coupon_stage" id="myCouponList">
+									<div class="s-tit">
+										<b>쿠폰</b> <a href="/ko/mypage/voucher" class="more">전체조회</a>
+									</div>
+									<div id="mypageCouponList">
+										<div class="s-coupon">
+											<div class="s-coupon-inner">
+												<strong>[1만원] FRIEND 등급 축하 바우처</strong><b>10,000원 할인</b> <span>2023-02-01 ~ 2023-07-31</span> <i>소멸<br>D-178
+												</i>
+											</div>
+										</div>
+										<div class="s-coupon">
+											<div class="s-coupon-inner">
+												<strong>[10%] FRIEND 등급 축하 바우처</strong><b>10% 할인</b> <span>2023-02-01 ~ 2023-07-31</span> <i>소멸<br>D-178
+												</i>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<!-- //혜택 -->
+
+						<!-- 정보// -->
+						<!-- 
+V1 : THE FIRST1
+V2 : THE FIRST2
+V3 : THE FIRST3
+V4 : PLATINUM
+V5 : GOLD
+V6 : SILVER 
+
+STAR / MANIA / CREW / FRIEND
+-->
+						<script type="text/javascript">
+                // 하단 메뉴 슬라이드
+                $(document).ready(function () {
+                  //barCodeClickEvent();
+                  var flagWrapSwiper2 = new Swiper(
+                    ".flag_wrap.case.swiper-container.e-gift1811",
+                    {
+                      slidesPerView: "auto",
+                      freeMode: true,
+                      spaceBetween: 6,
+                    }
+                  );
+                  flagWrapSwiper2.update();
+
+                  $(document).on(
+                    "click",
+                    ".grade_stage .barCode1902 .card_img",
+                    function () {
+                      $(this).stop().hide();
+                      $(this).next(".s-guide").stop().hide();
+                      $(this)
+                        .closest(".barCode1902")
+                        .find(".bar1902")
+                        .stop()
+                        .show();
+                    }
+                  );
+                  $(document).on(
+                    "click",
+                    ".grade_stage .barCode1902 .cl_btn",
+                    function () {
+                      $(this)
+                        .closest(".barCode1902")
+                        .find(".bar1902")
+                        .stop()
+                        .hide();
+                      $(this)
+                        .closest(".barCode1902")
+                        .find(".card_img")
+                        .stop()
+                        .show();
+                      $(this)
+                        .closest(".barCode1902")
+                        .find(".card_img")
+                        .next(".s-guide")
+                        .stop()
+                        .show();
+                    }
+                  );
+                });
+
+                /* 
+var vipGraph; 
+  var onGraph; 
+  
+  if('' == 'SILVER'){
+      vipGraph = 25;
+  }else if('' == 'GOLD'){
+      vipGraph = 50;
+  }else if('' == 'PLATINUM'){
+      vipGraph = 75;
+  }else if('' == 'V1' || '' == 'V2' || '' == 'V3'){
+      vipGraph = 100;
+  }
+  
+  if('' == 'FRIEND' || '' == '' || '' == null){
+      onGraph = 25;
+  }else if('' == 'CREW'){
+      onGraph = 50;
+  }else if('' == 'MANIA'){
+      onGraph = 75;
+  }else if('' == 'STAR'){
+      onGraph = 100;
+  } */
+
+                /*
+function barCodeClickEvent(){
+    var myPageCardBar = $('.grade_stage .barCode1902');
+    myPageCardBar.find('.card_img').on('click',function(){
+        $(this).stop().hide();
+        $(this).next('.s-guide').stop().hide();
+        $(this).closest('.barCode1902').find('.bar1902').stop().show();
+    });
+    myPageCardBar.find('.cl_btn').on('click',function(){
+        $(this).closest('.barCode1902').find('.bar1902').stop().hide();
+        $(this).closest('.barCode1902').find('.card_img').stop().show();
+        $(this).closest('.barCode1902').find('.card_img').next('.s-guide').stop().show();
+    });
+} */
+              </script>
+
+						<form id="userHiddenForm" method="post" target="transMember">
+							<input type="hidden" name="prtnrReqGb" value="03" />
+							<input type="hidden" name="prtnrId" value="D080" />
+							<input type="hidden" name="chnnlId" value="1705" />
+							<input type="hidden" name="custNm" value="박성환" />
+							<input type="hidden" name="birthDt" value="19950908" />
+							<input type="hidden" name="mophNo" value="" />
+							<input type="hidden" name="chId" value="95nanoland@naver.com" />
+							<input type="hidden" name="custUniqKey" value="95nanoland@naver.com" />
+							<input type="hidden" name="email" value="95nanoland@naver.com" />
+							<input type="hidden" name="sexGbCd" value="2" />
+							<input type="hidden" name="ci" value="" />
+							<input type="hidden" name="ptcoReqnMdaInf" id="ptcoReqnMdaInf" value="" />
+						</form>
+
+						<div class="swiper-slide card-type infomation start" id="myPagePopupWpay" data-index="0" style="width: 330px; margin-right: 30px">
+							<div class="card_type_inner1903">
+								<div class="stage card_stage">
+									<div class="s-tit">
+										<b>등록한 카드 정보</b>
+									</div>
+
+									<div class="s-card registration">
+										<a href="/ko/mypage/oneBuy" class="card_registration"><i class="plus"></i>사용하실 카드를 등록해 주세요.</a>
+									</div>
+
+									<div class="s-tx">원클릭결제를 위한 카드 정보 입니다.</div>
+									<div class="s-btn">
+										<a href="/ko/mypage/oneBuy?prev=mypageFloatingPopup">원클릭결제 설정 변경</a>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="swiper-slide card-type infomation" id="myPagePopupDelivery" data-index="1" style="width: 330px; margin-right: 30px">
+							<div class="card_type_inner1903">
+								<div class="stage delivery_stage">
+									<div class="s-tit">
+										<b>배송지 관리</b>
+									</div>
+
+									<div class="s-txt mb20" style="display: none">
+										<b>기본 배송지</b>
+									</div>
+									<div class="s-btn">
+										<a href="/ko/mypage/mydelivery">배송지 관리</a>
+									</div>
+								</div>
+
+								<div class="stage delivery_stage">
+									<div class="s-tit">
+										<b>정보 관리</b>
+									</div>
+
+									<div class="s-btn">
+										<a href="/ko/mypage/personInfomationChange">개인정보 변경/탈퇴</a>
+									</div>
+
+									<div class="s-txt2">
+										현대백화점 그룹 계열사의 다양한<br /> 혜택을 하나의 ID로!
+									</div>
+								</div>
+							</div>
+						</div>
+						<!-- //정보 -->
+
+						<!-- 활동// -->
+						<div class="swiper-slide card-type activity start" data-index="0" style="width: 330px; margin-right: 30px">
+							<div class="card_type_inner1903">
+								<div class="stage wish_stage">
+									<div class="s-tit">
+										<b>위시리스트</b>
+									</div>
+
+									<div id="myWishlists" class="s-thumb">
+										<p>
+											<span>위시리스트에 저장된 상품이 없습니다.</span>
+										</p>
+										<a href="/ko/mypage/myWish" class="more">+0</a>
+									</div>
+
+									<div class="s-link">
+										<ul>
+											<li><a href="/ko/mypage/myreview">상품평</a></li>
+											<li><a href="/ko/mypage/mymantomaninquiry?refererUrl=mypage">1:1 문의</a></li>
+											<li><a href="/ko/mypage/event/myevents">이벤트 참여현황</a></li>
+											<li><a href="/ko/mypage/myqna">상품 Q&amp;A</a></li>
+										</ul>
+									</div>
+								</div>
+							</div>
+						</div>
+						<!-- //활동 -->
+					</div>
+				</div>
+				<div class="mpg_card_indicator1903 swiper-pagination-bullets">
+					<span class="swiper-pagination-bullet swiper-pagination-bullet-active"></span>
+				</div>
+				<!--add indicator-->
+
+				<div
+					class="flag_wrap case swiper-container e-gift1811 swiper-container-horizontal swiper-container-free-mode swiper-container-android swiper-container-wp8-horizontal"
+					style="padding: 25px 0 10px 10px"
+				>
+					<ul class="swiper-wrapper" style="transform: translate3d(0px, 0px, 0px)">
+						<li class="swiper-slide flag on swiper-slide-active" id="categoryNav01" style="margin-right: 6px"><a
+							href="/ko/mypage/order/myorders" class="name" onclick="GA_Event('마이페이지', 'MY_푸터', this.text);"
+						>주문/배송조회</a></li>
+						<li class="swiper-slide flag swiper-slide-next" style="margin-right: 6px"><a href="/ko/svcenter/mobilemain" class="name"
+							onclick="GA_Event('마이페이지', 'MY_푸터', this.text);"
+						>고객센터</a></li>
+						<li class="swiper-slide flag" style="margin-right: 6px"><a href="/ko/mypage/myqna" class="name"
+							onclick="GA_Event('마이페이지', 'MY_푸터', this.text);"
+						>상품 Q&amp;A</a></li>
+						<li class="swiper-slide flag" style="margin-right: 6px"><a href="/ko/mypage/event/myevents" class="name"
+							onclick="GA_Event('마이페이지', 'MY_푸터', this.text);"
+						>나의 이벤트</a></li>
+					</ul>
+				</div>
+
+				<div class="mypage_card_footer">
+					<span class="u_name"><a href="javascript:void(0);">박*환 님</a></span> <a class="u_profile_setting btn_popup_btot"
+						href=".hs_mpg_profile_pop" onclick="GA_Event('마이페이지','푸터','프로필 설정')"
+					>프로필 설정</a>
+					<div class="u_setting">
+						<!-- 알림 있으면 has 클래스 붙음 -->
+						<a href="/ko/mypage/noticebox" class="alt" onclick="GA_Event('마이페이지', '푸터', '알림');">알림</a> <a href="javascript:noLink();"
+							class="set" onclick="mypageConfigClick();GA_Event('마이페이지', '푸터', '설정');"
+						>설정</a>
+					</div>
+				</div>
+				<div class="mypage_card_footer_logout2008">
+					<a href="javascript:ftLogout();" class="u_logout" onclick="GA_Event('마이페이지', '푸터', '로그아웃');">로그아웃</a>
+				</div>
+			</div>
+
+			<div class="footer">
+				<a href="javascript:noLink();" class="close" onclick="mypagePopupClose(this);">닫기</a>
+			</div>
+		</div>
+		<!-- 프로필 관리 팝업 -->
+		<div class="hsome_layer_popup03 hs_mpg_profile_pop">
+			<h2 class="pop-comm-ttl">프로필 관리</h2>
+			<p class="t_info">서비스(스타일 LIVE, 핸썸 TV) 이용 시 적용됩니다</p>
+			<div class="pop-comm-cnts">
+				<form id="profileEditForm" name="profileEditForm" data-ajax="false" action="javascript:saveProfile()" method="POST" enctype="multipart/form-data">
+					<input type="hidden" name="CSRFToken" value="7ed3c051-00b5-4737-a812-836eb733c946" />
+					<input type="hidden" name="profileId" value="8911863740996" />
+					<div class="pop_profile_cont">
+						<div class="pro_cont">
+							<div class="img">
+								<img src="https://www.thehandsome.com/_ui/handsomemobile/images/content/no_pro_img.png" alt="" />
+							</div>
+							<input id="profileImg" name="attachFilePath" type="file" accept="image/*" class="pro_file_btn" />
+						</div>
+						<div class="name_wrap">
+							<div class="hs_check01">
+								<input type="radio" id="pro_name_check_id" name="pro_name_check" checked="checked" />
+								<label for="pro_name_check_id">95nanoland@naver.com</label>
+							</div>
+							<div class="hs_check01 nick_check">
+								<input type="radio" id="pro_name_check_nickname" name="pro_name_check" />
+								<label for="pro_name_check_nickname"><span class="nick_label">닉네임</span><span class="nick_edit">편집</span></label>
+								<div class="hs_default_input">
+									<input id="profileNickname" type="text" placeholder="닉네임" />
+								</div>
+							</div>
+						</div>
+						<div class="hs_default_input">
+							<p class="textarea_placeholder2008" onclick="vocOpn();">
+								자기소개 입력<br />(스타일 LIVE &gt; 마이페이지에 적용됩니다)
+							</p>
+							<textarea name="profileComment" id="profileComment" cols="30" rows="6" onblur="onBlurF();" onclick="vocOpn();"></textarea>
+						</div>
+						<div class="hs_pop_btn_wrap">
+							<button type="button" class="hs_black_comm_btn" onclick="javascript:saveProfile()">변경</button>
+						</div>
+					</div>
+					<div>
+						<input type="hidden" name="CSRFToken" value="7ed3c051-00b5-4737-a812-836eb733c946" />
+					</div>
+				</form>
+			</div>
+			<a href="#" class="pop-comm-cls">닫기</a>
+		</div>
+		<!-- //프로필 관리 팝업 -->
+		<div class="hs_pro_view_layer"></div>
+	</div>
+	<!-- //################## hsome_quickMenu_contents | 퀵메뉴 컨텐츠 영역 ################## -->
+
+	<script type="text/javascript">
+      $(document).ready(function () {
+        if (false) {
+          $("#cateTab").click();
+        }
+      });
+
+      function closeAction() {
+        $(".twoDepthNavPopup").hide();
+        $(".one_lists.on").toggleClass("on");
+      }
+    </script>
+	<div class="hsome_layer_popup hs_brand_category_pop2 multibrd-category-pop blk">
+		<h2 class="pop-comm-ttl">편집샵</h2>
+		<ul class="ui_tab hs_red_border_tab size02">
+			<li class="on"><a href="#brand_tab" id="brandTab" onclick="GA_Event('편집샵_카테고리','1DEPTH','브랜드');">브랜드</a></li>
+			<li><a href="#category_tab" id="cateTab" onclick="GA_Event('편집샵_카테고리','1DEPTH','카테고리');">카테고리</a></li>
+			<li class="fcs"></li>
+		</ul>
+		<div class="pop-comm-cnts">
+			<div class="tab_cont shop_cont">
+				<!-- 브랜드 -->
+				<div class="cont on" id="brand_tab">
+					<ul class="one_depth brand">
+						<li class="one_lists">
+							<div class="one_wrap">
+								<a href="javascript:noLink();" class="one_link" id="BR15_oneDepth" onclick="GA_Event('편집샵_카테고리','2DEPTH','TOM GREYHOUND');">TOM
+									GREYHOUND</a>
+							</div>
+							<ul class="two_depth twoDepthNavPopup">
+								<li class="two_lists"><a href="/ko/c/br15/br15" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','TOM GREYHOUND_전체보기');">
+										전체보기 </a></li>
+								<li class="two_lists"><a href="/ko/c/br15/br15?subBrand=TN" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','TOM GREYHOUND_TOM GREYHOUND');"
+								> TOM GREYHOUND</a> <a href="/ko/c/br15/br15?subBrand=TN" class="ico-pb-all"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','TOM GREYHOUND_TOM GREYHOUND');"
+								> <img src="http://cdn.thehandsome.comhttps://www.thehandsome.com/_ui/handsomemobile/images/common/ico_pb.png" alt="ico_pb" />
+								</a></li>
+								<li class="two_lists"><a href="/ko/c/br15/br15?subBrand=TGTM" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','TOM GREYHOUND_TOTEME');"
+								> TOTEME</a></li>
+								<li class="two_lists"><a href="/ko/c/br15/br15?subBrand=TG13" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','TOM GREYHOUND_R13');"
+								> R13</a></li>
+								<li class="two_lists"><a href="/ko/c/br15/br15?subBrand=TGOS" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','TOM GREYHOUND_OPERA SPORT');"
+								> OPERA SPORT</a></li>
+								<li class="two_lists"><a href="/ko/c/br15/br15?subBrand=TGGX" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','TOM GREYHOUND_GANNI');"
+								> GANNI</a></li>
+								<li class="two_lists"><a href="/ko/c/br15/br15?subBrand=TGRX" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','TOM GREYHOUND_REST &amp;amp;amp; RECREATION');"
+								> REST &amp; RECREATION</a></li>
+								<li class="two_lists"><a href="/ko/c/br15/br15?subBrand=TGDU" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','TOM GREYHOUND_DUNST');"
+								> DUNST</a></li>
+								<li class="two_lists"><a href="/ko/c/br15/br15?subBrand=TG29" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','TOM GREYHOUND_PUMA');"
+								> PUMA</a></li>
+								<li class="two_lists"><a href="/ko/c/br15/br15?subBrand=TGDI" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','TOM GREYHOUND_ADIDAS');"
+								> ADIDAS</a></li>
+								<li class="two_lists"><a href="/ko/c/br15/br15?subBrand=TGGW" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','TOM GREYHOUND_GLOWNY');"
+								> GLOWNY</a></li>
+								<li class="two_lists"><a href="/ko/c/br15/br15?subBrand=TG4Q" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','TOM GREYHOUND_AGOLDE');"
+								> AGOLDE</a></li>
+								<li class="two_lists"><a href="/ko/c/br15/br15?subBrand=TGYY" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','TOM GREYHOUND_LEE.Y');"
+								> LEE.Y</a></li>
+								<li class="two_lists"><a href="/ko/c/br15/br15?subBrand=TGS3" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','TOM GREYHOUND_SALOMON');"
+								> SALOMON</a></li>
+								<li class="two_lists"><a href="/ko/c/br15/br15?subBrand=TGZO" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','TOM GREYHOUND_MOTHER DENIM');"
+								> MOTHER DENIM</a></li>
+								<li class="two_lists"><a href="/ko/c/br15/br15?subBrand=TGAL" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','TOM GREYHOUND_ALIGHIERI');"
+								> ALIGHIERI</a></li>
+								<li class="two_lists"><a href="/ko/c/br15/br15?subBrand=TGSK" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','TOM GREYHOUND_SHOREDITCH SKI CLUB');"
+								> SHOREDITCH SKI CLUB</a></li>
+								<li class="two_lists"><a href="/ko/c/br15/br15?subBrand=TGED" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','TOM GREYHOUND_EDMMOND STUDIO');"
+								> EDMMOND STUDIO</a></li>
+								<li class="two_lists"><a href="/ko/c/br15/br15?subBrand=TGJF" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','TOM GREYHOUND_JAMES PERSE');"
+								> JAMES PERSE</a></li>
+								<li class="two_lists"><a href="/ko/c/br15/br15?subBrand=TGVL" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','TOM GREYHOUND_MUVEIL');"
+								> MUVEIL</a></li>
+								<li class="two_lists"><a href="/ko/c/br15/br15?subBrand=TGWD" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','TOM GREYHOUND_WILD DONKEY');"
+								> WILD DONKEY</a></li>
+								<li class="two_lists"><a href="/ko/c/br15/br15?subBrand=TGRT" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','TOM GREYHOUND_RUE MADAM PARIS');"
+								> RUE MADAM PARIS</a></li>
+								<li class="two_lists"><a href="/ko/c/br15/br15?subBrand=TGSL" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','TOM GREYHOUND_SELETTI');"
+								> SELETTI</a></li>
+								<li class="two_lists"><a href="/ko/c/br15/br15?subBrand=TGCP" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','TOM GREYHOUND_ROHE');"
+								> ROHE</a></li>
+								<li class="two_lists"><a href="/ko/c/br15/br15?subBrand=TGHK" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','TOM GREYHOUND_HVISK');"
+								> HVISK</a></li>
+								<li class="two_lists"><a href="/ko/c/br15/br15?subBrand=TGX3" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','TOM GREYHOUND_XIRENA');"
+								> XIRENA</a></li>
+								<li class="two_lists"><a href="/ko/c/br15/br15?subBrand=TGOR" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','TOM GREYHOUND_WEHOURS');"
+								> WEHOURS</a></li>
+								<li class="two_lists"><a href="/ko/c/br15/br15?subBrand=TGHC" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','TOM GREYHOUND_HOTEL CERRITOS');"
+								> HOTEL CERRITOS</a></li>
+								<li class="two_lists"><a href="/ko/c/br15/br15?subBrand=TGRR" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','TOM GREYHOUND_RECREATIONAL HABITS');"
+								> RECREATIONAL HABITS</a></li>
+								<li class="two_lists"><a href="/ko/c/br15/br15?subBrand=TGD6" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','TOM GREYHOUND_DROGHERIA CRIVELLINI');"
+								> DROGHERIA CRIVELLINI</a></li>
+							</ul>
+						</li>
+						<li class="one_lists">
+							<div class="one_wrap">
+								<a href="javascript:noLink();" class="one_link" id="BR35_oneDepth" onclick="GA_Event('편집샵_카테고리','2DEPTH','FOURM THE STORE');">FOURM
+									THE STORE</a>
+							</div>
+							<ul class="two_depth twoDepthNavPopup">
+								<li class="two_lists"><a href="/ko/c/br35/br35" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_전체보기');">
+										전체보기 </a></li>
+								<li class="two_lists"><a href="/ko/c/br35/br35?subBrand=YN" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_FOURM THE STORE');"
+								> FOURM THE STORE</a> <a href="/ko/c/br35/br35?subBrand=YN" class="ico-pb-all"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_FOURM THE STORE');"
+								> <img src="http://cdn.thehandsome.comhttps://www.thehandsome.com/_ui/handsomemobile/images/common/ico_pb.png" alt="ico_pb" />
+								</a></li>
+								<li class="two_lists"><a href="/ko/c/br35/br35?subBrand=YSZS" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_SAINT JAMES');"
+								> SAINT JAMES</a></li>
+								<li class="two_lists"><a href="/ko/c/br35/br35?subBrand=YSZO" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_MOTHER DENIM');"
+								> MOTHER DENIM</a></li>
+								<li class="two_lists"><a href="/ko/c/br35/br35?subBrand=YSHS" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_HOUSE OF SUNNY');"
+								> HOUSE OF SUNNY</a></li>
+								<li class="two_lists"><a href="/ko/c/br35/br35?subBrand=YSNS" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_RE/DONE');"
+								> RE/DONE</a></li>
+								<li class="two_lists"><a href="/ko/c/br35/br35?subBrand=YSFE" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_FRAME');"
+								> FRAME</a></li>
+								<li class="two_lists"><a href="/ko/c/br35/br35?subBrand=YSJS" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_JOSHUA SANDERS');"
+								> JOSHUA SANDERS</a></li>
+								<li class="two_lists"><a href="/ko/c/br35/br35?subBrand=YSEK" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_EENK');"
+								> EENK</a></li>
+								<li class="two_lists"><a href="/ko/c/br35/br35?subBrand=YSAB" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_ANINE BING');"
+								> ANINE BING</a></li>
+								<li class="two_lists"><a href="/ko/c/br35/br35?subBrand=YSFS" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_FRONT STREET 8');"
+								> FRONT STREET 8</a></li>
+								<li class="two_lists"><a href="/ko/c/br35/br35?subBrand=YSRP" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_REPLUME');"
+								> REPLUME</a></li>
+								<li class="two_lists"><a href="/ko/c/br35/br35?subBrand=YSVJ" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_VEJA');"
+								> VEJA</a></li>
+								<li class="two_lists"><a href="/ko/c/br35/br35?subBrand=YS46" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_JUMPER 1234');"
+								> JUMPER 1234</a></li>
+								<li class="two_lists"><a href="/ko/c/br35/br35?subBrand=YSRT" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_ROTATE');"
+								> ROTATE</a></li>
+								<li class="two_lists"><a href="/ko/c/br35/br35?subBrand=YS4D" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_GRLFRND');"
+								> GRLFRND</a></li>
+								<li class="two_lists"><a href="/ko/c/br35/br35?subBrand=YSTC" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_TACH CLOTHING');"
+								> TACH CLOTHING</a></li>
+								<li class="two_lists"><a href="/ko/c/br35/br35?subBrand=YSOS" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_OSOI');"
+								> OSOI</a></li>
+								<li class="two_lists"><a href="/ko/c/br35/br35?subBrand=YSKA" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_KARHU');"
+								> KARHU</a></li>
+								<li class="two_lists"><a href="/ko/c/br35/br35?subBrand=YS8B" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_JAMIE WANDER');"
+								> JAMIE WANDER</a></li>
+								<li class="two_lists"><a href="/ko/c/br35/br35?subBrand=YSML" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_MADLUV');"
+								> MADLUV</a></li>
+								<li class="two_lists"><a href="/ko/c/br35/br35?subBrand=YSND" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_BONNE MAISON');"
+								> BONNE MAISON</a></li>
+								<li class="two_lists"><a href="/ko/c/br35/br35?subBrand=YSOT" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_ROSEANNA');"
+								> ROSEANNA</a></li>
+								<li class="two_lists"><a href="/ko/c/br35/br35?subBrand=YSGS" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_GCDS');"
+								> GCDS</a></li>
+								<li class="two_lists"><a href="/ko/c/br35/br35?subBrand=YSTB" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_KSUBI');"
+								> KSUBI</a></li>
+								<li class="two_lists"><a href="/ko/c/br35/br35?subBrand=YSKT" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_KITRI');"
+								> KITRI</a></li>
+								<li class="two_lists"><a href="/ko/c/br35/br35?subBrand=YS4Q" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_AGOLDE');"
+								> AGOLDE</a></li>
+								<li class="two_lists"><a href="/ko/c/br35/br35?subBrand=YSPD" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_PAIRS DELI&amp;amp;amp;GROCERY');"
+								> PAIRS DELI&amp;GROCERY</a></li>
+								<li class="two_lists"><a href="/ko/c/br35/br35?subBrand=YSF5" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_FIORUCCI');"
+								> FIORUCCI</a></li>
+								<li class="two_lists"><a href="/ko/c/br35/br35?subBrand=YSRX" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_RIXO');"
+								> RIXO</a></li>
+								<li class="two_lists"><a href="/ko/c/br35/br35?subBrand=YSGR" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_G KERO');"
+								> G KERO</a></li>
+								<li class="two_lists"><a href="/ko/c/br35/br35?subBrand=YSHO" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_HOLZWEILER');"
+								> HOLZWEILER</a></li>
+								<li class="two_lists"><a href="/ko/c/br35/br35?subBrand=YSGE" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_GESTUZ');"
+								> GESTUZ</a></li>
+								<li class="two_lists"><a href="/ko/c/br35/br35?subBrand=YSET" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_ETRE CECILE');"
+								> ETRE CECILE</a></li>
+								<li class="two_lists"><a href="/ko/c/br35/br35?subBrand=YSPA" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_PAIRS');"
+								> PAIRS</a></li>
+								<li class="two_lists"><a href="/ko/c/br35/br35?subBrand=YSIP" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_IPANEMA');"
+								> IPANEMA</a></li>
+							</ul>
+						</li>
+						<li class="one_lists">
+							<div class="one_wrap">
+								<a href="javascript:noLink();" class="one_link" id="BR30_oneDepth" onclick="GA_Event('편집샵_카테고리','2DEPTH','FOURM STUDIO');">FOURM
+									STUDIO</a>
+							</div>
+							<ul class="two_depth twoDepthNavPopup">
+								<li class="two_lists"><a href="/ko/c/br30/br30" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM STUDIO_전체보기');">
+										전체보기 </a></li>
+								<li class="two_lists"><a href="/ko/c/br30/br30?subBrand=CN" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM STUDIO_FOURM STUDIO');"
+								> FOURM STUDIO</a> <a href="/ko/c/br30/br30?subBrand=CN" class="ico-pb-all" onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM STUDIO_FOURM STUDIO');">
+										<img src="http://cdn.thehandsome.comhttps://www.thehandsome.com/_ui/handsomemobile/images/common/ico_pb.png" alt="ico_pb" />
+								</a></li>
+								<li class="two_lists"><a href="/ko/c/br30/br30?subBrand=CSMG" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM STUDIO_MARGESHERWOOD');"
+								> MARGESHERWOOD</a></li>
+								<li class="two_lists"><a href="/ko/c/br30/br30?subBrand=CS71" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM STUDIO_LE17SEPTEMBRE');"
+								> LE17SEPTEMBRE</a></li>
+								<li class="two_lists"><a href="/ko/c/br30/br30?subBrand=CSMS" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM STUDIO_MATIAS');"
+								> MATIAS</a></li>
+								<li class="two_lists"><a href="/ko/c/br30/br30?subBrand=CS51" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM STUDIO_REJINA PYO');"
+								> REJINA PYO</a></li>
+								<li class="two_lists"><a href="/ko/c/br30/br30?subBrand=CSLV" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM STUDIO_LVIR');"
+								> LVIR</a></li>
+								<li class="two_lists"><a href="/ko/c/br30/br30?subBrand=CSZ8" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM STUDIO_ERIKA CAVALLINI');"
+								> ERIKA CAVALLINI</a></li>
+								<li class="two_lists"><a href="/ko/c/br30/br30?subBrand=CSMJ" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM STUDIO_MIJEONG PARK');"
+								> MIJEONG PARK</a></li>
+								<li class="two_lists"><a href="/ko/c/br30/br30?subBrand=CSNL" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM STUDIO_NEUL');"
+								> NEUL</a></li>
+								<li class="two_lists"><a href="/ko/c/br30/br30?subBrand=CSLE" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM STUDIO_LEMELS');"
+								> LEMELS</a></li>
+								<li class="two_lists"><a href="/ko/c/br30/br30?subBrand=CSGM" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM STUDIO_GREY MANSION');"
+								> GREY MANSION</a></li>
+								<li class="two_lists"><a href="/ko/c/br30/br30?subBrand=CSLS" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM STUDIO_LSA INTERNATIONAL');"
+								> LSA INTERNATIONAL</a></li>
+								<li class="two_lists"><a href="/ko/c/br30/br30?subBrand=CSCS" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM STUDIO_CA4LA');"
+								> CA4LA</a></li>
+								<li class="two_lists"><a href="/ko/c/br30/br30?subBrand=CSHY" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM STUDIO_HAY');"
+								> HAY</a></li>
+								<li class="two_lists"><a href="/ko/c/br30/br30?subBrand=CSCT" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM STUDIO_CATERINA BERTINI');"
+								> CATERINA BERTINI</a></li>
+								<li class="two_lists"><a href="/ko/c/br30/br30?subBrand=CSMZ" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM STUDIO_MAISON LOUIS MARIE');"
+								> MAISON LOUIS MARIE</a></li>
+								<li class="two_lists"><a href="/ko/c/br30/br30?subBrand=CSCZ" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM STUDIO_CRYSTAL HAZE');"
+								> CRYSTAL HAZE</a></li>
+								<li class="two_lists"><a href="/ko/c/br30/br30?subBrand=CSD7" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM STUDIO_ALLUDE');"
+								> ALLUDE</a></li>
+								<li class="two_lists"><a href="/ko/c/br30/br30?subBrand=CSIN" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM STUDIO_INOUI EDITION');"
+								> INOUI EDITION</a></li>
+								<li class="two_lists"><a href="/ko/c/br30/br30?subBrand=CSGG" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM STUDIO_GI&amp;#039;N&amp;#039;GI');"
+								> GI'N'GI</a></li>
+							</ul>
+						</li>
+						<li class="one_lists">
+							<div class="one_wrap">
+								<a href="javascript:noLink();" class="one_link" id="BR32_oneDepth" onclick="GA_Event('편집샵_카테고리','2DEPTH','FOURM MEN&amp;#039;S LOUNGE');">FOURM
+									MEN'S LOUNGE</a>
+							</div>
+							<ul class="two_depth twoDepthNavPopup">
+								<li class="two_lists"><a href="/ko/c/br32/br32" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM MEN&amp;#039;S LOUNGE_전체보기');"
+								> 전체보기 </a></li>
+								<li class="two_lists"><a href="/ko/c/br32/br32?subBrand=HSPO" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM MEN&amp;#039;S LOUNGE_POP TRADING COMPANY');"
+								> POP TRADING COMPANY</a></li>
+								<li class="two_lists"><a href="/ko/c/br32/br32?subBrand=HSSS" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM MEN&amp;#039;S LOUNGE_STANCE SEOUL');"
+								> STANCE SEOUL</a></li>
+								<li class="two_lists"><a href="/ko/c/br32/br32?subBrand=HSRN" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM MEN&amp;#039;S LOUNGE_NORTH WORKS');"
+								> NORTH WORKS</a></li>
+								<li class="two_lists"><a href="/ko/c/br32/br32?subBrand=HS0T" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM MEN&amp;#039;S LOUNGE_WILD DONKEY');"
+								> WILD DONKEY</a></li>
+								<li class="two_lists"><a href="/ko/c/br32/br32?subBrand=HSXQ" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM MEN&amp;#039;S LOUNGE_JOHNSTONS OF ELGIN');"
+								> JOHNSTONS OF ELGIN</a></li>
+								<li class="two_lists"><a href="/ko/c/br32/br32?subBrand=HSXY" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM MEN&amp;#039;S LOUNGE_BEGG x CO');"
+								> BEGG x CO</a></li>
+								<li class="two_lists"><a href="/ko/c/br32/br32?subBrand=HSKA" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM MEN&amp;#039;S LOUNGE_KASSIOPEA');"
+								> KASSIOPEA</a></li>
+								<li class="two_lists"><a href="/ko/c/br32/br32?subBrand=HSOC" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM MEN&amp;#039;S LOUNGE_OROBIANCO');"
+								> OROBIANCO</a></li>
+								<li class="two_lists"><a href="/ko/c/br32/br32?subBrand=HSXV" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM MEN&amp;#039;S LOUNGE_MADOVA');"
+								> MADOVA</a></li>
+								<li class="two_lists"><a href="/ko/c/br32/br32?subBrand=HSHN" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM MEN&amp;#039;S LOUNGE_HOWLIN');"
+								> HOWLIN</a></li>
+								<li class="two_lists"><a href="/ko/c/br32/br32?subBrand=HSBE" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM MEN&amp;#039;S LOUNGE_BEARBRICK');"
+								> BEARBRICK</a></li>
+								<li class="two_lists"><a href="/ko/c/br32/br32?subBrand=HSPT" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM MEN&amp;#039;S LOUNGE_PHILIPPE AUDIBERT');"
+								> PHILIPPE AUDIBERT</a></li>
+								<li class="two_lists"><a href="/ko/c/br32/br32?subBrand=HSIN" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM MEN&amp;#039;S LOUNGE_INOUITOOSH');"
+								> INOUITOOSH</a></li>
+								<li class="two_lists"><a href="/ko/c/br32/br32?subBrand=HS2K" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM MEN&amp;#039;S LOUNGE_KARHU');"
+								> KARHU</a></li>
+								<li class="two_lists"><a href="/ko/c/br32/br32?subBrand=HSMH" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM MEN&amp;#039;S LOUNGE_MARSHALL');"
+								> MARSHALL</a></li>
+								<li class="two_lists"><a href="/ko/c/br32/br32?subBrand=HSPE" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM MEN&amp;#039;S LOUNGE_PUEBCO');"
+								> PUEBCO</a></li>
+							</ul>
+						</li>
+						<li class="one_lists">
+							<div class="one_wrap">
+								<a href="javascript:noLink();" class="one_link" id="BR16_oneDepth" onclick="GA_Event('편집샵_카테고리','2DEPTH','MUE');">MUE</a>
+							</div>
+							<ul class="two_depth twoDepthNavPopup">
+								<li class="two_lists"><a href="/ko/c/br16/br16" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','MUE_전체보기');">
+										전체보기 </a></li>
+								<li class="two_lists"><a href="/ko/c/br16/br16?subBrand=MU5E" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','MUE_ESSENTIALS | Fear of God');"
+								> ESSENTIALS | Fear of God</a></li>
+								<li class="two_lists"><a href="/ko/c/br16/br16?subBrand=MUT0" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','MUE_AUTRY');">
+										AUTRY</a></li>
+								<li class="two_lists"><a href="/ko/c/br16/br16?subBrand=MUMY" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','MUE_MIHARA YASUHIRO');"
+								> MIHARA YASUHIRO</a></li>
+								<li class="two_lists"><a href="/ko/c/br16/br16?subBrand=MU0P" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','MUE_MUSEUM OF PEACE&amp;amp;QUIET');"
+								> MUSEUM OF PEACE&amp;QUIET</a></li>
+								<li class="two_lists"><a href="/ko/c/br16/br16?subBrand=MUJ9" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','MUE_JACQUEMUS');">
+										JACQUEMUS</a></li>
+								<li class="two_lists"><a href="/ko/c/br16/br16?subBrand=MU0H" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','MUE_HOMME GIRLS');">
+										HOMME GIRLS</a></li>
+								<li class="two_lists"><a href="/ko/c/br16/br16?subBrand=MUUN" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','MUE_EMOTIONALLY UNAVAILABLE');"
+								> EMOTIONALLY UNAVAILABLE</a></li>
+								<li class="two_lists"><a href="/ko/c/br16/br16?subBrand=MUYX" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','MUE_KHAITE');">
+										KHAITE</a></li>
+								<li class="two_lists"><a href="/ko/c/br16/br16?subBrand=MUGF" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','MUE_GALLERY DEPARTMENT');"
+								> GALLERY DEPARTMENT</a></li>
+								<li class="two_lists"><a href="/ko/c/br16/br16?subBrand=MU7M" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','MUE_MARINE SERRE');"
+								> MARINE SERRE</a></li>
+								<li class="two_lists"><a href="/ko/c/br16/br16?subBrand=MU6O" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','MUE_MM6 MAISON MARGIELA');"
+								> MM6 MAISON MARGIELA</a></li>
+								<li class="two_lists"><a href="/ko/c/br16/br16?subBrand=MUNS" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','MUE_RE/DONE');">
+										RE/DONE</a></li>
+								<li class="two_lists"><a href="/ko/c/br16/br16?subBrand=MUP7" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','MUE_PACO RABANNE');"
+								> PACO RABANNE</a></li>
+							</ul>
+						</li>
+						<li class="one_lists">
+							<div class="one_wrap">
+								<a href="javascript:noLink();" class="one_link" id="BR47_oneDepth" onclick="GA_Event('편집샵_카테고리','2DEPTH','H : SCENE');">H
+									: SCENE</a>
+							</div>
+							<ul class="two_depth twoDepthNavPopup">
+								<li class="two_lists"><a href="/ko/c/br47/br47" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','H : SCENE_전체보기');">
+										전체보기 </a></li>
+								<li class="two_lists"><a href="/ko/c/br47/br47?subBrand=ON" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','H : SCENE_H:SCENE');">
+										H:SCENE</a> <a href="/ko/c/br47/br47?subBrand=ON" class="ico-pb-all" onclick="GA_Event('편집샵_카테고리','3DEPTH','H : SCENE_H:SCENE');">
+										<img src="http://cdn.thehandsome.comhttps://www.thehandsome.com/_ui/handsomemobile/images/common/ico_pb.png" alt="ico_pb" />
+								</a></li>
+								<li class="two_lists"><a href="/ko/c/br47/br47?subBrand=ONYN" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','H : SCENE_YUN');">
+										YUN</a></li>
+								<li class="two_lists"><a href="/ko/c/br47/br47?subBrand=ONAP" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','H : SCENE_APPEAR SEOUL');"
+								> APPEAR SEOUL</a></li>
+							</ul>
+						</li>
+						<li class="one_lists">
+							<div class="one_wrap">
+								<a href="javascript:noLink();" class="one_link" id="BR62_oneDepth" onclick="GA_Event('편집샵_카테고리','2DEPTH','Liquides Perfume Bar');">Liquides
+									Perfume Bar<img class="icon-new-m"
+									src="http://cdn.thehandsome.comhttps://www.thehandsome.com/_ui/handsomemobile/images/common_sub/icon_new_m.png" alt="newIcon"
+								/>
+								</a>
+							</div>
+							<ul class="two_depth twoDepthNavPopup">
+								<li class="two_lists"><a href="/ko/c/br62/br62" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','Liquides Perfume Bar_전체보기');">
+										전체보기 </a></li>
+								<li class="two_lists"><a href="/ko/c/br62/br62?subBrand=LPBD" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','Liquides Perfume Bar_BDK');"
+								> BDK</a></li>
+								<li class="two_lists"><a href="/ko/c/br62/br62?subBrand=LPCR" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','Liquides Perfume Bar_Carine Roitfeld');"
+								> Carine Roitfeld</a></li>
+								<li class="two_lists"><a href="/ko/c/br62/br62?subBrand=LPDO" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','Liquides Perfume Bar_D&amp;#039;ORSAY');"
+								> D'ORSAY</a></li>
+								<li class="two_lists"><a href="/ko/c/br62/br62?subBrand=LPFR" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','Liquides Perfume Bar_FRAPIN');"
+								> FRAPIN</a></li>
+								<li class="two_lists"><a href="/ko/c/br62/br62?subBrand=LPGB" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','Liquides Perfume Bar_GOLDFIELD &amp;amp; BANKS');"
+								> GOLDFIELD &amp; BANKS</a></li>
+								<li class="two_lists"><a href="/ko/c/br62/br62?subBrand=LPOB" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','Liquides Perfume Bar_OBVIOUS');"
+								> OBVIOUS</a></li>
+								<li class="two_lists"><a href="/ko/c/br62/br62?subBrand=LPRF" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','Liquides Perfume Bar_Regime des Fleurs');"
+								> Regime des Fleurs</a></li>
+								<li class="two_lists"><a href="/ko/c/br62/br62?subBrand=LPVG" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','Liquides Perfume Bar_VERONIQUE GABAI');"
+								> VERONIQUE GABAI</a></li>
+								<li class="two_lists"><a href="/ko/c/br62/br62?subBrand=LPAM" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','Liquides Perfume Bar_AMEN');"
+								> AMEN</a></li>
+							</ul>
+						</li>
+					</ul>
+				</div>
+				<!--// 브랜드 -->
+				<!-- 카테고리 -->
+				<div class="cont" id="category_tab">
+					<ul class="one_depth category">
+						<li class="one_lists">
+							<div class="one_wrap">
+								<a href="#" class="one_link" onclick="GA_Event('편집샵_카테고리','2DEPTH','여성');">여성</a>
+							</div>
+							<ul class="two_depth twoDepthNavPopup">
+								<li class="two_lists"><a href="/ko/c/we05/ed" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','여성_아우터');">아우터</a>
+								</li>
+								<li class="two_lists"><a href="/ko/c/we10/ed" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','여성_니트');">니트</a>
+								</li>
+								<li class="two_lists"><a href="/ko/c/we01/ed" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','여성_탑');">탑</a>
+								</li>
+								<li class="two_lists"><a href="/ko/c/we04/ed" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','여성_드레스');">드레스</a>
+								</li>
+								<li class="two_lists"><a href="/ko/c/we02/ed" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','여성_팬츠');">팬츠</a>
+								</li>
+								<li class="two_lists"><a href="/ko/c/we03/ed" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','여성_스커트');">스커트</a>
+								</li>
+								<li class="two_lists"><a href="/ko/c/we09/ed" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','여성_SPECIAL SHOP*');">SPECIAL
+										SHOP*</a></li>
+							</ul>
+						</li>
+						<li class="one_lists">
+							<div class="one_wrap">
+								<a href="#" class="one_link" onclick="GA_Event('편집샵_카테고리','2DEPTH','남성');">남성</a>
+							</div>
+							<ul class="two_depth twoDepthNavPopup">
+								<li class="two_lists"><a href="/ko/c/me03/ed" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','남성_아우터');">아우터</a>
+								</li>
+								<li class="two_lists"><a href="/ko/c/me10/ed" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','남성_니트');">니트</a>
+								</li>
+								<li class="two_lists"><a href="/ko/c/me01/ed" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','남성_탑');">탑</a>
+								</li>
+								<li class="two_lists"><a href="/ko/c/me02/ed" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','남성_팬츠');">팬츠</a>
+								</li>
+							</ul>
+						</li>
+						<li class="one_lists">
+							<div class="one_wrap">
+								<a href="#" class="one_link" onclick="GA_Event('편집샵_카테고리','2DEPTH','잡화');">잡화</a>
+							</div>
+							<ul class="two_depth twoDepthNavPopup">
+								<li class="two_lists"><a href="/ko/c/as01/ed" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','잡화_여성슈즈');">여성슈즈</a>
+								</li>
+								<li class="two_lists"><a href="/ko/c/as02/ed" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','잡화_남성슈즈');">남성슈즈</a>
+								</li>
+								<li class="two_lists"><a href="/ko/c/as03/ed" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','잡화_여성백');">여성백</a>
+								</li>
+								<li class="two_lists"><a href="/ko/c/as04/ed" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','잡화_남성백');">남성백</a>
+								</li>
+								<li class="two_lists"><a href="/ko/c/as05/ed" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','잡화_머플러/스카프');">머플러/스카프</a>
+								</li>
+								<li class="two_lists"><a href="/ko/c/as06/ed" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','잡화_주얼리');">주얼리</a>
+								</li>
+								<li class="two_lists"><a href="/ko/c/as07/ed" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','잡화_기타 ACC');">기타
+										ACC</a></li>
+							</ul>
+						</li>
+						<li class="one_lists">
+							<div class="one_wrap">
+								<a href="#" class="one_link" onclick="GA_Event('편집샵_카테고리','2DEPTH','뷰티');">뷰티</a>
+							</div>
+							<ul class="two_depth twoDepthNavPopup">
+								<li class="two_lists"><a href="/ko/c/be03/ed" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','뷰티_바디/헤어케어');">바디/헤어케어</a>
+								</li>
+								<li class="two_lists"><a href="/ko/c/be04/ed" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','뷰티_향수');">향수</a>
+								</li>
+							</ul>
+						</li>
+						<li class="one_lists">
+							<div class="one_wrap">
+								<a href="#" class="one_link" onclick="GA_Event('편집샵_카테고리','2DEPTH','라이프스타일');">라이프스타일</a>
+							</div>
+							<ul class="two_depth twoDepthNavPopup">
+								<li class="two_lists"><a href="/ko/c/ls01/ed" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','라이프스타일_홈');">홈</a>
+								</li>
+								<li class="two_lists"><a href="/ko/c/ls02/ed" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','라이프스타일_배스');">배스</a>
+								</li>
+								<li class="two_lists"><a href="/ko/c/ls03/ed" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','라이프스타일_키친');">키친</a>
+								</li>
+								<li class="two_lists"><a href="/ko/c/ls04/ed" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','라이프스타일_데스크');">데스크</a>
+								</li>
+								<li class="two_lists"><a href="/ko/c/ls06/ed" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','라이프스타일_키즈');">키즈</a>
+								</li>
+								<li class="two_lists"><a href="/ko/c/ls05/ed" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','라이프스타일_펫');">펫</a>
+								</li>
+							</ul>
+						</li>
+					</ul>
+				</div>
+				<!--// 카테고리 -->
+			</div>
+		</div>
+		<a href="javascript:noLink();" onclick="closeAction();" class="pop-comm-cls">닫기</a>
+	</div>
+</body>
+<th:block th:replace="common/footer :: footFragment"></th:block>
+</html>

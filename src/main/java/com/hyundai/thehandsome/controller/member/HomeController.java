@@ -21,12 +21,12 @@ public class HomeController {
 	}
 	
 	
-	@GetMapping(value = "/main2")
+	@GetMapping(value = "/member/testpage")
 	public String main(Model model) {
 		
 		
 		
-		return "main";
+		return "mypage/mypage";
 	}
 
 	@GetMapping(value = "/test")

@@ -216,7 +216,9 @@
     <script
       type="text/javascript"
       src="https://www.thehandsome.com/_ui/handsomemobile/js/common.js?20210501"
-    ></script>
+    >
+    
+    </script>
     <script
       type="text/javascript"
       src="https://www.thehandsome.com/_ui/handsomemobile/js/assist_common.js?v=20220630"
@@ -771,7 +773,10 @@
       }
 
       function GA_Event(Category, Action, Label) {
-        Label = unescape(Label)
+        
+    	  console.log("GA EVENT");
+    	  
+    	  Label = unescape(Label)
           .replace(/\&#039;/gi, "'")
           .replace(/\&amp;/g, "&");
 
@@ -795,7 +800,7 @@
             .replace(/\s/gi, "_");
         }
         console.log(v_Category, v_Action, v_Label);
-        ga("gp.send", "event", v_Category, v_Action, v_Label);
+        
       }
 
       if (!String.prototype.endsWith) {

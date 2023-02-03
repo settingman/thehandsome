@@ -48,11 +48,15 @@ public class MemberService implements UserDetailsService {
 	}
 
 	// 회원가입 중복확인
-	private void validateDuplicateMember(Member member) {
+	public void validateDuplicateMember(Member member) {
 		Member findMember = memberMapper.findById(member.getMId());
+		
 		if (findMember != null) {
+			log.info("이미 가입된 회원");
 			throw new IllegalStateException("이미 가입된 회원입니다.");
 		}
+		
+		log.info("가입안된 회원");
 	}
 
 	// Security User 생성
