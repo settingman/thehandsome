@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.hyundai.thehandsome.Vo.product.CatePListVO;
 import com.hyundai.thehandsome.Vo.product.ListVO;
 import com.hyundai.thehandsome.mapper.ProductListDAO;
 
@@ -11,20 +13,21 @@ import lombok.extern.log4j.Log4j2;
 
 /**
  * ProductListServiceImpl
+ * 
  * @author 박세영
  * @since 2023.02.01
  * @version 1.0
  * 
- * <pre>
+ *          <pre>
  * 수정일        	수정자       			수정내용
  * ----------  --------    ---------------------------
  * 2023.02.01  	박세영        최초 생성, getListTest() 추가
- * </pre>
+ *          </pre>
  */
 
 @Service
 @Log4j2
-public class ProductListServiceImpl implements ProductListService{
+public class ProductListServiceImpl implements ProductListService {
 	@Autowired
 	private ProductListDAO plistDAO;
 
@@ -32,6 +35,18 @@ public class ProductListServiceImpl implements ProductListService{
 	public List<ListVO> getProductList() {
 		try {
 			return plistDAO.getProductList();
+		} catch (Exception e) {
+			log.info(e.getMessage());
+			throw e;
+		}
+	}
+
+	@Override
+	public List<CatePListVO> getPListWithCategory(String categoryCode) {
+		try {
+			return plistDAO.getPListWithCategory(categoryCode.substring(0, 2),
+   												 categoryCode.substring(2, 4),
+												 categoryCode.substring(4, 5));
 		} catch (Exception e) {
 			log.info(e.getMessage());
 			throw e;
