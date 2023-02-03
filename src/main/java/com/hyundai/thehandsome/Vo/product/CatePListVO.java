@@ -8,7 +8,4 @@ public class CatePListVO {
 	private String pname;
 	private int pcprice;
 	private String pid;
-	private String depth1name;
-	private String depth2name;
-	private String depth3name;
 }

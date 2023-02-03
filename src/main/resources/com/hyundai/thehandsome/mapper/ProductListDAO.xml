@@ -1,20 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<!-- 
-/**
- * ProductListDAO.XML
- * @author 박세영
- * @since 2023.02.01
- * @version 1.0
- * 
- * <pre>
- * 수정일        	수정자       			수정내용
- * 2023.02.01  	박세영        최초 생성, getProductList() 추가
- * 2023.02.02  	박세영        getPListWithCategory() 추가
- * </pre>
- */ 
- -->
 <mapper namespace="com.hyundai.thehandsome.mapper.ProductListDAO">
 	<select id="getProductList"
 		resultType="com.hyundai.thehandsome.Vo.product.ListVO">
@@ -38,10 +24,7 @@
 		brand.bname,
 		pcommon.pname,
 		pcolor.pcprice,
-		pcommon.pid,
-		v.depth1name,
-		v.depth2name,
-		v.depth3name
+		pcommon.pid
 		FROM
 		product_common pcommon
 		INNER
