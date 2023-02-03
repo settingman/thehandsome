@@ -1249,7 +1249,7 @@
                   class="categoryImgBox">
                   <div class="img">
                     <img
-                    th:src="imgsrc1"
+                    th:src="${pInfo.colorList[0].PCIMG1}"
                       data-original="http://newmedia.thehandsome.com/SJ/2D/SS/SJ2D1WJC361W_BK_T01.jpg"
                       data-prod-idx="8"
                       data-img-idx="1"
@@ -1271,23 +1271,11 @@
                 </a>
                 <div class="info_cont">
                   <div class="color_chip">
-                    <a href="javascript:noLink();" onclick="chgColorChip(8, 'SJ2D1WJC361W_BK');">
+                    <a th:each="color, stat : ${pInfo.colorList}" href="javascript:noLink();" onclick="chgColorChip(8, ${color.PCID});">
                       <button
-                        class="chip on"
-                        id="slideSJ2D1WJC361W_BK"
-                        style="
-                          background: #000000
-                            url('http://newmedia.thehandsome.com/SJ/2D/SS/SJ2D1WJC361W_BK_C01.jpg/dims/resize/40x40');
-                        "></button
-                    ></a>
-                    <a href="javascript:noLink();" onclick="chgColorChip(8, 'SJ2D1WJC361W_IV');">
-                      <button
-                        class="chip"
-                        id="slideSJ2D1WJC361W_IV"
-                        style="
-                          background: #fbfaea
-                            url('http://newmedia.thehandsome.com/SJ/2D/SS/SJ2D1WJC361W_IV_C01.jpg/dims/resize/40x40');
-                        "></button
+                        th:class="${stat.index} == 0 ? 'chip on' : 'chip'"
+                        th:id="${color.PCID}"
+                        th:style="|background:${color.PCCOLORCODE} url(${color.PCCHIPIMG})|"></button
                     ></a>
                   </div>
                   <p class="brand">[[${pInfo.bname}]]</p>
