@@ -33,15 +33,16 @@ import com.hyundai.thehandsome.service.MemberService;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * @since : 2023. 2. 3.
+ * @since : 2023. 2. 1.
  * @FileName: SecurityConfig.java
  * @author : 박성환
- * @설명 : @
+ * @설명 : 시큐리티 설정
  * 
  *     <pre>
  *   수정일         수정자               수정내용
  * ----------      --------    ---------------------------
- * 2023. 2. 3.     박성환      Security config setting
+ * 2023. 2. 1.     박성환      Security config setting
+ * 2023. 2. 3.     박성환      마이페이지 접근권한 수정
  *     </pre>
  */
 @Slf4j

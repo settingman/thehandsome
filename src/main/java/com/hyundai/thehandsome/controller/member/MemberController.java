@@ -30,7 +30,7 @@ import lombok.extern.slf4j.Slf4j;
  * @since   : 2023. 1. 31.
  * @FileName: MemberController.java
  * @author  : 박성환
- * @설명    : @
+ * @설명    : 로그인, 회원가입 등 회원관련 기능 구현
 
  * <pre>
  * 수정일           수정자               수정내용

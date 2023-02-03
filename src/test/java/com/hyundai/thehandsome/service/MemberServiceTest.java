@@ -21,7 +21,7 @@ import lombok.extern.slf4j.Slf4j;
  * @since : 2023. 2. 3.
  * @FileName: MemberServiceTest.java
  * @author : 박성환
- * @설명 : @
+ * @설명 : 회원기능 테스트
  * 
  *     <pre>
  *   수정일         수정자               수정내용

@@ -26,7 +26,7 @@ import lombok.extern.slf4j.Slf4j;
  * @since : 2023. 2. 3.
  * @FileName: MemberOauthService.java
  * @author : 박성환
- * @설명 : @
+ * @설명 : 소셜로그인 회원 처리
  * 
  *     <pre>
  *   수정일         수정자               수정내용

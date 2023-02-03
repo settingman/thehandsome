@@ -14,7 +14,7 @@ import lombok.Setter;
  * @since   : 2023. 2. 3.
  * @FileName: Member.java
  * @author  : 박성환
- * @설명    : @
+ * @설명    : 데이터베이스 Membe Table 주입 객체
 
  * <pre>
  *   수정일         수정자               수정내용

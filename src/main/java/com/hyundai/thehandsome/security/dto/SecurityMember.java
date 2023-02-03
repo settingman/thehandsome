@@ -16,7 +16,7 @@ import lombok.extern.slf4j.Slf4j;
  * @since : 2023. 2. 3.
  * @FileName: SecurityMember.java
  * @author : 박성환
- * @설명 : @
+ * @설명 : 시큐리티 USER를 Member객체로 커스텀
  * 
  *     <pre>
  *   수정일         수정자               수정내용
