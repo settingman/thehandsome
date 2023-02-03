@@ -6,8 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.hyundai.thehandsome.Vo.product.CatePListVO;
 import com.hyundai.thehandsome.Vo.product.ListVO;
 import com.hyundai.thehandsome.service.ProductListService;
 
@@ -33,12 +35,13 @@ public class ProductController {
 	@Autowired
 	private ProductListService plistService;
 	
-	@GetMapping("/ProductList")
-	public void getProductList(Model model) {
+	@GetMapping("/ProductList/{category}")
+	public String getProductList(@PathVariable("category") String category, Model model) {
 		log.info("getProductList-----------------");
 		try {
-			List<ListVO> pList = plistService.getProductList();
+			List<CatePListVO> pList = plistService.getPListWithCategory(category);
 			model.addAttribute("pList", pList);
+			return "/product/ProductList";		
 		} catch (Exception e) {
 			throw e;
 		}

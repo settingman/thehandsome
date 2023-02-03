@@ -1249,7 +1249,7 @@
                   class="categoryImgBox">
                   <div class="img">
                     <img
-                    th:src="${pInfo.pcimg1}"
+                    th:src="imgsrc1"
                       data-original="http://newmedia.thehandsome.com/SJ/2D/SS/SJ2D1WJC361W_BK_T01.jpg"
                       data-prod-idx="8"
                       data-img-idx="1"
@@ -1295,7 +1295,7 @@
                   <p class="price" id="listPrice8">
                     <span id="price_SJ2D1WJC361W_BK" th:text="'₩'+ ${#numbers.formatInteger(pInfo.pcprice, 0, 'COMMA')}"></span>
                   </p>
-                  <div id="etcSJ2D1WJC361W" class="etc">
+                  <!-- <div id="etcSJ2D1WJC361W" class="etc">
                     <span
                       style="
                         background-color: #000000;
@@ -1307,7 +1307,7 @@
                       "
                       >SET-UP</span
                     >
-                  </div>
+                  </div> -->
                 </div>
                 <button
                   type="button"
