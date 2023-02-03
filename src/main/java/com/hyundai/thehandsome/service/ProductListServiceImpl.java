@@ -44,9 +44,12 @@ public class ProductListServiceImpl implements ProductListService {
 	@Override
 	public List<CatePListVO> getPListWithCategory(String categoryCode) {
 		try {
-			return plistDAO.getPListWithCategory(categoryCode.substring(0, 2),
-   												 categoryCode.substring(2, 4),
-												 categoryCode.substring(4, 5));
+			List<CatePListVO> list = plistDAO.getPListWithCategory(categoryCode.substring(0, 2), categoryCode.substring(2, 4), categoryCode.substring(4, 5));
+			for(CatePListVO item : list) {
+				item.setColorList(plistDAO.getProductColor(item.getPid()));
+				log.info(item);
+			}
+			return list;
 		} catch (Exception e) {
 			log.info(e.getMessage());
 			throw e;
