@@ -1241,47 +1241,41 @@
           <!-- product_list -->
           <div class="hs_product_list" id="hsProductList">
             <ul id="listBody">
-              <li th:each="pInfo : ${pList}"
-              class="float active" id="listBody1_li8">
+              <li th:each="pInfo : ${pList}" class="float active" id="listBody1_li8">
                 <a
                   href="javascript:noLink();"
                   onclick="setEcommerceData2('1','8', 'CATEGORY');goProductDetail('SJ2D1WJC361W_BK','we051');"
                   class="categoryImgBox">
                   <div class="img">
                     <img
-                    th:src="${pInfo.colorList[0].PCIMG1}"
+                      th:src="${pInfo.colorList[0].PCIMG1}"
                       data-original="http://newmedia.thehandsome.com/SJ/2D/SS/SJ2D1WJC361W_BK_T01.jpg"
-                      data-prod-idx="8"
-                      data-img-idx="1"
-                      id="T01_IMG_8"
-                      targetcode="ocud"
-                      alt="${pInfo.pname}"
+                      th:id="${pInfo.pid}"	
+                      th:alt="${pInfo.pname}"
                       text="http://newmedia.thehandsome.com/SJ/2D/SS/SJ2D1WJC361W_BK_T01.jpg"
                       class="respon_image lazy"
                       style="display: block" />
-                    <input
-                      type="hidden"
-                      id="imageCheck018"
-                      value="http://newmedia.thehandsome.com/SJ/2D/SS/SJ2D1WJC361W_BK_T01.jpg!||!SJ2D1WJC361W_BK" />
-                    <input
-                      type="hidden"
-                      id="newImage1_8"
-                      value="http://newmedia.thehandsome.com/SJ/2D/SS/SJ2D1WJC361W_BK_T01.jpg" />
                   </div>
                 </a>
                 <div class="info_cont">
                   <div class="color_chip">
-                    <a th:each="color, stat : ${pInfo.colorList}" href="javascript:noLink();" onclick="chgColorChip(8, ${color.PCID});">
+                    <a
+                      th:each="color, stat : ${pInfo.colorList}"
+                      href="javascript:noLink();"
+                      th:data-pid="${pInfo.pid}"	
+                      th:data-pcid="${color.PCID}"	
+                      th:onclick="|chgColor(this.getAttribute('data-pid'), this.getAttribute('data-pcid'))|">
                       <button
                         th:class="${stat.index} == 0 ? 'chip on' : 'chip'"
                         th:id="${color.PCID}"
-                        th:style="|background:${color.PCCOLORCODE} url(${color.PCCHIPIMG})|"></button
-                    ></a>
+                        th:style="|background:${color.PCCOLORCODE} url(${color.PCCHIPIMG})|"></button></a>
                   </div>
                   <p class="brand">[[${pInfo.bname}]]</p>
                   <p class="name">[[${pInfo.pname}]]</p>
                   <p class="price" id="listPrice8">
-                    <span id="price_SJ2D1WJC361W_BK" th:text="'₩'+ ${#numbers.formatInteger(pInfo.pcprice, 0, 'COMMA')}"></span>
+                    <span
+                      id="price_SJ2D1WJC361W_BK"
+                      th:text="'₩'+ ${#numbers.formatInteger(pInfo.pcprice, 0, 'COMMA')}"></span>
                   </p>
                   <!-- <div id="etcSJ2D1WJC361W" class="etc">
                     <span
@@ -8848,6 +8842,14 @@ layer popup 형식의 confirm 창
       }
 
       function colorColdoutCheck() {}
+
+      // 컬러칩 누를시 이미지 변경
+      function chgColor(pid, pcid) {
+        var url = $('#'+pid).attr("src");
+        var target = url.substring(url.lastIndexOf("/")+1, url.lastIndexOf("_"));
+        url = url.replace(target, pcid);
+        $('#'+pid).attr("src", url);
+      }
 
       function chgColorChip(index, code) {
         //중복 호출 방지(동일한 이미지가 중복으로 호출시 에러 이미지로 판단)
