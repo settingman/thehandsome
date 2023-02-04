@@ -1,4 +1,4 @@
-package com.hyundai.thehandsome.controller;
+package com.hyundai.thehandsome.controller.product;
 
 import java.util.List;
 
@@ -42,6 +42,16 @@ public class ProductController {
 			List<CatePListVO> pList = plistService.getPListWithCategory(category);
 			model.addAttribute("pList", pList);
 			return "/product/ProductList";		
+		} catch (Exception e) {
+			throw e;
+		}
+	}
+	
+	@GetMapping("/ProductDetail")
+	public String getProductItem() {
+		log.info("getProductList-----------------");
+		try {
+			return "/product/ProductDetail";		
 		} catch (Exception e) {
 			throw e;
 		}
