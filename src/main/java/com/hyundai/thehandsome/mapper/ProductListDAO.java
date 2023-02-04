@@ -20,7 +20,8 @@ import com.hyundai.thehandsome.Vo.product.detail.ProductDetailVO;
  * 수정일        	수정자       			수정내용
  * ----------  --------    ---------------------------
  * 2023.02.01  	박세영        최초 생성, getProductList() 추가
- * 2023.02.02  	박세영        getPListWithCategory() 추가
+ * 2023.02.02  	박세영        getPListWithCategory(), getProductColor() 추가
+ * 2023.02.04  	박세영        getProductDetail() 추가
  * </pre>
  */
 
