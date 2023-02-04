@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Param;
 import com.hyundai.thehandsome.Vo.product.CatePListVO;
 import com.hyundai.thehandsome.Vo.product.ColorVO;
 import com.hyundai.thehandsome.Vo.product.ListVO;
+import com.hyundai.thehandsome.Vo.product.detail.ProductDetailVO;
 
 /**
  * ProductListDAO
@@ -31,4 +32,6 @@ public interface ProductListDAO {
 	List<CatePListVO> getPListWithCategory(String depth1name, String depth2name, String depth3name);
 	
 	List<ColorVO> getProductColor(String PID);
+	
+	ProductDetailVO getProductDetail(String PCID);
 }

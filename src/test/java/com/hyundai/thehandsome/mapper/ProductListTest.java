@@ -10,6 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import com.hyundai.thehandsome.Vo.product.CatePListVO;
 import com.hyundai.thehandsome.Vo.product.ColorVO;
 import com.hyundai.thehandsome.Vo.product.ListVO;
+import com.hyundai.thehandsome.Vo.product.detail.ProductDetailVO;
 import com.hyundai.thehandsome.mapper.ProductListDAO;
 
 import lombok.extern.log4j.Log4j2;
@@ -53,11 +54,18 @@ public class ProductListTest {
 		}
 	}
 	
-	@Test
+	@Disabled
 	void getProductColorTest() {
 		List<ColorVO> list= pListDAO.getProductColor("TG2C7TJM002W29");
 		for (ColorVO color : list){
 			log.info(color);
 		}
 	}
+	
+	@Test
+	void getProductDetailTest() {
+		ProductDetailVO list = pListDAO.getProductDetail("SH2D1WJMT02M_DG");
+		log.info(list);
+	}
+	
 }
