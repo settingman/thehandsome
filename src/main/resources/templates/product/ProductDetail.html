@@ -14061,16 +14061,6 @@ $('.hs_star_score_wrap .hs_star_score .btn').on('click', function() {
 
         <!--beshow conversion starts-->
         <script type="text/javascript">
-          function _p(name, url) {
-            if (!url) url = location.href;
-            name = name.replace(/[[]/, "[").replace(/[]]/, "]");
-            var regexS = "[?&]" + name + "=([^&#]*)";
-            var regex = new RegExp(regexS);
-            var results = regex.exec(url);
-            return results == null ? null : results[1];
-          }
-        </script>
-        <script type="text/javascript">
           if (_p("_strack")) {
             $.getScript("http://beshow.kr/plugins/strack/strack.min.js")
               .done(function (script, textStatus) {
