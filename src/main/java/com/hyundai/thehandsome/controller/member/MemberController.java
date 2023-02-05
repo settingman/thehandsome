@@ -89,21 +89,6 @@ public class MemberController {
 		return "redirect:/";
 	}
 
-	// 회원가입 아이디 중복 체크 AJAX
-	@ResponseBody
-	@GetMapping("/check")
-	public String checkId(@RequestParam("checkid") String checkId) {
-
-		String result = "1";
-
-		Member member = memberMapper.findById(checkId);
-
-		if (member == null)
-			result = "0";
-
-		return result;
-
-	}
 
 	// 로그인
 	@GetMapping("/login")
@@ -166,42 +151,4 @@ public class MemberController {
 	}
 	
 	
-		@ResponseBody
-		@GetMapping(value = "/findPw")
-		public String findIdPwPage(@RequestParam("mName") String mName,
-				@RequestParam("mId") String mId, Model model) {
-			
-			
-			log.info(mName);
-			log.info(mId);
-			
-			Member findMember = memberMapper.findByNameId(mName, mId);
-			
-			if(findMember==null) {
-				log.info("fail");
-				return "/member/findidpwpage";
-			}
-			
-			log.info("findPw");
-			
-			String tmpPassword = mailService.getTmpPassword();
-			
-			log.info(tmpPassword);
-
-	        /** 임시 비밀번호 저장 **/
-			mailService.updatePassword(tmpPassword, mId);
-
-	        /** 메일 생성 & 전송 **/
-	        MailVo mail = mailService.createMail(tmpPassword, mId);
-	        
-	        mailService.sendMail(mail);
-
-	        log.info("임시 비밀번호 전송 완료");
-			
-			
-			
-		
-			
-			return "S";
-		}
 }

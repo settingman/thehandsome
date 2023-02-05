@@ -1,4 +1,4 @@
-package com.hyundai.thehandsome.controller.member;
+package com.hyundai.thehandsome.controller;
 
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.User;

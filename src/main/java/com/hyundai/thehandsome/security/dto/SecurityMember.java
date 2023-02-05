@@ -1,6 +1,7 @@
 package com.hyundai.thehandsome.security.dto;
 
 import java.util.List;
+
 import java.util.Map;
 
 import org.springframework.security.core.GrantedAuthority;
@@ -35,7 +36,7 @@ public class SecurityMember extends User implements OAuth2User {
 	private String password;
 	private Map<String, Object> OA2_attr;
 
-// 구성자 설정
+	// 한섬 회원 구성자 설정
 	public SecurityMember(String username, String password, List<GrantedAuthority> authorities) {
 
 		super(username, password, authorities);
