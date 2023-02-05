@@ -45,12 +45,16 @@ public class MyPageRestController {
 		ArrayList<Voucher> voucherList = new ArrayList<>();
 
 		Voucher voucher1 = new Voucher("2023-02-01", "아울렛 및 라이프스타일 뷰티 상품군 제외 (온라인 전용, 3만원 이상 구매 시 사용 가능)",
-				"VP2-302-FM1-A03-76LFSE", "[100원] 최태승 쿠폰", 100, null, "2023-07-31", "₩");
+				"VP2-302-FM1-A03-76LFSE", "[1%] 최태승 쿠폰", 1, null, "2023-07-31", null);
 		Voucher voucher2 = new Voucher("2023-02-01", "아울렛 및 라이프스타일 뷰티 상품군 제외 (온라인 전용, 3만원 이상 구매 시 사용 가능)",
-				"VP2-302-FM1-A03-76LFSE", "[100만원] 박성환 쿠폰", 1000000, null, "2023-07-31", "₩");
+				"VP2-302-FM1-A03-76LFSE", "[100만원] 박성환 쿠폰", 1000000, null, "2024-07-31", "₩");
+		;
+		Voucher voucher3 = new Voucher("2023-02-01", "아울렛 및 라이프스타일 뷰티 상품군 제외 (온라인 전용, 3만원 이상 구매 시 사용 가능)",
+				"VP2-302-FM1-A03-76LFSE", "[1000만원] 박세영 쿠폰", 10000000, null, "2024-07-31", "₩");
 		;
 		voucherList.add(voucher1);
 		voucherList.add(voucher2);
+		voucherList.add(voucher3);
 
 		data.put("results", voucherList);
 

@@ -6,27 +6,25 @@ import lombok.Setter;
 @Getter
 @Setter
 public class Voucher {
-	public String startDate;
+	public String startdate;
 	public String description;
 	public String voucherCode;
 	public String name;
 	public Integer value;
-	public String useDate;
-	public String endDate;
+	public String usedate;
+	public String enddate;
 	public String currency;
-	
-	public Voucher(String startDate, String description, String voucherCode, String name, Integer value, String useDate,
-			String endDate, String currency) {
-		this.startDate = startDate;
+
+	public Voucher(String startdate, String description, String voucherCode, String name, Integer value, String usedate,
+			String enddate, String currency) {
+		this.startdate = startdate;
 		this.description = description;
 		this.voucherCode = voucherCode;
 		this.name = name;
 		this.value = value;
-		this.useDate = useDate;
-		this.endDate = endDate;
+		this.usedate = usedate;
+		this.enddate = enddate;
 		this.currency = currency;
 	}
-
-	
 
 }
