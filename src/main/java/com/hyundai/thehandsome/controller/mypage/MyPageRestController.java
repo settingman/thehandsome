@@ -1,5 +1,6 @@
 package com.hyundai.thehandsome.controller.mypage;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -36,9 +37,20 @@ public class MyPageRestController {
 
 	// 마이페이지 쿠폰 영역 AJAX
 	@RequestMapping(value = "/voucher", produces = "application/json; charset=UTF-8", method = RequestMethod.GET)
-	public void ajaxVoucher(HttpServletResponse responose) throws Exception {
+	public void ajaxVoucher(HttpServletResponse response, Principal principal) throws Exception {
+		
+		
+		if (principal != null) {
+			System.out.println("타입정보 : " + principal.getClass());
+			System.out.println("ID정보 : " + principal.getName());
+		}else {
+			System.out.println("없다");
+		}
 
 		Gson gson = new Gson();
+		
+		
+		// 회원 아이디로 보유 쿠폰 조회하여 voucher 객체를 만들어 준뒤 넣어주기.
 
 		Map<String, Object> data = new HashMap<>();
 
@@ -57,8 +69,9 @@ public class MyPageRestController {
 		voucherList.add(voucher3);
 
 		data.put("results", voucherList);
-
-		responose.getWriter().print(gson.toJson(data));
+		
+		 response.setCharacterEncoding("UTF-8");
+		 response.getWriter().print(gson.toJson(data));
 
 //		// myapge ajax 보고 result 값 맞춰서 voucher 객체 만들어서 전달 하기.
 //
