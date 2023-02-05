@@ -893,15 +893,7 @@ var quickSTagSwiperOption = {
             }
             
             if ( $this_parent.prevObject[0].attributes["tab"].textContent != befActiveTab ) {
-                try{
-                    ga('gp.send','pageview',{
-                        'title':'마이페이지>'+$this_parent.prevObject[0].text, //가상페이지 화면명
-                        'location':window.location.protocol + '//' + window.location.host + decodeURI(window.location.pathname) + '?mypage_tab=' + $this_parent.prevObject[0].attributes["tab"].textContent, //가상페이지URL
-                        nonInteraction: true //비 상호작용
-                    });
-                }catch(e) {
-                    console.log(e);
-                }
+                
             }
             befActiveTab = $this_parent.prevObject[0].attributes["tab"].textContent;
         }

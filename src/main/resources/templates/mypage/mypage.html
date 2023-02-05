@@ -1666,10 +1666,19 @@
         function getMypageVoucherList() {
           //$("#mypageCouponList").html("");
 
+          console.log("마이페이지 쿠폰");
+          
           $.ajax({
             type: "GET",
-            url: "/ko/mypage/voucherOnline?pageSize=3",
+            url: "/mypage/voucher",
+            dataType : "json",
             success: function (response) {
+            	
+            	console.log("success");	
+            	console.log("response");	
+            	console.log(response[10]);	
+            	console.log(response.results);	
+            	
               var rows = "";
               var todayDate = new Date();
 
@@ -1678,7 +1687,7 @@
               rows += '<a href="/ko/mypage/voucher" class="more">전체조회</a> ';
               rows += "</div> ";
               rows += '<div id="mypageCouponList">';
-
+ 
               if (response.results != null && response.results.length > 0) {
                 for (var i = 0; i < response.results.length; i++) {
                   rows += '<div class="s-coupon">';

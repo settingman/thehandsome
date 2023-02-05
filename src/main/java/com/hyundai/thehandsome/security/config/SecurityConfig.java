@@ -6,6 +6,7 @@ import java.net.URLEncoder;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -25,9 +26,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
-import com.hyundai.thehandsome.service.MemberOauthService;
 import com.hyundai.thehandsome.service.MemberService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -57,8 +56,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 
-		http.authorizeRequests()
-				.antMatchers("/member/**", "/mypage/**").permitAll() // 누구나 mypage 접근허용 - 02/03 mypage 테스트때문에
+		http.authorizeRequests().antMatchers("/member/**", "/mypage/**").permitAll() // 누구나 mypage 접근허용 - 02/03 mypage
+																						// 테스트때문에
 				.antMatchers("/", "/member/mypage").hasRole("USER") // USER, ADMIN만 접근 가능
 				.antMatchers("/admin").hasRole("ADMIN") // ADMIN만 접근 가능
 				.anyRequest().authenticated(); // 나머지 요청들은 권한의 종류에 상관 없이 권한이 있어야 접근
@@ -111,10 +110,21 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				})// 로그인 실패 후 핸들러 (해당 핸들러를 생성하여 핸들링 해준다.)
 				.permitAll() // 사용자 정의 로그인 페이지 접근 권한 승인
 
-				.and().logout().logoutRequestMatcher(new AntPathRequestMatcher("/member/logout"))
-				.logoutSuccessUrl("/member/login")
-
-		;
+				.and().logout().logoutUrl("/member/logout") // 로그아웃 처리 URL (= form action url)
+				// .logoutSuccessUrl("/login") // 로그아웃 성공 후 targetUrl,
+				// logoutSuccessHandler 가 있다면 효과 없으므로 주석처리.
+				.addLogoutHandler((request, response, authentication) -> {
+					// 사실 굳이 내가 세션 무효화하지 않아도 됨.
+					// LogoutFilter가 내부적으로 해줌.
+					HttpSession session = request.getSession();
+					if (session != null) {
+						session.invalidate();
+					}
+				}) // 로그아웃 핸들러 추가
+				.logoutSuccessHandler((request, response, authentication) -> {
+					response.sendRedirect("/member/login");
+				}) // 로그아웃 성공 핸들러
+				.deleteCookies("remember-me");
 
 		http.oauth2Login().successHandler(new AuthenticationSuccessHandler() {
 

@@ -9,6 +9,14 @@
 <th:block th:fragment="headFragment">
 	<head>
 
+
+<!-- csrf 가 null 인 케이스에 발생한 문제:
+	로그인하지 않았을 때 csrf가 null이므로 에러가 터졌다.
+	다음과 같이 null 이 아닐 경우에만 csrf.token 등을 참조하도록 수정했다. -->
+ <meta charset="UTF-8">
+<meta name="_csrf" th:content="${_csrf?.token}" th:if="${_csrf} ne null">
+<meta name="_csrf_header" th:content="${_csrf?.headerName}" th:if="${_csrf} ne null">
+
 <script src="https://kit.fontawesome.com/c2edef0625.js" crossorigin="anonymous"></script>
 
 <script type="text/javascript">
@@ -688,9 +696,13 @@ keyframes target_image { 0% {
 
 
 
+
+
 %
 {
 transform
+
+
 
 
 
@@ -700,10 +712,16 @@ transform
 
 
 
+
+
 rotate
 
 
+
+
 (
+
+
 
 
 
@@ -713,12 +731,18 @@ rotate
 
 
 
+
+
 )
+
+
 
 
 ;
 }
 100
+
+
 
 
 
@@ -730,7 +754,11 @@ transform
 
 
 
+
+
 :
+
+
 
 
 
@@ -738,7 +766,11 @@ transform
 rotate
 
 
+
+
 (
+
+
 
 
 
@@ -748,7 +780,11 @@ rotate
 
 
 
+
+
 )
+
+
 
 
 ;
