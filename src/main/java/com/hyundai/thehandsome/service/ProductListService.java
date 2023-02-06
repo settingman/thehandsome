@@ -2,8 +2,8 @@ package com.hyundai.thehandsome.service;
 
 import java.util.List;
 
-import com.hyundai.thehandsome.Vo.product.CatePListVO;
-import com.hyundai.thehandsome.Vo.product.ListVO;
+import com.hyundai.thehandsome.vo.product.CatePListVO;
+import com.hyundai.thehandsome.vo.product.ListVO;
 
 /**
  * ProductListService

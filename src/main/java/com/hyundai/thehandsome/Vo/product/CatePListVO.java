@@ -1,4 +1,4 @@
-package com.hyundai.thehandsome.Vo.product;
+package com.hyundai.thehandsome.vo.product;
 
 import java.util.List;
 

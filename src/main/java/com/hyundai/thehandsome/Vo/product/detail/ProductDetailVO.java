@@ -1,8 +1,8 @@
-package com.hyundai.thehandsome.Vo.product.detail;
+package com.hyundai.thehandsome.vo.product.detail;
 
 import java.util.List;
 
-import com.hyundai.thehandsome.Vo.product.ColorVO;
+import com.hyundai.thehandsome.vo.product.ColorVO;
 
 import lombok.Data;
 

@@ -9,9 +9,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.hyundai.thehandsome.Vo.product.CatePListVO;
-import com.hyundai.thehandsome.Vo.product.ListVO;
 import com.hyundai.thehandsome.service.ProductListService;
+import com.hyundai.thehandsome.vo.product.CatePListVO;
+import com.hyundai.thehandsome.vo.product.ListVO;
 
 import lombok.extern.log4j.Log4j2;
 

@@ -5,10 +5,10 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
-import com.hyundai.thehandsome.Vo.product.CatePListVO;
-import com.hyundai.thehandsome.Vo.product.ColorVO;
-import com.hyundai.thehandsome.Vo.product.ListVO;
-import com.hyundai.thehandsome.Vo.product.detail.ProductDetailVO;
+import com.hyundai.thehandsome.vo.product.detail.ProductDetailVO;
+import com.hyundai.thehandsome.vo.product.CatePListVO;
+import com.hyundai.thehandsome.vo.product.ColorVO;
+import com.hyundai.thehandsome.vo.product.ListVO;
 
 /**
  * ProductListDAO

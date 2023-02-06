@@ -7,11 +7,11 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import com.hyundai.thehandsome.Vo.product.CatePListVO;
-import com.hyundai.thehandsome.Vo.product.ColorVO;
-import com.hyundai.thehandsome.Vo.product.ListVO;
-import com.hyundai.thehandsome.Vo.product.detail.ProductDetailVO;
+import com.hyundai.thehandsome.vo.product.detail.ProductDetailVO;
 import com.hyundai.thehandsome.mapper.ProductListDAO;
+import com.hyundai.thehandsome.vo.product.CatePListVO;
+import com.hyundai.thehandsome.vo.product.ColorVO;
+import com.hyundai.thehandsome.vo.product.ListVO;
 
 import lombok.extern.log4j.Log4j2;
 

@@ -5,9 +5,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.hyundai.thehandsome.Vo.product.CatePListVO;
-import com.hyundai.thehandsome.Vo.product.ListVO;
 import com.hyundai.thehandsome.mapper.ProductListDAO;
+import com.hyundai.thehandsome.vo.product.CatePListVO;
+import com.hyundai.thehandsome.vo.product.ListVO;
 
 import lombok.extern.log4j.Log4j2;
 
