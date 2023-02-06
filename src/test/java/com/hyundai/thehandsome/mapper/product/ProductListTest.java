@@ -1,4 +1,4 @@
-package com.hyundai.thehandsome.mapper;
+package com.hyundai.thehandsome.mapper.product;
 
 import java.util.List;
 
@@ -61,12 +61,6 @@ public class ProductListTest {
 		for (ColorVO color : list){
 			log.info(color);
 		}
-	}
-	
-	@Test
-	void getProductDetailTest() {
-		ProductDetailVO list = pListDAO.getProductDetail("SH2D1WJMT02M_DG");
-		log.info(list);
 	}
 	
 }

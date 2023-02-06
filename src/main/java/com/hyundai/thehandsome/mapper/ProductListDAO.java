@@ -22,6 +22,7 @@ import com.hyundai.thehandsome.Vo.product.detail.ProductDetailVO;
  * 2023.02.01  	박세영        최초 생성, getProductList() 추가
  * 2023.02.02  	박세영        getPListWithCategory(), getProductColor() 추가
  * 2023.02.04  	박세영        getProductDetail() 추가
+ * 2023. 2. 6.  박세영		getProductImg() 추가
  * </pre>
  */
 
@@ -35,4 +36,6 @@ public interface ProductListDAO {
 	List<ColorVO> getProductColor(String PID);
 	
 	ProductDetailVO getProductDetail(String PCID);
+	
+	List<String> getProductImg(String PCID);
 }
