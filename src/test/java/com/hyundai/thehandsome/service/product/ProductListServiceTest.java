@@ -1,4 +1,4 @@
-package com.hyundai.thehandsome.service;
+package com.hyundai.thehandsome.service.product;
 
 import java.util.List;
 
@@ -7,7 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.hyundai.thehandsome.Vo.product.CatePListVO;
-import com.hyundai.thehandsome.mapper.ProductListTest;
+import com.hyundai.thehandsome.mapper.product.ProductListTest;
+import com.hyundai.thehandsome.service.ProductListService;
 
 import lombok.extern.log4j.Log4j2;
 

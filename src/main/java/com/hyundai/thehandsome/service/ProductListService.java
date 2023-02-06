@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.hyundai.thehandsome.Vo.product.CatePListVO;
 import com.hyundai.thehandsome.Vo.product.ListVO;
+import com.hyundai.thehandsome.Vo.product.detail.ProductDetailVO;
 
 /**
  * ProductListService
@@ -21,4 +22,7 @@ import com.hyundai.thehandsome.Vo.product.ListVO;
 public interface ProductListService {
 	List<ListVO> getProductList();
 	List<CatePListVO> getPListWithCategory(String categoryCode);
+	
+	ProductDetailVO getProductDetail(String PCID);
+	List<String> getProductImg(String PCID);
 }
