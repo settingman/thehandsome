@@ -150,5 +150,6 @@ public class MemberController {
 		return "/member/searchEasyId";
 	}
 	
+		
 	
 }
