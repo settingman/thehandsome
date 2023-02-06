@@ -48,8 +48,8 @@ public class ProductController {
 		}
 	}
 	
-	@GetMapping("/ProductDetail")
-	public String getProductItem() {
+	@GetMapping("/ProductDetail/{PCID}")
+	public String getProductItem(@PathVariable("PCID") String PCID, Model model) {
 		log.info("getProductList-----------------");
 		try {
 			return "/product/ProductDetail";		
