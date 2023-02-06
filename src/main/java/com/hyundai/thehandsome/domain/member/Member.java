@@ -7,16 +7,24 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 
 /**
- * @Date : 2023. 1. 31.
+ * @since   : 2023. 2. 3.
  * @FileName: Member.java
- * @작성자 : 박성환
- * @설명 : DateBase Member Object
- */
+ * @author  : 박성환
+ * @설명    : 데이터베이스 Membe Table 주입 객체
 
+ * <pre>
+ *   수정일         수정자               수정내용
+ * ----------      --------    ---------------------------
+ * 2023. 2. 3.     박성환      DateBase Member Object
+ * </pre>
+ */
 @NoArgsConstructor
 @Getter
+@Setter
 public class Member {
 
 	private String mId;
@@ -57,17 +65,19 @@ public class Member {
 		this.mRole = mRole;
 	}
 
-	/**
-	 * @param memberFormDto
-	 * @param passwordEncoder
-	 * @return
-	 */
+	
 	public static Member createMember(MemberFormDto memberFormDto, PasswordEncoder passwordEncoder) {
+		
+		String date = memberFormDto.getMBirth().toString();
+		String sqldate = date.substring(0,4)+"-"+date.substring(4,6)+"-"+date.substring(6,8);
+		System.out.println(sqldate);
+		
+		
 		Member member = Member.builder().mId(memberFormDto.getMId())
 				.mPassword(passwordEncoder.encode(memberFormDto.getMPassword())) // 암호화처리
 				.mName(memberFormDto.getMName()).mPhone(memberFormDto.getMPhone()).mEmail(memberFormDto.getMEmail())
 				.mZipCode(memberFormDto.getMZipCode()).mAddress1(memberFormDto.getMAddress1())
-				.mAddress2(memberFormDto.getMAddress2()).mBirth(new Date(memberFormDto.getMBirth()))
+				.mAddress2(memberFormDto.getMAddress2()).mBirth(Date.valueOf(sqldate))
 				.mGender(memberFormDto.getMGender()).mRole(MemberRole.USER).build();
 		return member;
 	}
@@ -78,5 +88,12 @@ public class Member {
 				+ ", mEmail=" + mEmail + ", mZipCode=" + mZipCode + ", mAddress1=" + mAddress1 + ", mAddress2="
 				+ mAddress2 + ", mBirth=" + mBirth + ", mGender=" + mGender + ", mRole=" + mRole + "]";
 	}
+	
+	public void updatePassword(String password){
+        this.mPassword = password;
+    }
+
+
+
 
 }

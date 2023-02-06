@@ -1,0 +1,805 @@
+<!--
+ @Date : 2023. 02. 01.
+ @작성자 : 박성환
+ @설명 :  아이디, 비밀번호 찾기
+-->
+
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<title>아이디/비밀번호 찾기 | 더한섬닷컴</title>
+
+<th:block th:replace="common/head :: headFragment"></th:block>
+
+<body>
+	<script>
+		(function() {
+			if (document.cookie.indexOf("thehyundai=true") > -1) {
+				var d = new Date();
+				d.setTime(d.getTime() + 365 * 24 * 60 * 60 * 1000);
+				document.cookie = "sslvisit=true; expires=" + d.toUTCString()
+						+ "; path=/";
+			} else if (document.cookie.indexOf("rakuten=") > -1) {
+				var d = new Date();
+				d.setTime(d.getTime() + 365 * 24 * 60 * 60 * 1000);
+				document.cookie = "sslvisit1=true; expires=" + d.toUTCString()
+						+ "; path=/";
+			} else if (document.cookie.indexOf("hyundaihmall=true") > -1) {
+				var d = new Date();
+				d.setTime(d.getTime() + 365 * 24 * 60 * 60 * 1000);
+				document.cookie = "sslvisit2=true; expires=" + d.toUTCString()
+						+ "; path=/";
+			} else if (document.cookie.indexOf("fromSite") > -1) {
+				var d = new Date();
+				d.setTime(d.getTime() + 365 * 24 * 60 * 60 * 1000);
+				document.cookie = "sslvisit3=" + "" + "; expires="
+						+ d.toUTCString() + "; path=/";
+			} else if (document.cookie.indexOf("recommender") > -1) {
+				var d = new Date();
+				d.setTime(d.getTime() + 365 * 24 * 60 * 60 * 1000);
+				document.cookie = "sslvisit4=" + "" + "; path=/";
+			}
+		})();
+	</script>
+	<!-- Loading -->
+	<div style="display: none">
+		<div id="loadingBarDiv" style="display: none"></div>
+	</div>
+	<!-- //Loading -->
+
+	<form id="CSRFForm" action="/ko/member/searchEasyId" method="post">
+		<div>
+			<input type="hidden" name="CSRFToken" value="979e04d5-38f4-4c7b-a78b-661e6bb58faf" />
+		</div>
+	</form>
+	<div id="mapleMainPopwrap"
+		style="position: fixed; top: 50%; left: 50%; width: 81.333333%; z-index: 805; transform: translate(-50%, -50%); display: none;"
+	></div>
+
+	<div class="layerArea" id="mapleLayer" style="display: none">
+		<div class="layerBg"></div>
+	</div>
+
+	<!-- ################## hsome_allContents_wrapper | ë³¸ë¬¸ ì»¨íì¸  ìì­ ################## -->
+	<div class="hsome_allContents_wrapper">
+		<div class="hsome_allContents">
+			<script type="text/javascript">
+				function goMainpage() {
+					window.sessionStorage.removeItem("moveYn");
+					location.href = "/ko/main";
+				}
+			</script>
+
+			<!-- ################## header ################## -->
+			<header class="hsome_header">
+				<h1 class="h_ttl ellipsis" id="headerTitle">아이디/비밀번호 찾기</h1>
+				<a href="/ko/main" class="h_top_home"><span>홈</span></a> <a href="javascript:noLink();" onclick="goBack();" class="h_prev">이전
+					페이지로 가기</a>
+				<ul class="h_gnbMenu">
+					<li class="search"><a href="/ko/mobilecommon/search" onclick="GA_Event('공통', '헤더', '검색');"><span>search</span></a></li>
+					<li class="cart"><a href="/ko/shoppingbag" onclick="GA_Event('공통', '헤더', '쇼핑백');"><span>cart</span><i>0</i></a></li>
+				</ul>
+			</header>
+			<!-- //################## header ################## -->
+			<script type="text/javascript">
+				//<![CDATA[
+				var doubleSubmitFlag = true;
+				var path = location.pathname.replace(/\/handsome\//g, "");
+				$(document)
+						.ready(
+								function() {
+									var customerName = $("#customerName").val();
+									var authName = $("#authName").val();
+									var sendName = $("#sendName").val();
+									var userid = "";
+									var paramAuth = "";
+
+									easyp();
+
+									$("#phoneAuth, #ipinAuth").click(
+											function() {
+												var objId = $(this).attr("id");
+
+												$("#phoneAuth, #ipinAuth")
+														.removeClass("on");
+												$(this).addClass("on");
+
+												$("#selectedVal").val(objId);
+											});
+
+									var arrAuthName = authName.split("_");
+									var rAuthType = "";
+									var arrAuthType = rAuthType.split("_");
+									var loginError = "";
+
+									//if(arrAuthType[0] == "pw" || loginError == "true"){
+									if (arrAuthType[0] == "pw") {
+										$("#findPw").click();
+									} else {
+										$("#findId").click();
+									}
+
+									tabChange("sendSms");
+
+									if (customerName != "") {
+										if (authName.substring(0, 5) == "email") {
+											$(
+													"input:radio[name='findEmail']:radio[value="
+															+ authName + "]")
+													.prop("checked", true);
+											$("#result_id").show();
+										} else {
+											$(
+													"input:radio[name='findPW']:radio[value="
+															+ authName + "]")
+													.prop("checked", true);
+											$("#result_pw").show();
+										}
+									}
+
+									$("#user_id")
+											.keyup(
+													function() {
+														$
+																.ajax({
+																	type : "GET",
+																	url : "/ko/member/isdupluid?uid="
+																			+ $(
+																					"#user_id")
+																					.val(),
+																	success : function(
+																			response) {
+																		if (response == true) {
+																			$(
+																					"#idVelidation")
+																					.val(
+																							"Y");
+																		} else {
+																			$(
+																					"#idVelidation")
+																					.val(
+																							"N");
+																		}
+																	},
+																	error : function(
+																			e) {
+																	},
+																});
+													});
+
+									$("#findAuthBtn").mouseover(function() {
+										$("#user_id").blur();
+									});
+
+									//gy추가
+									var nowDate = new Date();
+									var nowYear = nowDate.getYear() - 14;
+									if (nowYear < 2000)
+										nowYear += 1900;
+
+									for (var i = nowYear; i >= 1900; i--) {
+										$("#selYear").append(
+												"<option value='" + i + "'>"
+														+ i + "</option>");
+									}
+
+									//간편회원 아이디 찾기
+									$("#searchIDBtn")
+											.click(
+													function() {
+														if ($.trim($(
+																"#iUserName")
+																.val()) == "") {
+															$("#easyIdMsgErr")
+																	.text(
+																			"이름을 입력하세요.");
+															$("#iUserName")
+																	.focus();
+															return;
+														}
+
+														if ($
+																.trim($(
+																		"#selYear")
+																		.val()) == ""
+																|| $
+																		.trim($(
+																				"#selMonth")
+																				.val()) == ""
+																|| $
+																		.trim($(
+																				"#selDay")
+																				.val()) == "") {
+															$("#easyIdMsgErr")
+																	.text(
+																			"생년월일을 입력하세요.");
+															return;
+														}
+
+														var birthday = $(
+																"#selYear")
+																.val()
+																+ $("#selMonth")
+																		.val()
+																+ $("#selDay")
+																		.val();
+
+														$("#iBirthday").val(
+																birthday);
+														$("#easyIdSearchForm")
+																.attr("action",
+																		"/ko/member/searchEasyId");
+														$("#easyIdSearchForm")
+																.submit();
+
+														showLoadingLp(); //로딩레이어 호출
+													});
+
+									//간편회원 패스워드 찾기
+									$("#searchPWBtn")
+											.click(
+													
+													function() {
+														var emailRegExp = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/;
+														
+														
+
+														if ($.trim($(
+																"#pUserName")
+																.val()) == "") {
+															$("#easyPwMsgErr")
+																	.text(
+																			"이름을 입력하세요.");
+															$("#pUserName")
+																	.focus();
+															return;
+														}
+
+														if ($.trim($(
+																"#pUserEmail")
+																.val()) == "") {
+															$("#easyPwMsgErr")
+																	.text(
+																			"이메일 아이디를 입력하세요.");
+															$("#pUserEmail")
+																	.focus();
+															return;
+														}
+
+														if (emailRegExp.test($(
+																"#pUserEmail")
+																.val()) !== true) {
+															$("#easyPwMsgErr")
+																	.text(
+																			"이메일주소 체계가 아닙니다람쥐.");
+															$("#pUserEmail")
+																	.focus();
+															return;
+														}
+
+														var formData = $(
+																"#easyPwSearch")
+																.serialize();
+
+														showLoadingLp(); //로딩레이어 호출
+
+														$
+																.ajax({
+																	type : "GET",
+																	url : "/member/findPw",
+																	data : formData,
+																	cache : false,
+																	success : function(
+																			data) {
+																		if (data == "S") {
+																			hideLoadingLp(); //로딩레이어 숨기
+																			$(
+																					"#easyPwForm")
+																					.hide();
+																			$(
+																					"#easyPwComplete")
+																					.show();
+																			return;
+																		} else {
+																			hideLoadingLp(); //로딩레이어 숨기
+																			layerAlert("비밀번호 찾기중 오류가 발생했습니다.");
+																			$(
+																					"#easyPwForm")
+																					.show();
+																			$(
+																					"#easyPwComplete")
+																					.hide();
+																			return;
+																		}
+																	},
+																	error : function(
+																			e) {
+																		hideLoadingLp(); //로딩레이어 숨기
+																		layerAlert("비밀번호 찾기중 오류가 발생했습니다.");
+																		return;
+																	},
+																});
+													});
+
+									$("#findId, #findPw")
+											.click(
+													function() {
+														var tid = $(this).attr(
+																"id");
+
+														if ($("#h1").attr(
+																"class") == "on") {
+															if (tid == "findId") {
+																$(".findId")
+																		.show();
+																$(".findPw")
+																		.hide();
+																$("#findId")
+																		.addClass(
+																				"on");
+																$("#findPw")
+																		.removeClass(
+																				"on");
+															} else {
+																$(".findId")
+																		.hide();
+																$(".findPw")
+																		.show();
+																$("#findId")
+																		.removeClass(
+																				"on");
+																$("#findPw")
+																		.addClass(
+																				"on");
+															}
+														} else if ($("#e1")
+																.attr("class") == "on") {
+															if (tid == "findId") {
+																$("#eId1")
+																		.show();
+																$("#eId2")
+																		.show();
+																$("#epw1")
+																		.hide();
+																$("#epw2")
+																		.hide();
+																$("#tab_01")
+																		.show();
+																$("#tab_02")
+																		.hide();
+															} else {
+																$("#eId1")
+																		.hide();
+																$("#eId2")
+																		.hide();
+																$("#epw1")
+																		.show();
+																$("#epw2")
+																		.show();
+																$("#tab_01")
+																		.hide();
+																$("#tab_02")
+																		.show();
+															}
+														}
+
+														$("#tabSelct").val(tid);
+													});
+
+									$("#h1, #e1").click(function() {
+										var tid = $(this).attr("id");
+										$("#h1, #e1").removeClass("on");
+										$(this).addClass("on");
+
+										if (tid == "h1") {
+											h1p();
+											//$('#handsomeM').show();
+											//$('#easyM').hide();
+										} else {
+											easyp();
+											$("#handsomeM").hide();
+											$("#easyM").show();
+											//$(".easyPwInputDiv").show();
+											//$(".easyPwResultDiv").hide();
+										}
+
+										$("#findId").click();
+										var tempTab = $("#findId");
+										uiTabSlideAct(tempTab); //탭 활성화
+									});
+								});
+
+				var authFailFn = function(msg) {
+					layerAlert(msg);
+				};
+
+				var tabChange = function(index) {
+					$("#sendName").val(index);
+					if (index == "sendSms") {
+						$("#find_opt_01").attr("checked", true);
+						$("#find_opt_02").attr("checked", false);
+					} else {
+						$("#find_opt_01").attr("checked", false);
+						$("#find_opt_02").attr("checked", true);
+					}
+				};
+
+				function h1p() {
+					//$('#h1').click();
+					isShow("");
+				}
+
+				function easyp() {
+					//$('#e1').click();
+					isShow("e");
+					isShow2("p");
+				}
+
+				function isShow(custType) {
+					if (custType == "e") {
+						$("#tabIdPw").removeClass("mem_ct_wrap hs_mbr_wrap");
+						$("#tabIdPw").addClass(
+								"mem_ct_wrap simple_mbr_wrap idpw_find_result");
+						$("#h1").removeClass("on");
+						$("#e1").addClass("on");
+						$("#handsomeM").hide();
+						$("#easyM").show();
+						$(".easyPwInputDiv").show();
+						$(".easyPwResultDiv").hide();
+					} else {
+						$("#tabIdPw").removeClass(
+								"mem_ct_wrap simple_mbr_wrap idpw_find_result");
+						$("#tabIdPw").addClass("mem_ct_wrap hs_mbr_wrap");
+						$("#h1").addClass("on");
+						$("#e1").removeClass("on");
+						$("#handsomeM").show();
+						$("#easyM").hide();
+					}
+				}
+
+				function isShow2(custType) {
+					if (custType == "i") {
+						$("#eId1").show();
+						$("#eId2").show();
+						$("#epw1").hide();
+						$("#epw2").hide();
+					} else {
+						$("#eId1").hide();
+						$("#eId2").hide();
+						$("#epw1").show();
+						$("#epw2").show();
+					}
+				}
+
+				function findAuth(tabSelct, chkedVal) {
+					//$.cookie("handsomeappreturnurl", location.href, {path:"/"});
+
+					if (tabSelct == "findPw") {
+						chkedVal = $("#selectedVal").val();
+					}
+
+					var paramAuth = "";
+					//alert("tabSelct => " + tabSelct + " chkedVal => " + chkedVal);
+					var appYn = "N";
+					var appOs = "";
+
+					if ((tabSelct == "findId") & (chkedVal == "phoneAuth")) {
+						$("#authName").val("email_M");
+						window
+								.open(
+										"/ko/member/phoneauth?fr=email_M&path="
+												+ path + "&appYn=" + appYn
+												+ "&appOs=" + appOs,
+										"popupChk",
+										"width=500, height=550, top=100, left=100, fullscreen=no, menubar=no, status=no, toolbar=no, titlebar=yes, location=no, scrollbar=no");
+					} else if ((tabSelct == "findId")
+							& (chkedVal == "ipinAuth")) {
+						$("#authName").val("email_I");
+						window
+								.open(
+										"/ko/member/ipinauth?fr=email_I&path="
+												+ path + "&appYn=" + appYn
+												+ "&appOs=" + appOs,
+										"popupChk",
+										"width=500, height=550, top=100, left=100, fullscreen=no, menubar=no, status=no, toolbar=no, titlebar=yes, location=no, scrollbar=no");
+					} else if (tabSelct == "findPw") {
+						if ($.trim($("#user_id").val()) == "") {
+							$("#pwMsg").text("이메일 아이디를 입력하세요.");
+							$("#user_id").focus();
+							return;
+						}
+
+						sendName = $("#sendName").val();
+						userid = $("#user_id").val();
+
+						if ($("#idVelidation").val() == "Y") {
+							$("#pwMsg").text("");
+							if (chkedVal == "phoneAuth") {
+								$("#sendName").val(sendName);
+								$("#authName").val("pw_M");
+								window
+										.open(
+												"/ko/member/phoneauth?fr=pw_M&path="
+														+ path + "&sendName="
+														+ sendName + "&userid="
+														+ userid + "&appYn="
+														+ appYn + "&appOs="
+														+ appOs,
+												"popupChk",
+												"width=500, height=550, top=100, left=100, fullscreen=no, menubar=no, status=no, toolbar=no, titlebar=yes, location=no, scrollbar=no");
+							} else if (chkedVal == "ipinAuth") {
+								$("#sendName").val(sendName);
+								$("#authName").val("pw_I");
+								window
+										.open(
+												"/ko/member/ipinauth?fr=pw_I&path="
+														+ path + "&sendName="
+														+ sendName + "&userid="
+														+ userid + "&appYn="
+														+ appYn + "&appOs="
+														+ appOs,
+												"popupChk",
+												"width=500, height=550, top=100, left=100, fullscreen=no, menubar=no, status=no, toolbar=no, titlebar=yes, location=no, scrollbar=no");
+							}
+						} else {
+							location.href = "/ko/member/findIdPwPage?error=true";
+						}
+					}
+				}
+
+				function goPage(url) {
+					location.href = url;
+				}
+
+				function goOpen(url) {
+					window.open(url);
+				}
+
+				function setAuth(param) {
+					location.href = param;
+				}
+
+				var loginLayerAlert = function(msg, refresh) {
+					btnConfirmText = "로그인";
+					var t = this;
+					this.confirmAction = function() {
+						//console.log('함수를 재정의 해주세요!');
+					};
+
+					var alertTag = "";
+					alertTag += '<div class="dvp_container">';
+					alertTag += '	<div class="dvp_close_btn b-close" id="alertCloseDiv"><span>'
+							+ btnCloseText + "</span></div>";
+					alertTag += '	<h1 class="dvp_header"></h1>';
+					alertTag += '	<div class="dvp_content">';
+					alertTag += '		<div class="desc_box">' + msg + "</div>";
+					alertTag += "	</div>";
+					alertTag += '	<div class="btn_wrap">';
+					alertTag += '		<button class="btn btn_bg_b btn-alert-confirm">'
+							+ btnConfirmText + "</button>";
+					alertTag += "	</div>";
+					alertTag += "</div>";
+
+					$("#popAlertConfirmDiv").html(alertTag);
+
+					$(".divpop_wrap_dev.pop_alert_confirm").bPopup({
+						follow : [ false, false ],
+						escClose : false,
+						modalClose : false,
+						opacity : 0.3,
+						positionStyle : "fixed",
+						onClose : function() {
+							holdBodyHide();
+							$("#popAlertConfirmDiv").html("");
+						},
+					});
+					holdBodyShow();
+
+					$("#popAlertConfirmDiv").find(".btn-alert-confirm").click(
+							function() {
+								//if(refresh==true) location.reload();
+								//$("#alertCloseDiv").click();
+								location.href = "/ko/member/login";
+								t.confirmAction();
+							});
+				};
+
+				//]]>
+			</script>
+			<form id="resultSend" action="/ko/member/searchEasyId" method="POST">
+				<input type="hidden" name="tabSelct" id="tabSelct" value="" />
+				<input type="hidden" name="selectedVal" id="selectedVal" value="phoneAuth" />
+				<input type="hidden" name="idVelidation" id="idVelidation" value="" />
+				<input type="hidden" name="sName" id="customerName" value="" />
+				<input type="hidden" name="authName" id="authName" value="" />
+				<input type="hidden" name="sendName" id="sendName" value="sendSms" />
+				<div>
+					<input type="hidden" name="CSRFToken" value="979e04d5-38f4-4c7b-a78b-661e6bb58faf" />
+				</div>
+			</form>
+			<!-- contents s -->
+			<div class="hsome_contents simplemember_wrap">
+				<ul class="grey_bg_header_tab" style="text-align : center">
+					<li class="" id="h1" style="display:none"><a href="#none" class="tab_li_hs_mem"><span>한섬회원</span></a></li>
+					<li id="e1" class="on"><a href="#none" class="tab_li_simple_mem"><span>한섬회원</span></a></li>
+				</ul>
+				<!-- 한성회원 시작 -->
+				<div id="tabIdPw" class="mem_ct_wrap simple_mbr_wrap idpw_find_result">
+					<!-- <div class="mem_ct_wrap simple_mbr_wrap idpw_find_result"> -->
+
+					<ul class="ui_tab red_border_tab">
+						<li class="on" id="findId"><a href="#tab_01">아이디 찾기</a></li>
+						<li id="findPw"><a href="#tab_02">비밀번호 찾기</a></li>
+					</ul>
+
+					<div class="tab_cont" id="handsomeM" style="display: none">
+						<!-- tab_01 아이디 찾기 s -->
+						<div class="cont findId" style="display: block">
+							<!-- search ID -->
+							<p class="find_opt_cmt">
+								본인 명의 휴대폰 번호와 회원가입 시<br />아이핀 인증으로 가입한 경우 본인여부를 확인합니다.
+							</p>
+							<ul class="find_opt certi">
+								<li class="btn_cp_certi" id="phoneAuth"><a href="#" onclick="javascript:findAuth('findId', 'phoneAuth');"><span>휴대폰
+											본인인증</span></a></li>
+								<li class="btn_ipin_certi" id="ipinAuth"><a href="#" onclick="javascript:findAuth('findId', 'ipinAuth');"><span>아이핀(i-PIN)
+											인증</span></a></li>
+							</ul>
+							<div class="dot_list_wrap">
+								<ul class="dot_list">
+									<li>입력하신 정보는 본인확인을 위해 나이스정보통신에 제공되며, 본인확인 용도 외에 사용되거나 저장되지 않습니다.</li>
+								</ul>
+							</div>
+							<!-- success -->
+							<!-- fail -->
+						</div>
+						<!-- tab_02 비밀번호 찾기 s -->
+						<div class="cont findPw">
+							<div class="input_group">
+								<div class="input_login_id">
+									<input type="text" id="user_id" class="login_id" placeholder="이메일 아이디를 입력하세요." title="이메일 아이디를 입력하세요." />
+								</div>
+								<!-- [TO DEV] Error msg here. -->
+								<div class="err_wrap">
+									<p class="err_txt" id="pwMsg"></p>
+								</div>
+
+								<ul class="find_opt radio">
+									<li>
+										<div class="radio_stl">
+											<input type="radio" id="find_opt_01" name="find_opt_cp_email" value="" onclick="javascript:tabChange('sendSms');" checked="checked" />
+											<label for="find_opt_01">
+												<div class="slct_con">
+													<span>등록된 휴대폰으로 받기</span>
+												</div>
+											</label>
+										</div>
+									</li>
+									<li>
+										<div class="radio_stl">
+											<input type="radio" id="find_opt_02" name="find_opt_cp_email" value="" onclick="javascript:tabChange('sendEmail');" />
+											<label for="find_opt_02">
+												<div class="slct_con">
+													<span>등록된 이메일로 받기</span>
+												</div>
+											</label>
+										</div>
+									</li>
+								</ul>
+							</div>
+							<ul class="find_opt certi">
+								<li class="btn_cp_certi on" id="phoneAuth"><a href="#"><span>휴대폰 본인인증</span></a></li>
+								<li class="btn_ipin_certi" id="ipinAuth"><a href="#"><span>아이핀(I-PIN) 인증</span></a></li>
+							</ul>
+							<div class="btn_wrap">
+								<button class="btn btn_bg_b btn_send_temp_pw btn_popup" onclick="javascript:findAuth('findPw', '');">본인인증 후
+									임시비밀번호 받기</button>
+							</div>
+							<div class="dot_list_wrap">
+								<ul class="dot_list">
+									<li>입력하신 정보는 본인확인을 위해 나이스정보통신에 제공되며, 본인확인 용도 외에 사용되거나 저장되지 않습니다.</li>
+									<li>임시비밀번호로 로그인 후 비밀번호를 변경해주세요.<a href="/ko/mypage/personInfomationChange">마이페이지&gt;<br />나의정보관리&gt;개인정보변경
+									</a> 에서 변경하실 수 있습니다.
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+
+					<div class="tab_cont" id="easyM" style="">
+						<!-- tab_01 아이디 찾기 s -->
+						<div class="cont on" id="tab_01">
+							<!-- Start: easyId Input -->
+							<!-- End: easyId Input -->
+
+							<!-- Start: easyId finding result -->
+							<div class="txt_wrap result id">
+								<p>다음 정보로 가입된 아이디입니다.</p>
+							</div>
+							<div class="txt_wrap" th:object="${findMember}">
+								<div class="dot_list_wrap">
+									<ul class="dot_list">
+										<li><span>구매자 성명:</span><span class="simple_name" th:text="*{mName}"></span></li>
+										<li><span>생년월일:</span><span class="simple_bday" th:text="*{mBirth}"></span></li>
+										<li><span>아이디:</span><span class="simple_id" th:text="*{mId}"></span></li>
+									</ul>
+								</div>
+							</div>
+
+							<div class="txt_wrap">
+								<p>
+									아이디 전체가 기억나지 않으신다면<br />더한섬닷컴 고객센터 <span><a href="tel:1800-5700">1800-5700</a></span>으로 문의하세요.
+								</p>
+							</div>
+							<div class="btn_wrap">
+								<button class="btn btn_bg_b btn_login" onclick="javascript:goPage('/ko/member/login');">로그인</button>
+							</div>
+							<div class="btn_wrap btn_wrap_div2">
+								<button class="btnstl3 border_btn_gray btn_re_fdid" onclick="javascript:goPage('/ko/member/findIdPwPage?type=e');">
+									아이디 다시 찾기</button>
+								<button class="btnstl3 border_btn_gray btn_cs" onclick="javascript:goPage('tel:1800-5700');">
+									<span>1800-5700</span>
+								</button>
+							</div>
+							<!-- End: easyId finding result -->
+						</div>
+						<!-- tab_02 비밀번호 찾기 s -->
+						<div class="cont" id="tab_02">
+							<!-- Start: easyPw finding Input -->
+							<div id="easyPwForm">
+								<form id="easyPwSearch" name="easyPwSearch">
+									<div class="input_group">
+										<div class="txt_wrap easyPwInputDiv">간편회원 가입 시 입력한 이름과 이메일을 입력하세요.</div>
+										<div class="input_user_name easyPwInputDiv">
+											<input type="text" id="pUserName" name="mName" class="user_name" placeholder="이름을 입력하세요." title="이름을 입력하세요." />
+										</div>
+										<div class="input_user_email easyPwInputDiv">
+											<input type="text" id="pUserEmail" name="mId" class="user_email" placeholder="이메일을 입력하세요." title="이메일을 입력하세요." />
+										</div>
+										<!-- [TO DEV] Error msg here. -->
+										<div class="err_wrap">
+											<p class="err_txt" id="easyPwMsgErr">
+												<!-- 이름을 입력하세요. -->
+											</p>
+										</div>
+									</div>
+								</form>
+								<div class="btn_wrap">
+									<button class="btn btn_bg_b btn_find_pw" id="searchPWBtn">비밀번호 찾기</button>
+								</div>
+							</div>
+							<!-- End: easyPw finding Input -->
+
+							<!-- Start: easyPw finding result -->
+							<div id="easyPwComplete" style="display: none">
+								<div class="txt_wrap result pw">
+									<p>
+										회원정보에 등록된 이메일주소로<br />임시비밀번호가 발송되었습니다.
+										<!-- 회원정보에 등록된 이메일주소로<br>임시비밀번호가 발송되었습니다. -->
+									</p>
+								</div>
+								<div class="btn_wrap">
+									<button class="btn btn_bg_b btn_login" onclick="javascript:goPage('/ko/member/login');">로그인</button>
+								</div>
+							</div>
+							<!-- End: easyPw finding result -->
+						</div>
+					</div>
+					<div class="login_find_area no_bg no_border" style="display: none">
+						<hr />
+						<p class="tit">H.Point 통합회원으로 가입하셨나요?</p>
+						<div class="btn_wrap btns">
+							<button class="btn btn_bd_g btn_fdid"
+								onclick="javascript:goOpen('https://www.h-point.co.kr/cu/config/findCustId.nhd?prtnrId=D080&amp;chnnlId=1705');"
+							>통합회원 아이디 찾기</button>
+							<button class="btn btn_bd_g btn_fdpw" onclick="javascript:goOpen('https://www.h-point.co.kr/cu/config/findCustPwd.nhd');">
+								통합회원 비밀번호 찾기</button>
+						</div>
+					</div>
+				</div>
+				<!-- 한성회원 종료 -->
+			</div>
+			<!-- //################## contents ################## -->
+		</div>
+	</div>
+	<th:block th:replace="common/footer :: footFragment"></th:block>
+</body>
+</html>
