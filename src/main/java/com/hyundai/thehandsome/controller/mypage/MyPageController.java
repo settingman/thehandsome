@@ -72,5 +72,13 @@ public class MyPageController {
             return "redirect:/mypage/personInfomationChangePWCheck";
         }
     }
+	
+	
+	@GetMapping(value = "/personInfomationChangePW")
+	public String changePw(Model model) {
+		
+
+		return "/mypage/personInfomationChangePW";
+	}
 
 }
