@@ -11,7 +11,6 @@ import com.hyundai.thehandsome.Vo.product.CatePListVO;
 import com.hyundai.thehandsome.Vo.product.ColorVO;
 import com.hyundai.thehandsome.Vo.product.ListVO;
 import com.hyundai.thehandsome.Vo.product.detail.ProductDetailVO;
-import com.hyundai.thehandsome.mapper.ProductListDAO;
 
 import lombok.extern.log4j.Log4j2;
 

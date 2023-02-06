@@ -1,7 +1,5 @@
 package com.hyundai.thehandsome.mapper;
 
-import java.sql.Date;
-
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
