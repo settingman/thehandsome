@@ -1243,8 +1243,7 @@
             <ul id="listBody">
               <li th:each="pInfo : ${pList}" class="float active" id="listBody1_li8">
                 <a
-                  href="javascript:noLink();"
-                  onclick="setEcommerceData2('1','8', 'CATEGORY');goProductDetail('SJ2D1WJC361W_BK','we051');"
+                th:href="|/product/ProductDetail/${pInfo.colorList[0].PCID}|"
                   class="categoryImgBox">
                   <div class="img">
                     <img
