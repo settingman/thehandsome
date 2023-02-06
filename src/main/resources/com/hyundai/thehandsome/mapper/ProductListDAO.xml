@@ -59,6 +59,10 @@
 	resultType="com.hyundai.thehandsome.Vo.product.detail.ProductDetailVO">
 		SELECT * FROM PRODUCT_DETAIL_VIEW
 		WHERE PCID = #{PCID}
-		
+	</select>
+	<select id="getProductImg"
+	resultType="String">
+		SELECT IMGSRC FROM PRODUCT_IMG
+		WHERE PCID = #{PCID}
 	</select>
 </mapper>
