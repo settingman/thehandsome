@@ -65,7 +65,7 @@ public class MyPageController {
         
         if(passwordEncoder.matches(mpassword, userpw)) {
             log.info("pw 재확인 완료..");
-            return "redirect:/";
+            return "redirect:/mypage/personInfomationChange";
         }
         else {
             rttr.addFlashAttribute("msg", "비밀번호를 다시 확인해 주세요.");
@@ -74,11 +74,19 @@ public class MyPageController {
     }
 	
 	
-	@GetMapping(value = "/personInfomationChangePW")
-	public String changePw(Model model) {
+	@GetMapping(value = "/personInfomationChange")
+	public String infomationChange(Model model) {
 		
 
-		return "/mypage/personInfomationChangePW";
+		return "/mypage/personInfomationChange";
+	}
+	
+	
+	@GetMapping(value = "/changePw")
+	public String changePw(Model model) {
+		
+		
+		return "/mypage/changePw";
 	}
 
 }
