@@ -21,4 +21,5 @@ import com.hyundai.thehandsome.Vo.product.ListVO;
 public interface ProductListService {
 	List<ListVO> getProductList();
 	List<CatePListVO> getPListWithCategory(String categoryCode);
+	String wishList(String mId, String productCode);
 }

@@ -3,11 +3,13 @@ package com.hyundai.thehandsome.mapper;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import com.hyundai.thehandsome.Vo.product.CatePListVO;
 import com.hyundai.thehandsome.Vo.product.ColorVO;
 import com.hyundai.thehandsome.Vo.product.ListVO;
 import com.hyundai.thehandsome.Vo.product.detail.ProductDetailVO;
+import com.hyundai.thehandsome.domain.member.Member;
 
 /**
  * ProductListDAO
@@ -34,4 +36,10 @@ public interface ProductListDAO {
 	List<ColorVO> getProductColor(String PID);
 	
 	ProductDetailVO getProductDetail(String PCID);
+	
+	void insertWishlist(@Param("mId") String mId, @Param("productCode")  String productCode);
+	
+	void deleteWishlist(@Param("mId") String mId, @Param("productCode")  String productCode);
+	
+	String findWishlist(@Param("mId") String mId, @Param("productCode")  String productCode);
 }

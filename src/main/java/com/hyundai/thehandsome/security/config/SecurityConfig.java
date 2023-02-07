@@ -27,6 +27,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 
+import com.hyundai.thehandsome.security.handler.CustomAuthSuccessHandler;
 import com.hyundai.thehandsome.service.MemberService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -42,13 +43,17 @@ import lombok.extern.slf4j.Slf4j;
  * ----------      --------    ---------------------------
  * 2023. 2. 1.     박성환      Security config setting
  * 2023. 2. 3.     박성환      마이페이지 접근권한 수정
+ * 2023. 2. 7.     박성환      SUCCESSHANDLER 수정
  *     </pre>
  */
 @Slf4j
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-
+	
+	@Autowired
+	CustomAuthSuccessHandler CustomAuthSuccessHandler;
+	
 	@Autowired
 	MemberService memberService;
 
@@ -56,11 +61,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 
-		http.authorizeRequests().antMatchers("/member/**", "/mypage/**").permitAll() // 누구나 mypage 접근허용 - 02/03 mypage
+		http.authorizeRequests().antMatchers("/member/**").permitAll() // 누구나 mypage 접근허용 - 02/03 mypage
 																						// 테스트때문에
-				.antMatchers("/", "/member/mypage").hasRole("USER") // USER, ADMIN만 접근 가능
+				.antMatchers("/", "/mypage/mypage").hasRole("USER") // USER, ADMIN만 접근 가능
 				.antMatchers("/admin").hasRole("ADMIN") // ADMIN만 접근 가능
-				.anyRequest().authenticated(); // 나머지 요청들은 권한의 종류에 상관 없이 권한이 있어야 접근
+				.anyRequest().permitAll(); // 접근 제한을 수동으로 걸어주고 나머지는 접근 제한 OK
+				//.authenticated(); // 나머지 요청들은 권한의 종류에 상관 없이 권한이 있어야 접근
 		
 		http
 				.formLogin()// Form 로그인 인증 기능이 작동함
@@ -70,16 +76,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.usernameParameter("mId")// 아이디 파라미터명 설정
 				.passwordParameter("password")// 패스워드 파라미터명 설정
 				.loginProcessingUrl("/member/login")// 로그인 Form Action Url
-				.successHandler(new AuthenticationSuccessHandler() {
-					@Override
-					public void onAuthenticationSuccess(HttpServletRequest httpServletRequest,
-							HttpServletResponse response, Authentication authentication)
-							throws IOException, ServletException {
-						System.out.println("authentication:: " + authentication.getName());
-						System.out.println("authentication:: " + authentication.getAuthorities());
-						response.sendRedirect("/");
-					}
-				})// 로그인 성공 후 핸들러
+				.successHandler(CustomAuthSuccessHandler)// 로그인 성공 후 핸들러
 				.failureHandler(new SimpleUrlAuthenticationFailureHandler() {
 					@Override
 					public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,

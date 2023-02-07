@@ -94,7 +94,15 @@ public class MemberController {
 	@GetMapping("/login")
 	public String login(@RequestParam(value = "mId", required = false) String mId,
 			@RequestParam(value = "error", required = false) String error,
-			@RequestParam(value = "exception", required = false) String exception, Model model) {
+			@RequestParam(value = "exception", required = false) String exception,HttpServletRequest request, Model model) {
+		
+		String uri = request.getHeader("Referer");
+	    if (uri != null && !uri.contains("/login")) {
+	        request.getSession().setAttribute("prevPage", uri);
+	    }
+	    log.info(request.getRequestURI());
+	    log.info(uri);
+	
 
 		/* 에러와 예외를 모델에 담아 view resolve */
 		model.addAttribute("mId", mId);

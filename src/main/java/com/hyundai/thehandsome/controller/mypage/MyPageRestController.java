@@ -44,10 +44,9 @@ public class MyPageRestController {
 
 	@Autowired
 	private final PasswordEncoder passwordEncoder;
-	
+
 	@Autowired
 	private final MailServiceImpl mailService;
-	
 
 	// 마이페이지 쿠폰 영역 AJAX
 	@RequestMapping(value = "/voucher", produces = "application/json; charset=UTF-8", method = RequestMethod.GET)
@@ -108,9 +107,9 @@ public class MyPageRestController {
 			/** 새로운 비밀번호로 업데이트 (메일서비스 재활용) **/
 			mailService.updatePassword(inputPW, user.getMId());
 			return true;
-			
+
 		}
-		
+
 		return false;
 
 	}

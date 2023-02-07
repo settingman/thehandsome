@@ -55,4 +55,20 @@ public class ProductListServiceImpl implements ProductListService {
 			throw e;
 		}
 	}
+
+	@Override
+	public String wishList(String mId, String productCode) {
+		
+		String pId = plistDAO.findWishlist(mId, productCode);
+		
+		if(pId == null) {
+			plistDAO.insertWishlist(mId, productCode);
+			return "insert";
+		}else {
+			plistDAO.insertWishlist(mId, productCode);
+			return "delete";
+		}
+		
+	
+	}
 }

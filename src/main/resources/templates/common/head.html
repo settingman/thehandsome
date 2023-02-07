@@ -13,7 +13,7 @@
 <!-- csrf 가 null 인 케이스에 발생한 문제:
 	로그인하지 않았을 때 csrf가 null이므로 에러가 터졌다.
 	다음과 같이 null 이 아닐 경우에만 csrf.token 등을 참조하도록 수정했다. -->
- <meta charset="UTF-8">
+<meta charset="UTF-8">
 <meta name="_csrf" th:content="${_csrf?.token}" th:if="${_csrf} ne null">
 <meta name="_csrf_header" th:content="${_csrf?.headerName}" th:if="${_csrf} ne null">
 
@@ -135,7 +135,8 @@
 <script type="text/javascript" src="https://www.thehandsome.com/_ui/handsomemobile/js/selectordie.min.js"></script>
 <script type="text/javascript" src="https://www.thehandsome.com/_ui/handsomemobile/js/jquery.bpopup.min.js"></script>
 <script type="text/javascript" src="https://www.thehandsome.com/_ui/handsomemobile/js/echarts.min.js"></script>
-<!-- 마이페이지 오류로인한 주석처리 - 박성환 <script type="text/javascript" src="https://www.thehandsome.com/_ui/handsomemobile/js/common.js?20210501"></script> -->
+<!-- 마이페이지 오류로인한 주석처리 - 박성환  -->
+<!-- <script type="text/javascript" src="https://www.thehandsome.com/_ui/handsomemobile/js/common.js?20210501"></script> -->
 <script type="text/javascript" src="/js/mypage.js"></script>
 <script type="text/javascript" src="https://www.thehandsome.com/_ui/handsomemobile/js/assist_common.js?v=20220630"></script>
 <script type="text/javascript" src="https://www.thehandsome.com/_ui/handsomemobile/js/assist_new.js"></script>
@@ -687,109 +688,6 @@
 	transform-origin: 50% 50%;
 }
 
-@
-keyframes target_image { 0% {
-	transform: rotate(-2deg);
-}
-50
-
-
-
-
-
-
-%
-{
-transform
-
-
-
-
-
-
-:
-
-
-
-
-
-
-rotate
-
-
-
-
-(
-
-
-
-
-
-
-9deg
-
-
-
-
-
-
-)
-
-
-
-
-;
-}
-100
-
-
-
-
-
-
-%
-{
-transform
-
-
-
-
-
-
-:
-
-
-
-
-
-
-rotate
-
-
-
-
-(
-
-
-
-
-
-
--1deg
-
-
-
-
-
-
-)
-
-
-
-
-;
-}
-}
 </style>
 
 

@@ -26,6 +26,7 @@ import lombok.extern.slf4j.Slf4j;
  *   수정일         수정자               수정내용
  * ----------      --------    ---------------------------
  * 2023. 2. 3.     박성환      마이페이지 접근 기능
+ * 2023. 2. 6.     박성환		개인정보변경 페이지 연결
  *     </pre>
  */
 @Slf4j
@@ -88,5 +89,9 @@ public class MyPageController {
 		
 		return "/mypage/changePw";
 	}
+	
+	
+	
+	
 
 }
