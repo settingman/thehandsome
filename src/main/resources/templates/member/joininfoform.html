@@ -651,7 +651,8 @@
 									<input type="text" id="uid" th:field="*{mId}" class="user_id" placeholder="이메일 아이디를 입력하세요." title="아이디를 입력하세요." maxlength="100"
 										style="width: 91%"
 									/>
-									<button type="button" onclick="nameCheck()" class="btnstl3 border_btn_gray btn_cnl" style="padding: 0px 10px" id="check_dup_btn">중복확인</button>
+									<button type="button" onclick="nameCheck()" class="btnstl3 border_btn_gray btn_cnl" style="padding: 0px 10px; word-break: keep-all; " id="check_dup_btn">중복확인</button>
+									<!-- word break : 크기가 줄어들어도 글자크기 그대로 -->
 								</div>
 								<div class="err_wrap">
 									<p id="hpErrMsg" class="err_txt"></p>

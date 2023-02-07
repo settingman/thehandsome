@@ -1929,10 +1929,10 @@
 			<div class="swiper-container">
 				<div class="swiper-wrapper">
 					<div class="swiper-slide">
-						<img id="reply_view_img1" src="/_ui/handsomemobile/images/common/no_img.jpg" alt="">
+						<img id="reply_view_img1" src="https://www.thehandsome.com/_ui/handsomemobile/images/common/no_img.jpg" alt="">
 					</div>
 					<div class="swiper-slide">
-						<img id="reply_view_img2" src="/_ui/handsomemobile/images/common/no_img.jpg" alt="">
+						<img id="reply_view_img2" src="https://www.thehandsome.com/_ui/handsomemobile/images/common/no_img.jpg" alt="">
 					</div>
 				</div>
 				<div class="swiper-pagination"></div>
@@ -1969,11 +1969,11 @@
 				<div class="write_form_area simple">
 					<!--업로드 한 이미지가 있으면// -->
 					<div class="ipt-uploaded" style="display: none">
-						<span class="thumb" id="replyTempImg" style="display: none"> <img id="replyTempImgSrc" src="/_ui/handsomemobile/images/common/no_img.jpg"
+						<span class="thumb" id="replyTempImg" style="display: none"> <img id="replyTempImgSrc" src="https://www.thehandsome.com/_ui/handsomemobile/images/common/no_img.jpg"
 							alt=""
 						> <a href="javascript:hideReplyTempImg();" class="del">삭제</a>
 						</span> <span class="thumb" id="replyProductImg" style="display: none"> <img id="replyProductImgSrc"
-							src="/_ui/handsomemobile/images/common/no_img.jpg" alt=""
+							src="https://www.thehandsome.com/_ui/handsomemobile/images/common/no_img.jpg" alt=""
 						> <a href="javascript:hideReplyProductImg();" class="del">삭제</a>
 						</span>
 					</div>
@@ -2140,15 +2140,15 @@
 			<p class="tit">공유하기</p>
 			<div class="share_link">
 				<a class="link" id="shareKakaotalk" onclick="javascript:noLink();GA_Event('상품_상세', '공유_SNS', 'KAKAOTALK');"><img
-					src="/_ui/handsomemobile/images/content/sns_logo02.png" alt="kakao talk"
+					src="https://www.thehandsome.com/_ui/handsomemobile/images/content/sns_logo02.png" alt="kakao talk"
 				></a> <a class="link" id="shareUrl" data-clipboard-action="copy" data-clipboard-text="" onclick="GA_Event('상품_상세', '공유_SNS', 'COPYEURL');"><img
-					src="/_ui/handsomemobile/images/content/sns_logo03.png" alt="url"
+					src="https://www.thehandsome.com/_ui/handsomemobile/images/content/sns_logo03.png" alt="url"
 				></a> <a class="link" id="shareFacebook" onclick="javascript:fnShareFacebook();GA_Event('상품_상세', '공유_SNS', 'FACEBOOK');"><img
-					src="/_ui/handsomemobile/images/content/sns_logo04.png" alt="facebook"
+					src="https://www.thehandsome.com/_ui/handsomemobile/images/content/sns_logo04.png" alt="facebook"
 				></a> <a class="link" id="shareTwitter" onclick="javascript:fnShareTwitter();GA_Event('상품_상세', '공유_SNS', 'TWITTER');"><img
-					src="/_ui/handsomemobile/images/content/sns_logo05.png" alt="twitter"
+					src="https://www.thehandsome.com/_ui/handsomemobile/images/content/sns_logo05.png" alt="twitter"
 				></a> <a class="link" id="sharePinterest" onclick="javascript:fnSharePinterest();GA_Event('상품_상세', '공유_SNS', 'PINTEREST');"><img
-					src="/_ui/handsomemobile/images/content/sns_logo06.png" alt="pinterest"
+					src="https://www.thehandsome.com/_ui/handsomemobile/images/content/sns_logo06.png" alt="pinterest"
 				></a>
 			</div>
 			<a href="#" class="pop-comm-cls">닫기</a>
@@ -2312,26 +2312,7 @@
 	<script defer="defer">
 
 					
-		$(window).load(function() {
-			if ($(".hsome_quickMenu").length == 0) {
-				if (appDownPopContentHtml != "") {
-					holdBodyShow();
-				}
-			}
-		});
-
-		function mobileWebView() {
-			//$(".app_pop200303").hide();
-			//$(".noti_popup190906_dim").hide();
-			$('.b-modal.__b-popup1__').hide();
-			if ($(".hsome_quickMenu").length == 0) {
-				if (appDownPopContentHtml != "") {
-					holdBodyHide();
-				}
-			}
-			setMobileWebViewCookie("mobileWebView", "Y", 1);
-		}
-
+		
 		//쿠키 생성
 		function setExternalCookie(cName, cValue, cDay) {
 			var currentDate = new Date();
