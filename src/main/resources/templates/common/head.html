@@ -16,6 +16,8 @@
 <meta charset="UTF-8">
 <meta name="_csrf" th:content="${_csrf?.token}" th:if="${_csrf} ne null">
 <meta name="_csrf_header" th:content="${_csrf?.headerName}" th:if="${_csrf} ne null">
+<meta name="HandheldFriendly" content="true" />
+<meta name="viewport" content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, width=device-width" />
 
 <script src="https://kit.fontawesome.com/c2edef0625.js" crossorigin="anonymous"></script>
 
@@ -687,7 +689,6 @@
 	animation-iteration-count: 2;
 	transform-origin: 50% 50%;
 }
-
 </style>
 
 
