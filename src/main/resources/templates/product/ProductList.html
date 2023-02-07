@@ -241,7 +241,8 @@
           <div class="hs_product_list" id="hsProductList">
             <ul id="listBody">
               <li th:each="pInfo : ${pList}" class="float active" id="listBody1_li8">
-                <a th:href="|/product/ProductDetail/${pInfo.colorList[0].PCID}|" class="categoryImgBox">
+                <a th:href="|/product/ProductDetail/${pInfo.colorList[0].PCID}|" class="categoryImgBox"
+                th:id="|${pInfo.pid}_link|">
                   <div class="img">
                     <img
                       th:src="${pInfo.colorList[0].PCIMG1}"
@@ -6260,6 +6261,7 @@ layer popup 형식의 confirm 창
         var target = url.substring(url.lastIndexOf("/") + 1, url.lastIndexOf("_"));
         url = url.replace(target, pcid);
         $("#" + pid).attr("src", url);
+        $("#" + pid+"_link").attr("href", "/product/ProductDetail/"+pcid);
       }
 
       function chgColorChip(index, code) {
