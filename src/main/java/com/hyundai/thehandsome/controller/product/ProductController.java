@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.hyundai.thehandsome.Vo.product.CatePListVO;
 import com.hyundai.thehandsome.Vo.product.ListVO;
+import com.hyundai.thehandsome.Vo.product.detail.ProductDetailVO;
 import com.hyundai.thehandsome.service.ProductListService;
 
 import lombok.extern.log4j.Log4j2;
@@ -52,6 +53,11 @@ public class ProductController {
 	public String getProductItem(@PathVariable("PCID") String PCID, Model model) {
 		log.info("getProductList-----------------");
 		try {
+			ProductDetailVO itemInfo = plistService.getProductDetail(PCID);
+			model.addAttribute("itemInfo", itemInfo);
+			
+			List<String> imgList = plistService.getProductImg(PCID);
+			model.addAttribute("imgList", imgList);
 			return "/product/ProductDetail";		
 		} catch (Exception e) {
 			throw e;

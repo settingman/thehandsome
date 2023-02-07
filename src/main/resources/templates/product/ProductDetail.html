@@ -54,7 +54,7 @@
       property="og:url"
       content="http://www.thehandsome.com/ko/HANDSOME/WOMEN/Top/Knit/%EB%AA%A8%ED%97%A4%EC%96%B4-%EB%B8%94%EB%A0%8C%EB%93%9C-%EC%BB%AC%EB%9F%AC-%EB%9D%BC%EC%9D%B8-%EB%8B%88%ED%8A%B8-%ED%83%91/p/CM2D0KTO509W_LP?lang=ko" />
     <meta property="og:type" content="product" />
-    <meta property="og:image" content="http://newmedia.thehandsome.com/CM/2D/SS/CM2D0KTO509W_LP_W01.jpg" />
+    <meta property="og:image" content="${imgsrc}" />
     <meta property="og:description" content="" />
     <meta property="product:price:amount" content="495000" />
     <meta property="product:price:currency" content="KRW" />
@@ -1064,22 +1064,44 @@
                     }
                   </script>
 
-                  <li class="swiper-slide swiper-slide-active" style="width: 527px">
+                  <li th:each="imgsrc,imgStat : ${imgList}"
+                  class="swiper-slide"
+                  th:data-idx="${imgStat.index}">
+                    <div
+                      class="slide-inner"
+                      th:style="|
+                        background-image: url('${imgsrc}');
+                        transform: translate3d(0px, 0px, 0px);|
+                      "
+                      id="slider-W01"></div>
+                    <div style="display: none">
+                      <img
+                      th:src="${imgsrc}"
+                        onerror="fnProductNoImage(this, 'W01')" />
+                    </div>
+                    <a href="#">
+                      <img
+                        th:src="|${imgsrc}/dims/resize/750x1131|"
+                        onerror="this.src='http://www.thehandsome.com/_ui/handsomemobile/images/common/no_img.jpg'"
+                        alt="모헤어 블렌드 컬러 라인 니트 탑" />
+                    </a>
+                  </li>
+                  <!-- <li class="swiper-slide swiper-slide-active" style="width: 527px">
                     <div
                       class="slide-inner"
                       style="
-                        background-image: url('http://newmedia.thehandsome.com/CM/2D/SS/CM2D0KTO509W_LP_W01.jpg');
+                        background-image: url('${imgsrc}');
                         transform: translate3d(0px, 0px, 0px);
                       "
                       id="slider-W01"></div>
                     <div style="display: none">
                       <img
-                        src="http://newmedia.thehandsome.com/CM/2D/SS/CM2D0KTO509W_LP_W01.jpg"
+                        src="${imgsrc}"
                         onerror="fnProductNoImage(this, 'W01')" />
                     </div>
                     <a href="#">
                       <img
-                        src="http://newmedia.thehandsome.com/CM/2D/SS/CM2D0KTO509W_LP_W01.jpg/dims/resize/750x1131"
+                        src="${imgsrc}/dims/resize/750x1131"
                         onerror="this.src='http://www.thehandsome.com/_ui/handsomemobile/images/common/no_img.jpg'"
                         alt="모헤어 블렌드 컬러 라인 니트 탑" />
                     </a>
@@ -1123,87 +1145,8 @@
                         onerror="this.src='http://www.thehandsome.com/_ui/handsomemobile/images/common/no_img.jpg'"
                         alt="모헤어 블렌드 컬러 라인 니트 탑" />
                     </a>
-                  </li>
-                  <li class="swiper-slide" style="width: 527px">
-                    <div
-                      class="slide-inner"
-                      style="
-                        background-image: url('http://newmedia.thehandsome.com/CM/2D/SS/CM2D0KTO509W_LP_W04.jpg');
-                        transform: translate3d(-790.5px, 0px, 0px);
-                      "
-                      id="slider-W04"></div>
-                    <div style="display: none">
-                      <img
-                        src="http://newmedia.thehandsome.com/CM/2D/SS/CM2D0KTO509W_LP_W04.jpg"
-                        onerror="fnProductNoImage(this, 'W04')" />
-                    </div>
-                    <a href="#">
-                      <img
-                        src="http://newmedia.thehandsome.com/CM/2D/SS/CM2D0KTO509W_LP_W04.jpg/dims/resize/750x1131"
-                        onerror="this.src='http://www.thehandsome.com/_ui/handsomemobile/images/common/no_img.jpg'"
-                        alt="모헤어 블렌드 컬러 라인 니트 탑" />
-                    </a>
-                  </li>
-                  <li class="swiper-slide" style="width: 527px">
-                    <div
-                      class="slide-inner"
-                      style="
-                        background-image: url('http://newmedia.thehandsome.com/CM/2D/SS/CM2D0KTO509W_LP_W05.jpg');
-                        transform: translate3d(-1054px, 0px, 0px);
-                      "
-                      id="slider-W05"></div>
-                    <div style="display: none">
-                      <img
-                        src="http://newmedia.thehandsome.com/CM/2D/SS/CM2D0KTO509W_LP_W05.jpg"
-                        onerror="fnProductNoImage(this, 'W05')" />
-                    </div>
-                    <a href="#">
-                      <img
-                        src="http://newmedia.thehandsome.com/CM/2D/SS/CM2D0KTO509W_LP_W05.jpg/dims/resize/750x1131"
-                        onerror="this.src='http://www.thehandsome.com/_ui/handsomemobile/images/common/no_img.jpg'"
-                        alt="모헤어 블렌드 컬러 라인 니트 탑" />
-                    </a>
-                  </li>
-                  <li class="swiper-slide" style="width: 527px">
-                    <div
-                      class="slide-inner"
-                      style="
-                        background-image: url('http://newmedia.thehandsome.com/CM/2D/SS/CM2D0KTO509W_LP_W06.jpg');
-                        transform: translate3d(-1317.5px, 0px, 0px);
-                      "
-                      id="slider-W06"></div>
-                    <div style="display: none">
-                      <img
-                        src="http://newmedia.thehandsome.com/CM/2D/SS/CM2D0KTO509W_LP_W06.jpg"
-                        onerror="fnProductNoImage(this, 'W06')" />
-                    </div>
-                    <a href="#">
-                      <img
-                        src="http://newmedia.thehandsome.com/CM/2D/SS/CM2D0KTO509W_LP_W06.jpg/dims/resize/750x1131"
-                        onerror="this.src='http://www.thehandsome.com/_ui/handsomemobile/images/common/no_img.jpg'"
-                        alt="모헤어 블렌드 컬러 라인 니트 탑" />
-                    </a>
-                  </li>
-                  <li class="swiper-slide" style="width: 527px">
-                    <div
-                      class="slide-inner"
-                      style="
-                        background-image: url('http://newmedia.thehandsome.com/CM/2D/SS/CM2D0KTO509W_LP_W07.jpg');
-                        transform: translate3d(-1581px, 0px, 0px);
-                      "
-                      id="slider-W07"></div>
-                    <div style="display: none">
-                      <img
-                        src="http://newmedia.thehandsome.com/CM/2D/SS/CM2D0KTO509W_LP_W07.jpg"
-                        onerror="fnProductNoImage(this, 'W07')" />
-                    </div>
-                    <a href="#">
-                      <img
-                        src="http://newmedia.thehandsome.com/CM/2D/SS/CM2D0KTO509W_LP_W07.jpg/dims/resize/750x1131"
-                        onerror="this.src='http://www.thehandsome.com/_ui/handsomemobile/images/common/no_img.jpg'"
-                        alt="모헤어 블렌드 컬러 라인 니트 탑" />
-                    </a>
-                  </li>
+                  </li> -->
+                  
                 </ul>
                 <!-- <div class="swiper-pagination"></div> -->
                 <div
