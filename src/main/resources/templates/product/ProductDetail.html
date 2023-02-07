@@ -3265,13 +3265,13 @@
                     <a
                       href="javascript:fn_goCategori('br08')"
                       onclick="GA_Event('상품_상세', '브랜드', 'the CASHMERE');"
-                      ><span>the CASHMERE</span></a
+                      ><span>[[${itemInfo.BNAME}]]</span></a
                     >
                   </div>
 
                   <div class="name">
-                    <strong id="reOrderTxt" style="display: none">[예약판매]</strong>
-                    모헤어 블렌드 컬러 라인 니트 탑&nbsp;
+                    <!-- <strong id="reOrderTxt" style="display: none">[예약판매]</strong> -->
+                    [[${itemInfo.PNAME}]]
                   </div>
 
                   <div class="price">
@@ -3288,8 +3288,10 @@
                       class="copy btn_clipboard"
                       data-clipboard-action="copy"
                       data-clipboard-text="CM2D0KTO509W_LP"
-                      onclick="GA_Event('상품_상세', '품번', 'CM2D0KTO509W_LP');">
-                      CM2D0KTO509W_LP
+                      onclick="GA_Event('상품_상세', '품번', 'CM2D0KTO509W_LP');"
+                      th:text="__${PCID}__"
+                      >
+                      <!-- [[${itemInfo.PCID}]] -->
                     </button>
                     <!-- 수정(redmine:914) : 20180910 e -->
                     <!-- input text만 복사 가능하여 품번 복사를 위한 영역을 지정 -->
@@ -5952,8 +5954,10 @@ dataLayer에 남아 있는 경우에는 전자상거래 단계만을 위해 사�
                             alt="" />
                         </div>
                         <div class="txt">
-                          <p class="name">SYSTEM</p>
-                          <p class="price">₩650,000</p>
+                          <p class="name"
+                          th:texx>[[${itemInfo.BNAME}]]</p>
+                          <p class="price" 
+                          th:text="'₩'+ ${#numbers.formatInteger(itemInfo.PCPRICE, 0, 'COMMA')}"></p>
                         </div>
                       </a>
                     </li>
