@@ -22,7 +22,7 @@ import lombok.extern.slf4j.Slf4j;
  * @since : 2023. 2. 7.
  * @FileName: CustomAuthSuccessHandler.java
  * @author : 박성환
- * @설명 : config 로그인 성공시 핸들러 (로그인 이전 요청 페이지로 이동) 
+ * @설명 : config 로그인 성공시 핸들러 (로그인 이전 요청 페이지로 이동)
  * 
  *     <pre>
  *   수정일         수정자               수정내용
