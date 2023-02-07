@@ -14,7 +14,18 @@ import org.springframework.web.bind.annotation.RestController;
 import com.hyundai.thehandsome.service.ProductListService;
 
 import lombok.extern.log4j.Log4j2;
-
+/**
+ * 
+ * ProductDetailRestController.java
+ * @author 박세영
+ * @since 2023. 2. 7.
+ * 
+ * <pre>
+ * 수정일         수정자       			  수정내용
+ * ----------  --------    ---------------------------
+ * 2023. 2. 7.  박세영       최초 생성, getimg() 추가
+ * </pre>
+ */
 @Log4j2
 @RestController
 @RequestMapping("/info")
