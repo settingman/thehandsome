@@ -26,21 +26,19 @@ import com.hyundai.thehandsome.service.MemberService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-/**
- * @since   : 2023. 1. 31.
- * @FileName: MemberController.java
- * @author  : 박성환
- * @설명    : 로그인, 회원가입 등 회원관련 기능 구현
 
- * <pre>
+/**
+ * @since : 2023. 1. 31.
+ * @FileName: MemberController.java
+ * @author : 박성환
+ * @설명 : 로그인, 회원가입 등 회원관련 기능 구현
+ * 
+ *     <pre>
  * 수정일           수정자               수정내용
  * ----------      --------    ---------------------------
  * 2023. 1. 31.     박성환      회원가입, 로그인 기능 구현
- * </pre>
+ *     </pre>
  */
-
-
-
 
 @Slf4j
 @RequiredArgsConstructor
@@ -75,13 +73,13 @@ public class MemberController {
 		}
 
 		try {
-						
+
 			Member member = Member.createMember(memberFormDto, passwordEncoder);
 			memberService.saveMember(member);
 			log.info("try Error");
 		} catch (IllegalStateException e) {
 			log.info("catch Error");
-			log.error("error:", e);
+			log.error("Error saving member: {}", e.getMessage());
 			model.addAttribute("errorMessage", e.getMessage());
 			return "member/joininfoform";
 		}
@@ -89,20 +87,19 @@ public class MemberController {
 		return "redirect:/";
 	}
 
-
 	// 로그인
 	@GetMapping("/login")
 	public String login(@RequestParam(value = "mId", required = false) String mId,
 			@RequestParam(value = "error", required = false) String error,
-			@RequestParam(value = "exception", required = false) String exception,HttpServletRequest request, Model model) {
-		
+			@RequestParam(value = "exception", required = false) String exception, HttpServletRequest request,
+			Model model) {
+
 		String uri = request.getHeader("Referer");
-	    if (uri != null && !uri.contains("/login")) {
-	        request.getSession().setAttribute("prevPage", uri);
-	    }
-	    log.info(request.getRequestURI());
-	    log.info(uri);
-	
+		if (uri != null && !uri.contains("/login")) {
+			request.getSession().setAttribute("prevPage", uri);
+		}
+		log.info(request.getRequestURI());
+		log.info(uri);
 
 		/* 에러와 예외를 모델에 담아 view resolve */
 		model.addAttribute("mId", mId);
@@ -133,31 +130,29 @@ public class MemberController {
 
 		return "/member/findidpwpage";
 	}
-	
-	// find id 
+
+	// find id
 	@PostMapping(value = "/findIdPwPage")
-	public String findIdPwPage(@RequestParam("mName") String mName,
-			@RequestParam("mBirth") Integer mBirth, Model model) {
-		
+	public String findIdPwPage(@RequestParam("mName") String mName, @RequestParam("mBirth") Integer mBirth,
+			Model model) {
+
 		log.info(mName);
 		log.info(mBirth.toString());
-		
+
 		Member findMember = memberMapper.findByNameBirth(mName, mBirth.toString());
-		
-		if(findMember==null) {
+
+		if (findMember == null) {
 			log.info("fail");
 			return "/member/findidpwpage";
 		}
-		
+
 		String mId = findMember.getMId();
-		
-		findMember.setMId(mId.replaceAll("(?<=.{3}).(?=.*@)", "*")); 
-		
+
+		findMember.setMId(mId.replaceAll("(?<=.{3}).(?=.*@)", "*"));
+
 		model.addAttribute("findMember", findMember);
-		
+
 		return "/member/searchEasyId";
 	}
-	
-		
-	
+
 }
