@@ -1,7 +1,7 @@
 <!--
  @Date : 2023. 02. 06.
  @작성자 : 박성환
- @설명 :  비밀번호 재확인 페이지 ( 2중 보안)
+ @설명 :  개인정보 변경 페이지
 -->
 
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
@@ -506,7 +506,7 @@ $(document).ready(function(){
 	    
 		//비밀번호변경
 		$("#pwChangeBtn").click(function() {
-			callLayerPopup('/ko/mypage/personInfomationChangePW','depth1');
+			callLayerPopup('/mypage/changePw','depth1');
 		});
 	}
     

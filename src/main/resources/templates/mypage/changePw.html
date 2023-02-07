@@ -14,7 +14,7 @@
 	<script>
 	
 	// 23.02.06 AJAX 처리 완료.
-		var passwordControll = function(division, inputPW, prk) {
+		var passwordControll2 = function(division, inputPW, prk) {
 			
 			console.log(inputPW);
 
@@ -55,7 +55,7 @@
 				.ready(
 						function() {
 
-							$('#oldPassword').blur(
+							$('#oldPassword2').blur(
 									
 									
 									function() {
@@ -63,12 +63,12 @@
 										console.log("123");
 										
 										
-										if ($("#oldPassword").val() == "") {
-											$("#oldPassword").focus();
+										if ($("#oldPassword2").val() == "") {
+											$("#oldPassword2").focus();
 										} else {
-											var pwc = new passwordControll(
+											var pwc = new passwordControll2(
 													"compare",
-													$("#oldPassword").val(),
+													$("#oldPassword2").val(),
 													"8953969410052");
 											pwc.trueAction = function() {
 												$("#oldPasswordCheckMsg")
@@ -81,8 +81,8 @@
 														.show();
 												$("#oldPasswordCheckMsg").text(
 														"기존 비밀번호와 일치하지 않습니다."); //다국어 : 기존 비밀번호와 일치하지 않습니다.
-												$("#oldPassword").val("");
-												$("#oldPassword").focus();
+												$("#oldPassword2").val("");
+												$("#oldPassword2").focus();
 											};
 										}
 									});
@@ -112,14 +112,14 @@
 												$("#newPasswordConfirmDubMsg")
 														.hide();
 
-												if ($.trim($("#oldPassword")
+												if ($.trim($("#oldPassword2")
 														.val()) == "") {
-													$("#oldPasswordCheckMsg")
+													$("#oldPassword2CheckMsg")
 															.show();
-													$("#oldPasswordCheckMsg")
+													$("#oldPassword2CheckMsg")
 															.text(
 																	"필수항목을 입력하시길 바랍니다."); //다국어 : 필수항목을 입력하시길 바랍니다.
-													$("#oldPassword").focus();
+													$("#oldPassword2").focus();
 													return false;
 												}
 
@@ -242,6 +242,7 @@
 											});
 						});
 
+		var zxczxc123;
 		var passwordDataValidationCheck = function(fid, msgid) {
 			if (capsLock($('#' + fid).val())) {
 				$('#' + msgid).text("Caps Lock 이 켜져 있습니다."); //다국어 : <Caps Lock>이 켜져 있습니다.
@@ -335,7 +336,7 @@
 					<span>기존 비밀번호</span>
 				</div>
 				<div class="ipt_con">
-					<input type="password" id="oldPassword" maxlength="100">
+					<input type="password" id="oldPassword2" maxlength="100">
 					<p class="err_box" id="oldPasswordCheckMsg">
 						<!-- 비밀번호는 8~15자리 이하로 영문/숫자/특문을 혼합해 주세요. -->
 					</p>

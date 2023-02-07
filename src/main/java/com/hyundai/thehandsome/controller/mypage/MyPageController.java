@@ -56,6 +56,7 @@ public class MyPageController {
 	}
 	
 	
+	
 	@PostMapping(value = "/personInfomationChangePWCheck")
     public String postPrevModify(Authentication auth, @RequestParam("mpassword") String mpassword, RedirectAttributes rttr) {
         SecurityMember user = (SecurityMember) auth.getPrincipal();

@@ -1,3 +1,6 @@
+<!DOCTYPE html>
+
+
 <!--
  @Date : 2023. 02. 06.
  @작성자 : 박성환
@@ -7,89 +10,110 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <title>개인정보 변경 비밀번호 체크 | 더한섬닷컴</title>
 
-<th:block th:replace="common/head :: headFragment"></th:block>
+
+	<head>
+
+
+<!-- csrf 가 null 인 케이스에 발생한 문제:
+	로그인하지 않았을 때 csrf가 null이므로 에러가 터졌다.
+	다음과 같이 null 이 아닐 경우에만 csrf.token 등을 참조하도록 수정했다. -->
+<meta charset="UTF-8">
+<meta name="_csrf" th:content="${_csrf?.token}" th:if="${_csrf} ne null">
+<meta name="_csrf_header" th:content="${_csrf?.headerName}" th:if="${_csrf} ne null">
+<meta name="HandheldFriendly" content="true" />
+<meta name="viewport" content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, width=device-width" />
+
+<script src="https://kit.fontawesome.com/c2edef0625.js" crossorigin="anonymous"></script>
+
+
+
+
+<link href="https://www.thehandsome.com/_ui/handsomemobile/css/handsomecss/font_443.css" rel="stylesheet" type="text/css" />
+<link href="https://www.thehandsome.com/_ui/handsomemobile/css/handsomecss/jquery-ui.css" rel="stylesheet" type="text/css" />
+<link href="https://www.thehandsome.com/_ui/handsomemobile/css/handsomecss/selectordie.css" rel="stylesheet" type="text/css" />
+<link href="https://www.thehandsome.com/_ui/handsomemobile/css/handsomecss/default.css?202200826" rel="stylesheet" type="text/css" />
+<link href="https://www.thehandsome.com/_ui/handsomemobile/css/handsomecss/display.css?20221107" rel="stylesheet" type="text/css" />
+<link href="https://www.thehandsome.com/_ui/handsomemobile/css/handsomecss/assist.css?20220929" rel="stylesheet" type="text/css" />
+<link href="https://www.thehandsome.com/_ui/handsomemobile/css/handsomecss/devAssist.css" rel="stylesheet" type="text/css" />
+
+<link href="https://www.thehandsome.com/_ui/handsomemobile/css/handsomecss/popup.css" rel="stylesheet" type="text/css" />
+
+
+
+
+<script type="text/javascript">
+	var handsomeUserLoginYn = "N";
+</script>
+<script type="text/javascript">
+	var isoKoYn = "Y";
+</script>
+<script type="text/javascript">
+	var handsomeIsoCode = "ko";
+	var handsomeContextPath = "/ko";
+</script>
+
+<script type="text/javascript" src="https://www.thehandsome.com/_ui/handsomemobile/js/jquery.min.js"></script>
+<script type="text/javascript" src="https://www.thehandsome.com/_ui/handsomemobile/js/jquery.vticker.js"></script>
+<script type="text/javascript" src="https://www.thehandsome.com/_ui/handsomemobile/js/masonry.pkgd.min.js"></script>
+<script type="text/javascript" src="https://www.thehandsome.com/_ui/handsomemobile/js/imagesloaded.pkgd.min.js"></script>
+<script type="text/javascript" src="https://www.thehandsome.com/_ui/handsomemobile/js/jquery.form.min.js"></script>
+<script type="text/javascript" src="https://www.thehandsome.com/_ui/handsomemobile/js/jquery.cookie.js"></script>
+<script type="text/javascript" src="https://www.thehandsome.com/_ui/handsomemobile/js/jquery-ui.min.js"></script>
+<script type="text/javascript" src="https://www.thehandsome.com/_ui/handsomemobile/js/selectordie.min.js"></script>
+<script type="text/javascript" src="https://www.thehandsome.com/_ui/handsomemobile/js/jquery.bpopup.min.js"></script>
+<script type="text/javascript" src="https://www.thehandsome.com/_ui/handsomemobile/js/echarts.min.js"></script>
+<!-- 마이페이지 오류로인한 주석처리 - 박성환  -->
+<script type="text/javascript" src="https://www.thehandsome.com/_ui/handsomemobile/js/assist_common.js?v=20220630"></script>
+<script type="text/javascript" src="https://www.thehandsome.com/_ui/handsomemobile/js/assist_new.js"></script>
+<script type="text/javascript" src="https://www.thehandsome.com/_ui/handsomemobile/js/handsome.js"></script>
+<script type="text/javascript" src="https://www.thehandsome.com/_ui/handsomemobile/js/common_function.js"></script>
+<script type="text/javascript" src="https://www.thehandsome.com/_ui/handsomemobile/js/json2.js"></script>
+<script type="text/javascript" src="https://www.thehandsome.com/_ui/handsomemobile/js/SsoAjax.js"></script>
+
+
+<script type="text/javascript" src="https://www.thehandsome.com/_ui/handsomemobile/js/makePCookie.js"></script>
+<script type="text/javascript" src="https://www.thehandsome.com/_ui/handsomemobile/js/content.js"></script>
+<script type="text/javascript" src="https://www.thehandsome.com/_ui/handsomemobile/js/e-smart-zoom-jquery.min.js"></script>
+<script type="text/javascript" src="https://www.thehandsome.com/_ui/handsomemobile/js/popup.js"></script>
+<script type="text/javascript" src="https://www.thehandsome.com/_ui/handsomemobile/js/simplepagination.js"></script>
+<script type="text/javascript" src="https://www.thehandsome.com/_ui/handsomemobile/js/netfunnel.js" charset="UTF-8"></script>
+<script type="text/javascript" src="https://www.thehandsome.com/_ui/handsomemobile/js/netfunnel_skin.js" charset="UTF-8"></script>
+
+<script type="text/javascript" src="https://www.thehandsome.com/_ui/handsomemobile/js/unorm.js"></script>
+
+<style media="screen">
+.blsmflw1 {
+	animation: target_image 1.5s;
+	animation-iteration-count: 2;
+	transform-origin: 50% 50%;
+}
+</style>
+
+
+<script>
+	// 검색 결과 페이지
+	if (window.location.pathname.indexOf("/hssearch/searchCount") > -1) {
+		var groobeeKeyword = ""; //검색_검색어(검색결과페이지일때 사용)
+		groobee("SE", {
+			keyword : groobeeKeyword
+		});
+	}
+</script>
+
+<link rel="stylesheet" type="text/css" href="//code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css" />
+<link rel="stylesheet" type="text/css" href="//static.groobee.io/dist/g2/css/grb-recommend-list_v2.css" />
+<link rel="stylesheet" type="text/css" href="//static.groobee.io/dist/g2/css/custom-swiper.css" />
+	</head>
 
 <body>
 
-
-
-	<script>
-		(function() {
-			if (document.cookie.indexOf("thehyundai=true") > -1) {
-				var d = new Date();
-				d.setTime(d.getTime() + 365 * 24 * 60 * 60 * 1000);
-				document.cookie = "sslvisit=true; expires=" + d.toUTCString()
-						+ "; path=/";
-			} else if (document.cookie.indexOf("rakuten=") > -1) {
-				var d = new Date();
-				d.setTime(d.getTime() + 365 * 24 * 60 * 60 * 1000);
-				document.cookie = "sslvisit1=true; expires=" + d.toUTCString()
-						+ "; path=/";
-			} else if (document.cookie.indexOf("hyundaihmall=true") > -1) {
-				var d = new Date();
-				d.setTime(d.getTime() + 365 * 24 * 60 * 60 * 1000);
-				document.cookie = "sslvisit2=true; expires=" + d.toUTCString()
-						+ "; path=/";
-			} else if (document.cookie.indexOf("fromSite") > -1) {
-				var d = new Date();
-				d.setTime(d.getTime() + 365 * 24 * 60 * 60 * 1000);
-				document.cookie = "sslvisit3=" + "" + "; expires="
-						+ d.toUTCString() + "; path=/";
-			} else if (document.cookie.indexOf("recommender") > -1) {
-				var d = new Date();
-				d.setTime(d.getTime() + 365 * 24 * 60 * 60 * 1000);
-				document.cookie = "sslvisit4=" + "" + "; path=/";
-			}
-		})();
-	</script>
-	<!-- Loading -->
-	<div style="display: none">
-		<div id="loadingBarDiv" style="display: none"></div>
-	</div>
-	<!-- //Loading -->
-
-	<form id="CSRFForm" action="/ko/mypage/personInfomationChangePWCheck" method="post">
-		<div>
-			<input type="hidden" name="CSRFToken" value="cae62a12-6662-47ac-bd1c-da3fb8f5c132" />
-		</div>
-	</form>
-	<div id="mapleMainPopwrap"
-		style="position: fixed; top: 50%; left: 50%; width: 81.333333%; z-index: 805; transform: translate(-50%, -50%); display: none;"
-	></div>
-
-	<div class="layerArea" id="mapleLayer" style="display: none">
-		<div class="layerBg"></div>
-	</div>
-
-	<!-- ################## hsome_allContents_wrapper | ë³¸ë¬¸ ì»¨íì¸  ìì­ ################## -->
-	<div class="hsome_allContents_wrapper">
-		<div class="hsome_allContents">
-			<script type="text/javascript">
-				function goMainpage() {
-					window.sessionStorage.removeItem("moveYn");
-					location.href = "/ko/main";
-				}
-			</script>
-
-			<!-- ################## header ################## -->
-			<header class="hsome_header">
-				<h1 class="h_ttl ellipsis" id="headerTitle">비밀번호 재확인</h1>
-				<a href="javascript:noLink();" onclick="goBack();" class="h_prev">이전 페이지로 가기</a>
-				<ul class="h_gnbMenu">
-					<li class="search"><a href="/ko/mobilecommon/search" onclick="GA_Event('공통', '헤더', '검색');"><span>search</span></a></li>
-					<li class="cart"><a href="/ko/shoppingbag" onclick="GA_Event('공통', '헤더', '쇼핑백');"><span>cart</span><i>0</i></a></li>
-				</ul>
-			</header>
-			<!-- //################## header ################## -->
-
-			<!-- 아이디값이 마스킹 되기전에 보이기때문에 마스킹 처리를 해준후 보여지기위해
-			th:inline="javascript" 를 사용하여 자바스크립트에 처리후 뿌려준다. -->
-			<script type="text/javascript" th:inline="javascript">
+<script type="text/javascript" th:inline="javascript">
 				//<![CDATA[
 				$(document)
 						.ready(
 								function() {
 									
+									console.log("ready");
 									var userid = [[${#authentication.name}]];
 									console.log(userid);
 									
@@ -159,6 +183,26 @@
 
 				//]]>
 			</script>
+
+
+
+	<div class="hsome_allContents_wrapper">
+		<div class="hsome_allContents">
+	
+
+			<header class="hsome_header">
+				<h1 class="h_ttl ellipsis" id="headerTitle">비밀번호 재확인</h1>
+				<a href="javascript:noLink();" onclick="goBack();" class="h_prev">이전 페이지로 가기</a>
+				<ul class="h_gnbMenu">
+					<li class="search"><a href="/ko/mobilecommon/search" onclick="GA_Event('공통', '헤더', '검색');"><span>search</span></a></li>
+					<li class="cart"><a href="/ko/shoppingbag" onclick="GA_Event('공통', '헤더', '쇼핑백');"><span>cart</span><i>0</i></a></li>
+				</ul>
+			</header>
+			<!-- //################## header ################## -->
+
+			<!-- 아이디값이 마스킹 되기전에 보이기때문에 마스킹 처리를 해준후 보여지기위해
+			th:inline="javascript" 를 사용하여 자바스크립트에 처리후 뿌려준다. -->
+
 			<form id="bioLoginForm" method="post" action="/ko/member/bioCheck">
 				<input type="hidden" id="bio_userId" name="j_username" />
 				<input type="hidden" id="bio_CSRFToken" name="CSRFToken" />
@@ -177,8 +221,7 @@
 				<div class="gray_tab">고객님의 정보보호를 위하여 비밀번호를 다시 한 번 확인합니다.</div>
 				<div class="mp_input_wrap">
 					<div class="user_id_wrap">
-						<span class="user_id"></span>
-						<input type="hidden" id="j_username" name="j_username" value="95n*****************" disabled="disabled" />
+						<span class="user_id"> </span>
 					</div>
 					<!-- input_box s -->
 					<div class="input_box">
