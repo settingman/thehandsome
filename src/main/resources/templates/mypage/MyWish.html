@@ -167,13 +167,6 @@
 						.ready(
 								function() {
 
-									//	console.log('Cust\'s Display Uid >>>>> 95nanoland@naver.com');
-									//	console.log('Cust\'s Cust ID >>>>> ');
-									//	console.log('Cust\'s Cust No >>>>> ');
-									//	console.log('Cust\'s SMS RecvYN >>>>> false');
-									//	console.log('Cust\'s Moblie Num >>>>> ');
-									//	console.log('Cust\'s Email Addr >>>>> 95nanoland@naver.com');
-
 									var custMobileNum = '';
 									if (custMobileNum.indexOf('-') > -1) {
 										var mobileNums = custMobileNum
@@ -1120,6 +1113,135 @@
 				}
 			</script>
 
+
+
+			<script type="text/javascript">
+				// 컬러칩 누를시 이미지 변경
+				function chgColor(pid, pcid) {
+
+					console.log("컬러칩 이미지 변경");
+					var url = $('#' + pid).attr("src");
+					console.log(url);
+					var target = url.substring(url.lastIndexOf("/") + 1, url
+							.lastIndexOf("_"));
+					url = url.replace(target, pcid);
+					var myimage = $(
+							".img swiper-slide swiper-slide-active swiper-slide-duplicate-next swiper-slide-duplicate-prev")
+							.children('img');
+					console.log(myimage);
+					$(myimage).attr("src", url);
+					$('#' + pid).attr("src", url);
+
+				}
+
+				function chgColorChip(index, code) {
+					//중복 호출 방지(동일한 이미지가 중복으로 호출시 에러 이미지로 판단)
+					if ($("[targetCode='" + code + "']").length == 0) {
+						var url = $("#newImage1_" + index).val();
+						var target = url.substring(url.lastIndexOf("/"));
+						var checkIndex = index - 14 * parseInt(index / 14);
+
+						if (checkIndex == 5 || checkIndex == 13) {
+							var src2 = url.replace(target, "/"
+									+ code
+									+ "_T02"
+									+ $("#T02_IMG_" + index).attr("src")
+											.substring(
+													$("#T02_IMG_" + index)
+															.attr("src")
+															.lastIndexOf(".")));
+							$("#T02_IMG_" + index).attr("src", src2);
+							$("#T02_IMG_" + index).attr("targetCode", code);
+						}
+						var src = "";
+						if (checkIndex == 4 || checkIndex == 10) {
+							src = url.replace(target, "/"
+									+ code
+									+ "_W01"
+									+ $("#T01_IMG_" + index).attr("src")
+											.substring(
+													$("#T01_IMG_" + index)
+															.attr("src")
+															.lastIndexOf(".")));
+						} else {
+							src = url.replace(target, "/"
+									+ code
+									+ "_T01"
+									+ $("#T01_IMG_" + index).attr("src")
+											.substring(
+													$("#T01_IMG_" + index)
+															.attr("src")
+															.lastIndexOf(".")));
+						}
+						$("#T01_IMG_" + index).attr("src", src);
+						$("#T01_IMG_" + index).attr("targetCode", code);
+
+						$("#T01_IMG_" + index).closest(".categoryImgBox").attr(
+								"onclick",
+								"goProductDetail('" + code + "', 'we051')");
+						$("#T01_IMG_" + index).closest(".categoryImgBox")
+								.parent().find("button.like").attr(
+										"data-value", code);
+					}
+
+					if ($("#price_" + code).length == 0) {
+						$
+								.ajax({
+									url : "/ko/c/getProductPrice",
+									type : "GET",
+									data : {
+										productCode : code
+									},
+									success : function(data) {
+										var priceHtml = "";
+										var productSalePerCent = 0;
+
+										priceHtml += '<span id="price_' + code + '">';
+										priceHtml += "￦"
+												+ addComma(data.productPrice);
+										if (data.productNormalityPrice != undefined
+												&& data.productNormalityPrice != "") {
+											productSalePerCent = getDecimalToString(
+													((data.productNormalityPrice - data.productPrice) / data.productNormalityPrice) * 100,
+													1, 1);
+											priceHtml += "<strike>￦"
+													+ addComma(data.productNormalityPrice)
+													+ '</strike><span class="sale">'
+													+ productSalePerCent
+													+ "%</span>";
+										}
+										priceHtml += "</span>";
+
+										$("#hsProductList ul li").find(
+												"#listPrice" + index).children(
+												"span").css("display", "none");
+										$("#hsProductList ul li").find(
+												"#listPrice" + index).first()
+												.append(priceHtml);
+									},
+									error : function(xhr, Status, error) {
+									},
+								});
+					} else {
+						$("#hsProductList ul li").find("#listPrice" + index)
+								.children("span").css("display", "none");
+						$("#price_" + code).css("display", "inline-block");
+					}
+				}
+
+				// 제품 상세로 이동
+				function goProductDetail(productCode, categoryCode, brandCode) {
+					//var loc = "/ko/p/"+ productCode +"?categoryCode="+ categoryCode + document.location.hash;
+					var loc = "/ko/p/" + productCode + "?categoryCode="
+							+ categoryCode + "&uiel=Mobile";
+					location.href = loc;
+				}
+				function goProductDetail1(productCode) {
+					//var loc = "/ko/p/"+ productCode + document.location.hash;
+					var loc = "/ko/p/" + productCode;
+					location.href = loc;
+				}
+			</script>
 			<!-- contents s -->
 			<input type="hidden" id="normalPoint" value="5.0">
 			<input type="hidden" id="outletPoint" value="1.0">
@@ -1159,42 +1281,18 @@
 									<li th:each="pInfo : ${pList}" class="float active" th:id="pInfo.pid">
 										<div class="img_slide_container">
 											<a href="/ko/p/SY2C9TTO330W_AD" class="img_slide_contain" onclick="setEcommerceData(0);">
-												<div
-													class="img_slide_wrap swiper-container slide0101 active swiper-container-horizontal swiper-container-ios swiper-container-wp8-horizontal"
-												>
-													<div class="img_slide swiper-wrapper" style="transition-duration: 0ms; transform: translate3d(-177px, 0px, 0px);">
-														<div class="img swiper-slide swiper-slide-duplicate swiper-slide-duplicate-active swiper-slide-prev" data-swiper-slide-index="0"
-															style="width: 177px"
-														>
-															<img th:src="${pInfo.colorList[0].PCIMG1}" th:id="${pInfo.pid}" th:alt="${pInfo.pname}"
-															/>
-														</div>
-													</div>
+
+												<div class="img">
+													<img th:src="${pInfo.colorList[0].PCIMG1}" data-original="http://newmedia.thehandsome.com/SJ/2D/SS/SJ2D1WJC361W_BK_T01.jpg"
+														th:id="${pInfo.pid}" th:alt="${pInfo.pname}" text="http://newmedia.thehandsome.com/SJ/2D/SS/SJ2D1WJC361W_BK_T01.jpg"
+														class="respon_image lazy" style="display: block"
+													/>
 												</div>
-												
-												
-												<div
-													class="img_slide_wrap swiper-container slide0103 active swiper-container-horizontal swiper-container-ios swiper-container-wp8-horizontal"
-												>
-													<div class="img_slide swiper-wrapper" style="transition-duration: 0ms; transform: translate3d(-338px, 0px, 0px);">
-														
-														<div class="img swiper-slide swiper-slide-duplicate-active swiper-slide-prev swiper-slide-duplicate-next" data-swiper-slide-index="0"
-															style="width: 169px"
-														>
-															<img th:src="${pInfo.colorList[0].PCIMG1}" th:id="${pInfo.pid}" th:alt="${pInfo.pname}"
-															/>
-														</div>
-							
-													</div>
-												</div>
-												<div class="img_slide_wrap swiper-container slide0104">
-													<div class="img_slide swiper-wrapper">
-														<div class="img swiper-slide">
-															<img src=th:src="${pInfo.colorList[0].PCIMG1}" th:id="${pInfo.pid}" th:alt="${pInfo.pname}"
-															/>
-														</div>
-													</div>
-												</div>
+
+
+
+
+
 											</a> <span class="func_as"> <a href="javascript:void(0);" onclick="javascript:deleteWishlistProd('9684106740414','SY2C9TTO330W_AD');"
 												class="del"
 											>삭제</a>
@@ -1292,35 +1390,6 @@
 					//180813 마이하트 리스트 슬라이드 끝
 					//
 
-					$('body').on(
-							'click',
-							'.mp_wishlist_wrap .chk_mark input',
-							function() {
-								if ($(this).is(':checked')) {
-									$(this).parents('li').find('.func_as')
-											.addClass('active');
-								} else {
-									$(this).parents('li').find('.func_as')
-											.removeClass('active');
-								}
-
-								// 쇼핑백 담기 기능 변경으로 사용 안함 : 20180828
-								// 재적용 : 20180831
-								var chkedcnt = 0;
-								$('.mp_wishlist_wrap .chk_mark input').each(
-										function() {
-											if ($(this).is(':checked'))
-												chkedcnt += 1;
-										});
-								var txtHtml = '';
-								if (chkedcnt === 0) {
-									txtHtml += '쇼핑백담기';
-								} else {
-									txtHtml += '쇼핑백담기(' + chkedcnt + ')';
-								}
-								$('#orderBtn').html(txtHtml);
-							});
-
 					// 세일 알림 팝업 호출
 					$('body')
 							.on(
@@ -1345,30 +1414,6 @@
 										$('#salealarm_prodprice')
 												.html(
 														exchangePrice(saleTargetValues[4]));
-									});
-
-					$('body')
-							.on(
-									'click',
-									'.mp_wishlist_wrap .hs_product_list_wrap .info_cont .color_chip .chip',
-									function() {
-										$chipId = $(this).attr('id');
-										$activeSlide = $(this).parents('li')
-												.find('.img_slide_contain')
-												.children('.' + $chipId + '');
-
-										if ($activeSlide.hasClass('active') == false) {
-											$(this)
-													.parents('li')
-													.find(
-															'.img_slide_contain .img_slide_wrap')
-													.removeClass('active');
-											$activeSlide.addClass('active');
-											new Swiper($activeSlide, {
-												loop : true
-											});
-										}
-										;
 									});
 
 					product_list_effect();

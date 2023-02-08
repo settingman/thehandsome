@@ -2629,40 +2629,9 @@ layer popup 형식의 confirm 창
 	<script type="text/javascript" src="http://www.thehandsome.com/_ui/handsomemobile/js/clipboard.min.js"></script>
 
 
-	<script>
-      $(document).ready(function () {
-        // 모달 닫기
-        $(".stlv-mob-stlv-20211001--closed1, .stlv-mob-stlv-20211001--closed2, .stlv-mob-stlv-20211001--closed3").on(
-          "click",
-          function () {
-            $(".stlv-mob-stlv-20211001--popup").css("display", "none");
-            setTimeout(function () {
-              $(".hsome_quickMenu").removeClass("active");
-              //작성 후 메인으로 이동한 뒤 포스트 팝업을 위한 쿠키값 셋팅
-              setCookie("isWriteAfter", "Y", 1);
-              location.href = "/ko/sns/main?isWriteAfter=true";
-              hideLoadingLp();
-            }, 1000);
-          }
-        );
-      });
-    </script>
+	
 
-	<!-- 스타일라이브 팝업 20211001 E -->
-
-	<!-- 결제시도시 처리중 layper 별도 표시 200217 nih -->
-	<div class="pop_loading_oneclick200210_wrap" style="width: 100%; height: 100%; position: fixed; top: 0; left: 0; z-index: 9998; display: none">
-		<div class="pop_loading_oneclick200210"
-			style="background: #222; width: 90%; height: 120px; position: fixed; top: 50%; left: 50%; transform: translate3d(-50%, -50%, 0); z-index: 9999;"
-		>
-			<img src="http://cdn.thehandsome.com/_ui/handsomemobile/images/common/Spinner_1s_105px.png" alt="loading"
-				style="display: block; width: 32px; height: 32px; margin: 30px auto 15px auto"
-			/>
-			<p style="color: #fff; text-align: center">
-				<span style="color: #fff; font-size: 15px">처리중입니다.</span>
-			</p>
-		</div>
-	</div>
+	
 
 	<!-- layerpop_wrap | 이미지 업로드 처리중 sns별도사용 s -->
 	<div class="layerpop_wrap loading_layer_wrap2004" style="display: none">
@@ -3352,45 +3321,7 @@ layer popup 형식의 confirm 창
         $form.submit();
       }
 
-      <!-- 클롭 모나코 팝업 -->
-      $(document).ready(function () {
-        //이전카테고리추가 191028
-        $(document).on("click", ".previous_category191028 .cate_icon", function () {
-          if (!$(this).hasClass("on")) {
-            $(this).addClass("on");
-            $(this).closest(".previous_category191028").find(".cate_list").stop().slideDown("fast");
-          } else {
-            $(this).removeClass("on");
-            $(this).closest(".previous_category191028").find(".cate_list").stop().slideUp("fast");
-          }
-        });
-        $(document).on("click", ".btn_ul_close191028", function () {
-          $(this).closest(".cate_list").stop().slideUp("fast");
-          $(this).closest(".cate_list").closest(".previous_category191028").find(".cate_icon").removeClass("on");
-        });
-
-        <!-- 클롭 모나코 팝업 -->
-        if ($("#brandCode").val() == "br44" || $("#brandCode").val() == "BR44") {
-          var todayDate = new Date();
-
-          if (getCookie("HSCMlayerPopup") != todayDate.getDate()) {
-            var startDate1 = new Date("2018/01/01 09:00:00"),
-              endDate1 = new Date("2019/01/21 23:59:59");
-            if (todayDate.getTime() >= startDate1.getTime() && todayDate.getTime() <= endDate1.getTime()) {
-              layerPopup1("open");
-            }
-          }
-        }
-        <!-- 클롭 모나코 팝업 -->
-
-        var reviewYn = "Y";
-        var subBrand = "";
-        var edShopYN = "false";
-        var cateYN = "";
-
-        if (reviewYn == "N") {
-          $("#st2 option:eq(4)").hide();
-        }
+     
 
         var headerTitleHtml = '<a href="javascript:noLink();" onclick="openGnbPopup();" class="select_">여성</a>';
 
@@ -4657,6 +4588,8 @@ layer popup 형식의 confirm 창
         var url = $('#'+pid).attr("src");
         var target = url.substring(url.lastIndexOf("/")+1, url.lastIndexOf("_"));
         url = url.replace(target, pcid);
+        $('#'+pid).attr("src", url);
+        $('#'+pid).attr("src", url);
         $('#'+pid).attr("src", url);
       }
 
