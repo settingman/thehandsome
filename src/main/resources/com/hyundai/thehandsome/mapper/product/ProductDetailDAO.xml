@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hyundai.thehandsome.mapper.product.ProductDetailDAO">
+	<select id="getStock"
+	resultType="com.hyundai.thehandsome.Vo.product.detail.ProductStockVO">
+	select PSIZE, PSSTOCK 
+	from product_stock
+	where pcid = #{PCID}
+	</select>
+</mapper>
