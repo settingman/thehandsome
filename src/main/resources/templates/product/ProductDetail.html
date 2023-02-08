@@ -3182,23 +3182,13 @@
                 <!-- 색상 버튼 -->
                 <div class="hs_btn_color_chip infoColor" id="hs_btn_color_chip_area">
                   <button
+                    th:each="color, stat : ${itemInfo.COLORLIST}"
                     type="button"
-                    id="info_CM2D0KTO509W_IM"
-                    data-value="ICE MINT"
-                    class="chip"
-                    style="
-                      background: #c7e0da
-                        url('http://newmedia.thehandsome.com/CM/2D/SS/CM2D0KTO509W_IM_C01.jpg/dims/resize/48x48');
-                    "></button>
-                  <button
-                    type="button"
-                    id="info_CM2D0KTO509W_LP"
-                    data-value="LIGHT PINK"
-                    class="chip on"
-                    style="
-                      background: #e8c5c5
-                        url('http://newmedia.thehandsome.com/CM/2D/SS/CM2D0KTO509W_LP_C01.jpg/dims/resize/48x48');
-                    "></button>
+                    th:id="|info_${color.PCID}|"
+                    th:data-value="${color.PCID}"
+                    th:class="${stat.index} == 0 ? 'chip on' : 'chip'"
+                    th:style="|background:${color.PCCOLORCODE} url(${color.PCCHIPIMG})|"
+                    ></button>
                 </div>
                 <!--// 색상 버튼 -->
 

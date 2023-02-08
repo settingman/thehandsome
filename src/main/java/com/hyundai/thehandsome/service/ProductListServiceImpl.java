@@ -23,6 +23,8 @@ import lombok.extern.log4j.Log4j2;
  * 수정일        	수정자       			수정내용
  * ----------  --------    ---------------------------
  * 2023.02.01  	박세영        최초 생성, getListTest() 추가
+ * 2023.02.03  	박세영        getProductDetail() 추가
+ * 2023.02.03  	박세영        getProductImg() 추가
  *          </pre>
  */
 
@@ -62,6 +64,8 @@ public class ProductListServiceImpl implements ProductListService {
 	public ProductDetailVO getProductDetail(String PCID) {
 		try {
 			ProductDetailVO list = plistDAO.getProductDetail(PCID);
+//			log.info("PCID:" + PCID.split("_")[0]);
+			list.setCOLORLIST(plistDAO.getProductColor(PCID.split("_")[0]));
 			log.info(list);
 
 			return list;
