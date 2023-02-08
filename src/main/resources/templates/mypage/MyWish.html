@@ -5,7 +5,7 @@
 -->
 
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-<title>마이하트 | 더한섬닷컴</title>
+<title>타이틀 | 더한섬닷컴</title>
 
 <th:block th:replace="common/head :: headFragment"></th:block>
 <style>
@@ -1156,16 +1156,50 @@
 
 							<div class="hs_product_list" id="prodWishlists">
 								<ul>
-									<li th:each="pInfo : ${pList}" class="float active" id="listBody1_li8"><a href="javascript:noLink();"
-										onclick="setEcommerceData2('1','8', 'CATEGORY');goProductDetail('SJ2D1WJC361W_BK','we051');" class="categoryImgBox"
-									>
-											<div class="img">
-												<img th:src="${pInfo.colorList[0].PCIMG1}" data-original="http://newmedia.thehandsome.com/SJ/2D/SS/SJ2D1WJC361W_BK_T01.jpg"
-													th:id="${pInfo.pid}" th:alt="${pInfo.pname}" text="http://newmedia.thehandsome.com/SJ/2D/SS/SJ2D1WJC361W_BK_T01.jpg"
-													class="respon_image lazy" style="display: block"
-												/>
-											</div>
-									</a>
+									<li th:each="pInfo : ${pList}" class="float active" th:id="pInfo.pid">
+										<div class="img_slide_container">
+											<a href="/ko/p/SY2C9TTO330W_AD" class="img_slide_contain" onclick="setEcommerceData(0);">
+												<div
+													class="img_slide_wrap swiper-container slide0101 active swiper-container-horizontal swiper-container-ios swiper-container-wp8-horizontal"
+												>
+													<div class="img_slide swiper-wrapper" style="transition-duration: 0ms; transform: translate3d(-177px, 0px, 0px);">
+														<div class="img swiper-slide swiper-slide-duplicate swiper-slide-duplicate-active swiper-slide-prev" data-swiper-slide-index="0"
+															style="width: 177px"
+														>
+															<img th:src="${pInfo.colorList[0].PCIMG1}" th:id="${pInfo.pid}" th:alt="${pInfo.pname}"
+															/>
+														</div>
+													</div>
+												</div>
+												
+												
+												<div
+													class="img_slide_wrap swiper-container slide0103 active swiper-container-horizontal swiper-container-ios swiper-container-wp8-horizontal"
+												>
+													<div class="img_slide swiper-wrapper" style="transition-duration: 0ms; transform: translate3d(-338px, 0px, 0px);">
+														
+														<div class="img swiper-slide swiper-slide-duplicate-active swiper-slide-prev swiper-slide-duplicate-next" data-swiper-slide-index="0"
+															style="width: 169px"
+														>
+															<img th:src="${pInfo.colorList[0].PCIMG1}" th:id="${pInfo.pid}" th:alt="${pInfo.pname}"
+															/>
+														</div>
+							
+													</div>
+												</div>
+												<div class="img_slide_wrap swiper-container slide0104">
+													<div class="img_slide swiper-wrapper">
+														<div class="img swiper-slide">
+															<img src=th:src="${pInfo.colorList[0].PCIMG1}" th:id="${pInfo.pid}" th:alt="${pInfo.pname}"
+															/>
+														</div>
+													</div>
+												</div>
+											</a> <span class="func_as"> <a href="javascript:void(0);" onclick="javascript:deleteWishlistProd('9684106740414','SY2C9TTO330W_AD');"
+												class="del"
+											>삭제</a>
+											</span>
+										</div>
 										<div class="info_cont">
 											<div class="color_chip">
 												<a th:each="color, stat : ${pInfo.colorList}" href="javascript:noLink();" th:data-pid="${pInfo.pid}" th:data-pcid="${color.PCID}"
@@ -1176,18 +1210,18 @@
 													></button>
 												</a>
 											</div>
-											<p class="brand">[[${pInfo.bname}]]</p>
-											<p class="name">[[${pInfo.pname}]]</p>
-											<p class="price" id="listPrice8">
-												<span id="price_SJ2D1WJC361W_BK" th:text="'₩'+ ${#numbers.formatInteger(pInfo.pcprice, 0, 'COMMA')}"></span>
-											</p>
+											<a href="javascript:void(0);">
+												<p class="brand">[[${pInfo.bname}]]</p>
+												<p class="name">[[${pInfo.pname}]]</p>
+												<p class="price" id="listPrice8">
+													<span id="price_SJ2D1WJC361W_BK" th:text="'₩'+ ${#numbers.formatInteger(pInfo.pcprice, 0, 'COMMA')}"></span>
+												</p>
+											</a>
+										</div> <label class="chk_mark"> <input type="checkbox" name="chkbox" data-value="9684106740414" /> <span class="mark"></span>
+									</label>
 
-										</div>
-										<button type="button" class="like" id="SJ2D1WJC361W_BKLike"
-											onclick="callWishListClick($(this), 'SJ2D1WJC361W_BK', '%uB9B0%uB128%20%uBE14%uB80C%uB4DC%20%uBC84%uD2BC%20%uC5C5%20%uC2F1%uAE00%20%uC7AC%uD0B7', '1','8');"
-											data-value="SJ2D1WJC361W_BK"
-										>찜하기</button>
-										</li>
+									</li>
+
 								</ul>
 							</div>
 
