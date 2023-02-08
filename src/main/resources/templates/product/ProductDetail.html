@@ -1084,7 +1084,7 @@
                       <img
                         th:src="|${imgsrc}/dims/resize/750x1131|"
                         onerror="this.src='http://www.thehandsome.com/_ui/handsomemobile/images/common/no_img.jpg'"
-                        alt="모헤어 블렌드 컬러 라인 니트 탑" />
+                        th:alt="${itemInfo.PNAME}" />
                     </a>
                   </li>
                   <!-- <li class="swiper-slide swiper-slide-active" style="width: 527px">
@@ -3187,9 +3187,10 @@
                     type="button"
                     th:id="|info_${color.PCID}|"
                     th:data-value="${color.PCID}"
+                    th:data-pname="${itemInfo.PNAME}"
                     th:class="${color.PCID} == __${PCID}__ ? 'chip on' : 'chip'"
                     th:style="|background:${color.PCCOLORCODE} url(${color.PCCHIPIMG})|"
-                    onclick="getStock(this.getAttribute('data-value'));"
+                    onclick="getStock(this.getAttribute('data-value')); getImage(this.getAttribute('data-value'), this.getAttribute('data-pname'));"
                     ></button>
                 </div>
                 <!--// 색상 버튼 -->
@@ -5889,8 +5890,7 @@ dataLayer에 남아 있는 경우에는 전자상거래 단계만을 위해 사�
                             alt="" />
                         </div>
                         <div class="txt">
-                          <p class="name"
-                          th:texx>[[${itemInfo.BNAME}]]</p>
+                          <p class="name">[[${itemInfo.BNAME}]]</p>
                           <p class="price" 
                           th:text="'₩'+ ${#numbers.formatInteger(itemInfo.PCPRICE, 0, 'COMMA')}"></p>
                         </div>
