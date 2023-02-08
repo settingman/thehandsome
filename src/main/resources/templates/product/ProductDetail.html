@@ -924,6 +924,7 @@
     <link rel="stylesheet" type="text/css" href="//code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css" />
     <link rel="stylesheet" type="text/css" href="//static.groobee.io/dist/g2/css/grb-recommend-list_v2.css" />
     <link rel="stylesheet" type="text/css" href="//static.groobee.io/dist/g2/css/custom-swiper.css" />
+    <script type="text/javascript" src="/js/ProductDetail.js"></script>
   </head>
 
   <body>
@@ -3188,6 +3189,7 @@
                     th:data-value="${color.PCID}"
                     th:class="${color.PCID} == __${PCID}__ ? 'chip on' : 'chip'"
                     th:style="|background:${color.PCCOLORCODE} url(${color.PCCHIPIMG})|"
+                    onclick="getStock(this.getAttribute('data-value'));"
                     ></button>
                 </div>
                 <!--// 색상 버튼 -->
