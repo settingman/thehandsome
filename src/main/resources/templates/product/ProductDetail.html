@@ -3186,7 +3186,7 @@
                     type="button"
                     th:id="|info_${color.PCID}|"
                     th:data-value="${color.PCID}"
-                    th:class="${stat.index} == 0 ? 'chip on' : 'chip'"
+                    th:class="${color.PCID} == __${PCID}__ ? 'chip on' : 'chip'"
                     th:style="|background:${color.PCCOLORCODE} url(${color.PCCHIPIMG})|"
                     ></button>
                 </div>
