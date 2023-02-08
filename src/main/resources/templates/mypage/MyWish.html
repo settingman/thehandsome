@@ -1241,6 +1241,11 @@
 					var loc = "/ko/p/" + productCode;
 					location.href = loc;
 				}
+
+				$(document).on("click", ".hs_product_list .chip", function() {
+					$(this).closest("li").find(".chip").removeClass("on");
+					$(this).addClass("on");
+				});
 			</script>
 			<!-- contents s -->
 			<input type="hidden" id="normalPoint" value="5.0">
