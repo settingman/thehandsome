@@ -1,5 +1,6 @@
 package com.hyundai.thehandsome.mapper;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.jupiter.api.Disabled;
@@ -66,6 +67,22 @@ public class ProductListTest {
 	void getProductDetailTest() {
 		ProductDetailVO list = pListDAO.getProductDetail("SH2D1WJMT02M_DG");
 		log.info(list);
+	}
+	
+	
+	
+	@Test
+	void getPListWithLikes() {
+		
+		List<String> pidList = new ArrayList<>();
+		pidList.add("SH2D1NOTT01M");
+		pidList.add("TG2D3WJM014MAB");
+		pidList.add("SH2D0WJM302M");
+		
+		List<CatePListVO> list = pListDAO.getPListWithLikes(pidList);
+		for (CatePListVO item : list) {
+			log.info(item);
+		}
 	}
 	
 }

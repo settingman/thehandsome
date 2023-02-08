@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hyundai.thehandsome.security.dto.SecurityMember;
-import com.hyundai.thehandsome.service.ProductListService;
+import com.hyundai.thehandsome.service.MyPageService;
 
 import lombok.extern.log4j.Log4j2;
 
@@ -32,7 +32,7 @@ import lombok.extern.log4j.Log4j2;
 @Log4j2
 public class ProductRestContorller {
 	@Autowired
-	private ProductListService plistService;
+	private MyPageService myPageService;
 	
 	@GetMapping("/addWishlist")
 	public String addWishlist( @RequestParam("productCode") String productCode,
@@ -42,7 +42,7 @@ public class ProductRestContorller {
 		String mId = user.getMId();
 		
 		
-		return plistService.wishList(mId, productCode);
+		return myPageService.ChangeWish(mId, productCode);
 		
 	}
 

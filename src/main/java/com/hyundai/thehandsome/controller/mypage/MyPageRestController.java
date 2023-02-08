@@ -3,6 +3,7 @@ package com.hyundai.thehandsome.controller.mypage;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
@@ -17,6 +18,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.google.gson.Gson;
 import com.hyundai.thehandsome.domain.mypage.Voucher;
+import com.hyundai.thehandsome.domain.mypage.WishList;
+import com.hyundai.thehandsome.mapper.MyPageMapper;
 import com.hyundai.thehandsome.security.dto.SecurityMember;
 import com.hyundai.thehandsome.service.MailServiceImpl;
 
@@ -47,6 +50,9 @@ public class MyPageRestController {
 
 	@Autowired
 	private final MailServiceImpl mailService;
+	
+	@Autowired
+	private final MyPageMapper myPageMapper;
 
 	// 마이페이지 쿠폰 영역 AJAX
 	@RequestMapping(value = "/voucher", produces = "application/json; charset=UTF-8", method = RequestMethod.GET)
@@ -85,6 +91,36 @@ public class MyPageRestController {
 		response.getWriter().print(gson.toJson(data));
 
 	}
+	
+	// 마이페이지 위시리스트 영역 AJAX
+		@RequestMapping(value = "/myWishList", produces = "application/json; charset=UTF-8", method = RequestMethod.GET)
+		public void ajaxWishList(HttpServletResponse response, Principal principal) throws Exception {
+			
+			
+			log.info("wishlist");
+
+			if (principal != null) {
+				System.out.println("타입정보 : " + principal.getClass());
+				System.out.println("ID정보 : " + principal.getName());
+			} else {
+				System.out.println("없다");
+			}
+
+			Gson gson = new Gson();
+
+			// 회원 아이디로 보유 쿠폰 조회하여 voucher 객체를 만들어 준뒤 넣어주기.
+
+			Map<String, Object> data = new HashMap<>();
+
+			List<WishList> wishList = myPageMapper.findWishlist(principal.getName());
+
+
+			data.put("results", wishList);
+
+			response.setCharacterEncoding("UTF-8");
+			response.getWriter().print(gson.toJson(data));
+
+		}
 
 	// 회원의 입력한 비밀번호 처리. ( 비밀번호 변경 페이지 사용)
 	@RequestMapping(value = "/passwordControll", method = RequestMethod.GET)

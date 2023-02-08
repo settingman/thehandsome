@@ -12,10 +12,9 @@
 
 
 	<script>
-	
-	// 23.02.06 AJAX 처리 완료.
+		// 23.02.06 AJAX 처리 완료.
 		var passwordControll2 = function(division, inputPW, prk) {
-			
+
 			console.log(inputPW);
 
 			var t = this;
@@ -27,7 +26,7 @@
 			};
 
 			var target_url = $("#updateProfileForm").attr("action");
-			
+
 			$.ajax({
 				type : "GET",
 				url : "/mypage/passwordControll",
@@ -56,19 +55,18 @@
 						function() {
 
 							$('#oldPassword2').blur(
-									
-									
+
 									function() {
-										
+
 										console.log("123");
-										
-										
+
 										if ($("#oldPassword2").val() == "") {
 											$("#oldPassword2").focus();
 										} else {
 											var pwc = new passwordControll2(
-													"compare",
-													$("#oldPassword2").val(),
+													"compare", $(
+															"#oldPassword2")
+															.val(),
 													"8953969410052");
 											pwc.trueAction = function() {
 												$("#oldPasswordCheckMsg")
@@ -86,8 +84,6 @@
 											};
 										}
 									});
-
-							
 
 							$('#cancelBtn').click(
 									function() {
