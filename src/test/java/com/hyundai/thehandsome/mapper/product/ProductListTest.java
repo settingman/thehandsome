@@ -26,8 +26,8 @@ import lombok.extern.log4j.Log4j2;
  * 수정일        	수정자       			수정내용
  * ----------  --------    ---------------------------
  * 2023.02.01  	박세영        최초 생성, getListTest() 추가
+ * 2023.02.02  	박세영        getPListWithCategoryTest() 추가
  * 2023.02.03  	박세영        getProductColorTest() 추가
- * 2023.02.04  	박세영        getProductDetailTest() 추가
  *          </pre>
  */
 
