@@ -5,7 +5,7 @@
 -->
 
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-<title>타이틀 | 더한섬닷컴</title>
+<title> 마이하트 | 더한섬닷컴</title>
 
 <th:block th:replace="common/head :: headFragment"></th:block>
 <style>
@@ -15,10 +15,6 @@
 </style>
 
 <body class="back">
-
-
-
-
 
 	<!-- Loading -->
 	<div style="display: none;">
@@ -1241,6 +1237,11 @@
 					var loc = "/ko/p/" + productCode;
 					location.href = loc;
 				}
+
+				$(document).on("click", ".hs_product_list .chip", function() {
+					$(this).closest("li").find(".chip").removeClass("on");
+					$(this).addClass("on");
+				});
 			</script>
 			<!-- contents s -->
 			<input type="hidden" id="normalPoint" value="5.0">

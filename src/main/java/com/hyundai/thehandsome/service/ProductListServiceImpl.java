@@ -1,5 +1,6 @@
 package com.hyundai.thehandsome.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.hyundai.thehandsome.Vo.product.CatePListVO;
 import com.hyundai.thehandsome.Vo.product.ListVO;
 import com.hyundai.thehandsome.Vo.product.detail.ProductDetailVO;
+import com.hyundai.thehandsome.domain.mypage.WishList;
 import com.hyundai.thehandsome.mapper.ProductListDAO;
 
 import lombok.extern.log4j.Log4j2;
@@ -87,4 +89,31 @@ public class ProductListServiceImpl implements ProductListService {
 			throw e;
 		}
 	}
+
+
+
+@Override
+	public List<CatePListVO> getPListWithLikes(List<WishList> wishList) {
+		
+		List<String> pIdList = new ArrayList<>();
+		
+		for (WishList Wish : wishList ) {			
+			pIdList.add(Wish.productCode.split("_")[0]);			
+		}
+		
+		try {
+			List<CatePListVO> list = plistDAO.getPListWithLikes(pIdList);
+			for(CatePListVO item : list) {
+				item.setColorList(plistDAO.getProductColor(item.getPid()));
+				log.info(item);
+			}
+			return list;
+		} catch (Exception e) {
+			log.info(e.getMessage());
+			throw e;
+		}
+		
+		
+	}
+
 }

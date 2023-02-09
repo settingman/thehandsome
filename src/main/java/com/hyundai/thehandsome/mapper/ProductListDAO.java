@@ -32,6 +32,8 @@ public interface ProductListDAO {
 	List<ListVO> getProductList();
 	
 	List<CatePListVO> getPListWithCategory(String depth1name, String depth2name, String depth3name);
+
+	List<CatePListVO> getPListWithLikes(List<String> pidList);
 	
 	List<ColorVO> getProductColor(String PID);
 	
