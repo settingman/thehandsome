@@ -867,9 +867,9 @@ var quickSTagSwiperOption = {
 
 			// mypage_chart();
 		}
-		
-
 		initMypage();
+
+		
 
 
 		var befActiveTab = "";

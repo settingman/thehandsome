@@ -1,0 +1,2645 @@
+<!--
+ @Date : 2023. 02. .08
+ @작성자 : 박성환
+ @설명 :  위시리스트 페이지
+-->
+
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<title>타이틀 | 더한섬닷컴</title>
+
+<th:block th:replace="common/head :: headFragment"></th:block>
+<style>
+.swiper-wrapper {
+	height: auto;
+}
+</style>
+
+<body class="back">
+
+
+
+
+
+	<!-- Loading -->
+	<div style="display: none;">
+		<div id="loadingBarDiv" style="display: none;"></div>
+	</div>
+	<!-- //Loading -->
+
+	<form id="CSRFForm" action="/ko/mypage/myWish" method="post">
+		<div>
+			<input type="hidden" name="CSRFToken" value="8a8fdf57-021a-4818-82a8-a81720089936">
+		</div>
+	</form>
+	<div id="mapleMainPopwrap"
+		style="position: fixed; top: 50%; left: 50%; width: 81.333333%; z-index: 805; transform: translate(-50%, -50%); display: none"
+	></div>
+
+	<div class="layerArea" id="mapleLayer" style="display: none;">
+		<div class="layerBg"></div>
+	</div>
+
+	<div class="hsome_allContents_wrapper">
+
+		<div class="hsome_allContents fixed_btn_on">
+
+			<header class="hsome_header header_noline header_mypage">
+				<!-- 마이페이지 알림 아이콘 -->
+				<a href="/ko/main" class="h_top_home"><span>Home</span></a>
+				<h1 class="h_select">
+					<select id="headerMypageSelect" onchange="GA_Event('마이페이지', 'MY_GNB', this.selectedOptions[0].text.replaceAll(' ', '').replace('신청/조회',''));">
+						<option value="" style="display: none"></option>
+						<option value="/ko/mypage/mypageFloatingPopup">마이페이지
+							<!-- 마이페이지 --></option>
+						<option value="/ko/mypage/order/myorders">주문/배송조회
+							<!-- 주문/배송조회 --></option>
+
+						<option value="/ko/mypage/rsalarm">재입고 알림
+							<!-- 재입고/세일 알림 --></option>
+						<option value="/ko/mypage/myWish">마이하트
+							<!-- 위시리스트 --></option>
+						<option value="/ko/svcenter/mobilemain">고객센터
+							<!-- 고객센터 -->
+						</option>
+						<option value="/ko/mypage/personInfomationChange">개인정보변경
+							<!-- 개인정보변경 --></option>
+						<option value="/ko/mypage/mydelivery">배송지 관리
+							<!-- 배송지 관리 --></option>
+						<option value="/ko/mypage/voucher">쿠폰
+							<!-- 쿠폰 --></option>
+						<option value="/ko/mypage/myreview">상품평
+							<!-- 상품평 --></option>
+						<option value="/ko/mypage/mymantomaninquiry">1:1 문의
+							<!-- 1:1 문의 -->
+						</option>
+						<option value="/ko/mypage/myqna">상품 Q&amp;A
+							<!-- 상품 Q&A --></option>
+						<option value="/ko/mypage/event/myevents">나의 이벤트
+							<!-- 나의 이벤트 --></option>
+					</select>
+					<div class="selected_text">
+						<span> 마이하트</span>
+					</div>
+
+					<script type="text/javascript">
+						$(document)
+								.on(
+										'change',
+										'#headerMypageSelect',
+										function() {
+											if ($(this).val() == "")
+												return;
+
+											if ($(this).val() == "/ko/mypage/mymantomaninquiry") {
+												location.href = "/ko/mypage/mymantomaninquiry?refererUrl=mypage";
+											} else {
+												location.href = $(this).val();
+											}
+										});
+						$('#headerMypageSelect > option').each(
+								function(idx, obj) {
+									if ($(obj).attr('value') == "")
+										return true;
+									if (location.pathname == $(obj).attr(
+											'value')) {
+										$(obj).prop('selected', 'selected');
+									}
+
+									if (location.pathname
+											.indexOf("mantomaninquiry") > -1
+											&& $(obj).attr('value').indexOf(
+													"mymantomaninquiry") > -1) {
+										$(obj).prop('selected', 'selected');
+									}
+								});
+					</script>
+				</h1>
+				<a href="javascript:noLink();" onclick="goBack();" class="h_prev">이전 페이지로 가기</a>
+				<ul class="h_gnbMenu">
+					<li class="search"><a href="/ko/mobilecommon/search"><span>search</span></a></li>
+					<li class="cart"><a href="/ko/shoppingbag"><span>cart</span><i>0</i></a></li>
+				</ul>
+			</header>
+			<script type="text/javascript">
+				var pageNumW = 1;
+				var pageNumC = 1;
+				var getUrlParameter = function getUrlParameter(sParam) { // hash 가져오기
+					var hashList = document.location.hash.split("_");
+					if (hashList.length == 3) {
+						pageNumW = decodeURIComponent(hashList[0]);
+						pageNumC = decodeURIComponent(hashList[1]);
+						if (sParam == "pageNumW")
+							return hashList[0] === undefined ? true
+									: decodeURIComponent(hashList[0].substr(1)); // 위시리스트 페이지
+						if (sParam == "pageNumC")
+							return hashList[1] === undefined ? true
+									: decodeURIComponent(hashList[1]); // 컨텐츠 페이지
+						if (sParam == "currentPage")
+							return hashList[2] === undefined ? true
+									: decodeURIComponent(hashList[2]); // 탭정보
+					}
+				};
+
+				function updateURL(pageNum, tab, currentPage) { // hash 변경
+					if (tab == "w")
+						pageNumW = pageNum;
+					if (tab == "c")
+						pageNumC = pageNum;
+					var hashYn = "#";
+					if (document.location.hash.indexOf("#") > -1)
+						hashYn = "";
+					document.location.hash = hashYn + pageNumW + "_" + pageNumC
+							+ "_" + currentPage; // # 위시리스트 페이지 _ 컨텐츠 페이지 _ 탭정보
+				}
+
+				function changeTab(currentPage) { //탭 선택 시 hash 변경
+					updateURL('', '', currentPage);
+				}
+				var normalPoint = "";
+				var outletPoint = "";
+
+				var myProdLoadedYn = false;
+				var myContntLoadedYn = false;
+
+				var cartQuantity = {};
+
+				$(document)
+						.ready(
+								function() {
+
+									var custMobileNum = '';
+									if (custMobileNum.indexOf('-') > -1) {
+										var mobileNums = custMobileNum
+												.split('-');
+										$('#telno1').val(mobileNums[0]);
+										$('#telno2').val(mobileNums[1]);
+										$('#telno3').val(mobileNums[2]);
+									} else {
+										if (custMobileNum.length === 10) {
+											$('#telno1').val(
+													custMobileNum.substring(0,
+															3));
+											$('#telno2').val(
+													custMobileNum.substring(3,
+															6));
+											$('#telno3').val(
+													custMobileNum.substring(6));
+										} else if (custMobileNum.length === 11) {
+											$('#telno1').val(
+													custMobileNum.substring(0,
+															3));
+											$('#telno2').val(
+													custMobileNum.substring(3,
+															7));
+											$('#telno3').val(
+													custMobileNum.substring(7));
+										}
+									}
+
+									if (normalPoint != null) {
+										normalPoint = Math.floor($(
+												'#normalPoint').val());
+									}
+									if (outletPoint != null) {
+										outletPoint = Math.floor($(
+												'#outletPoint').val());
+									}
+
+									$(document)
+											.on(
+													'click',
+													'.wish_cont_wrap li a.del',
+													function() {
+														//alert($(this));
+														deleteWishlistContents($(this));
+													});
+
+									$("#wish_sort")
+											.on(
+													'change',
+													function() {
+														myWishListProd('');
+														var sortType = $(
+																"#wish_sort option:selected")
+																.val();
+														var v_label = "";
+														if (sortType == "sale") {
+															v_label = "세일";
+														} else if (sortType == "outlet") {
+															v_label = "아울렛";
+														} else {
+															v_label = "전체";
+														}
+														GA_Event('마이하트', '정렬',
+																v_label);
+													});
+
+									$(document)
+											.on(
+													"click",
+													".color_chip .chip",
+													function() {
+														//alert($(this).attr("data-value"));
+														var prodCode = $(this)
+																.attr(
+																		"data-value");
+
+														$(
+																"#"
+																		+ prodCode
+																				.substring(
+																						0,
+																						prodCode
+																								.indexOf("_"))
+																		+ " .color_chip .chip")
+																.removeClass(
+																		"on");
+														$(this).addClass("on");
+
+														reloadProdSize(prodCode);
+													});
+
+									var currentPage = getUrlParameter('currentPage'); // 페이지 초기 로딩 시 hash 값을 이용하여 탭, page number 세팅
+									var tab_wish = '';
+									if (currentPage == 1
+											|| typeof currentPage === "undefined") { // 위시리스트탭
+										myWishListProd(getUrlParameter('pageNumW'));
+										tab_wish = document
+												.getElementById('tab_wish1');
+									} else { //컨텐츠탭
+										myWishListContents(getUrlParameter('pageNumC'));
+										tab_wish = document
+												.getElementById('tab_wish2');
+									}
+									//글로벌일 경우 tab 존재하지 않아 쇼핑백 담기 및 이하 스크립트 안 되는 오류 수정 (20200305)
+									tab_wish.click();
+
+								});
+
+				function myWishListProd(pageNum) {
+
+					/* 글로벌 원화 단위 변경_20200325
+					   use exchangePrice(price)
+					 */
+					// 국문일 때
+					function exchangePrice(productPrice) {
+						return "￦" + addComma(productPrice);
+					}
+
+					scrollTo(0, 0); // 목록 초기 노출 혹은 페이징 시 스크롤 최상단 위치
+					(typeof pageNum !== "undefined" && pageNum != '') ? updateURL(
+							pageNum, 'w', 1)
+							: updateURL(1, 'w', 1); // hash 있으면 쓰고 없으면 1페이지
+					myProdLoadedYn = true;
+
+					var txtHtml = '쇼핑백담기';
+					$('#orderBtn').html(txtHtml);
+
+					$
+							.ajax({
+								url : '/ko/mypage/myWishList',
+								type : 'GET',
+								datatype : 'json',
+								data : {
+									'pageNum' : pageNum,
+									'pageSize' : 10,
+									'show' : 'Page',
+									'wish_sort' : $(
+											'#wish_sort option:selected').val()
+								},
+								success : function(data) {
+									var txtHtml = '';
+
+									var prodWishlist = data.results;
+									if (prodWishlist.length === 0) {
+										txtHtml += '위시리스트에 저장된 상품이 없습니다.';
+									} else {
+										txtHtml += '<ul>';
+										window.sessionStorage.setItem(
+												'ecommerceDataList',
+												JSON.stringify(prodWishlist));
+										for (var i = 0; i < prodWishlist.length; i++) {
+											var variantStyles;
+											var variantSizes;
+
+											var product = prodWishlist[i].productData;
+											if (product.variantType === 'ApparelStyleVariantProduct') {
+												variantStyles = product.variantOptions
+											} else if (product.baseOptions[0].options != null
+													&& product.baseOptions[0].variantType === 'ApparelStyleVariantProduct') {
+												variantStyles = product.baseOptions[0].options;
+												variantSizes = product.variantOptions;
+											} else if (product.baseOptions[1].options != null
+													&& product.baseOptions[0].variantType === 'ApparelSizeVariantProduct') {
+												variantStyles = product.baseOptions[1].options;
+												variantSizes = product.baseOptions[0].options;
+											}
+
+											var noStock = 'Y';
+											for (var j = 0; j < variantStyles.length; j++) {
+												if (variantStyles[j].displayStock === 'true'
+														|| variantStyles[j].displayStock === true) {
+													noStock = 'N';
+													break;
+												}
+											}
+											txtHtml += '<li id="'
+													+ product.code
+															.substring(
+																	0,
+																	product.code
+																			.indexOf("_"))
+													+ '" class="float active">';
+											txtHtml += '  <div class="img_slide_container">';
+											if (noStock === 'N') {
+												txtHtml += '    <a href="/ko/p/'
+														+ product.code
+														+ '" class="img_slide_contain" onclick="setEcommerceData('
+														+ i + ');">';
+											} else {
+												txtHtml += '    <a href="/ko/p/'
+														+ product.code
+														+ '" class="img_slide_contain func_so" onclick="setEcommerceData('
+														+ i + ');">';
+											}
+
+											var productImage;
+											if (product.productImages != null) {
+												for (var x = 0; x < product.productImages.length; x++) {
+													var images = product.productImages[x];
+													if (images.imageDivisionCode.code === 'S01') {
+														productImage = images.image.url;
+														break;
+													}
+												}
+											} else {
+												productImage = prodWishlist[i].productImage;
+											}
+
+											var slideClass, slideId, chipClass;
+											for (var j = 0; j < variantStyles.length; j++) {
+												slideClass = 'slide0' + (i + 1)
+														+ '0' + (j + 1);
+												//if ( variantStyles[j].displayStock === false ) {
+												if (noStock === 'Y') {
+													slideClass += ' soldout';
+												}
+												if (j === 0) {
+													slideClass += ' active';
+												}
+												txtHtml += '        <div class="img_slide_wrap swiper-container '+slideClass+'">';
+												txtHtml += '          <div class="img_slide swiper-wrapper">';
+												txtHtml += '            <div class="img swiper-slide"><img src="'+productImage+'" onError=\'this.src="/_ui/handsomemobile/images/common/no_img.jpg"\' alt=""></div>';
+												txtHtml += '          </div>'
+												txtHtml += '        </div>';
+											}
+											txtHtml += '    </a>';
+											txtHtml += '    <span class="func_as">';
+											if (prodWishlist[i].carryingForward === "NORMAL"
+													&& (prodWishlist[i].productPrice === prodWishlist[i].productNormalPrice)) {
+												/* if ( noStock === 'N' && prodWishlist[i].saleAlarmYN === 'N' ) {
+													txtHtml += '      <a href=".product_sale_pop" class="alt sale btn_popup_trigger" data-value="'+product.code+'#'+productImage+'#'+prodWishlist[i].brandName+'#'+prodWishlist[i].productName+'#'+prodWishlist[i].productPrice+'">세일알림</a>';
+												} else */if (noStock === 'N'
+														&& prodWishlist[i].saleAlarmYN === 'Y') {
+													txtHtml += '      <a href="javascript:void(0);" class="alt sale on" onclick="removeSaleAlarms(\''
+															+ product.code
+															+ '\');" data-value="'
+															+ product.code
+															+ '#'
+															+ productImage
+															+ '#'
+															+ prodWishlist[i].brandName
+															+ '#'
+															+ prodWishlist[i].productName
+															+ '#'
+															+ prodWishlist[i].productPrice
+															+ '">세일알림</a>';
+												}
+											}
+											//                    txtHtml += '      <a href="javascript:void(0);" onclick="javascript:removeSaleAlarms(\''+product.code+'\');" class="del">삭제</a>';
+											txtHtml += '      <a href="javascript:void(0);" onclick="javascript:deleteWishlistProd(\''
+													+ prodWishlist[i].wishCode
+													+ '\',\''
+													+ product.code
+													+ '\');" class="del">삭제</a>';
+											txtHtml += '    </span>';
+											txtHtml += '  </div>';
+											txtHtml += '  <div class="info_cont">';
+											txtHtml += '    <div class="color_chip">';
+											for (var j = 0; j < variantStyles.length; j++) {
+
+												var color_chip = data.results[i].colorChip[0].erpCode
+														.split(';');
+												var rgbImgChk = false;
+												for (var k = 0; k < color_chip.length; k++) {
+													var imageUrl = data.results[i].colorChip[0].C01imageUrl
+															.split(';');
+													if (variantStyles[j].colorcode == color_chip[k]) {
+														var rbgCode = "";
+														if (imageUrl[k] != 'ZZZZ') {
+															rbgCode = variantStyles[j].rgbcode
+																	+ " url('"
+																	+ imageUrl[k]
+																	+ "/dims/resize/40x40') center /100% auto no-repeat";
+															rgbImgChk = true;
+														} else {
+															rbgCode = variantStyles[j].rgbcode;
+														}
+
+														chipClass = '';
+														if (product.code === variantStyles[j].code) {
+															chipClass = " on";
+														} else {
+															chipClass = "";
+														}
+
+														slideId = 'slide0'
+																+ (i + 1) + '0'
+																+ (j + 1);
+														if (variantStyles[j].displayStock === 'false'
+																|| variantStyles[j].displayStock === false) {
+															if (rgbImgChk) {
+																txtHtml += '     <button class="chip'+chipClass+'" data-value="'+variantStyles[j].code+'" id="'+slideId+'" style="background:'+rbgCode+';"><span class="soldout new1903">품절</span></button>';
+															} else {
+																txtHtml += '     <button class="chip'+chipClass+'" data-value="'+variantStyles[j].code+'" id="'+slideId+'" style="background:'+rbgCode+';"><span class="soldout new1903">품절</span></button>';
+															}
+														} else {
+															txtHtml += '     <button class="chip'+chipClass+'" data-value="'+variantStyles[j].code+'" id="'+slideId+'" style="background:'+rbgCode+';"></button>';
+														}
+													}
+												}
+
+											}
+											txtHtml += '    </div>';
+											txtHtml += '    <a href="javascript:void(0);">';
+											txtHtml += '      <p class="brand">'
+													+ prodWishlist[i].brandName
+													+ '</p>';
+											txtHtml += '      <p class="name">';
+											// 					if(prodWishlist[i].reserveProdYn == true) txtHtml += '<strong>[예약판매]</strong> ';
+											txtHtml += prodWishlist[i].productName;
+											txtHtml += '     </p>';
+											txtHtml += '      <p class="price">';
+											//txtHtml +=        numberWithCommas(prodWishlist[i].productPrice);
+											txtHtml += exchangePrice(product.price.value);
+
+											if (prodWishlist[i].carryingForward
+													.toUpperCase() !== "CARRY_FORWARD") {
+												var chkSaleFlag = false;
+												if (prodWishlist[i].flag != null) {
+													for (var k = 0; k < prodWishlist[i].flag.length; k++) {
+														if (prodWishlist[i].flag[k].code
+																.indexOf('SALE') > -1) {
+															chkSaleFlag = true;
+														}
+													}
+												}
+
+												if (chkSaleFlag) {
+													if (product.normalPrice.value !== null
+															&& product.normalPrice.value > product.price.value) {
+														txtHtml += '<strike>'
+																+ exchangePrice(product.normalPrice.value)
+																+ '</strike>';
+														txtHtml += '<span class="sale">'
+																+ discountRate(
+																		product.price.value,
+																		product.normalPrice.value)
+																+ '%</span>';
+														//if ( prodWishlist[i].carryingForward === 'NORMAL' ) {
+														//  txtHtml += '<span class="sale">'+normalPoint+'%</span>';
+														//} else {
+														//  txtHtml += '<span class="sale">'+outletPoint+'%</span>';
+														//}
+													}
+												}
+											} else {
+
+												var productCd = variantStyles[0].code;
+												var checkNewBrand = true;
+												if (productCd.indexOf("5W") == 0
+														|| productCd
+																.indexOf("MF") == 0
+														|| productCd
+																.indexOf("MM") == 0) {
+													if (productCd.indexOf("0") == 2
+															|| productCd
+																	.indexOf("1") == 2
+															|| productCd
+																	.indexOf("2") == 2
+															|| productCd
+																	.indexOf("3") == 2
+															|| productCd
+																	.indexOf("4") == 2
+															|| productCd
+																	.indexOf("5") == 2
+															|| productCd
+																	.indexOf("6") == 2
+															|| productCd
+																	.indexOf("7") == 2
+															|| productCd
+																	.indexOf("8") == 2
+															|| productCd
+																	.indexOf("9") == 2) {
+														checkNewBrand = true;
+													} else {
+														checkNewBrand = false;
+													}
+												} else {
+													checkNewBrand = true;
+												}
+
+												var checkViewDel = false;
+
+												if (checkNewBrand
+														&& variantStyles[0].code
+																.toLowerCase()
+																.indexOf("a_") === -1
+														&& variantStyles[0].code
+																.toLowerCase()
+																.indexOf("a0_") === -1
+														&& variantStyles[0].code
+																.toLowerCase()
+																.indexOf("a1_") === -1
+														&& variantStyles[0].code
+																.toLowerCase()
+																.indexOf("a2_") === -1
+														&& variantStyles[0].code
+																.toLowerCase()
+																.indexOf("a3_") === -1
+														&& variantStyles[0].code
+																.toLowerCase()
+																.indexOf("a4_") === -1
+														&& variantStyles[0].code
+																.toLowerCase()
+																.indexOf("a5_") === -1
+														&& variantStyles[0].code
+																.toLowerCase()
+																.indexOf("a6_") === -1
+														&& variantStyles[0].code
+																.toLowerCase()
+																.indexOf("a7_") === -1
+														&& variantStyles[0].code
+																.toLowerCase()
+																.indexOf("a8_") === -1
+														&& variantStyles[0].code
+																.toLowerCase()
+																.indexOf("a9_") === -1
+														&& variantStyles[0].code
+																.toLowerCase()
+																.indexOf("b_") === -1
+														&& variantStyles[0].code
+																.toLowerCase()
+																.indexOf("b0_") === -1
+														&& variantStyles[0].code
+																.toLowerCase()
+																.indexOf("b1_") === -1
+														&& variantStyles[0].code
+																.toLowerCase()
+																.indexOf("b2_") === -1
+														&& variantStyles[0].code
+																.toLowerCase()
+																.indexOf("b3_") === -1
+														&& variantStyles[0].code
+																.toLowerCase()
+																.indexOf("b4_") === -1
+														&& variantStyles[0].code
+																.toLowerCase()
+																.indexOf("b5_") === -1
+														&& variantStyles[0].code
+																.toLowerCase()
+																.indexOf("b6_") === -1
+														&& variantStyles[0].code
+																.toLowerCase()
+																.indexOf("b7_") === -1
+														&& variantStyles[0].code
+																.toLowerCase()
+																.indexOf("b8_") === -1
+														&& variantStyles[0].code
+																.toLowerCase()
+																.indexOf("b9_") === -1
+														&& variantStyles[0].code
+																.toLowerCase()
+																.indexOf("c_") === -1
+														&& variantStyles[0].code
+																.toLowerCase()
+																.indexOf("c0_") === -1
+														&& variantStyles[0].code
+																.toLowerCase()
+																.indexOf("c1_") === -1
+														&& variantStyles[0].code
+																.toLowerCase()
+																.indexOf("c2_") === -1
+														&& variantStyles[0].code
+																.toLowerCase()
+																.indexOf("c3_") === -1
+														&& variantStyles[0].code
+																.toLowerCase()
+																.indexOf("c4_") === -1
+														&& variantStyles[0].code
+																.toLowerCase()
+																.indexOf("c5_") === -1
+														&& variantStyles[0].code
+																.toLowerCase()
+																.indexOf("c6_") === -1
+														&& variantStyles[0].code
+																.toLowerCase()
+																.indexOf("c7_") === -1
+														&& variantStyles[0].code
+																.toLowerCase()
+																.indexOf("c8_") === -1
+														&& variantStyles[0].code
+																.toLowerCase()
+																.indexOf("c9_") === -1
+														&& variantStyles[0].code
+																.toLowerCase()
+																.indexOf("d_") === -1
+														&& variantStyles[0].code
+																.toLowerCase()
+																.indexOf("d0_") === -1
+														&& variantStyles[0].code
+																.toLowerCase()
+																.indexOf("d1_") === -1
+														&& variantStyles[0].code
+																.toLowerCase()
+																.indexOf("d2_") === -1
+														&& variantStyles[0].code
+																.toLowerCase()
+																.indexOf("d3_") === -1
+														&& variantStyles[0].code
+																.toLowerCase()
+																.indexOf("d4_") === -1
+														&& variantStyles[0].code
+																.toLowerCase()
+																.indexOf("d5_") === -1
+														&& variantStyles[0].code
+																.toLowerCase()
+																.indexOf("d6_") === -1
+														&& variantStyles[0].code
+																.toLowerCase()
+																.indexOf("d7_") === -1
+														&& variantStyles[0].code
+																.toLowerCase()
+																.indexOf("d8_") === -1
+														&& variantStyles[0].code
+																.toLowerCase()
+																.indexOf("d9_") === -1) {
+													if (product.normalPrice.value !== null
+															&& product.normalPrice.value > product.price.value) {
+														txtHtml += '<strike>'
+																+ exchangePrice(product.normalPrice.value)
+																+ '</strike>';
+														txtHtml += '<span class="sale">'
+																+ discountRate(
+																		product.price.value,
+																		product.normalPrice.value)
+																+ '%</span>';
+														//if ( prodWishlist[i].carryingForward === 'NORMAL' ) {
+														//	txtHtml += '<span class="sale">'+normalPoint+'%</span>';
+														//} else {
+														//	txtHtml += '<span class="sale">'+outletPoint+'%</span>';
+														//}
+													}
+
+													checkViewDel = true;
+												}
+
+												if (!checkNewBrand
+														&& productCd
+																.indexOf("5WM") == 0) {
+													if (product.normalPrice.value !== null
+															&& product.normalPrice.value > product.price.value) {
+														txtHtml += '<strike>'
+																+ exchangePrice(product.normalPrice.value)
+																+ '</strike>';
+														txtHtml += '<span class="sale">'
+																+ discountRate(
+																		product.price.value,
+																		product.normalPrice.value)
+																+ '%</span>';
+													}
+												}
+
+												if (variantStyles[0].code
+														.toLowerCase().indexOf(
+																'cm') == 0
+														&& variantStyles[0].code
+																.toLowerCase()
+																.indexOf('c_') > 0) {
+													if (product.normalPrice.value != null
+															&& product.normalPrice.value > product.price.value) {
+														txtHtml += '<strike>'
+																+ exchangePrice(product.normalPrice.value)
+																+ '</strike>';
+														txtHtml += '<span class="sale">'
+																+ discountRate(
+																		product.price.value,
+																		product.normalPrice.value)
+																+ '%</span>';
+													}
+												}
+
+												if (!checkViewDel) {
+													if (product.brandCode == 'BR15'
+															|| product.brandCode == 'BR16'
+															|| product.brandCode == 'BR30'
+															|| product.brandCode == 'BR32'
+															|| product.brandCode == 'BR35'
+															|| product.brandCode == 'BR44'
+															|| productCd
+																	.indexOf("FL") == 0) {
+														txtHtml += '<strike>'
+																+ exchangePrice(product.normalPrice.value)
+																+ '</strike>';
+														txtHtml += '<span class="sale">'
+																+ discountRate(
+																		product.price.value,
+																		product.normalPrice.value)
+																+ '%</span>';
+													}
+												}
+
+											}
+											txtHtml += '      </p>';
+											txtHtml += '    </a>';
+											txtHtml += '  </div>';
+											if (noStock === 'N') {
+												txtHtml += '  <label class="chk_mark">';
+												txtHtml += '    <input type="checkbox" name="chkbox" data-value="'+prodWishlist[i].wishCode+'">';
+												txtHtml += '    <span class="mark"></span>';
+												txtHtml += '  </label>';
+											}
+											txtHtml += '</li>';
+										}
+										txtHtml += '</ul>';
+										$(
+												'.btn_wrap.btn_wrap_div1.btm_fixed_wrap')
+												.addClass('on'); //리스트가 있을시 버튼 활성화
+									}
+									$('#prodWishlists').html(txtHtml);
+
+									//if ( prodWishlist.length > 0 ) {
+									var pagination = data.pagination;
+									var pages = SettingPagination('pagenation',
+											(pagination.currentPage + 1),
+											pagination.totalNumberOfResults,
+											pagination.pageSize, 5,
+											'myWishListProd');
+
+									var txtPaging = '';
+									txtPaging += pages;
+
+									$('#pagination1').html(txtPaging);
+									//}
+									$("#gnbMyPageBtn").removeClass("active");
+									$("#gnbMyheartBtn").addClass("active");
+									//$(".hsome_quickMenu").addClass('active');
+								},
+								error : function(xhr, status, error) {
+								}
+							});
+				}
+
+				function myWishListContents(pageNum) {
+					scrollTo(0, 0); // 목록 초기 노출 혹은 페이징 시 스크롤 최상단 위치
+					(typeof pageNum !== "undefined" && pageNum != '') ? updateURL(
+							pageNum, 'c', 2)
+							: updateURL(1, 'c', 2); // hash 있으면 쓰고 없으면 1페이지
+					myContntLoadedYn = true;
+
+					$
+							.ajax({
+								url : '/ko/mypage/selectMyWishContents',
+								type : 'GET',
+								datatype : 'json',
+								data : {
+									'pageNum' : pageNum,
+									'pageSize' : 5,
+									'show' : 'Page'
+								},
+								success : function(data) {
+									//console.log(Object.entries(data));
+									var list = data.results;
+
+									var txtHtml = '';
+									if (list.length === 0) {
+										txtHtml += '<li>';
+										txtHtml += '  <a href="javascript:void(0);"><div class="wish_box">';
+										txtHtml += '    <h4 class="wish_cont_title">';
+										txtHtml += '    마이하트에 저장된 컨텐츠가 없습니다.';
+										txtHtml += '    </h4>';
+										txtHtml += '  </div></a>';
+										txtHtml += '</li>';
+									} else {
+										for (var i = 0; i < list.length; i++) {
+											txtHtml += '<li>';
+											if (list[i].contentType === 'sporlighton') {
+
+												txtHtml += '  <a href="/ko/magazine/editorials/'+list[i].contentPK+'"><div class="wish_box">';
+												txtHtml += '    <span class="flag">위클리 픽</span>';
+
+											} else if (list[i].contentType === 'hsomepeople') {
+
+												txtHtml += '  <a href="/ko/magazine/editorials/'+list[i].contentPK+'"><div class="wish_box">';
+												txtHtml += '    <span class="flag">핸썸피플</span>';
+
+											} else if (list[i].contentType === 'brandstory') {
+
+												txtHtml += '  <a href="/ko/magazine/editorials/'+list[i].contentPK+'"><div class="wish_box">';
+												txtHtml += '    <span class="flag">에디토리얼</span>';
+
+											} else if (list[i].contentType === 'news') {
+
+												txtHtml += '  <a href="/ko/magazine/newsDetail'
+														+ list[i].templateType
+														+ '?newsCode='
+														+ list[i].contentPK
+														+ '&typeCode=WEB"><div class="wish_box">';
+												txtHtml += '    <span class="flag">뉴스</span>';
+
+											} else if (list[i].contentType === 'lookbook') {
+
+												txtHtml += '  <a href="/ko/magazine/lookbookDetail/'
+														+ list[i].contentPK
+														+ '?currentPage=0"><div class="wish_box">';
+												txtHtml += '    <span class="flag">룩북</span>';
+
+											} else if (list[i].contentType === 'video') {
+
+												txtHtml += '  <a href="javascript:void(0);"><div class="wish_box">';
+												txtHtml += '    <span class="flag">비디오</span>';
+
+											} else if (list[i].contentType === 'exhibition') {
+												var images = list[i].contentImage
+														.split("#");
+
+												var alinkTarget;
+												if (images[1] === "OLD") {
+													alinkTarget = "_self";
+												} else {
+													alinkTarget = "_blank";
+												}
+												if (images[2] === null
+														|| images[2] === '') {
+													txtHtml += '  <a href="/ko/magazine/exhibitions/'+list[i].contentPK+'" target="'+alinkTarget+'"><div class="wish_box">';
+												} else {
+													txtHtml += '  <a href="'+images[2]+'" target="'+alinkTarget+'"><div class="wish_box">';
+												}
+												txtHtml += '    <span class="flag">기획전</span>';
+
+											} else {
+
+												txtHtml += '  <a href="javascript:void(0);"><div class="wish_box">';
+												txtHtml += '    <span class="flag">기타</span>';
+
+											}
+											txtHtml += '    <div class="wish_cont_img">';
+											if (list[i].contentType === 'exhibition') {
+												var images = list[i].contentImage
+														.split("#");
+												txtHtml += '      <img src="'
+														+ images[0]
+														+ '" onError=\'this.src="/_ui/handsomemobile/images/common/no_img.jpg"\' style="width:100%" alt="" >';
+											} else {
+												txtHtml += '      <img src="'
+														+ list[i].contentImage
+														+ '" onError=\'this.src="/_ui/handsomemobile/images/common/no_img.jpg"\' style="width:100%" alt="" >';
+											}
+											txtHtml += '    </div>';
+											txtHtml += '    <h4 class="wish_cont_title">'
+													+ list[i].contentSubject
+													+ '<a href="javascript:void(0);" class="del" data-value="'
+													+ list[i].pk
+													+ '"></a></h4>';
+											txtHtml += '  </div></a>';
+											txtHtml += '</li>';
+										}
+									}
+									$('#wishContents').html(txtHtml);
+
+									//if ( prodWishlist.length > 0 ) {
+									var pagination = data.pagination;
+									var pages = SettingPagination('pagenation',
+											(pagination.currentPage + 1),
+											pagination.totalNumberOfResults,
+											pagination.pageSize, 5,
+											'myWishListContents');
+
+									var txtPaging = '';
+									txtPaging += pages;
+
+									$('#pagination2').html(txtPaging);
+									//}
+								},
+								error : function(xhr, status, error) {
+								}
+							});
+				}
+				function numberWithCommas(x) {
+					// 세자리마다 콤마(,) 추가
+					return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+				}
+				function discountRate(x, y) {
+					// return 100 - ((x / y) * 100);
+					return 100 - Math.round(((x / y) * 100));
+				}
+
+				function reloadProdSize(prodCode) {
+					//alert(prodCode);
+					$
+							.ajax({
+								url : "/ko/mypage/reloadProdSize",
+								type : "POST",
+								datatype : "json",
+								data : {
+									productCode : prodCode,
+									CSRFToken : "8a8fdf57-021a-4818-82a8-a81720089936"
+								},
+								success : function(data) {
+									var product = data.product;
+
+									/* 가격변경 */
+									var productPrice = data.getProductPrice;
+									var priceHtml = '';
+
+									priceHtml += "￦"
+											+ addComma(productPrice.productPrice);
+									if (productPrice.productNormalityPrice != undefined
+											&& productPrice.productNormalityPrice != "") {
+										productSalePerCent = getDecimalToString(
+												((productPrice.productNormalityPrice - productPrice.productPrice)
+														/ productPrice.productNormalityPrice * 100),
+												1, 1);
+										priceHtml += "<strike>￦"
+												+ addComma(productPrice.productNormalityPrice)
+												+ "</strike><span class=\"sale\">"
+												+ productSalePerCent
+												+ "%</span>";
+									}
+
+									if (priceHtml != '') {
+										$(
+												"#"
+														+ product.code
+																.substring(
+																		0,
+																		product.code
+																				.indexOf("_"))
+														+ " .info_cont a .price")
+												.html(priceHtml);
+									}
+
+									/* 
+									 priceHtml = product.normalPrice.formattedValue;
+									 */
+
+									// 이미지
+									var txtImage = '';
+									if (product.productImages != null) {
+										for (var i = 0; i < product.productImages.length; i++) {
+											images = product.productImages[i];
+											if (images.imageDivisionCode.code === 'S01') {
+												//txtImage += '<img src="'+images.image.url+'" onError=\'this.src="/_ui/handsomemobile/images/common/no_img.jpg"\' alt="">';
+												txtImage = images.image.url
+												break;
+											}
+										}
+									}
+									//$("#"+product.code.substring(0, product.code.indexOf("_"))+" .img_slide_wrap .img_slide .img").html(txtImage);
+									$(
+											"#"
+													+ product.code
+															.substring(
+																	0,
+																	product.code
+																			.indexOf("_"))
+													+ " .img_slide_wrap .img_slide img")
+											.attr('src', txtImage);
+								}
+							});
+				}
+
+				function exchangeRatePrice(koPrice) {
+
+					return exchangeAmt;
+				}
+
+				function deleteWishlistProd(wishcode, prodCd) {
+					var lc = new layerConfirm("위시리스트에서 선택한 상품을 삭제하시겠습니까?",
+							"확인", "취소");
+					lc.cancelAction = function() {
+						return false;
+					};
+					lc.confirmAction = function() {
+						$.ajax({
+							url : '/ko/mypage/deleteWish',
+							type : 'GET',
+							datatype : 'json',
+							data : {
+								wishcode : wishcode
+							},
+							success : function(data) {
+								var itemCnt = $("#prodWishlists").find("ul")
+										.children().length;
+								var pageNum = getUrlParameter('pageNumW');
+								if (itemCnt == 1 && Number(pageNum) > 1)
+									pageNum = pageNum - 1; // 삭제 시점에 2페이지 이상이고 노출 상품이 1개면 삭제 후 한 페이지 전의 목록 호출
+								myWishListProd(pageNum);
+								//				var la = new layerAlert('삭제가 완료 되었습니다.');
+								//				return false;
+							}
+						});
+					}
+				}
+				function deleteWishlistAllProd() {
+					var chkedcnt = 0;
+					var deltarget = '';
+					$('.mp_wishlist_wrap .chk_mark input').each(function() {
+						if ($(this).is(':checked')) {
+							chkedcnt += 1;
+							deltarget += ',' + $(this).attr('data-value');
+						}
+					});
+					//alert(deltarget.substring(1));
+					if (chkedcnt === 0) {
+						var la = new layerAlert('위시리스트에서 삭제할 상품을 선택해 주세요.');
+						return false;
+					} else {
+						var lc = new layerConfirm("위시리스트에서 선택한 상품을 삭제하시겠습니까?",
+								"확인", "취소");
+						lc.cancelAction = function() {
+							return false;
+						};
+						lc.confirmAction = function() {
+							GA_Event('마이하트', '삭제', '선택상품삭제');
+							$.ajax({
+								url : '/ko/mypage/deleteWish',
+								type : 'GET',
+								datatype : 'json',
+								data : {
+									wishcode : deltarget.substring(1)
+								},
+								success : function(data) {
+									var itemCnt = $("#prodWishlists")
+											.find("ul").children().length;
+									var pageNum = getUrlParameter('pageNumW');
+									if (itemCnt == 1 && Number(pageNum) > 1)
+										pageNum = pageNum - 1; // 삭제 시점에 2페이지 이상이고 노출 상품이 1개면 삭제 후 한 페이지 전의 목록 호출
+									myWishListProd(pageNum);
+								}
+							});
+						}
+					}
+				}
+
+				function deleteWishlistContents($this) {
+					var deltarget = $this.attr('data-value');
+
+					$.ajax({
+						url : '/ko/mypage/deleteWishContents',
+						type : 'GET',
+						datatype : 'json',
+						data : {
+							deltarget : deltarget
+						},
+						success : function(data) {
+							var itemCnt = $("#wishContents").children().length;
+							var pageNum = getUrlParameter('pageNumC');
+							if (itemCnt == 1 && Number(pageNum) > 1)
+								pageNum = pageNum - 1; // 삭제 시점에 2페이지 이상이고 노출 상품이 1개면 삭제 후 한 페이지 전의 목록 호출
+							myWishListContents(pageNum);
+						}
+					});
+				}
+			</script>
+
+
+
+			<script type="text/javascript">
+				// 컬러칩 누를시 이미지 변경
+				function chgColor(pid, pcid) {
+
+					console.log("컬러칩 이미지 변경");
+					var url = $('#' + pid).attr("src");
+					console.log(url);
+					var target = url.substring(url.lastIndexOf("/") + 1, url
+							.lastIndexOf("_"));
+					url = url.replace(target, pcid);
+					var myimage = $(
+							".img swiper-slide swiper-slide-active swiper-slide-duplicate-next swiper-slide-duplicate-prev")
+							.children('img');
+					console.log(myimage);
+					$(myimage).attr("src", url);
+					$('#' + pid).attr("src", url);
+
+				}
+
+				function chgColorChip(index, code) {
+					//중복 호출 방지(동일한 이미지가 중복으로 호출시 에러 이미지로 판단)
+					if ($("[targetCode='" + code + "']").length == 0) {
+						var url = $("#newImage1_" + index).val();
+						var target = url.substring(url.lastIndexOf("/"));
+						var checkIndex = index - 14 * parseInt(index / 14);
+
+						if (checkIndex == 5 || checkIndex == 13) {
+							var src2 = url.replace(target, "/"
+									+ code
+									+ "_T02"
+									+ $("#T02_IMG_" + index).attr("src")
+											.substring(
+													$("#T02_IMG_" + index)
+															.attr("src")
+															.lastIndexOf(".")));
+							$("#T02_IMG_" + index).attr("src", src2);
+							$("#T02_IMG_" + index).attr("targetCode", code);
+						}
+						var src = "";
+						if (checkIndex == 4 || checkIndex == 10) {
+							src = url.replace(target, "/"
+									+ code
+									+ "_W01"
+									+ $("#T01_IMG_" + index).attr("src")
+											.substring(
+													$("#T01_IMG_" + index)
+															.attr("src")
+															.lastIndexOf(".")));
+						} else {
+							src = url.replace(target, "/"
+									+ code
+									+ "_T01"
+									+ $("#T01_IMG_" + index).attr("src")
+											.substring(
+													$("#T01_IMG_" + index)
+															.attr("src")
+															.lastIndexOf(".")));
+						}
+						$("#T01_IMG_" + index).attr("src", src);
+						$("#T01_IMG_" + index).attr("targetCode", code);
+
+						$("#T01_IMG_" + index).closest(".categoryImgBox").attr(
+								"onclick",
+								"goProductDetail('" + code + "', 'we051')");
+						$("#T01_IMG_" + index).closest(".categoryImgBox")
+								.parent().find("button.like").attr(
+										"data-value", code);
+					}
+
+					if ($("#price_" + code).length == 0) {
+						$
+								.ajax({
+									url : "/ko/c/getProductPrice",
+									type : "GET",
+									data : {
+										productCode : code
+									},
+									success : function(data) {
+										var priceHtml = "";
+										var productSalePerCent = 0;
+
+										priceHtml += '<span id="price_' + code + '">';
+										priceHtml += "￦"
+												+ addComma(data.productPrice);
+										if (data.productNormalityPrice != undefined
+												&& data.productNormalityPrice != "") {
+											productSalePerCent = getDecimalToString(
+													((data.productNormalityPrice - data.productPrice) / data.productNormalityPrice) * 100,
+													1, 1);
+											priceHtml += "<strike>￦"
+													+ addComma(data.productNormalityPrice)
+													+ '</strike><span class="sale">'
+													+ productSalePerCent
+													+ "%</span>";
+										}
+										priceHtml += "</span>";
+
+										$("#hsProductList ul li").find(
+												"#listPrice" + index).children(
+												"span").css("display", "none");
+										$("#hsProductList ul li").find(
+												"#listPrice" + index).first()
+												.append(priceHtml);
+									},
+									error : function(xhr, Status, error) {
+									},
+								});
+					} else {
+						$("#hsProductList ul li").find("#listPrice" + index)
+								.children("span").css("display", "none");
+						$("#price_" + code).css("display", "inline-block");
+					}
+				}
+
+				// 제품 상세로 이동
+				function goProductDetail(productCode, categoryCode, brandCode) {
+					//var loc = "/ko/p/"+ productCode +"?categoryCode="+ categoryCode + document.location.hash;
+					var loc = "/ko/p/" + productCode + "?categoryCode="
+							+ categoryCode + "&uiel=Mobile";
+					location.href = loc;
+				}
+				function goProductDetail1(productCode) {
+					//var loc = "/ko/p/"+ productCode + document.location.hash;
+					var loc = "/ko/p/" + productCode;
+					location.href = loc;
+				}
+
+				$(document).on("click", ".hs_product_list .chip", function() {
+					$(this).closest("li").find(".chip").removeClass("on");
+					$(this).addClass("on");
+				});
+			</script>
+			<!-- contents s -->
+			<input type="hidden" id="normalPoint" value="5.0">
+			<input type="hidden" id="outletPoint" value="1.0">
+
+			<div id="contents" class="hsome_contents mp_wishlist_wrap">
+				<ul class="ui_tab red_border_tab fw active">
+					<li class="on"><a id="tab_wish1" href="#tab_01" onclick="GA_Event('마이하트', '탭', '위시리스트');">위시리스트</a></li>
+					<li class=""><a id="tab_wish2" href="#tab_02" onclick="GA_Event('마이하트', '탭', '컨텐츠');">♥ 컨텐츠</a></li>
+					<li class="fcs" style="transform: translateX(0px);"></li>
+				</ul>
+				<div class="tab_cont">
+					<!-- #tab_01 s -->
+					<div id="tab_01" class="cont on">
+						<!-- 추가(47745) : 20180813 s -->
+						<div class="gray_box wish_desc_box">
+							<ul class="ul_dot">
+								<li>위시리스트에는 상품이 최대 200개까지 저장됩니다.</li>
+								<li>마이하트에 담은 상품 중 판매종료가 된 상품은 자동삭제됩니다.</li>
+							</ul>
+						</div>
+
+						<!-- 추가(47745) : 20180813 e -->
+						<div class="hs_product_list_wrap">
+							<div class="sort_chk">
+								<a href="javascript:void(0);" onclick="deleteWishlistAllProd();" class="del">선택상품삭제</a>
+								<div class="hs_tit_select">
+									<select id="wish_sort" name="wish_sort">
+										<option value="">전체</option>
+										<option value="sale">세일</option>
+										<option value="outlet">아울렛</option>
+									</select>
+								</div>
+							</div>
+
+							<div class="hs_product_list" id="prodWishlists">
+								<ul>
+									<li th:each="pInfo : ${pList}" class="float active" th:id="pInfo.pid">
+										<div class="img_slide_container">
+											<a href="/ko/p/SY2C9TTO330W_AD" class="img_slide_contain" onclick="setEcommerceData(0);">
+
+												<div class="img">
+													<img th:src="${pInfo.colorList[0].PCIMG1}" data-original="http://newmedia.thehandsome.com/SJ/2D/SS/SJ2D1WJC361W_BK_T01.jpg"
+														th:id="${pInfo.pid}" th:alt="${pInfo.pname}" text="http://newmedia.thehandsome.com/SJ/2D/SS/SJ2D1WJC361W_BK_T01.jpg"
+														class="respon_image lazy" style="display: block"
+													/>
+												</div>
+
+
+
+
+
+											</a> <span class="func_as"> <a href="javascript:void(0);" onclick="javascript:deleteWishlistProd('9684106740414','SY2C9TTO330W_AD');"
+												class="del"
+											>삭제</a>
+											</span>
+										</div>
+										<div class="info_cont">
+											<div class="color_chip">
+												<a th:each="color, stat : ${pInfo.colorList}" href="javascript:noLink();" th:data-pid="${pInfo.pid}" th:data-pcid="${color.PCID}"
+													th:onclick="|chgColor(this.getAttribute('data-pid'), this.getAttribute('data-pcid'))|"
+												>
+													<button th:class="${stat.index} == 0 ? 'chip on' : 'chip'" th:id="${color.PCID}"
+														th:style="|background:${color.PCCOLORCODE} url(${color.PCCHIPIMG})|"
+													></button>
+												</a>
+											</div>
+											<a href="javascript:void(0);">
+												<p class="brand">[[${pInfo.bname}]]</p>
+												<p class="name">[[${pInfo.pname}]]</p>
+												<p class="price" id="listPrice8">
+													<span id="price_SJ2D1WJC361W_BK" th:text="'₩'+ ${#numbers.formatInteger(pInfo.pcprice, 0, 'COMMA')}"></span>
+												</p>
+											</a>
+										</div> <label class="chk_mark"> <input type="checkbox" name="chkbox" data-value="9684106740414" /> <span class="mark"></span>
+									</label>
+
+									</li>
+
+								</ul>
+							</div>
+
+							<div id="pagination1" class="hs_paging bottom">
+								<a href="javascript:void(0);" class="pre disabled">이전</a><a href="javascript:void(0);" class="cur">1</a><a href="javascript:void(0);"
+									class="nxt disabled"
+								>다음</a>
+							</div>
+
+							<div class="btn_wrap btn_wrap_div1 btm_fixed_wrap on">
+								<!-- <div class="wish_to_order"><a href="lp_wish_to_order.html" class="btnstl6 solid_btn_point btn_layerpopup_call" data-layerpop-style="lp_stl_black" data-layerpop-depth="depth1"><span>선택상품 (5개) 주문</span></a></div> -->
+								<div class="wish_to_order">
+									<a href="javascript:void(0);" onclick="goWishToOrderPopup(this); return false;" class="btnstl6 solid_btn_point"
+										data-layerpop-style="lp_stl_black" data-layerpop-depth="depth1"
+									><span id="orderBtn">쇼핑백담기</span></a>
+								</div>
+							</div>
+
+						</div>
+					</div>
+
+					<!-- #tab_02 s -->
+					<div id="tab_02" class="cont">
+						<div class="wish_cont_wrap">
+							<p>지난 기획전의 경우 1주일 후에 자동 삭제됩니다.</p>
+							<ul id="wishContents">
+								<li><a href="javascript:void(0);"><div class="wish_box">
+											<h4 class="wish_cont_title">마이하트에 저장된 컨텐츠가 없습니다.</h4>
+										</div></a></li>
+							</ul>
+
+							<div id="pagination2" class="hs_paging bottom"></div>
+						</div>
+					</div>
+				</div>
+
+			</div>
+			<!-- contents e -->
+
+
+
+			<script>
+				var $product_list = $('.hs_product_list_wrap .hs_product_list ul li');
+				function product_list_effect() {
+					$product_list.each(function() {//리스트 스크롤 효과
+						if (($(window).scrollTop() + $(window).height()) > $(
+								this).offset().top) {
+							$(this).addClass('active');
+						} else {
+							$(this).removeClass('active');
+						}
+					});
+				}
+
+				$(function() {
+					//	$('.h_select > .selected_text span').html('위시리스트'); //페이지 제목 입력    
+					//currentQuickMenuOn('mypage'); //quick_menu 활성화
+
+					$(".hsome_quickMenu").css('display', 'none'); //gn삭제()
+
+					//180813 마이하트 리스트 슬라이드 시작
+					var myheartSwiperClass = '.mp_wishlist_wrap .hs_product_list .img_slide_wrap.active.swiper-container';
+					if ($(myheartSwiperClass).length > 0) {
+						new Swiper(myheartSwiperClass, {
+							loop : true
+						});
+					}
+					//180813 마이하트 리스트 슬라이드 끝
+					//
+
+					// 세일 알림 팝업 호출
+					$('body')
+							.on(
+									'click',
+									'.func_as .alt',
+									function() {
+										//$(this).toggleClass('on');
+										// return false;
+
+										//alert($(this).attr('data-value'));
+										var saleTargetValues = $(this).attr(
+												'data-value').split('#');
+										$('#productCode').val(
+												saleTargetValues[0]);
+										$('#salealarm_img')
+												.html(
+														'<img src="'+saleTargetValues[1]+'" onError=\'this.src="/_ui/handsomemobile/images/common/no_img.jpg"\' alt="">');
+										$('#salealarm_brandnm').html(
+												saleTargetValues[2]);
+										$('#salealarm_prodnm').html(
+												saleTargetValues[3]);
+										$('#salealarm_prodprice')
+												.html(
+														exchangePrice(saleTargetValues[4]));
+									});
+
+					product_list_effect();
+				});
+
+				$(window).scroll(function() {
+					product_list_effect();
+				});
+
+				$(document)
+						.ready(
+								function() {
+									$(document)
+											.on(
+													'click',
+													'.mp_wishlist_wrap .ui_tab li a',
+													function() {
+														//		setTimeout(function() {
+														//		myWishListContents(1);
+														//		}, 400);
+														$this = $(this);
+														if ($this.attr("href") == "#tab_01") {
+															changeTab(1); // 탭 변경 시 hash에 탭 정보 변경
+															if (!myProdLoadedYn) {
+																var pageNum = getUrlParameter('pageNumW');
+																myWishListProd(pageNum);
+															}
+														} else if ($this
+																.attr("href") == "#tab_02") {
+															changeTab(2); // 탭 변경 시 hash에 탭 정보 변경
+															if (!myContntLoadedYn) {
+																var pageNum = getUrlParameter('pageNumC');
+																myWishListContents(pageNum);
+															}
+														}
+													});
+
+									$('.product_sale_pop .pop-comm-cls')
+											.on(
+													'click',
+													function() {
+														$('#productCode').val(
+																'');
+														$('#salealarm_img')
+																.html('');
+														$('#salealarm_brandnm')
+																.html('');
+														$('#salealarm_prodnm')
+																.html('');
+														$(
+																'#salealarm_prodprice')
+																.html('');
+													});
+
+									$('.btn_layerpopup_call').on('click',
+											function() {
+												//		alert('clicked Order btn');
+											});
+								})
+
+				function checkValidation() {
+					var la;
+
+					var isocode = 'ko';
+					if (isocode === 'ko') {
+						if ($('#telno1 option:selected').val() === '') {
+							la = new layerAlert('알림을 받으실 휴대전화번호를 확인해 주세요.');
+							return false;
+						}
+						if ($('#telno2').val() === '') {
+							$('#telno2').focus();
+							la = new layerAlert('알림을 받으실 휴대전화번호를 확인해 주세요.');
+							return false;
+						} else {
+							if ($('#telno2').val().length < 3) {
+								$('#telno2').focus();
+								la = new layerAlert('알림을 받으실 휴대전화번호를 확인해 주세요.');
+								return false;
+							}
+						}
+						if ($('#telno3').val() === '') {
+							$('#telno3').focus();
+							la = new layerAlert('알림을 받으실 휴대전화번호를 확인해 주세요.');
+							return false;
+						} else {
+							if ($('#telno3').val().length < 4) {
+								$('#telno3').focus();
+								la = new layerAlert('알림을 받으실 휴대전화번호를 확인해 주세요.');
+								return false;
+							}
+						}
+						$('form#saleAlarmForm input[name=mobilePhoneNumber]')
+								.val(
+										$('#telno1 option:selected').val()
+												+ $('#telno2').val()
+												+ $('#telno3').val());
+					} else {
+						if ($('#emailId').val() === '') {
+							la = new layerAlert('알림을 받으실 이메일을 확인해 주세요.');
+							return false;
+						}
+						if ($('#emailHost').val() === '') {
+							la = new layerAlert('알림을 받으실 이메일을 확인해 주세요.');
+							return false;
+						}
+						$('form#saleAlarmForm input[name=emailAddress]').val(
+								$('#emailId').val() + '@'
+										+ $('#emailHost').val());
+					}
+
+					return true;
+				}
+				function checkSaleAlarmYN() {
+					if (checkValidation()) {
+						//var lc = new layerConfirm('세일 알림을 신청하시겠습니까?', '확인', '취소');
+						//lc.cancelAction = function() {
+						//	return false;			
+						//};
+						//lc.confirmAction= function() {
+						$.ajax({
+							url : '/ko/mypage/checkSaleAlarmYN',
+							type : 'POST',
+							datatype : 'json',
+							data : {
+								'productCode' : $('#productCode').val(),
+								'CSRFToken' : $('#CSRFToken').val()
+							},
+							success : function(data) {
+								if (data === 'NONAVAILABLE') {
+									var la = new layerAlert('이미 신청하셨습니다.');
+									return false;
+								} else {
+									saveSaleAlarms();
+								}
+							}
+						});
+						//}
+					}
+				}
+				function saveSaleAlarms() {
+					if (checkValidation()) {
+						$.ajax({
+							url : '/ko/mypage/saveDiscountAlarm',
+							type : 'POST',
+							datatype : 'json',
+							//		data	: {
+							//			'CSRFToken'			: $('#CSRFToken').val(),
+							//			'productCode'		: $('#productCode').val(),
+							//			'mobilePhoneNumber'	: $('#mobilePhoneNumber').val(),
+							//			'emailAddress'		: $('#emailAddress').val()
+							//		},
+							data : $('form[name="saleAlarmForm"]').serialize(),
+							success : function(data) {
+								var la = new layerAlert('신청 완료되었습니다.');
+								la.confirmAction = function() {
+									myWishListProd('');
+
+									$('.product_sale_pop .pop-comm-cls')
+											.click();
+								}
+							},
+							error : function(xhr, status, error) {
+								var la = new layerAlert('오류가 발생하였습니다.');
+								//$('.product_sale_pop .pop-comm-cls').click();
+							}
+						});
+					}
+				}
+				function cnclSaleAlarms() {
+					$('.product_sale_pop .pop-comm-cls').click();
+				}
+
+				function removeSaleAlarms(productCode) {
+					var lc = new layerConfirm("세일 알림 신청을 취소하시겠습니까?", "확인", "취소");
+					lc.cancelAction = function() {
+						return false;
+					};
+					lc.confirmAction = function() {
+						$.ajax({
+							url : '/ko/mypage/removeDiscountAlarm',
+							type : 'POST',
+							datatype : 'json',
+							data : {
+								'CSRFToken' : $('#CSRFToken').val(),
+								'productCode' : $('#productCode').val()
+							},
+							success : function(data) {
+								var la = new layerAlert('삭제가 완료 되었습니다.');
+								la.confirmAction = function() {
+									myWishListProd('');
+								}
+							},
+							error : function(xhr, status, error) {
+								var la = new layerAlert('오류가 발생하였습니다.');
+								return false;
+							}
+						});
+					};
+				}
+
+				var wishtoorderproc = false;
+				function goWishToOrderPopup($this) {
+
+					if (wishtoorderproc)
+						return;
+
+					wishtoorderproc = true;
+
+					var chkedcnt = 0;
+					var wishcodes = '';
+					$('.mp_wishlist_wrap .chk_mark input').each(function() {
+						if ($(this).is(':checked')) {
+							chkedcnt += 1;
+							wishcodes += ',' + $(this).attr('data-value');
+						}
+					});
+					if (wishcodes !== '') {
+						wishcodes = wishcodes.substring(1);
+					}
+					//alert(deltarget.substring(1));
+
+					if (chkedcnt === 0) {
+						wishtoorderproc = false;
+
+						var la = new layerAlert('상품을 선택해 주세요');
+						return false;
+					} else {
+						wishtoorderproc = false;
+
+						$('.hsome_layerpop_contents.lp_depth1').addClass(
+								'dir_h lp_stl_black visible active');
+						$('.layerpop_wrap.lp_wish_to_order_wrap').removeClass(
+								'visible active activated');
+
+						layerPopupOpen("/ko/mypage/wishToOrderPopup?wishcodes="
+								+ wishcodes,
+								'.hsome_layerpop_contents.lp_depth1',
+								'.layerpop_wrap.lp_wish_to_order_wrap');
+					}
+				}
+
+				function setEcommerceData(idx) {
+					var prodList = JSON.parse(window.sessionStorage
+							.getItem('ecommerceDataList'));
+
+					if (prodList != null) {
+						if (prodList.length > 0) {
+							var prodInfo = prodList[idx];
+
+							dataLayer.push({
+								'event' : 'ga_event',
+								'layerCategory' : 'Ecommerce',
+								'layerAction' : 'Click',
+								'layerLabel' : undefined,
+								'ecommerce' : {
+									'currencyCode' : 'KRW', //통화
+									'click' : {
+										'actionField' : {
+											'list' : '마이하트_찜리스트'
+										}, //상품 리스트명
+										'products' : [ {
+											'id' : prodInfo.productCode, //상품코드
+											'name' : prodInfo.productName, //상품명
+											'brand' : prodInfo.brandName, //상품 브랜드
+											'category' : '', //상품 카테고리
+
+											'position' : 8
+										//상품 위치
+
+										} ]
+									}
+								}
+							});
+
+							/* Ecommerce data 초기화
+							dataLayer에 남아 있는 경우에는 전자상거래 단계만을 위해 사용하는
+							필드들이 세팅되어 있으므로 undefined를 통해 초기화합니다. */
+							dataLayer.push({
+								'layerCategory' : undefined,
+								'layerAction' : undefined,
+								'nonInteraction' : false,
+								'ecommerce' : undefined
+							});
+						}
+					}
+				}
+			</script>
+
+			<script type="text/javascript">
+				//<![CDATA[ 
+				var height = 20;
+				var num = 0;
+				var max = height * num;
+				var move = 0;
+				var lastChild;
+				var notiCnt = 0;
+				var curTabId = 0;
+
+				$(document).ready(function() {
+
+					//자동로그인
+
+					$(".chatbotlink").click(function() {
+						callChatbot();
+					});
+
+					// 2022.03.29 푸터 공지사항 추가
+					getFooterNotices("/ko/svcenter");
+
+				});
+
+				function moveDesktop() {
+					location.href = location.href.replace("?uiel=Mobile", "")
+							+ "?uiel=Desktop";
+				}
+
+				$(function() {
+					var pcVersionButtons = null;
+					if (getCookie("app") != "android"
+							&& getCookie("app") != "ios") {
+						pcVersionButtons = '<a href="javascript:moveDesktop();">PC버전</a>';
+						$("#pcVersion").html(pcVersionButtons);
+					} else {
+						$("#footerMenu").prop("class", "menu m3");
+					}
+
+					// 	if(getCookie("app") == "ios"){
+					// 	    $(".f_policy .language").hide(); //ios 메인 처음 진입시 language 노출되는 오류 수정
+					// 	}
+				});
+
+				function hpAutoLogin(data) {
+					if (data.succYn == "Y") {
+						$.ajax({
+							type : "GET",
+							url : "/ko/hpoint/simpleJoinMember",
+							data : {
+								"mcustNo" : data.mcustNo
+							},
+							success : function(data) {
+								if (data.resultCode == "L") {
+									$("#hcid").val(data.uid);
+									$("#autologinForm").submit();
+								}
+							},
+							error : function(e) {
+							}
+						});
+					}
+				}
+
+				function familySiteSelect() {
+					$('.fixed_dim_layer').stop().show();
+					$('.family_site_popup_191108').stop().slideDown();
+				}
+				function familySiteSelectClosed() {
+					$('.family_site_popup_191108').stop().slideUp();
+					$('.fixed_dim_layer').stop().fadeOut(500);
+				}
+
+				//app 언어설정창 추가
+				function selectLangChg(obj) {
+
+				}
+
+				//외부 브라우저로 링크 열기  
+				function callWebBrowser() {
+					var appYn = 'N';
+					if (getCookie("app") == null || getCookie("app") == "") {
+						//
+					} else { // 앱 접속일 경우 앱 여부 Y
+						appYn = 'Y';
+					}
+					var appOs = '';
+
+					if (appYn == "Y") {
+						if (appOs == "ios") {
+							webkit.messageHandlers.callWebBrowser
+									.postMessage("http://www.naver.com");
+						} else {
+							Android.callWebBrowser("http://www.naver.com");
+						}
+					}
+				}
+
+				/************************Footer Notice Start*********************/
+				function getFooterNotices(moveUrl) {
+					to_date = new Date();
+					$.ajax({
+						type : "get",
+						url : moveUrl + "/getFooterNotices?now="
+								+ to_date.getTime(),
+						dataType : "json",
+						error : function(request, status, error) {
+							console.log(error);
+						},
+						success : function(data) {
+							notiCnt = data.length;
+							var noticeContent = "";
+							//var viewCnt = 0;
+							$.each(data, function() {
+								//if(viewCnt < 4){
+								var listTag = "<li>";
+								listTag += '<a href="' + moveUrl
+										+ '/mobilenotice?noticeCode=' + this.pk
+										+ '">' + this.subject + '</a>';
+								listTag += "</li>";
+
+								noticeContent += listTag;
+								//viewCnt++;
+								//}
+							});
+
+							$('.notice-wrap').html(noticeContent);
+						}
+					});
+				}
+				/**********************Footer Notice End****************************/
+				//]]>
+			</script>
+			<script>
+				$(window)
+						.load(
+								function() {
+									function noticeRolling() {
+										if (notiCnt > 1) {
+											height = 20;
+											num = notiCnt;
+											max = height * num;
+											move += height;
+
+											//메인여부 체크(메인진입시 1개, 메인탭별 푸터 진입시 1개씩 추가)
+											if ($(".notice-wrap").length > 1) {
+												$("#topNav1909 li")
+														.each(
+																function(index) {
+																	if ($(this)
+																			.hasClass(
+																					"on")) {
+																		curTabId = index;
+																	}
+																})
+												$(
+														"footer#footer"
+																+ curTabId
+																+ " .notice-wrap")
+														.animate(
+																{
+																	"top" : -move
+																},
+																600,
+																function() {
+																	if (move >= max) {
+																		$(this)
+																				.css(
+																						"top",
+																						0);
+																		move = 0;
+																	}
+																});
+
+											} else {
+												$(".notice-wrap").animate({
+													"top" : -move
+												}, 600, function() {
+													if (move >= max) {
+														$(this).css("top", 0);
+														move = 0;
+													}
+												});
+											}
+										}
+									}
+									;
+									noticeRollingOff = setInterval(
+											noticeRolling, 3000);
+
+									//메인여부 체크(메인진입시 1개, 메인탭별 푸터 진입시 1개씩 추가)
+									if ($(".notice-wrap").length > 1) {
+										$("#topNav1909 li")
+												.each(
+														function(index) {
+															if ($(this)
+																	.hasClass(
+																			"on")) {
+																curTabId = index;
+															}
+														})
+										$(
+												"footer#footer" + curTabId
+														+ " .notice-wrap")
+												.append(
+														$(
+																"footer#footer"
+																		+ curTabId
+																		+ " .notice-wrap li")
+																.first()
+																.clone());
+									} else {
+										$(".notice-wrap").append(
+												$('.notice-wrap li').first()
+														.clone());
+									}
+								});
+			</script>
+			<form id="autologinForm" name="autologinForm" action="/ko/hp/autologin" method="get">
+				<input type="hidden" name="hcid" id="hcid" value="e2gaf@naver.com">
+			</form>
+			<!-- ################## footer ################## -->
+			<!-- 푸터 공지 추가 220404 -->
+			<footer id="footer" class="hsome_footer new181127 footer_kr">
+				<div class="main-notice">
+					<div class="tit-notice">공지</div>
+					<div class="list-notice">
+						<ul class="notice-wrap">
+							<li><a href="/ko/svcenter/mobilenotice?noticeCode=8804711059376">더한섬닷컴 편집/해외 브랜드 종료(예정) 안내(~2/22)</a></li>
+							<li><a href="/ko/svcenter/mobilenotice?noticeCode=8804711059376">더한섬닷컴 편집/해외 브랜드 종료(예정) 안내(~2/22)</a></li>
+						</ul>
+					</div>
+					<div class="btn-more">
+						<a href="/ko/svcenter/mobilenotice"><img src="http://cdn.thehandsome.com/_ui/handsomemobile/images/main/btn_arr_notice.png" alt=""></a>
+					</div>
+				</div>
+				<div class="f_wrap">
+					<div class="f_menu re1911">
+						<!-- 수정 190207 -->
+						<ul class="top_line">
+
+							<li><a href="#"></a></li>
+							<li><a href="javascript:ftLogout();" class="login" style="float: left;" onclick="GA_Event('공통', '푸터_메뉴', '로그아웃');">로그아웃<!-- 로그아웃 --></a></li>
+							<li><a href="/ko/svcenter/mobilemain?uiel=Mobile" class="customer" style="float: left; width: 32%;"
+								onclick="GA_Event('공통', '푸터_메뉴', '고객센터');"
+							>고객센터<!--고객센터--></a></li>
+							<li><a href="/ko/store-finder/storeInformation?uiel=Mobile" class="storeinfo" style="float: left;"
+								onclick="GA_Event('공통', '푸터_메뉴', '매장안내');"
+							>매장안내</a></li>
+						</ul>
+						<ul class="btm_line1911">
+							<li><a href="/ko/svcenter/theClubInfo?uiel=Mobile" class="memberBenefit" style="float: left; letter-spacing: -1px;"
+								onclick="GA_Event('공통', '푸터_메뉴', '한섬 회원 혜택');"
+							>한섬 회원 혜택<!-- 한섬 회원 혜택 --></a></li>
+							<li><a href="http://www.handsome.co.kr/ko/company/aboutHandsome.do?leng=ko" target="_blank" style="float: left; letter-spacing: -1px;"
+								onclick="GA_Event('공통', '푸터_메뉴', '회사소개');"
+							>회사소개</a></li>
+							<li id="family_site"><span class="language family_site1911 for_iph_css1911"
+								onclick="familySiteSelect();GA_Event('공통', '푸터_CNT', 'FAMILYSITE');"
+							>FAMILY SITE&nbsp;</span></li>
+						</ul>
+						<!-- 챗봇 테스트 -->
+					</div>
+
+					<div class="f_sns">
+						<a href="javascript:noLink();"
+							onclick="GA_Event('공통', '푸터_SNS', 'INSTAGRAM');window.open('https://instagram.com/thehandsome_official/','instagram');return false" class="ist"
+						>인스타그램</a> <a href="javascript:noLink();"
+							onclick="GA_Event('공통', '푸터_SNS', 'YOUTUBE');window.open('https://www.youtube.com/channel/UC0fmjgbVA8iZrPbIR3dppUQ','youtube');return false"
+							class="ytb"
+						>유튜브</a>
+					</div>
+					<div class="f_policy">
+						<a href="/ko/footer/footerTermBusiness?uiel=Mobile">서비스이용약관</a> <a href="/ko/footer/footerPrivacy?uiel=Mobile" style="font-weight: bold;">개인정보처리방침</a>
+
+						<!-- web -->
+						<!-- 180706 추가// -->
+						<span class="language"> <select id="footerSelectLang" onchange="if(this.value) language(this.value);"
+							onclick="GA_Event('공통', '푸터_CNT', 'LANGUAGE');"
+						>
+								<option value="" selected="selected" disabled="" hidden="">LANGUAGE</option>
+								<option value="ko">한국어</option>
+								<option value="en">ENGLISH</option>
+								<option value="zh">中文</option>
+						</select>
+						</span>
+						<!-- //180706 추가 -->
+					</div>
+
+					<div class="f_copyright">COPYRIGHT © 2018 HANDSOME. ALL RIGHT RESERVED</div>
+
+					<a href="javascript:noLink();" class="f_info_viewer" onclick="GA_Event('공통', '푸터_CNT', 'INFO');"> <span class="f-txt">(주) 한섬 </span> <span
+						class="f-logo"
+					><img src="http://cdn.thehandsome.com/_ui/handsomemobile/images/common/mob-footer-handsome-logo.png" alt=""></span>
+					</a>
+
+					<div class="f_info">
+						<div class="corp">
+							대표이사 : 김민덕 | 서울시 강남구 도산대로 523 한섬빌딩<br>TEL : 1800-5700 (유료) | FAX : 02-6078-2856 <br>개인정보보호책임자 : 윤인수 | 호스팅서비스 : (주) 한섬<br>사업자등록번호
+							: 120-81-26337<br>통신판매업신고번호 : 제 2009-서울강남-00826호
+						</div>
+						<div class="link">
+							<a href="https://recruit.ehyundai.com/recruit-info/announcement/list.nhd?pageNo=1&amp;hireGb=01&amp;coCd=HDHAN" target="_blank"
+								onclick="GA_Event('공통', '푸터_CNT', 'INFO_채용정보');"
+							>채용정보</a> <a href="http://www.handsome.co.kr/ko/sustainability/sharedGrowth01.do" target="_blank"
+								onclick="GA_Event('공통', '푸터_CNT', 'INFO_동반성장');"
+							>동반성장</a> <a href="http://www.handsome.co.kr/ko/sustainability/ecoFriendly01.do" target="_blank" onclick="GA_Event('공통', '푸터_CNT', 'INFO_환경경영');">환경경영</a>
+						</div>
+					</div>
+
+				</div>
+			</footer>
+			<!-- // 푸터 공지 추가 220404 -->
+			<!-- //################## footer ################## -->
+		</div>
+
+	</div>
+	<!-- ################## //hsome_allContents_wrapper | ë³¸ë¬¸ ì»¨íì¸  ìì­ ################## -->
+	<a href="noLink();" class="hsome_topBtn upper" id="handsomeTopBtn" style="bottom: 60px;">mobile.bottom.top</a>
+	<!-- 20180530 추가 -->
+
+	<script type="text/javascript">
+		function goMypage() {
+			//if("N" == "Y") {
+			//	$("#gnbMypageBtn").click();
+			//} else {
+			//$.cookie("handsomeappreturnurl", location.href, {path:"/"});
+			$.cookie("handsomeappreturnurl", "/ko/", {
+				path : "/"
+			});
+			location.href = "/ko/mypage/mypageFloatingPopup";
+			//}
+		}
+
+		$(window).load(function() {
+			//모든 리소스 로드 후에 처리
+			$('.hsome_quickMenu').addClass('active');
+
+		});
+
+		function goMainpage() {
+			window.sessionStorage.removeItem('moveYn');
+			window.sessionStorage.removeItem('width');
+			window.sessionStorage.removeItem('height');
+			location.href = "/ko/main";
+		}
+	</script>
+
+	<!-- ################## hsome_quickMenu | 퀵메뉴 ################## -->
+	<aside class="hsome_quickMenu hsome_quickMenu1909 active" style="display: none;">
+		<ul>
+			<li class="shop "><a href="/ko/mobilecommon/navShop" onclick="GA_Event('공통', '네비게이션_바', '샵');"><i>메뉴</i></a></li>
+			<li class="sns "><a href="/ko/sns/main" onclick="GA_Event('공통', '네비게이션_바', '타임라인');"><i>스타일 LIVE</i></a></li>
+			<li class="home "><a href="javascript:noLink();" onclick="goMainpage();GA_Event('공통', '네비게이션_바', '홈');"><i>홈</i></a></li>
+			<li class="myheart active" id="gnbMyheartBtn"><a href="/ko/mypage/myWish" onclick="GA_Event('공통', '네비게이션_바', '마이하트');"><i>마이하트</i></a></li>
+			<li class="mypage" id="gnbMyPageBtn"><a href="javascript:noLink();" onclick="goMypage();GA_Event('공통', '네비게이션_바', '마이페이지');"><i>마이페이지</i></a></li>
+			<li class="mypage pageMove" style="display: none;"><a href="" id="gnbMypageBtn"></a></li>
+			<li class="mypage" style="display: none;"><a href="/ko/mobilecommon/myPagePopup" id="gnbMypagePopupBtn"></a></li>
+		</ul>
+	</aside>
+	<!-- ################## //hsome_quickMenu | 퀵메뉴 ################## -->
+
+	<div class="fixed_dim_layer" onclick="familySiteSelectClosed();"></div>
+	<div class="family_site_popup_191108">
+		<ul>
+			<li><a href="http://m.hfashionmall.com/sfmmbl/mbl/main.do" target="_blank" onclick="GA_Event('공통', '푸터_CNT', 'FAMILYSITE_H패션몰');">H패션몰<!-- H패션몰 --></a></li>
+			<li><a href="https://m.hyundaihmall.com/front/index.do" target="_blank" onclick="GA_Event('공통', '푸터_CNT', 'FAMILYSITE_현대홈쇼핑');">현대홈쇼핑<!-- (주)현대홈쇼핑 --></a></li>
+			<li><a href="https://m.thehyundai.com/Home.html" target="_blank" onclick="GA_Event('공통', '푸터_CNT', 'FAMILYSITE_더현대닷컴');">더현대닷컴<!-- 더현대닷컴 --></a></li>
+			<li><a href="http://mall.hyundailivart.co.kr/front/index_org.lv" target="_blank" onclick="GA_Event('공통', '푸터_CNT', 'FAMILYSITE_현대리바트');">현대리바트<!-- (주)현대 리바트 --></a></li>
+			<li><a href="https://www.h-point.co.kr/cu/main/index.nhd" target="_blank" onclick="GA_Event('공통', '푸터_CNT', 'FAMILYSITE_H.Point');">H.Point</a></li>
+			<li><a href="http://www.ehyundai.com/newPortal/ir/main.do" target="_blank" onclick="GA_Event('공통', '푸터_CNT', 'FAMILYSITE_현대백화점그룹');">현대백화점그룹<!-- 현대백화점 그룹 --></a></li>
+		</ul>
+		<a href="#;" class="family_site_popup_close" onclick="familySiteSelectClosed();">닫기<!-- 닫기 --></a>
+	</div>
+	<!-- ################## hsome_quickMenu_contents | 퀵메뉴 컨텐츠 영역 ################## -->
+	<div class="hsome_quickMenu_contents"></div>
+	<!-- //################## hsome_quickMenu_contents | 퀵메뉴 컨텐츠 영역 ################## -->
+
+	<script type="text/javascript">
+		$(document).ready(function() {
+			if (false) {
+				$('#cateTab').click();
+			}
+		});
+
+		function closeAction() {
+			$('.twoDepthNavPopup').hide();
+			$('.one_lists.on').toggleClass('on');
+		}
+	</script>
+	<div class="hsome_layer_popup hs_brand_category_pop2 multibrd-category-pop blk ">
+		<h2 class="pop-comm-ttl">편집샵</h2>
+		<ul class="ui_tab hs_red_border_tab size02">
+			<li class="on"><a href="#brand_tab" id="brandTab" onclick="GA_Event('편집샵_카테고리','1DEPTH','브랜드');">브랜드</a></li>
+			<li><a href="#category_tab" id="cateTab" onclick="GA_Event('편집샵_카테고리','1DEPTH','카테고리');">카테고리</a></li>
+			<li class="fcs"></li>
+		</ul>
+		<div class="pop-comm-cnts">
+			<div class="tab_cont shop_cont">
+				<!-- 브랜드 -->
+				<div class="cont on" id="brand_tab">
+					<ul class="one_depth brand">
+						<li class="one_lists">
+							<div class="one_wrap">
+								<a href="javascript:noLink();" class="one_link" id="BR15_oneDepth" onclick="GA_Event('편집샵_카테고리','2DEPTH','TOM GREYHOUND');">TOM GREYHOUND</a>
+							</div>
+							<ul class="two_depth twoDepthNavPopup">
+								<li class="two_lists"><a href="/ko/c/br15/br15" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','TOM GREYHOUND_전체보기');"> 전체보기
+								</a></li>
+								<li class="two_lists"><a href="/ko/c/br15/br15?subBrand=TN" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','TOM GREYHOUND_TOM GREYHOUND');"
+								> TOM GREYHOUND</a> <a href="/ko/c/br15/br15?subBrand=TN" class="ico-pb-all"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','TOM GREYHOUND_TOM GREYHOUND');"
+								> <img src="http://cdn.thehandsome.com/_ui/handsomemobile/images/common/ico_pb.png" alt="ico_pb">
+								</a></li>
+								<li class="two_lists"><a href="/ko/c/br15/br15?subBrand=TGTM" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','TOM GREYHOUND_TOTEME');"
+								> TOTEME</a></li>
+								<li class="two_lists"><a href="/ko/c/br15/br15?subBrand=TG13" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','TOM GREYHOUND_R13');"
+								> R13</a></li>
+								<li class="two_lists"><a href="/ko/c/br15/br15?subBrand=TGOS" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','TOM GREYHOUND_OPERA SPORT');"
+								> OPERA SPORT</a></li>
+								<li class="two_lists"><a href="/ko/c/br15/br15?subBrand=TGGX" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','TOM GREYHOUND_GANNI');"
+								> GANNI</a></li>
+								<li class="two_lists"><a href="/ko/c/br15/br15?subBrand=TGRX" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','TOM GREYHOUND_REST &amp;amp;amp; RECREATION');"
+								> REST &amp; RECREATION</a></li>
+								<li class="two_lists"><a href="/ko/c/br15/br15?subBrand=TGDU" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','TOM GREYHOUND_DUNST');"
+								> DUNST</a></li>
+								<li class="two_lists"><a href="/ko/c/br15/br15?subBrand=TGAU" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','TOM GREYHOUND_AUTRY');"
+								> AUTRY</a></li>
+								<li class="two_lists"><a href="/ko/c/br15/br15?subBrand=TG29" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','TOM GREYHOUND_PUMA');"
+								> PUMA</a></li>
+								<li class="two_lists"><a href="/ko/c/br15/br15?subBrand=TGS3" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','TOM GREYHOUND_SALOMON');"
+								> SALOMON</a></li>
+								<li class="two_lists"><a href="/ko/c/br15/br15?subBrand=TGDI" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','TOM GREYHOUND_ADIDAS');"
+								> ADIDAS</a></li>
+								<li class="two_lists"><a href="/ko/c/br15/br15?subBrand=TGGW" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','TOM GREYHOUND_GLOWNY');"
+								> GLOWNY</a></li>
+								<li class="two_lists"><a href="/ko/c/br15/br15?subBrand=TG4Q" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','TOM GREYHOUND_AGOLDE');"
+								> AGOLDE</a></li>
+								<li class="two_lists"><a href="/ko/c/br15/br15?subBrand=TGYY" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','TOM GREYHOUND_LEE.Y');"
+								> LEE.Y</a></li>
+								<li class="two_lists"><a href="/ko/c/br15/br15?subBrand=TGZO" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','TOM GREYHOUND_MOTHER DENIM');"
+								> MOTHER DENIM</a></li>
+								<li class="two_lists"><a href="/ko/c/br15/br15?subBrand=TGAL" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','TOM GREYHOUND_ALIGHIERI');"
+								> ALIGHIERI</a></li>
+								<li class="two_lists"><a href="/ko/c/br15/br15?subBrand=TGED" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','TOM GREYHOUND_EDMMOND STUDIO');"
+								> EDMMOND STUDIO</a></li>
+								<li class="two_lists"><a href="/ko/c/br15/br15?subBrand=TGSK" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','TOM GREYHOUND_SHOREDITCH SKI CLUB');"
+								> SHOREDITCH SKI CLUB</a></li>
+								<li class="two_lists"><a href="/ko/c/br15/br15?subBrand=TGJF" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','TOM GREYHOUND_JAMES PERSE');"
+								> JAMES PERSE</a></li>
+								<li class="two_lists"><a href="/ko/c/br15/br15?subBrand=TGVL" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','TOM GREYHOUND_MUVEIL');"
+								> MUVEIL</a></li>
+								<li class="two_lists"><a href="/ko/c/br15/br15?subBrand=TGWD" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','TOM GREYHOUND_WILD DONKEY');"
+								> WILD DONKEY</a></li>
+								<li class="two_lists"><a href="/ko/c/br15/br15?subBrand=TGRT" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','TOM GREYHOUND_RUE MADAM PARIS');"
+								> RUE MADAM PARIS</a></li>
+								<li class="two_lists"><a href="/ko/c/br15/br15?subBrand=TGSL" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','TOM GREYHOUND_SELETTI');"
+								> SELETTI</a></li>
+								<li class="two_lists"><a href="/ko/c/br15/br15?subBrand=TGHK" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','TOM GREYHOUND_HVISK');"
+								> HVISK</a></li>
+								<li class="two_lists"><a href="/ko/c/br15/br15?subBrand=TGCP" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','TOM GREYHOUND_ROHE');"
+								> ROHE</a></li>
+								<li class="two_lists"><a href="/ko/c/br15/br15?subBrand=TGX3" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','TOM GREYHOUND_XIRENA');"
+								> XIRENA</a></li>
+								<li class="two_lists"><a href="/ko/c/br15/br15?subBrand=TGOR" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','TOM GREYHOUND_WEHOURS');"
+								> WEHOURS</a></li>
+								<li class="two_lists"><a href="/ko/c/br15/br15?subBrand=TGD6" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','TOM GREYHOUND_DROGHERIA CRIVELLINI');"
+								> DROGHERIA CRIVELLINI</a></li>
+								<li class="two_lists"><a href="/ko/c/br15/br15?subBrand=TGHC" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','TOM GREYHOUND_HOTEL CERRITOS');"
+								> HOTEL CERRITOS</a></li>
+								<li class="two_lists"><a href="/ko/c/br15/br15?subBrand=TGRR" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','TOM GREYHOUND_RECREATIONAL HABITS');"
+								> RECREATIONAL HABITS</a></li>
+							</ul>
+						</li>
+						<li class="one_lists">
+							<div class="one_wrap">
+								<a href="javascript:noLink();" class="one_link" id="BR35_oneDepth" onclick="GA_Event('편집샵_카테고리','2DEPTH','FOURM THE STORE');">FOURM THE
+									STORE</a>
+							</div>
+							<ul class="two_depth twoDepthNavPopup">
+								<li class="two_lists"><a href="/ko/c/br35/br35" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_전체보기');">
+										전체보기 </a></li>
+								<li class="two_lists"><a href="/ko/c/br35/br35?subBrand=YN" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_FOURM THE STORE');"
+								> FOURM THE STORE</a> <a href="/ko/c/br35/br35?subBrand=YN" class="ico-pb-all"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_FOURM THE STORE');"
+								> <img src="http://cdn.thehandsome.com/_ui/handsomemobile/images/common/ico_pb.png" alt="ico_pb">
+								</a></li>
+								<li class="two_lists"><a href="/ko/c/br35/br35?subBrand=YSZS" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_SAINT JAMES');"
+								> SAINT JAMES</a></li>
+								<li class="two_lists"><a href="/ko/c/br35/br35?subBrand=YSZO" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_MOTHER DENIM');"
+								> MOTHER DENIM</a></li>
+								<li class="two_lists"><a href="/ko/c/br35/br35?subBrand=YSNS" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_RE/DONE');"
+								> RE/DONE</a></li>
+								<li class="two_lists"><a href="/ko/c/br35/br35?subBrand=YSHS" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_HOUSE OF SUNNY');"
+								> HOUSE OF SUNNY</a></li>
+								<li class="two_lists"><a href="/ko/c/br35/br35?subBrand=YSFE" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_FRAME');"
+								> FRAME</a></li>
+								<li class="two_lists"><a href="/ko/c/br35/br35?subBrand=YSJS" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_JOSHUA SANDERS');"
+								> JOSHUA SANDERS</a></li>
+								<li class="two_lists"><a href="/ko/c/br35/br35?subBrand=YSRP" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_REPLUME');"
+								> REPLUME</a></li>
+								<li class="two_lists"><a href="/ko/c/br35/br35?subBrand=YSEK" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_EENK');"
+								> EENK</a></li>
+								<li class="two_lists"><a href="/ko/c/br35/br35?subBrand=YSAB" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_ANINE BING');"
+								> ANINE BING</a></li>
+								<li class="two_lists"><a href="/ko/c/br35/br35?subBrand=YSFS" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_FRONT STREET 8');"
+								> FRONT STREET 8</a></li>
+								<li class="two_lists"><a href="/ko/c/br35/br35?subBrand=YSKA" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_KARHU');"
+								> KARHU</a></li>
+								<li class="two_lists"><a href="/ko/c/br35/br35?subBrand=YSVJ" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_VEJA');"
+								> VEJA</a></li>
+								<li class="two_lists"><a href="/ko/c/br35/br35?subBrand=YS46" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_JUMPER 1234');"
+								> JUMPER 1234</a></li>
+								<li class="two_lists"><a href="/ko/c/br35/br35?subBrand=YSRT" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_ROTATE');"
+								> ROTATE</a></li>
+								<li class="two_lists"><a href="/ko/c/br35/br35?subBrand=YS4D" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_GRLFRND');"
+								> GRLFRND</a></li>
+								<li class="two_lists"><a href="/ko/c/br35/br35?subBrand=YSTC" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_TACH CLOTHING');"
+								> TACH CLOTHING</a></li>
+								<li class="two_lists"><a href="/ko/c/br35/br35?subBrand=YSOS" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_OSOI');"
+								> OSOI</a></li>
+								<li class="two_lists"><a href="/ko/c/br35/br35?subBrand=YSML" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_MADLUV');"
+								> MADLUV</a></li>
+								<li class="two_lists"><a href="/ko/c/br35/br35?subBrand=YS8B" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_JAMIE WANDER');"
+								> JAMIE WANDER</a></li>
+								<li class="two_lists"><a href="/ko/c/br35/br35?subBrand=YSND" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_BONNE MAISON');"
+								> BONNE MAISON</a></li>
+								<li class="two_lists"><a href="/ko/c/br35/br35?subBrand=YSOT" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_ROSEANNA');"
+								> ROSEANNA</a></li>
+								<li class="two_lists"><a href="/ko/c/br35/br35?subBrand=YSGS" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_GCDS');"
+								> GCDS</a></li>
+								<li class="two_lists"><a href="/ko/c/br35/br35?subBrand=YSTB" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_KSUBI');"
+								> KSUBI</a></li>
+								<li class="two_lists"><a href="/ko/c/br35/br35?subBrand=YSKT" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_KITRI');"
+								> KITRI</a></li>
+								<li class="two_lists"><a href="/ko/c/br35/br35?subBrand=YS4Q" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_AGOLDE');"
+								> AGOLDE</a></li>
+								<li class="two_lists"><a href="/ko/c/br35/br35?subBrand=YSPD" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_PAIRS DELI&amp;amp;amp;GROCERY');"
+								> PAIRS DELI&amp;GROCERY</a></li>
+								<li class="two_lists"><a href="/ko/c/br35/br35?subBrand=YSF5" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_FIORUCCI');"
+								> FIORUCCI</a></li>
+								<li class="two_lists"><a href="/ko/c/br35/br35?subBrand=YSRX" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_RIXO');"
+								> RIXO</a></li>
+								<li class="two_lists"><a href="/ko/c/br35/br35?subBrand=YSHO" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_HOLZWEILER');"
+								> HOLZWEILER</a></li>
+								<li class="two_lists"><a href="/ko/c/br35/br35?subBrand=YSGR" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_G KERO');"
+								> G KERO</a></li>
+								<li class="two_lists"><a href="/ko/c/br35/br35?subBrand=YSGE" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_GESTUZ');"
+								> GESTUZ</a></li>
+								<li class="two_lists"><a href="/ko/c/br35/br35?subBrand=YSET" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_ETRE CECILE');"
+								> ETRE CECILE</a></li>
+								<li class="two_lists"><a href="/ko/c/br35/br35?subBrand=YSPA" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_PAIRS');"
+								> PAIRS</a></li>
+								<li class="two_lists"><a href="/ko/c/br35/br35?subBrand=YSIP" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_IPANEMA');"
+								> IPANEMA</a></li>
+							</ul>
+						</li>
+						<li class="one_lists">
+							<div class="one_wrap">
+								<a href="javascript:noLink();" class="one_link" id="BR30_oneDepth" onclick="GA_Event('편집샵_카테고리','2DEPTH','FOURM STUDIO');">FOURM STUDIO</a>
+							</div>
+							<ul class="two_depth twoDepthNavPopup">
+								<li class="two_lists"><a href="/ko/c/br30/br30" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM STUDIO_전체보기');"> 전체보기 </a>
+								</li>
+								<li class="two_lists"><a href="/ko/c/br30/br30?subBrand=CSLI" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM STUDIO_LIE');"
+								> LIE</a></li>
+								<li class="two_lists"><a href="/ko/c/br30/br30?subBrand=CN" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM STUDIO_FOURM STUDIO');"
+								> FOURM STUDIO</a> <a href="/ko/c/br30/br30?subBrand=CN" class="ico-pb-all" onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM STUDIO_FOURM STUDIO');">
+										<img src="http://cdn.thehandsome.com/_ui/handsomemobile/images/common/ico_pb.png" alt="ico_pb">
+								</a></li>
+								<li class="two_lists"><a href="/ko/c/br30/br30?subBrand=CS71" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM STUDIO_LE17SEPTEMBRE');"
+								> LE17SEPTEMBRE</a></li>
+								<li class="two_lists"><a href="/ko/c/br30/br30?subBrand=CSMG" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM STUDIO_MARGESHERWOOD');"
+								> MARGESHERWOOD</a></li>
+								<li class="two_lists"><a href="/ko/c/br30/br30?subBrand=CSMS" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM STUDIO_MATIAS');"
+								> MATIAS</a></li>
+								<li class="two_lists"><a href="/ko/c/br30/br30?subBrand=CS51" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM STUDIO_REJINA PYO');"
+								> REJINA PYO</a></li>
+								<li class="two_lists"><a href="/ko/c/br30/br30?subBrand=CSLV" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM STUDIO_LVIR');"
+								> LVIR</a></li>
+								<li class="two_lists"><a href="/ko/c/br30/br30?subBrand=CSZ8" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM STUDIO_ERIKA CAVALLINI');"
+								> ERIKA CAVALLINI</a></li>
+								<li class="two_lists"><a href="/ko/c/br30/br30?subBrand=CSMJ" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM STUDIO_MIJEONG PARK');"
+								> MIJEONG PARK</a></li>
+								<li class="two_lists"><a href="/ko/c/br30/br30?subBrand=CSNL" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM STUDIO_NEUL');"
+								> NEUL</a></li>
+								<li class="two_lists"><a href="/ko/c/br30/br30?subBrand=CSLE" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM STUDIO_LEMELS');"
+								> LEMELS</a></li>
+								<li class="two_lists"><a href="/ko/c/br30/br30?subBrand=CSGM" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM STUDIO_GREY MANSION');"
+								> GREY MANSION</a></li>
+								<li class="two_lists"><a href="/ko/c/br30/br30?subBrand=CSLS" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM STUDIO_LSA INTERNATIONAL');"
+								> LSA INTERNATIONAL</a></li>
+								<li class="two_lists"><a href="/ko/c/br30/br30?subBrand=CSCS" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM STUDIO_CA4LA');"
+								> CA4LA</a></li>
+								<li class="two_lists"><a href="/ko/c/br30/br30?subBrand=CSCT" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM STUDIO_CATERINA BERTINI');"
+								> CATERINA BERTINI</a></li>
+								<li class="two_lists"><a href="/ko/c/br30/br30?subBrand=CSHY" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM STUDIO_HAY');"
+								> HAY</a></li>
+								<li class="two_lists"><a href="/ko/c/br30/br30?subBrand=CSMZ" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM STUDIO_MAISON LOUIS MARIE');"
+								> MAISON LOUIS MARIE</a></li>
+								<li class="two_lists"><a href="/ko/c/br30/br30?subBrand=CSCZ" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM STUDIO_CRYSTAL HAZE');"
+								> CRYSTAL HAZE</a></li>
+								<li class="two_lists"><a href="/ko/c/br30/br30?subBrand=CSD7" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM STUDIO_ALLUDE');"
+								> ALLUDE</a></li>
+								<li class="two_lists"><a href="/ko/c/br30/br30?subBrand=CSIN" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM STUDIO_INOUI EDITION');"
+								> INOUI EDITION</a></li>
+								<li class="two_lists"><a href="/ko/c/br30/br30?subBrand=CSGG" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM STUDIO_GI&amp;#039;N&amp;#039;GI');"
+								> GI'N'GI</a></li>
+							</ul>
+						</li>
+						<li class="one_lists">
+							<div class="one_wrap">
+								<a href="javascript:noLink();" class="one_link" id="BR32_oneDepth" onclick="GA_Event('편집샵_카테고리','2DEPTH','FOURM MEN&amp;#039;S LOUNGE');">FOURM
+									MEN'S LOUNGE</a>
+							</div>
+							<ul class="two_depth twoDepthNavPopup">
+								<li class="two_lists"><a href="/ko/c/br32/br32" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM MEN&amp;#039;S LOUNGE_전체보기');"
+								> 전체보기 </a></li>
+								<li class="two_lists"><a href="/ko/c/br32/br32?subBrand=HSPO" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM MEN&amp;#039;S LOUNGE_POP TRADING COMPANY');"
+								> POP TRADING COMPANY</a></li>
+								<li class="two_lists"><a href="/ko/c/br32/br32?subBrand=HSSS" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM MEN&amp;#039;S LOUNGE_STANCE SEOUL');"
+								> STANCE SEOUL</a></li>
+								<li class="two_lists"><a href="/ko/c/br32/br32?subBrand=HSRN" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM MEN&amp;#039;S LOUNGE_NORTH WORKS');"
+								> NORTH WORKS</a></li>
+								<li class="two_lists"><a href="/ko/c/br32/br32?subBrand=HS0T" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM MEN&amp;#039;S LOUNGE_WILD DONKEY');"
+								> WILD DONKEY</a></li>
+								<li class="two_lists"><a href="/ko/c/br32/br32?subBrand=HSXQ" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM MEN&amp;#039;S LOUNGE_JOHNSTONS OF ELGIN');"
+								> JOHNSTONS OF ELGIN</a></li>
+								<li class="two_lists"><a href="/ko/c/br32/br32?subBrand=HSXY" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM MEN&amp;#039;S LOUNGE_BEGG x CO');"
+								> BEGG x CO</a></li>
+								<li class="two_lists"><a href="/ko/c/br32/br32?subBrand=HSKA" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM MEN&amp;#039;S LOUNGE_KASSIOPEA');"
+								> KASSIOPEA</a></li>
+								<li class="two_lists"><a href="/ko/c/br32/br32?subBrand=HSOC" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM MEN&amp;#039;S LOUNGE_OROBIANCO');"
+								> OROBIANCO</a></li>
+								<li class="two_lists"><a href="/ko/c/br32/br32?subBrand=HSXV" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM MEN&amp;#039;S LOUNGE_MADOVA');"
+								> MADOVA</a></li>
+								<li class="two_lists"><a href="/ko/c/br32/br32?subBrand=HSHN" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM MEN&amp;#039;S LOUNGE_HOWLIN');"
+								> HOWLIN</a></li>
+								<li class="two_lists"><a href="/ko/c/br32/br32?subBrand=HSBE" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM MEN&amp;#039;S LOUNGE_BEARBRICK');"
+								> BEARBRICK</a></li>
+								<li class="two_lists"><a href="/ko/c/br32/br32?subBrand=HSPT" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM MEN&amp;#039;S LOUNGE_PHILIPPE AUDIBERT');"
+								> PHILIPPE AUDIBERT</a></li>
+								<li class="two_lists"><a href="/ko/c/br32/br32?subBrand=HSIN" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM MEN&amp;#039;S LOUNGE_INOUITOOSH');"
+								> INOUITOOSH</a></li>
+								<li class="two_lists"><a href="/ko/c/br32/br32?subBrand=HS2K" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM MEN&amp;#039;S LOUNGE_KARHU');"
+								> KARHU</a></li>
+								<li class="two_lists"><a href="/ko/c/br32/br32?subBrand=HSMH" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM MEN&amp;#039;S LOUNGE_MARSHALL');"
+								> MARSHALL</a></li>
+								<li class="two_lists"><a href="/ko/c/br32/br32?subBrand=HSPE" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM MEN&amp;#039;S LOUNGE_PUEBCO');"
+								> PUEBCO</a></li>
+							</ul>
+						</li>
+						<li class="one_lists">
+							<div class="one_wrap">
+								<a href="javascript:noLink();" class="one_link" id="BR16_oneDepth" onclick="GA_Event('편집샵_카테고리','2DEPTH','MUE');">MUE</a>
+							</div>
+							<ul class="two_depth twoDepthNavPopup">
+								<li class="two_lists"><a href="/ko/c/br16/br16" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','MUE_전체보기');"> 전체보기 </a></li>
+								<li class="two_lists"><a href="/ko/c/br16/br16?subBrand=MU5E" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','MUE_ESSENTIALS | Fear of God');"
+								> ESSENTIALS | Fear of God</a></li>
+								<li class="two_lists"><a href="/ko/c/br16/br16?subBrand=MUT0" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','MUE_AUTRY');">
+										AUTRY</a></li>
+								<li class="two_lists"><a href="/ko/c/br16/br16?subBrand=MUMY" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','MUE_MIHARA YASUHIRO');"
+								> MIHARA YASUHIRO</a></li>
+								<li class="two_lists"><a href="/ko/c/br16/br16?subBrand=MU0P" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','MUE_MUSEUM OF PEACE&amp;amp;QUIET');"
+								> MUSEUM OF PEACE&amp;QUIET</a></li>
+								<li class="two_lists"><a href="/ko/c/br16/br16?subBrand=MUJ9" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','MUE_JACQUEMUS');">
+										JACQUEMUS</a></li>
+								<li class="two_lists"><a href="/ko/c/br16/br16?subBrand=MU0H" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','MUE_HOMME GIRLS');">
+										HOMME GIRLS</a></li>
+								<li class="two_lists"><a href="/ko/c/br16/br16?subBrand=MUUN" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','MUE_EMOTIONALLY UNAVAILABLE');"
+								> EMOTIONALLY UNAVAILABLE</a></li>
+								<li class="two_lists"><a href="/ko/c/br16/br16?subBrand=MUYX" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','MUE_KHAITE');">
+										KHAITE</a></li>
+								<li class="two_lists"><a href="/ko/c/br16/br16?subBrand=MUGF" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','MUE_GALLERY DEPARTMENT');"
+								> GALLERY DEPARTMENT</a></li>
+								<li class="two_lists"><a href="/ko/c/br16/br16?subBrand=MU7M" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','MUE_MARINE SERRE');"
+								> MARINE SERRE</a></li>
+								<li class="two_lists"><a href="/ko/c/br16/br16?subBrand=MU6O" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','MUE_MM6 MAISON MARGIELA');"
+								> MM6 MAISON MARGIELA</a></li>
+								<li class="two_lists"><a href="/ko/c/br16/br16?subBrand=MUNS" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','MUE_RE/DONE');">
+										RE/DONE</a></li>
+								<li class="two_lists"><a href="/ko/c/br16/br16?subBrand=MUP7" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','MUE_PACO RABANNE');"
+								> PACO RABANNE</a></li>
+							</ul>
+						</li>
+						<li class="one_lists">
+							<div class="one_wrap">
+								<a href="javascript:noLink();" class="one_link" id="BR47_oneDepth" onclick="GA_Event('편집샵_카테고리','2DEPTH','H : SCENE');">H : SCENE</a>
+							</div>
+							<ul class="two_depth twoDepthNavPopup">
+								<li class="two_lists"><a href="/ko/c/br47/br47" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','H : SCENE_전체보기');"> 전체보기 </a></li>
+								<li class="two_lists"><a href="/ko/c/br47/br47?subBrand=ON" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','H : SCENE_H:SCENE');">
+										H:SCENE</a> <a href="/ko/c/br47/br47?subBrand=ON" class="ico-pb-all" onclick="GA_Event('편집샵_카테고리','3DEPTH','H : SCENE_H:SCENE');"> <img
+										src="http://cdn.thehandsome.com/_ui/handsomemobile/images/common/ico_pb.png" alt="ico_pb"
+									>
+								</a></li>
+								<li class="two_lists"><a href="/ko/c/br47/br47?subBrand=ONYN" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','H : SCENE_YUN');">
+										YUN</a></li>
+								<li class="two_lists"><a href="/ko/c/br47/br47?subBrand=ONAP" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','H : SCENE_APPEAR SEOUL');"
+								> APPEAR SEOUL</a></li>
+							</ul>
+						</li>
+						<li class="one_lists">
+							<div class="one_wrap">
+								<a href="javascript:noLink();" class="one_link" id="BR62_oneDepth" onclick="GA_Event('편집샵_카테고리','2DEPTH','Liquides Perfume Bar');">Liquides
+									Perfume Bar<img class="icon-new-m" src="http://cdn.thehandsome.com/_ui/handsomemobile/images/common_sub/icon_new_m.png" alt="newIcon">
+								</a>
+							</div>
+							<ul class="two_depth twoDepthNavPopup">
+								<li class="two_lists"><a href="/ko/c/br62/br62" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','Liquides Perfume Bar_전체보기');">
+										전체보기 </a></li>
+								<li class="two_lists"><a href="/ko/c/br62/br62?subBrand=LPBD" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','Liquides Perfume Bar_BDK');"
+								> BDK</a></li>
+								<li class="two_lists"><a href="/ko/c/br62/br62?subBrand=LPCR" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','Liquides Perfume Bar_Carine Roitfeld');"
+								> Carine Roitfeld</a></li>
+								<li class="two_lists"><a href="/ko/c/br62/br62?subBrand=LPDO" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','Liquides Perfume Bar_D&amp;#039;ORSAY');"
+								> D'ORSAY</a></li>
+								<li class="two_lists"><a href="/ko/c/br62/br62?subBrand=LPFR" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','Liquides Perfume Bar_FRAPIN');"
+								> FRAPIN</a></li>
+								<li class="two_lists"><a href="/ko/c/br62/br62?subBrand=LPGB" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','Liquides Perfume Bar_GOLDFIELD &amp;amp; BANKS');"
+								> GOLDFIELD &amp; BANKS</a></li>
+								<li class="two_lists"><a href="/ko/c/br62/br62?subBrand=LPOB" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','Liquides Perfume Bar_OBVIOUS');"
+								> OBVIOUS</a></li>
+								<li class="two_lists"><a href="/ko/c/br62/br62?subBrand=LPRF" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','Liquides Perfume Bar_Regime des Fleurs');"
+								> Regime des Fleurs</a></li>
+								<li class="two_lists"><a href="/ko/c/br62/br62?subBrand=LPVG" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','Liquides Perfume Bar_VERONIQUE GABAI');"
+								> VERONIQUE GABAI</a></li>
+								<li class="two_lists"><a href="/ko/c/br62/br62?subBrand=LPAM" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','Liquides Perfume Bar_AMEN');"
+								> AMEN</a></li>
+							</ul>
+						</li>
+					</ul>
+				</div>
+				<!--// 브랜드 -->
+				<!-- 카테고리 -->
+				<div class="cont" id="category_tab">
+					<ul class="one_depth category">
+						<li class="one_lists">
+							<div class="one_wrap">
+								<a href="#" class="one_link" onclick="GA_Event('편집샵_카테고리','2DEPTH','여성');">여성</a>
+							</div>
+							<ul class="two_depth twoDepthNavPopup">
+								<li class="two_lists"><a href="/ko/c/we05/ed" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','여성_아우터');">아우터</a></li>
+								<li class="two_lists"><a href="/ko/c/we10/ed" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','여성_니트');">니트</a></li>
+								<li class="two_lists"><a href="/ko/c/we01/ed" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','여성_탑');">탑</a></li>
+								<li class="two_lists"><a href="/ko/c/we04/ed" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','여성_드레스');">드레스</a></li>
+								<li class="two_lists"><a href="/ko/c/we02/ed" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','여성_팬츠');">팬츠</a></li>
+								<li class="two_lists"><a href="/ko/c/we03/ed" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','여성_스커트');">스커트</a></li>
+								<li class="two_lists"><a href="/ko/c/we09/ed" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','여성_SPECIAL SHOP*');">SPECIAL
+										SHOP*</a></li>
+							</ul>
+						</li>
+						<li class="one_lists">
+							<div class="one_wrap">
+								<a href="#" class="one_link" onclick="GA_Event('편집샵_카테고리','2DEPTH','남성');">남성</a>
+							</div>
+							<ul class="two_depth twoDepthNavPopup">
+								<li class="two_lists"><a href="/ko/c/me03/ed" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','남성_아우터');">아우터</a></li>
+								<li class="two_lists"><a href="/ko/c/me10/ed" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','남성_니트');">니트</a></li>
+								<li class="two_lists"><a href="/ko/c/me01/ed" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','남성_탑');">탑</a></li>
+								<li class="two_lists"><a href="/ko/c/me02/ed" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','남성_팬츠');">팬츠</a></li>
+							</ul>
+						</li>
+						<li class="one_lists">
+							<div class="one_wrap">
+								<a href="#" class="one_link" onclick="GA_Event('편집샵_카테고리','2DEPTH','잡화');">잡화</a>
+							</div>
+							<ul class="two_depth twoDepthNavPopup">
+								<li class="two_lists"><a href="/ko/c/as01/ed" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','잡화_여성슈즈');">여성슈즈</a></li>
+								<li class="two_lists"><a href="/ko/c/as02/ed" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','잡화_남성슈즈');">남성슈즈</a></li>
+								<li class="two_lists"><a href="/ko/c/as03/ed" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','잡화_여성백');">여성백</a></li>
+								<li class="two_lists"><a href="/ko/c/as04/ed" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','잡화_남성백');">남성백</a></li>
+								<li class="two_lists"><a href="/ko/c/as05/ed" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','잡화_머플러/스카프');">머플러/스카프</a></li>
+								<li class="two_lists"><a href="/ko/c/as06/ed" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','잡화_주얼리');">주얼리</a></li>
+								<li class="two_lists"><a href="/ko/c/as07/ed" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','잡화_기타 ACC');">기타 ACC</a></li>
+							</ul>
+						</li>
+						<li class="one_lists">
+							<div class="one_wrap">
+								<a href="#" class="one_link" onclick="GA_Event('편집샵_카테고리','2DEPTH','뷰티');">뷰티</a>
+							</div>
+							<ul class="two_depth twoDepthNavPopup">
+								<li class="two_lists"><a href="/ko/c/be03/ed" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','뷰티_바디/헤어케어');">바디/헤어케어</a></li>
+								<li class="two_lists"><a href="/ko/c/be04/ed" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','뷰티_향수');">향수</a></li>
+							</ul>
+						</li>
+						<li class="one_lists">
+							<div class="one_wrap">
+								<a href="#" class="one_link" onclick="GA_Event('편집샵_카테고리','2DEPTH','라이프스타일');">라이프스타일</a>
+							</div>
+							<ul class="two_depth twoDepthNavPopup">
+								<li class="two_lists"><a href="/ko/c/ls01/ed" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','라이프스타일_홈');">홈</a></li>
+								<li class="two_lists"><a href="/ko/c/ls02/ed" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','라이프스타일_배스');">배스</a></li>
+								<li class="two_lists"><a href="/ko/c/ls03/ed" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','라이프스타일_키친');">키친</a></li>
+								<li class="two_lists"><a href="/ko/c/ls04/ed" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','라이프스타일_데스크');">데스크</a></li>
+								<li class="two_lists"><a href="/ko/c/ls06/ed" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','라이프스타일_키즈');">키즈</a></li>
+								<li class="two_lists"><a href="/ko/c/ls05/ed" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','라이프스타일_펫');">펫</a></li>
+							</ul>
+						</li>
+					</ul>
+				</div>
+				<!--// 카테고리 -->
+			</div>
+		</div>
+		<a href="javascript:noLink();" onclick="closeAction();" class="pop-comm-cls">닫기</a>
+	</div>
+
+	<th:block th:replace="common/footer :: footFragment"></th:block>
+
+
+</body>
+
+</html>
+
+
