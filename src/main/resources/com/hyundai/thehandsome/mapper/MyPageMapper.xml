@@ -22,18 +22,19 @@
 		resultType="String">
 		SELECT PID
 		FROM LIKES
+		Where
 		Member_MID=#{mId}
 		and PID=#{productCode}
 	</select>
 
 	<insert id="insertWishlist">
 		INSERT INTO LIKES
-		VALUES( #{productCode} , #{mId})
+		VALUES( #{productCode} , #{mId}, #{sysdate})
 	</insert>
 
 	<delete id="deleteWishlist">
 		delete from LIKES
-		where WHERE PID=#{productCode} and
+		WHERE PID=#{productCode} and
 		Member_MID=#{mId}
 	</delete>
 

@@ -23,7 +23,7 @@ import com.hyundai.thehandsome.domain.mypage.WishList;
 @Mapper
 public interface MyPageMapper {
 
-	void insertWishlist(@Param("mId") String mId, @Param("productCode") String productCode);
+	void insertWishlist(@Param("mId") String mId, @Param("productCode") String productCode,@Param("sysdate") String sysdate);
 
 	void deleteWishlist(@Param("mId") String mId, @Param("productCode") String productCode);
 
