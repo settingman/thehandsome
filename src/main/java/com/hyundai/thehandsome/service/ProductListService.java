@@ -21,7 +21,7 @@ import com.hyundai.thehandsome.domain.mypage.WishList;
  */
 
 public interface ProductListService {
-	List<CatePListVO> getPListWithCategory(String categoryCode);
+	List<CatePListVO> getPListWithCategory(String categoryCode, String brand);
 	List<CatePListVO> getPListWithLikes(List<WishList> wishList);
 	
 	ProductDetailVO getProductDetail(String PCID);

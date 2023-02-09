@@ -27,6 +27,7 @@ import lombok.extern.log4j.Log4j2;
  * 2023.02.01  	박세영        최초 생성, getListTest() 추가
  * 2023.02.03  	박세영        getProductDetail() 추가
  * 2023.02.03  	박세영        getProductImg() 추가
+ * 2023.02.09  	박세영        getListTest 삭제, getPListWithCategory() 브랜드까지 추가
  *          </pre>
  */
 
@@ -37,18 +38,19 @@ public class ProductListServiceImpl implements ProductListService {
 	private ProductListDAO plistDAO;
 
 	@Override
-	public List<CatePListVO> getPListWithCategory(String categoryCode) {
+	public List<CatePListVO> getPListWithCategory(String categoryCode, String brand) {
 		try {
-//			categoryCode = String.format("%-5d", categoryCode);
 			String depth1="";
 			String depth2="";
 			String depth3="";
 			depth1 = categoryCode.substring(0, 2);
 			depth2 = categoryCode.substring(2, 4);
 			depth3 = categoryCode.substring(4, 5);
-			log.info(depth1, depth2, depth3);
 			
-			List<CatePListVO> list = plistDAO.getPListWithCategory(depth1, depth2, depth3);
+			if (brand == null) brand = ""; 
+			int bno = (brand.length() == 4 ? Integer.parseInt(brand.substring(2)) : 0);
+			
+			List<CatePListVO> list = plistDAO.getPListWithCategory(depth1, depth2, depth3, bno);
 			for (CatePListVO item : list) {
 				item.setColorList(plistDAO.getProductColor(item.getPid()));
 				log.info(item);
