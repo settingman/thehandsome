@@ -106,7 +106,8 @@
 			<li class="shop"><a href="/ko/mobilecommon/navShop" onclick="GA_Event('공통', '네비게이션_바', '샵');"><i>메뉴</i></a></li>
 			<li class="sns"><a href="/ko/sns/main" onclick="GA_Event('공통', '네비게이션_바', '타임라인');"><i>스타일 LIVE</i></a></li>
 			<li class="home"><a href="javascript:noLink();" onclick="goMainpage();GA_Event('공통', '네비게이션_바', '홈');"><i>홈</i></a></li>
-			<li class="myheart" id="gnbMyheartBtn"><a href="/ko/mypage/myWish" onclick="GA_Event('공통', '네비게이션_바', '마이하트');"><i>마이하트</i></a></li>
+			<li class="myheart" id="gnbMyheartBtn"><a href="/ko/mypage/myWish" onclick="GA_Event('공통', '네비게이션_바', '마이하트');"><i>마이하트</i></a>
+			</li>
 			<li class="mypage active" id="gnbMyPageBtn"><a href="javascript:noLink();" onclick="goMypage();GA_Event('공통', '네비게이션_바', '마이페이지');"><i>마이페이지</i></a>
 			</li>
 			<li class="mypage pageMove" style="display: none"><a href="" id="gnbMypageBtn"></a></li>
@@ -952,50 +953,55 @@
           flagWrapSwiper2.update();
 
           $.ajax({
-              url     : '/mypage/myWishList',
-              type    : 'GET',
-              dataType: 'json',
-              data    : {
-                  'pageNum'   : 1,
-                  'pageSize'  : 3,
-                  'show'      : 'Page'
-              },
-              success : function(data) {
-            	  console.log("위시리스트 성공");
-                  var txtHtml = '';
-              
-                  var wishlists = data.results;
-                  console.log(wishlists);
-                  if ( wishlists.length === 0 ) {
-                      
-                      txtHtml += '<p><span>위시리스트에 저장된 상품이 없습니다.</span></p>';
-                      txtHtml += '<a href="/ko/mypage/myWish" class="more">+0</a>';
-                  } else {
-                      
-                      txtHtml += '<ul>';
-                      for ( var i=0; i < wishlists.length; i++ ) {
+            url: "/ko/mypage/myWishList",
+            type: "GET",
+            datatype: "json",
+            data: {
+              pageNum: 1,
+              pageSize: 3,
+              show: "Page",
+            },
+            success: function (data) {
+              var txtHtml = "";
 
-                          txtHtml += '  <li>';
-                          txtHtml += '    <a href="/ko/p/'+wishlists[i].productCode+'">';
-                                                        
-                                  var images = wishlists[i].productImages;                                  
-                                   txtHtml += '    <img src="'+images+'" style="width:86px;height:130px;" alt="">';
-                          
-                          
-                          txtHtml += '    </a>';
-                          txtHtml += '  </li>';
+              var wishlists = data.results;
+              if (wishlists.length === 0) {
+                txtHtml +=
+                  "<p><span>위시리스트에 저장된 상품이 없습니다.</span></p>";
+                txtHtml += '<a href="/ko/mypage/myWish" class="more">+0</a>';
+              } else {
+                txtHtml += "<ul>";
+                for (var i = 0; i < wishlists.length; i++) {
+                  txtHtml += "  <li>";
+                  txtHtml +=
+                    '    <a href="/ko/p/' + wishlists[i].productCode + '">';
+                  var product = wishlists[i].productData;
+                  if (product.productImages != null) {
+                    for (var j = 0; j < product.productImages.length; j++) {
+                      var images = product.productImages[j];
+                      if (images.imageDivisionCode.code == "T01") {
+                        txtHtml +=
+                          '    <img src="' +
+                          images.image.url +
+                          '" style="width:86px;height:130px;" alt="">';
                       }
-                      txtHtml += '</ul>';
-                      if ( wishlists.length > 3 ) {
-                          txtHtml += '<a href="/ko/mypage/myWish" class="more">+'+(wishlists.length - 3)+'</a>';
-                      } 
+                    }
                   }
-                  
-                  console.log("txtHtml 불러오기");
-                  console.log(txtHtml);
-                  $("#myWishlists").html(txtHtml);
-                  console.log("html()")
+
+                  txtHtml += "    </a>";
+                  txtHtml += "  </li>";
+                }
+                txtHtml += "</ul>";
+                if (data.pagination.totalNumberOfResults > 3) {
+                  txtHtml +=
+                    '<a href="/ko/mypage/myWish" class="more">+' +
+                    (data.pagination.totalNumberOfResults - wishlists.length) +
+                    "</a>";
+                }
               }
+
+              $("#myWishlists").html(txtHtml);
+            },
           });
 
           $("#profileNickname").on("change", function () {
@@ -1327,19 +1333,16 @@
         
         // -박성환 : 위시리스트 마이페이지 살려보기.
         function getWishList() {
-        	
-        console.log("위시리스트");
           $.ajax({
-            url: "/mypagemy/WishList",
+            url: "/ko/mypage/myWishList",
             type: "GET",
-            dataType : "json",
+            datatype: "json",
             data: {
               pageNum: 1,
               pageSize: 3,
               show: "Page",
             },
             success: function (data) {
-            	            	
               var txtHtml = "";
 
               txtHtml += '<div class="s-tit"> ';
@@ -1358,19 +1361,29 @@
                   txtHtml += "  <li>";
                   txtHtml +=
                     '    <a href="/ko/p/' + wishlists[i].productCode + '">';
-                    
-                      var images =wishlists[i].productImages;
-                      
+                  var product = wishlists[i].productData;
+                  if (product.productImages != null) {
+                    for (var j = 0; j < product.productImages.length; j++) {
+                      var images = product.productImages[j];
+                      if (images.imageDivisionCode.code == "T01") {
                         txtHtml +=
                           '    <img src="' +
-                          images +
+                          images.image.url +
                           '" style="width:86px;height:130px;" alt="">';
+                      }
+                    }
+                  }
 
                   txtHtml += "    </a>";
                   txtHtml += "  </li>";
                 }
                 txtHtml += "</ul>";
-               
+                if (data.pagination.totalNumberOfResults > 3) {
+                  txtHtml +=
+                    '<a href="/ko/mypage/myWish" class="more">+' +
+                    (data.pagination.totalNumberOfResults - wishlists.length) +
+                    "</a>";
+                }
               }
 
               txtHtml += "</div>";
@@ -1393,7 +1406,7 @@
               txtHtml += "    </ul>";
               txtHtml += "</div>";
 
-              $("#myWishLists").html(txtHtml);
+              $("#myWishList").html(txtHtml);
             },
           });
         }
@@ -1663,7 +1676,7 @@
             	
             	console.log("success");	
             	console.log("response");	
-            	console.log(response);	
+            	console.log(response[10]);	
             	console.log(response.results);	
             	
               var rows = "";
@@ -2154,7 +2167,7 @@ $(".hs_check01 input[name=pro_name_check]:checked").siblings("label").find("span
 						<option value="/ko/svcenter/mobilemain">고객센터
 							<!-- 고객센터 -->
 						</option>
-						<option value="/mypage/personInfomationChangePWCheck">개인정보변경
+						<option value="/ko/mypage/personInfomationChange">개인정보변경
 							<!-- 개인정보변경 -->
 						</option>
 						<option value="/ko/mypage/mydelivery">배송지 관리
@@ -2522,8 +2535,8 @@ function barCodeClickEvent(){
 					style="padding: 25px 0 10px 10px"
 				>
 					<ul class="swiper-wrapper" style="transform: translate3d(0px, 0px, 0px)">
-						<li class="swiper-slide flag on swiper-slide-active" id="categoryNav01" style="margin-right: 6px"><a href="/ko/mypage/order/myorders"
-							class="name" onclick="GA_Event('마이페이지', 'MY_푸터', this.text);"
+						<li class="swiper-slide flag on swiper-slide-active" id="categoryNav01" style="margin-right: 6px"><a
+							href="/ko/mypage/order/myorders" class="name" onclick="GA_Event('마이페이지', 'MY_푸터', this.text);"
 						>주문/배송조회</a></li>
 						<li class="swiper-slide flag swiper-slide-next" style="margin-right: 6px"><a href="/ko/svcenter/mobilemain" class="name"
 							onclick="GA_Event('마이페이지', 'MY_푸터', this.text);"
@@ -2538,13 +2551,13 @@ function barCodeClickEvent(){
 				</div>
 
 				<div class="mypage_card_footer">
-					<span class="u_name"><a href="javascript:void(0);">박*환 님</a></span> <a class="u_profile_setting btn_popup_btot" href=".hs_mpg_profile_pop"
-						onclick="GA_Event('마이페이지','푸터','프로필 설정')"
+					<span class="u_name"><a href="javascript:void(0);">박*환 님</a></span> <a class="u_profile_setting btn_popup_btot"
+						href=".hs_mpg_profile_pop" onclick="GA_Event('마이페이지','푸터','프로필 설정')"
 					>프로필 설정</a>
 					<div class="u_setting">
 						<!-- 알림 있으면 has 클래스 붙음 -->
-						<a href="/ko/mypage/noticebox" class="alt" onclick="GA_Event('마이페이지', '푸터', '알림');">알림</a> <a href="javascript:noLink();" class="set"
-							onclick="mypageConfigClick();GA_Event('마이페이지', '푸터', '설정');"
+						<a href="/ko/mypage/noticebox" class="alt" onclick="GA_Event('마이페이지', '푸터', '알림');">알림</a> <a href="javascript:noLink();"
+							class="set" onclick="mypageConfigClick();GA_Event('마이페이지', '푸터', '설정');"
 						>설정</a>
 					</div>
 				</div>
@@ -2633,11 +2646,12 @@ function barCodeClickEvent(){
 					<ul class="one_depth brand">
 						<li class="one_lists">
 							<div class="one_wrap">
-								<a href="javascript:noLink();" class="one_link" id="BR15_oneDepth" onclick="GA_Event('편집샵_카테고리','2DEPTH','TOM GREYHOUND');">TOM GREYHOUND</a>
+								<a href="javascript:noLink();" class="one_link" id="BR15_oneDepth" onclick="GA_Event('편집샵_카테고리','2DEPTH','TOM GREYHOUND');">TOM
+									GREYHOUND</a>
 							</div>
 							<ul class="two_depth twoDepthNavPopup">
-								<li class="two_lists"><a href="/ko/c/br15/br15" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','TOM GREYHOUND_전체보기');"> 전체보기
-								</a></li>
+								<li class="two_lists"><a href="/ko/c/br15/br15" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','TOM GREYHOUND_전체보기');">
+										전체보기 </a></li>
 								<li class="two_lists"><a href="/ko/c/br15/br15?subBrand=TN" class="two_link"
 									onclick="GA_Event('편집샵_카테고리','3DEPTH','TOM GREYHOUND_TOM GREYHOUND');"
 								> TOM GREYHOUND</a> <a href="/ko/c/br15/br15?subBrand=TN" class="ico-pb-all"
@@ -2732,8 +2746,8 @@ function barCodeClickEvent(){
 						</li>
 						<li class="one_lists">
 							<div class="one_wrap">
-								<a href="javascript:noLink();" class="one_link" id="BR35_oneDepth" onclick="GA_Event('편집샵_카테고리','2DEPTH','FOURM THE STORE');">FOURM THE
-									STORE</a>
+								<a href="javascript:noLink();" class="one_link" id="BR35_oneDepth" onclick="GA_Event('편집샵_카테고리','2DEPTH','FOURM THE STORE');">FOURM
+									THE STORE</a>
 							</div>
 							<ul class="two_depth twoDepthNavPopup">
 								<li class="two_lists"><a href="/ko/c/br35/br35" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_전체보기');">
@@ -2850,10 +2864,12 @@ function barCodeClickEvent(){
 						</li>
 						<li class="one_lists">
 							<div class="one_wrap">
-								<a href="javascript:noLink();" class="one_link" id="BR30_oneDepth" onclick="GA_Event('편집샵_카테고리','2DEPTH','FOURM STUDIO');">FOURM STUDIO</a>
+								<a href="javascript:noLink();" class="one_link" id="BR30_oneDepth" onclick="GA_Event('편집샵_카테고리','2DEPTH','FOURM STUDIO');">FOURM
+									STUDIO</a>
 							</div>
 							<ul class="two_depth twoDepthNavPopup">
-								<li class="two_lists"><a href="/ko/c/br30/br30" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM STUDIO_전체보기');"> 전체보기 </a></li>
+								<li class="two_lists"><a href="/ko/c/br30/br30" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM STUDIO_전체보기');">
+										전체보기 </a></li>
 								<li class="two_lists"><a href="/ko/c/br30/br30?subBrand=CN" class="two_link"
 									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM STUDIO_FOURM STUDIO');"
 								> FOURM STUDIO</a> <a href="/ko/c/br30/br30?subBrand=CN" class="ico-pb-all" onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM STUDIO_FOURM STUDIO');">
@@ -2982,7 +2998,8 @@ function barCodeClickEvent(){
 								<a href="javascript:noLink();" class="one_link" id="BR16_oneDepth" onclick="GA_Event('편집샵_카테고리','2DEPTH','MUE');">MUE</a>
 							</div>
 							<ul class="two_depth twoDepthNavPopup">
-								<li class="two_lists"><a href="/ko/c/br16/br16" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','MUE_전체보기');"> 전체보기 </a></li>
+								<li class="two_lists"><a href="/ko/c/br16/br16" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','MUE_전체보기');">
+										전체보기 </a></li>
 								<li class="two_lists"><a href="/ko/c/br16/br16?subBrand=MU5E" class="two_link"
 									onclick="GA_Event('편집샵_카테고리','3DEPTH','MUE_ESSENTIALS | Fear of God');"
 								> ESSENTIALS | Fear of God</a></li>
@@ -3021,14 +3038,15 @@ function barCodeClickEvent(){
 						</li>
 						<li class="one_lists">
 							<div class="one_wrap">
-								<a href="javascript:noLink();" class="one_link" id="BR47_oneDepth" onclick="GA_Event('편집샵_카테고리','2DEPTH','H : SCENE');">H : SCENE</a>
+								<a href="javascript:noLink();" class="one_link" id="BR47_oneDepth" onclick="GA_Event('편집샵_카테고리','2DEPTH','H : SCENE');">H
+									: SCENE</a>
 							</div>
 							<ul class="two_depth twoDepthNavPopup">
-								<li class="two_lists"><a href="/ko/c/br47/br47" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','H : SCENE_전체보기');"> 전체보기 </a></li>
+								<li class="two_lists"><a href="/ko/c/br47/br47" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','H : SCENE_전체보기');">
+										전체보기 </a></li>
 								<li class="two_lists"><a href="/ko/c/br47/br47?subBrand=ON" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','H : SCENE_H:SCENE');">
-										H:SCENE</a> <a href="/ko/c/br47/br47?subBrand=ON" class="ico-pb-all" onclick="GA_Event('편집샵_카테고리','3DEPTH','H : SCENE_H:SCENE');"> <img
-										src="http://cdn.thehandsome.comhttps://www.thehandsome.com/_ui/handsomemobile/images/common/ico_pb.png" alt="ico_pb"
-									/>
+										H:SCENE</a> <a href="/ko/c/br47/br47?subBrand=ON" class="ico-pb-all" onclick="GA_Event('편집샵_카테고리','3DEPTH','H : SCENE_H:SCENE');">
+										<img src="http://cdn.thehandsome.comhttps://www.thehandsome.com/_ui/handsomemobile/images/common/ico_pb.png" alt="ico_pb" />
 								</a></li>
 								<li class="two_lists"><a href="/ko/c/br47/br47?subBrand=ONYN" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','H : SCENE_YUN');">
 										YUN</a></li>
@@ -3088,12 +3106,18 @@ function barCodeClickEvent(){
 								<a href="#" class="one_link" onclick="GA_Event('편집샵_카테고리','2DEPTH','여성');">여성</a>
 							</div>
 							<ul class="two_depth twoDepthNavPopup">
-								<li class="two_lists"><a href="/ko/c/we05/ed" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','여성_아우터');">아우터</a></li>
-								<li class="two_lists"><a href="/ko/c/we10/ed" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','여성_니트');">니트</a></li>
-								<li class="two_lists"><a href="/ko/c/we01/ed" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','여성_탑');">탑</a></li>
-								<li class="two_lists"><a href="/ko/c/we04/ed" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','여성_드레스');">드레스</a></li>
-								<li class="two_lists"><a href="/ko/c/we02/ed" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','여성_팬츠');">팬츠</a></li>
-								<li class="two_lists"><a href="/ko/c/we03/ed" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','여성_스커트');">스커트</a></li>
+								<li class="two_lists"><a href="/ko/c/we05/ed" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','여성_아우터');">아우터</a>
+								</li>
+								<li class="two_lists"><a href="/ko/c/we10/ed" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','여성_니트');">니트</a>
+								</li>
+								<li class="two_lists"><a href="/ko/c/we01/ed" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','여성_탑');">탑</a>
+								</li>
+								<li class="two_lists"><a href="/ko/c/we04/ed" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','여성_드레스');">드레스</a>
+								</li>
+								<li class="two_lists"><a href="/ko/c/we02/ed" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','여성_팬츠');">팬츠</a>
+								</li>
+								<li class="two_lists"><a href="/ko/c/we03/ed" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','여성_스커트');">스커트</a>
+								</li>
 								<li class="two_lists"><a href="/ko/c/we09/ed" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','여성_SPECIAL SHOP*');">SPECIAL
 										SHOP*</a></li>
 							</ul>
@@ -3103,10 +3127,14 @@ function barCodeClickEvent(){
 								<a href="#" class="one_link" onclick="GA_Event('편집샵_카테고리','2DEPTH','남성');">남성</a>
 							</div>
 							<ul class="two_depth twoDepthNavPopup">
-								<li class="two_lists"><a href="/ko/c/me03/ed" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','남성_아우터');">아우터</a></li>
-								<li class="two_lists"><a href="/ko/c/me10/ed" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','남성_니트');">니트</a></li>
-								<li class="two_lists"><a href="/ko/c/me01/ed" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','남성_탑');">탑</a></li>
-								<li class="two_lists"><a href="/ko/c/me02/ed" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','남성_팬츠');">팬츠</a></li>
+								<li class="two_lists"><a href="/ko/c/me03/ed" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','남성_아우터');">아우터</a>
+								</li>
+								<li class="two_lists"><a href="/ko/c/me10/ed" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','남성_니트');">니트</a>
+								</li>
+								<li class="two_lists"><a href="/ko/c/me01/ed" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','남성_탑');">탑</a>
+								</li>
+								<li class="two_lists"><a href="/ko/c/me02/ed" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','남성_팬츠');">팬츠</a>
+								</li>
 							</ul>
 						</li>
 						<li class="one_lists">
@@ -3114,13 +3142,20 @@ function barCodeClickEvent(){
 								<a href="#" class="one_link" onclick="GA_Event('편집샵_카테고리','2DEPTH','잡화');">잡화</a>
 							</div>
 							<ul class="two_depth twoDepthNavPopup">
-								<li class="two_lists"><a href="/ko/c/as01/ed" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','잡화_여성슈즈');">여성슈즈</a></li>
-								<li class="two_lists"><a href="/ko/c/as02/ed" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','잡화_남성슈즈');">남성슈즈</a></li>
-								<li class="two_lists"><a href="/ko/c/as03/ed" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','잡화_여성백');">여성백</a></li>
-								<li class="two_lists"><a href="/ko/c/as04/ed" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','잡화_남성백');">남성백</a></li>
-								<li class="two_lists"><a href="/ko/c/as05/ed" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','잡화_머플러/스카프');">머플러/스카프</a></li>
-								<li class="two_lists"><a href="/ko/c/as06/ed" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','잡화_주얼리');">주얼리</a></li>
-								<li class="two_lists"><a href="/ko/c/as07/ed" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','잡화_기타 ACC');">기타 ACC</a></li>
+								<li class="two_lists"><a href="/ko/c/as01/ed" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','잡화_여성슈즈');">여성슈즈</a>
+								</li>
+								<li class="two_lists"><a href="/ko/c/as02/ed" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','잡화_남성슈즈');">남성슈즈</a>
+								</li>
+								<li class="two_lists"><a href="/ko/c/as03/ed" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','잡화_여성백');">여성백</a>
+								</li>
+								<li class="two_lists"><a href="/ko/c/as04/ed" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','잡화_남성백');">남성백</a>
+								</li>
+								<li class="two_lists"><a href="/ko/c/as05/ed" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','잡화_머플러/스카프');">머플러/스카프</a>
+								</li>
+								<li class="two_lists"><a href="/ko/c/as06/ed" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','잡화_주얼리');">주얼리</a>
+								</li>
+								<li class="two_lists"><a href="/ko/c/as07/ed" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','잡화_기타 ACC');">기타
+										ACC</a></li>
 							</ul>
 						</li>
 						<li class="one_lists">
@@ -3128,8 +3163,10 @@ function barCodeClickEvent(){
 								<a href="#" class="one_link" onclick="GA_Event('편집샵_카테고리','2DEPTH','뷰티');">뷰티</a>
 							</div>
 							<ul class="two_depth twoDepthNavPopup">
-								<li class="two_lists"><a href="/ko/c/be03/ed" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','뷰티_바디/헤어케어');">바디/헤어케어</a></li>
-								<li class="two_lists"><a href="/ko/c/be04/ed" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','뷰티_향수');">향수</a></li>
+								<li class="two_lists"><a href="/ko/c/be03/ed" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','뷰티_바디/헤어케어');">바디/헤어케어</a>
+								</li>
+								<li class="two_lists"><a href="/ko/c/be04/ed" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','뷰티_향수');">향수</a>
+								</li>
 							</ul>
 						</li>
 						<li class="one_lists">
@@ -3137,12 +3174,18 @@ function barCodeClickEvent(){
 								<a href="#" class="one_link" onclick="GA_Event('편집샵_카테고리','2DEPTH','라이프스타일');">라이프스타일</a>
 							</div>
 							<ul class="two_depth twoDepthNavPopup">
-								<li class="two_lists"><a href="/ko/c/ls01/ed" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','라이프스타일_홈');">홈</a></li>
-								<li class="two_lists"><a href="/ko/c/ls02/ed" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','라이프스타일_배스');">배스</a></li>
-								<li class="two_lists"><a href="/ko/c/ls03/ed" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','라이프스타일_키친');">키친</a></li>
-								<li class="two_lists"><a href="/ko/c/ls04/ed" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','라이프스타일_데스크');">데스크</a></li>
-								<li class="two_lists"><a href="/ko/c/ls06/ed" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','라이프스타일_키즈');">키즈</a></li>
-								<li class="two_lists"><a href="/ko/c/ls05/ed" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','라이프스타일_펫');">펫</a></li>
+								<li class="two_lists"><a href="/ko/c/ls01/ed" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','라이프스타일_홈');">홈</a>
+								</li>
+								<li class="two_lists"><a href="/ko/c/ls02/ed" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','라이프스타일_배스');">배스</a>
+								</li>
+								<li class="two_lists"><a href="/ko/c/ls03/ed" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','라이프스타일_키친');">키친</a>
+								</li>
+								<li class="two_lists"><a href="/ko/c/ls04/ed" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','라이프스타일_데스크');">데스크</a>
+								</li>
+								<li class="two_lists"><a href="/ko/c/ls06/ed" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','라이프스타일_키즈');">키즈</a>
+								</li>
+								<li class="two_lists"><a href="/ko/c/ls05/ed" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','라이프스타일_펫');">펫</a>
+								</li>
 							</ul>
 						</li>
 					</ul>

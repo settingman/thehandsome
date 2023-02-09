@@ -1,11 +1,10 @@
 package com.hyundai.thehandsome.service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.hyundai.thehandsome.Vo.product.CatePListVO;
 import com.hyundai.thehandsome.Vo.product.ListVO;
-import com.hyundai.thehandsome.domain.mypage.WishList;
+import com.hyundai.thehandsome.Vo.product.detail.ProductDetailVO;
 
 /**
  * ProductListService
@@ -23,6 +22,7 @@ import com.hyundai.thehandsome.domain.mypage.WishList;
 public interface ProductListService {
 	List<ListVO> getProductList();
 	List<CatePListVO> getPListWithCategory(String categoryCode);
-	List<CatePListVO> getPListWithLikes(List<WishList> wishList);
 	
+	ProductDetailVO getProductDetail(String PCID);
+	List<String> getProductImg(String PCID);
 }

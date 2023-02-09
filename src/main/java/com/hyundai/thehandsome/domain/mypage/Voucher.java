@@ -3,18 +3,6 @@ package com.hyundai.thehandsome.domain.mypage;
 import lombok.Getter;
 import lombok.Setter;
 
-/**
- * @since   : 2023. 2. 8.
- * @FileName: Voucher.java
- * @author  : 박성환
- * @설명    : 쿠폰 객체
-
- * <pre>
- *   수정일         수정자               수정내용
- * ----------      --------    ---------------------------
- * 2023. 2. 5.     박성환      최초생성
- * </pre>
- */
 @Getter
 @Setter
 public class Voucher {
