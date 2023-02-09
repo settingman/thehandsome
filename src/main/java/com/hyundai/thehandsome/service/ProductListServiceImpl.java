@@ -39,8 +39,16 @@ public class ProductListServiceImpl implements ProductListService {
 	@Override
 	public List<CatePListVO> getPListWithCategory(String categoryCode) {
 		try {
-			List<CatePListVO> list = plistDAO.getPListWithCategory(categoryCode.substring(0, 2),
-					categoryCode.substring(2, 4), categoryCode.substring(4, 5));
+//			categoryCode = String.format("%-5d", categoryCode);
+			String depth1="";
+			String depth2="";
+			String depth3="";
+			depth1 = categoryCode.substring(0, 2);
+			depth2 = categoryCode.substring(2, 4);
+			depth3 = categoryCode.substring(4, 5);
+			log.info(depth1, depth2, depth3);
+			
+			List<CatePListVO> list = plistDAO.getPListWithCategory(depth1, depth2, depth3);
 			for (CatePListVO item : list) {
 				item.setColorList(plistDAO.getProductColor(item.getPid()));
 				log.info(item);

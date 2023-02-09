@@ -18,16 +18,17 @@ import lombok.extern.log4j.Log4j2;
 
 /**
  * ProductController
+ * 
  * @author 박세영
  * @since 2023.02.01
  * @version 1.0
  * 
- * <pre>
+ *          <pre>
  * 수정일        		수정자       				수정내용
  * ----------  --------    ---------------------------
  * 2023.02.01  	박세영        		최초 생성
  * 2023.02.04  	박세영        getProductItem() 추가
- * </pre>
+ *          </pre>
  */
 
 @Controller
@@ -36,29 +37,31 @@ import lombok.extern.log4j.Log4j2;
 public class ProductController {
 	@Autowired
 	private ProductListService plistService;
-	
+
 	@GetMapping("/ProductList/{category}")
 	public String getProductList(@PathVariable("category") String category, Model model) {
 		log.info("getProductList-----------------");
 		try {
+			//out of bound 예방을 위해 다섯자리로 맞춤
+			category = String.format("%-5s", category);
 			List<CatePListVO> pList = plistService.getPListWithCategory(category);
 			model.addAttribute("pList", pList);
-			return "/product/ProductList";		
+			return "/product/ProductList";
 		} catch (Exception e) {
 			throw e;
 		}
 	}
-	
+
 	@GetMapping("/ProductDetail/{PCID}")
 	public String getProductItem(@PathVariable("PCID") String PCID, Model model) {
 		log.info("getProductList-----------------");
 		try {
 			ProductDetailVO itemInfo = plistService.getProductDetail(PCID);
 			model.addAttribute("itemInfo", itemInfo);
-			
+
 			List<String> imgList = plistService.getProductImg(PCID);
 			model.addAttribute("imgList", imgList);
-			return "/product/ProductDetail";		
+			return "/product/ProductDetail";
 		} catch (Exception e) {
 			throw e;
 		}
