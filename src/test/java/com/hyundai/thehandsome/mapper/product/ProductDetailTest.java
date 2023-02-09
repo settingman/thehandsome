@@ -9,7 +9,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import com.hyundai.thehandsome.Vo.product.detail.ProductDetailVO;
 import com.hyundai.thehandsome.Vo.product.detail.ProductStockVO;
-import com.hyundai.thehandsome.mapper.ProductListDAO;
 
 import lombok.extern.log4j.Log4j2;
 /**
@@ -34,13 +33,13 @@ public class ProductDetailTest {
 	@Autowired
 	private ProductDetailDAO detailDAO;
 	
-	@Disabled
+	@Test
 	void getProductDetailTest() {
 		ProductDetailVO info= pListDAO.getProductDetail("CS2D1KTO002WLV_BK");
 		log.info(info);
 	}
 	
-	@Disabled
+	@Test
 	void getProductImgTest() {
 		List<String> imgList= pListDAO.getProductImg("CS2D1KTO002WLV_BK");
 		for(String src : imgList) {			

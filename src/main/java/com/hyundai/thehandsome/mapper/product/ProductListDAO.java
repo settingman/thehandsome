@@ -1,13 +1,11 @@
-package com.hyundai.thehandsome.mapper;
+package com.hyundai.thehandsome.mapper.product;
 
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
 
 import com.hyundai.thehandsome.Vo.product.CatePListVO;
 import com.hyundai.thehandsome.Vo.product.ColorVO;
-import com.hyundai.thehandsome.Vo.product.ListVO;
 import com.hyundai.thehandsome.Vo.product.detail.ProductDetailVO;
 
 /**
@@ -29,8 +27,6 @@ import com.hyundai.thehandsome.Vo.product.detail.ProductDetailVO;
 @Mapper
 public interface ProductListDAO {
 	// Product List 불러오기
-	List<ListVO> getProductList();
-	
 	List<CatePListVO> getPListWithCategory(String depth1name, String depth2name, String depth3name);
 
 	List<CatePListVO> getPListWithLikes(List<String> pidList);
