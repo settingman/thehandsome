@@ -280,8 +280,8 @@
                   type="button"
                   class="like"
                   id="SJ2D1WJC361W_BKLike"
-                  onclick="callWishListClick($(this), 'SJ2D1WJC361W_BK', '%uB9B0%uB128%20%uBE14%uB80C%uB4DC%20%uBC84%uD2BC%20%uC5C5%20%uC2F1%uAE00%20%uC7AC%uD0B7', '1','8');"
-                  data-value="SJ2D1WJC361W_BK">
+                  onclick="callWishListClick($(this), this.getAttribute('data-value'), '%uB9B0%uB128%20%uBE14%uB80C%uB4DC%20%uBC84%uD2BC%20%uC5C5%20%uC2F1%uAE00%20%uC7AC%uD0B7', '1','8');"
+                  th:data-value="${pInfo.colorList[0].PCID}">
                   찜하기
                 </button>
               </li>
