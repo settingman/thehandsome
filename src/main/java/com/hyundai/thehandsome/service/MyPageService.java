@@ -22,7 +22,8 @@ import lombok.extern.slf4j.Slf4j;
  * <pre>
  *   수정일         수정자               수정내용
  * ----------      --------    ---------------------------
- * 2023. 2. 3.     박성환      메일 시스템, 임시 비밀번호 전송 및 업데이트
+ * 2023. 2. 6.     박성환      최초생성
+ * 2023. 2. 7.     박성환      changeWish 추가 - 상품페이지 위시버튼
  * </pre>
  */
 
@@ -35,6 +36,9 @@ public class MyPageService {
 
 	private final MyPageMapper mypageMapper;
 
+
+
+	// 상품 페이지 위시리스트 버튼
 	public String ChangeWish(String mId, String productCode) {
 
 		String pId = mypageMapper.findWish(mId, productCode);

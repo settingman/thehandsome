@@ -27,6 +27,7 @@ import lombok.extern.log4j.Log4j2;
  * 2023.02.01  	박세영        최초 생성, getListTest() 추가
  * 2023.02.03  	박세영        getProductDetail() 추가
  * 2023.02.03  	박세영        getProductImg() 추가
+ * 2023.02.07  	박성환        getPListWithLikes 추가 (위시리스트 아이템 랜더링)
  *          </pre>
  */
 

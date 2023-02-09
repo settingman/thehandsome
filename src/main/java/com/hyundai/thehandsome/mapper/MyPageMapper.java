@@ -18,6 +18,7 @@ import com.hyundai.thehandsome.domain.mypage.WishList;
  *   수정일         수정자               수정내용
  * ----------      --------    ---------------------------
  * 2023. 2. 8.     박성환      최초생성
+ * 2023. 2. 9.     박성환      위시리스트 기능 추가
  * </pre>
  */
 @Mapper
