@@ -27,13 +27,19 @@ import com.hyundai.thehandsome.Vo.product.detail.ProductDetailVO;
 @Mapper
 public interface ProductListDAO {
 	// Product List 불러오기
-	List<CatePListVO> getPListWithCategory(String depth1name, String depth2name, String depth3name);
+	List<CatePListVO> getPListWithCategory(String depth1name, 
+										   String depth2name, 
+										   String depth3name,
+										   int brand);
+	// 각 product에 따른 colorVO 호출 
+	List<ColorVO> getProductColor(String PID);
 
+	// 좋아요 리스트
 	List<CatePListVO> getPListWithLikes(List<String> pidList);
 	
-	List<ColorVO> getProductColor(String PID);
-	
+	// 상세정보 불러오기
 	ProductDetailVO getProductDetail(String PCID);
 	
+	// 상세 상품 이미지 리스트 불러오기
 	List<String> getProductImg(String PCID);
 }

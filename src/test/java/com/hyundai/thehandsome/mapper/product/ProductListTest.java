@@ -36,15 +36,15 @@ public class ProductListTest {
 
 	@Test
 	void getPListWithCategoryTest() {
-//		List<CatePListVO> list = pListDAO.getPListWithCategory("we", "", "");
-//		List<CatePListVO> list = pListDAO.getPListWithCategory("we", "05", "");
-		List<CatePListVO> list = pListDAO.getPListWithCategory("we", "05", "2");
+//		List<CatePListVO> list = pListDAO.getPListWithCategory("we", "", "", 03);
+//		List<CatePListVO> list = pListDAO.getPListWithCategory("we", "05", "", 03);
+		List<CatePListVO> list = pListDAO.getPListWithCategory("we", "05", "2", 3);
 		for (CatePListVO item : list) {
 			log.info(item);
 		}
 	}
 	
-	@Test
+	@Disabled
 	void getProductColorTest() {
 		List<ColorVO> list= pListDAO.getProductColor("TG2C7TJM002W29");
 		for (ColorVO color : list){

@@ -17,18 +17,23 @@
 
 		INNER JOIN pid_with_category_view v
 		ON v.pid = pcommon.pid
-		<if
-			test="!@com.hyundai.thehandsome.test.MybatisCheckNull@isEmpty(depth1name)">
-			where v.depth1name = #{depth1name}
-		</if>
-		<if
-			test="!@com.hyundai.thehandsome.test.MybatisCheckNull@isEmpty(depth2name)">
-			and v.depth2name = #{depth2name}
-		</if>
-		<if
-			test="!@com.hyundai.thehandsome.test.MybatisCheckNull@isEmpty(depth3name)">
-			and v.depth3name = #{depth3name}
-		</if>
+		<where>
+			<if
+				test="!@com.hyundai.thehandsome.test.MybatisCheckNull@isEmpty(depth1name)">
+				and v.depth1name = #{depth1name}
+			</if>
+			<if
+				test="!@com.hyundai.thehandsome.test.MybatisCheckNull@isEmpty(depth2name)">
+				and v.depth2name = #{depth2name}
+			</if>
+			<if
+				test="!@com.hyundai.thehandsome.test.MybatisCheckNull@isEmpty(depth3name)">
+				and v.depth3name = #{depth3name}
+			</if>
+			<if test="!@com.hyundai.thehandsome.test.MybatisCheckNull@isZero(brand)">
+				and brand.bno = #{brand}
+			</if>
+		</where>
 	</select>
 
 	<select id="getPListWithLikes"
