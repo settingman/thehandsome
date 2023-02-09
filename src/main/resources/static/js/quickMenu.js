@@ -1,3 +1,16 @@
+/**
+ *
+ * quickMenu.js
+ * @author 박성환
+ * @since 2023. 2. 8.
+ *
+ * <pre>
+ * 수정일         수정자       			  수정내용
+ * ----------  --------    ---------------------------
+ * 2023. 2. 8.  박성환      최초 생성, 메인페이지 퀵메뉴 JS
+ * </pre>
+ */
+
 let template = `
 <style rel="stylesheet" type="text/css">
 body {
@@ -11590,34 +11603,33 @@ function moveBrandLookBook(brandCode) {
 </div>
 `;
 
-$('.hsome_quickMenu .shop a').click(function (e) {
+$(".hsome_quickMenu .shop a").click(function (e) {
   e.preventDefault();
-  console.log('shop click');
-  $('.hsome_quickMenu_contents').addClass('active absolute');
-  $('.hsome_quickMenu_contents').html(template);
+  console.log("shop click");
+  $(".hsome_quickMenu_contents").addClass("active absolute");
+  $(".hsome_quickMenu_contents").html(template);
 });
 
-$('.hsome_quickMenu  .sns a').click(function(e){
-	e.preventDefault();
-	console.log('sns click');
-})
-$('.hsome_quickMenu .home a').click(function(e){
-	e.preventDefault();
-	console.log('home click');
-})
-$('.hsome_quickMenu .myheart a').click(function(e){
-	e.preventDefault();
-	console.log('my heart click');
-})
-$('.hsome_quickMenu .mypage a').click(function(e){
-	e.prevnetDefault();
-	console.log('mypage click')
-})
-
+$(".hsome_quickMenu  .sns a").click(function (e) {
+  e.preventDefault();
+  console.log("sns click");
+});
+$(".hsome_quickMenu .home a").click(function (e) {
+  e.preventDefault();
+  console.log("home click");
+});
+$(".hsome_quickMenu .myheart a").click(function (e) {
+  e.preventDefault();
+  console.log("my heart click");
+});
+$(".hsome_quickMenu .mypage a").click(function (e) {
+  e.prevnetDefault();
+  console.log("mypage click");
+});
 
 function closeMenu() {
-  console.log('tt');
-  $('body').removeClass('hold_body');
-  $('.hsome_quickMenu_contents').removeClass('active absolute');
-  $('.hsome_quickMenu_contents').html('');
+  console.log("tt");
+  $("body").removeClass("hold_body");
+  $(".hsome_quickMenu_contents").removeClass("active absolute");
+  $(".hsome_quickMenu_contents").html("");
 }

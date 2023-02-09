@@ -12,6 +12,21 @@ import com.hyundai.thehandsome.mapper.MyPageMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+
+/**
+ * @since   : 2023. 2. 7.
+ * @FileName: MyPageService.java
+ * @author  : 박성환
+ * @설명    : 마이페이지 로직을 위한 서비스
+
+ * <pre>
+ *   수정일         수정자               수정내용
+ * ----------      --------    ---------------------------
+ * 2023. 2. 3.     박성환      메일 시스템, 임시 비밀번호 전송 및 업데이트
+ * </pre>
+ */
+
+
 @Slf4j
 @RequiredArgsConstructor
 @Transactional
