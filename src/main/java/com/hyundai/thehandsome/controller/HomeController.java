@@ -14,28 +14,22 @@ public class HomeController {
 
 	@GetMapping(value = "/")
 	public String memberForm(Model model) {
-		
-		
 
 		return "index2";
 	}
-	
-	
+
 	@GetMapping(value = "/member/testpage")
 	public String main(Model model) {
-		
-		
-		
+
 		return "mypage/mypage";
 	}
 
-	@GetMapping(value = "/test")
-	public String memberForm(@AuthenticationPrincipal User user, Model model) {
+	@GetMapping(value = "/main")
+	public String main2(Model model) {
 		log.info("exMember.....");
 		log.info("--------------");
-		log.info(user.toString());
 
-		return "index2";
+		return "main";
 	}
 
 }
