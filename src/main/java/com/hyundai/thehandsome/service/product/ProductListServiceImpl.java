@@ -119,16 +119,24 @@ public class ProductListServiceImpl implements ProductListService {
 	}
 
 	@Override
-	public List<String> getCategory12(String depth1name) {
-		List<String> list = plistDAO.getCategory12(depth1name);
-		log.info(list);
-		return list;
-	}
-
-	@Override
-	public List<String> getCategory23(String depth1name, String depth2name) {
-		List<String> list = plistDAO.getCategory23(depth1name, depth2name);
-		log.info(list);
-		return list;
+	public List<String> getCategory(String category, int code) {
+		String depth1 = "";
+		String depth2 = "";
+		
+		if (category != null && category != "") {
+			depth1 = category.substring(0, 2);
+			depth2 = category.substring(2, 4);
+		}
+		
+		if (code == 12) {
+			List<String> list = plistDAO.getCategory12(depth1);
+			log.info(list);
+			return list;
+		} else {
+			List<String> list = plistDAO.getCategory23(depth1, depth2);
+			log.info(list);
+			return list;
+		}
+		
 	}
 }

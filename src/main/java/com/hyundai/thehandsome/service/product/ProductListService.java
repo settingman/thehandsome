@@ -19,6 +19,7 @@ import com.hyundai.thehandsome.domain.mypage.WishList;
  * 2023.02.01  	박세영        최초 생성, getListTest() 추가
  * 2023.02.05  	박세영       getProductDetail(), getProductImg() 추가
  * 2023.02.06  	박성환       getPListWithLikes() 추가
+ * 2023.02.10  	박세영       getCategory() 추가
  * </pre>
  */
 
@@ -32,6 +33,6 @@ public interface ProductListService {
 	List<String> getProductImg(String PCID);
 	
 	// 카테고리 
-	List<String> getCategory12 (String depth1name);
-	List<String> getCategory23 (String depth1name, String depth2name);
+	List<String> getCategory (String depth1name, int code);
+	
 }

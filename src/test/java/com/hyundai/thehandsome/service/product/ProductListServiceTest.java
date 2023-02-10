@@ -22,7 +22,8 @@ import lombok.extern.log4j.Log4j2;
  *          <pre>
  * 수정일        	수정자       			수정내용
  * ----------  --------    ---------------------------
- * 2023.02.3  	박세영       최초 생성, getPListWithCategoryTest() 추가
+ * 2023.02.03  	박세영       최초 생성, getPListWithCategoryTest() 추가
+ * 2023.02.10  	박세영       getCategory() 추가
  *          </pre>
  */
 
@@ -44,15 +45,11 @@ public class ProductListServiceTest {
 	}
 	
 	@Test
-	void getCategory12() {
-		List<String> list = pService.getCategory12("we");
+	void getCategory() {
+		//대분류에 따른 중분류
+		List<String> list = pService.getCategory("we101", 12);
+		//중분류에 따른 소분류
+//		List<String> list = pService.getCategory("we101", 23); 
 		log.info(list);
 	}
-	
-	@Test
-	void getCategory23() {
-		List<String> list = pService.getCategory23("we", "10");
-		log.info(list);
-	}
-
 }
