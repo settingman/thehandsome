@@ -47,9 +47,13 @@ public class ProductListServiceTest {
 	@Test
 	void getCategory() {
 		//대분류에 따른 중분류
-		List<String> list = pService.getCategory("we101", 12);
+//		List<String> list = pService.getCategory("we101", 12);
+//		List<String> list = pService.getCategory("we10", 12);
+//		List<String> list = pService.getCategory("we", 12);
 		//중분류에 따른 소분류
-//		List<String> list = pService.getCategory("we101", 23); 
+//		List<String> list = pService.getCategory("we101", 23);
+		List<String> list = pService.getCategory("we10", 23);
+//		List<String> list = pService.getCategory("we", 23);
 		log.info(list);
 	}
 }
