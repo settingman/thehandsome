@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.hyundai.thehandsome.Vo.product.CatePListVO;
-import com.hyundai.thehandsome.Vo.product.ListVO;
 import com.hyundai.thehandsome.Vo.product.detail.ProductDetailVO;
 import com.hyundai.thehandsome.domain.mypage.WishList;
 import com.hyundai.thehandsome.mapper.product.ProductListDAO;
@@ -119,20 +118,14 @@ public class ProductListServiceImpl implements ProductListService {
 	}
 
 	@Override
-	public List<String> getCategory(String category, int code) {
-		String depth1 = "";
-		String depth2 = "";
+	public List<String> getCategory(String depth1) {
+		List<String> list = plistDAO.getCategory12(depth1);
+		return list;
+	}
 
-		if (category != null && category != "") depth1 = category.substring(0, 2);
-		if (category.length() >= 4) depth2 = category.substring(2, 4);
-
-		if (code == 12) {
-			List<String> list = plistDAO.getCategory12(depth1);
-			return list;
-		} else {
-			List<String> list = plistDAO.getCategory23(depth1, depth2);
-			return list;
-		}
-
+	@Override
+	public List<String> getCategory(String depth1, String depth2) {
+		List<String> list = plistDAO.getCategory23(depth1, depth2);
+		return list;
 	}
 }

@@ -3,7 +3,6 @@ package com.hyundai.thehandsome.service.product;
 import java.util.List;
 
 import com.hyundai.thehandsome.Vo.product.CatePListVO;
-import com.hyundai.thehandsome.Vo.product.ListVO;
 import com.hyundai.thehandsome.Vo.product.detail.ProductDetailVO;
 import com.hyundai.thehandsome.domain.mypage.WishList;
 
@@ -33,6 +32,7 @@ public interface ProductListService {
 	List<String> getProductImg(String PCID);
 	
 	// 카테고리 
-	List<String> getCategory (String depth1name, int code);
+	List<String> getCategory (String depth1);
+	List<String> getCategory(String depth1, String depth2);
 	
 }
