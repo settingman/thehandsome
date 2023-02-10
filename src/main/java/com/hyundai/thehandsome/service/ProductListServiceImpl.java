@@ -10,7 +10,7 @@ import com.hyundai.thehandsome.Vo.product.CatePListVO;
 import com.hyundai.thehandsome.Vo.product.ListVO;
 import com.hyundai.thehandsome.Vo.product.detail.ProductDetailVO;
 import com.hyundai.thehandsome.domain.mypage.WishList;
-import com.hyundai.thehandsome.mapper.ProductListDAO;
+import com.hyundai.thehandsome.mapper.product.ProductListDAO;
 
 import lombok.extern.log4j.Log4j2;
 
@@ -28,6 +28,7 @@ import lombok.extern.log4j.Log4j2;
  * 2023.02.03  	박세영        getProductDetail() 추가
  * 2023.02.03  	박세영        getProductImg() 추가
  * 2023.02.07  	박성환        getPListWithLikes 추가 (위시리스트 아이템 랜더링)
+ * 2023.02.09  	박세영        getListTest 삭제, getPListWithCategory() 브랜드까지 추가
  *          </pre>
  */
 
@@ -38,20 +39,19 @@ public class ProductListServiceImpl implements ProductListService {
 	private ProductListDAO plistDAO;
 
 	@Override
-	public List<ListVO> getProductList() {
+	public List<CatePListVO> getPListWithCategory(String categoryCode, String brand) {
 		try {
-			return plistDAO.getProductList();
-		} catch (Exception e) {
-			log.info(e.getMessage());
-			throw e;
-		}
-	}
-
-	@Override
-	public List<CatePListVO> getPListWithCategory(String categoryCode) {
-		try {
-			List<CatePListVO> list = plistDAO.getPListWithCategory(categoryCode.substring(0, 2),
-					categoryCode.substring(2, 4), categoryCode.substring(4, 5));
+			String depth1="";
+			String depth2="";
+			String depth3="";
+			depth1 = categoryCode.substring(0, 2);
+			depth2 = categoryCode.substring(2, 4);
+			depth3 = categoryCode.substring(4, 5);
+			
+			if (brand == null) brand = ""; 
+			int bno = (brand.length() == 4 ? Integer.parseInt(brand.substring(2)) : 0);
+			
+			List<CatePListVO> list = plistDAO.getPListWithCategory(depth1, depth2, depth3, bno);
 			for (CatePListVO item : list) {
 				item.setColorList(plistDAO.getProductColor(item.getPid()));
 				log.info(item);
@@ -67,7 +67,6 @@ public class ProductListServiceImpl implements ProductListService {
 	public ProductDetailVO getProductDetail(String PCID) {
 		try {
 			ProductDetailVO list = plistDAO.getProductDetail(PCID);
-//			log.info("PCID:" + PCID.split("_")[0]);
 			list.setCOLORLIST(plistDAO.getProductColor(PCID.split("_")[0]));
 			log.info(list);
 
@@ -91,20 +90,18 @@ public class ProductListServiceImpl implements ProductListService {
 		}
 	}
 
-
-
-@Override
+	@Override
 	public List<CatePListVO> getPListWithLikes(List<WishList> wishList) {
-		
+
 		List<String> pIdList = new ArrayList<>();
-		
-		for (WishList Wish : wishList ) {			
-			pIdList.add(Wish.productCode.split("_")[0]);			
+
+		for (WishList Wish : wishList) {
+			pIdList.add(Wish.productCode.split("_")[0]);
 		}
-		
+
 		try {
 			List<CatePListVO> list = plistDAO.getPListWithLikes(pIdList);
-			for(CatePListVO item : list) {
+			for (CatePListVO item : list) {
 				item.setColorList(plistDAO.getProductColor(item.getPid()));
 				log.info(item);
 			}
@@ -113,8 +110,5 @@ public class ProductListServiceImpl implements ProductListService {
 			log.info(e.getMessage());
 			throw e;
 		}
-		
-		
 	}
-
 }

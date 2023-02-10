@@ -34,7 +34,10 @@ public class ProductListServiceTest {
 	
 	@Test
 	void getPListWithCategoryTest() {
-		List<CatePListVO> list = pService.getPListWithCategory("we052");
+		List<CatePListVO> list = pService.getPListWithCategory("we052", null);
+//		List<CatePListVO> list = pService.getPListWithCategory("we052", "");
+//		List<CatePListVO> list = pService.getPListWithCategory("we052", "br01");
+//		List<CatePListVO> list = pService.getPListWithCategory("we052", "br35");
 		for (CatePListVO item : list) {
 			log.info(item);
 		}
