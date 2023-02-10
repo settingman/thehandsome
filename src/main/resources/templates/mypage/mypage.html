@@ -987,7 +987,7 @@
                       }
                       txtHtml += '</ul>';
                       if ( wishlists.length > 3 ) {
-                          txtHtml += '<a href="/ko/mypage/myWish" class="more">+'+(wishlists.length - 3)+'</a>';
+                          txtHtml += '<a href="/mypage/myWish" class="more">+'+(wishlists.length - 3)+'</a>';
                       } 
                   }
                   
@@ -1351,7 +1351,7 @@
               if (wishlists.length === 0) {
                 txtHtml +=
                   "<p><span>위시리스트에 저장된 상품이 없습니다.</span></p>";
-                txtHtml += '<a href="/ko/mypage/myWish" class="more">+0</a>';
+                txtHtml += '<a href="/mypage/myWish" class="more">+0</a>';
               } else {
                 txtHtml += "<ul>";
                 for (var i = 0; i < wishlists.length; i++) {
@@ -1577,7 +1577,7 @@
           $(".hsome_allContents").css({ marginTop: 0 * -1 });
           $(".hsome_allContents").removeClass("disabled");
 
-          location.href = /ko/ + "main";
+          location.href =  "/main";
 
           /* 
           setTimeout(function () {
@@ -2160,9 +2160,9 @@ $(".hs_check01 input[name=pro_name_check]:checked").siblings("label").find("span
 						<option value="/ko/mypage/mydelivery">배송지 관리
 							<!-- 배송지 관리 -->
 						</option>
-						<option value="/ko/mypage/voucher">쿠폰
+						<option value="/mypage/voucher">쿠폰
 							<!-- 쿠폰 --></option>
-						<option value="/ko/mypage/myreview">상품평
+						<option value="/mypage/myreview">상품평
 							<!-- 상품평 --></option>
 						<option value="/ko/mypage/mymantomaninquiry">1:1 문의
 							<!-- 1:1 문의 -->
@@ -2495,7 +2495,7 @@ function barCodeClickEvent(){
 										<p>
 											<span>위시리스트에 저장된 상품이 없습니다.</span>
 										</p>
-										<a href="/ko/mypage/myWish" class="more">+0</a>
+										<a href="/mypage/myWish" class="more">+0</a>
 									</div>
 
 									<div class="s-link">

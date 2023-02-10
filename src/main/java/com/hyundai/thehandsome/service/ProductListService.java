@@ -17,6 +17,7 @@ import com.hyundai.thehandsome.domain.mypage.WishList;
  * 수정일        	수정자       			수정내용
  * ----------  --------    ---------------------------
  * 2023.02.01  	박세영        최초 생성, getListTest() 추가
+ * 2023.02.06  	박성환       getPListWithLikes() 추가
  * </pre>
  */
 

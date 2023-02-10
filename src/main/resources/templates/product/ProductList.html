@@ -279,7 +279,7 @@
                 <button
                   type="button"
                   class="like"
-                  id="SJ2D1WJC361W_BKLike"
+                  th:id="${pInfo.pid}+Like"
                   onclick="callWishListClick($(this), this.getAttribute('data-value'), '%uB9B0%uB128%20%uBE14%uB80C%uB4DC%20%uBC84%uD2BC%20%uC5C5%20%uC2F1%uAE00%20%uC7AC%uD0B7', '1','8');"
                   th:data-value="${pInfo.colorList[0].PCID}">
                   찜하기
@@ -6394,11 +6394,29 @@ layer popup 형식의 confirm 창
 
       // wishList AJAX
       function addWishList(productBaseCode) {
+    	  
+    	  
+    	  const productCode = productBaseCode.split("_")[0]+"Like";
+    	  
         $.ajax({
-          url: "/product/wishlist/",
+          url: "/product/addWishlist/",
           type: "GET",
           data: { productCode: productBaseCode, type: "toggle" },
-          success: function (msg) {},
+          success: function (msg) {
+        	  
+        	  console.log(productCode);
+        	  if (msg=="insert"){
+        		  console.log("insert");
+        		$("#"+productCode).addClass('on');
+        		conseol.log(productCode);
+        		  
+        	  }else{
+        		  console.log("delete");
+        		  $("#"+productCode).removeClass('on');
+        		  
+        	  }
+        	  
+          },
           error: function (xhr, Status, error) {},
         });
       }

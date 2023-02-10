@@ -18,12 +18,13 @@ import com.hyundai.thehandsome.domain.mypage.WishList;
  *   수정일         수정자               수정내용
  * ----------      --------    ---------------------------
  * 2023. 2. 8.     박성환      최초생성
+ * 2023. 2. 9.     박성환      위시리스트 기능 추가
  * </pre>
  */
 @Mapper
 public interface MyPageMapper {
 
-	void insertWishlist(@Param("mId") String mId, @Param("productCode") String productCode);
+	void insertWishlist(@Param("mId") String mId, @Param("productCode") String productCode,@Param("sysdate") String sysdate);
 
 	void deleteWishlist(@Param("mId") String mId, @Param("productCode") String productCode);
 
