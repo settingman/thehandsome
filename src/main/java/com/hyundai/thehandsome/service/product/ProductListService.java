@@ -23,10 +23,15 @@ import com.hyundai.thehandsome.domain.mypage.WishList;
  */
 
 public interface ProductListService {
-	// 
+	// 리스트 정보 받아오기
 	List<CatePListVO> getPListWithCategory(String categoryCode, String brand);
 	List<CatePListVO> getPListWithLikes(List<WishList> wishList);
 	
+	// 상품 상세 정보 가져오기
 	ProductDetailVO getProductDetail(String PCID);
 	List<String> getProductImg(String PCID);
+	
+	// 카테고리 
+	List<String> getCategory12 (String depth1name);
+	List<String> getCategory23 (String depth1name, String depth2name);
 }

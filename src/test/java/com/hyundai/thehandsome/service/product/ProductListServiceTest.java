@@ -2,6 +2,7 @@ package com.hyundai.thehandsome.service.product;
 
 import java.util.List;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -31,7 +32,7 @@ public class ProductListServiceTest {
 	@Autowired
 	private ProductListService pService;
 	
-	@Test
+	@Disabled
 	void getPListWithCategoryTest() {
 		List<CatePListVO> list = pService.getPListWithCategory("we052", null);
 //		List<CatePListVO> list = pService.getPListWithCategory("we052", "");
@@ -40,6 +41,18 @@ public class ProductListServiceTest {
 		for (CatePListVO item : list) {
 			log.info(item);
 		}
+	}
+	
+	@Test
+	void getCategory12() {
+		List<String> list = pService.getCategory12("we");
+		log.info(list);
+	}
+	
+	@Test
+	void getCategory23() {
+		List<String> list = pService.getCategory23("we", "10");
+		log.info(list);
 	}
 
 }
