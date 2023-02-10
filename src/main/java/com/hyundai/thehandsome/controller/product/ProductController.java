@@ -30,8 +30,8 @@ import lombok.extern.log4j.Log4j2;
  * ----------  --------    ---------------------------
  * 2023.02.01  	박세영        		최초 생성
  * 2023.02.04  	박세영        getProductItem() 추가
- * 2023.02.04  	박세영        getProductList() 브랜드까지 완성
- * 2023.02.10  	박세영        getProductList() 헤더까지 완성
+ * 2023.02.04  	박세영        ProductDetail() 기능 추가
+ * 2023.02.10  	박세영        getProductList() brand 기능 추가
  *          </pre>
  */
 
@@ -42,7 +42,8 @@ public class ProductController {
 	@Autowired
 	private ProductListService plistService;
 
-	@GetMapping(value = { "/ProductList/{category}", "/ProductList/{category}/br{brand}", "/ProductList/br{brand}" })
+	@GetMapping(value = { "/ProductList/{category}", "/ProductList/{category}/br{brand}",
+						  "/ProductList/br{brand}" })
 	public String getProductList(@PathVariable(required = false) String category,
 			@PathVariable(required = false) String brand, Model model) {
 		log.info("getProductList-----------------");
@@ -50,16 +51,6 @@ public class ProductController {
 			// input null 처리
 			if (category == null) category = "";
 			if (brand == null) brand = "";
-			
-			// 헤더 카테고리 불러오기
-			List<String> depth2List = plistService.getCategory(category, 12);
-			model.addAttribute("depth2", depth2List);
-			log.info(">>>>"+ depth2List);
-			if (category.length() >= 4) {
-				List<String> depth3List = plistService.getCategory(category, 23);
-				model.addAttribute("depth3", depth3List);
-				log.info(depth3List);
-			}
 			
 			// out of bound 예방을 위해 다섯자리로 맞춤
 			String categoryCode = String.format("%-5s", category);
