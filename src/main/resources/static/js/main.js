@@ -1,6 +1,6 @@
 /**
  *
- * layers.js
+ * main.js
  * @author 박성환
  * @since 2023. 2. 8.
  *
