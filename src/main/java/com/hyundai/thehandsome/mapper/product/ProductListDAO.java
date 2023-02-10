@@ -21,6 +21,7 @@ import com.hyundai.thehandsome.Vo.product.detail.ProductDetailVO;
  * 2023.02.02  	박세영        getPListWithCategory(), getProductColor() 추가
  * 2023.02.04  	박세영        getProductDetail() 추가
  * 2023. 2. 6.  박세영		getProductImg() 추가
+ * 2023. 2.10.  박세영		getCategory12(), getCategory23() 추가
  * </pre>
  */
 
