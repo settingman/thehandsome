@@ -9,6 +9,7 @@
   <title>상품 | 더한섬닷컴</title>
 
   <th:block th:replace="common/head :: headFragment"></th:block>
+  <script type="text/javascript" src="/js/ProductList.js"></script>
   <body class="back">
     <div style="display: none">
       <div id="loadingBarDiv" style="display: none"></div>
@@ -1005,7 +1006,7 @@
             </ul>
             <div class="hs_btm_btnwrap">
               <button type="button" class="hs_btm_btn gray" onclick="filterResetBtnClick();">초기화</button>
-              <button type="button" class="hs_btm_btn black" onclick="filterApply();">적용</button>
+              <button type="button" class="hs_btm_btn black" onclick="getFilter();">적용</button>
             </div>
           </div>
           <a href="#" class="pop-comm-cls" id="filterLayerPopupClose">닫기</a>
@@ -6253,15 +6254,6 @@ layer popup 형식의 confirm 창
       }
 
       function colorColdoutCheck() {}
-
-      // 컬러칩 누를시 이미지 변경
-      function chgColor(pid, pcid) {
-        var url = $("#" + pid).attr("src");
-        var target = url.substring(url.lastIndexOf("/") + 1, url.lastIndexOf("_"));
-        url = url.replace(target, pcid);
-        $("#" + pid).attr("src", url);
-        $("#" + pid+"_link").attr("href", "/product/ProductDetail/"+pcid);
-      }
 
       function chgColorChip(index, code) {
         //중복 호출 방지(동일한 이미지가 중복으로 호출시 에러 이미지로 판단)
