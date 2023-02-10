@@ -32,8 +32,9 @@ import lombok.extern.slf4j.Slf4j;
  *     <pre>
  *   수정일         수정자               수정내용
  * ----------      --------    ---------------------------
- * 2023. 2. 3.     박성환      마이페이지 접근 기능
+ * 2023. 2. 3.     박성환       마이페이지 접근 기능
  * 2023. 2. 6.     박성환		개인정보변경 페이지 연결
+ * 2023. 2. 10.     박성환		마이페이지 디테일페이지
  *     </pre>
  */
 @Slf4j
@@ -113,6 +114,8 @@ public class MyPageController {
 		
 	}
 	
+	
+	// 마이페이지 디테일 페이지 랜더링
 	@GetMapping(value = "/voucherDetail")
 	public String voucher(Model model) {
 

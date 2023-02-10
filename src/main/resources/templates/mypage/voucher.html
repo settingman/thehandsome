@@ -1,7 +1,7 @@
 <!--
  @Date : 2023. 02. .08
  @작성자 : 박성환
- @설명 :  쿠폰 페이지
+ @설명 :  쿠폰 디테일 페이지
 -->
 
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
@@ -273,7 +273,7 @@
 																"id");
 														$("#searchForm")
 																.attr("action",
-																		"/mypage/voucherList");
+																		"/mypage/voucher");
 														$("#id_sel").val(tid);
 														voucherList.PARAMS.pageNum = 1;
 														$(".coupon_list_wrap")
@@ -306,7 +306,7 @@
 								});
 				//]]>
 			</script>
-			<form id="searchForm" action="/mypage/voucherList">
+			<form id="searchForm" action="/mypage/voucher">
 				<input type="hidden" id="id_sel" name="id_sel" value="N" />
 				<!-- <input type="hidden" id="pageNum" name="pageNum" value="1" /> -->
 			</form>
