@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-		
-<mapper namespace="com.hyundai.thehandsome.mapper.product.ProductListDAO">
+
+<mapper
+	namespace="com.hyundai.thehandsome.mapper.product.ProductListDAO">
 	<select id="getPListWithCategory"
 		resultType="com.hyundai.thehandsome.Vo.product.CatePListVO">
 		SELECT DISTINCT
@@ -10,10 +11,12 @@
 		FROM product_common pcommon
 
 		INNER JOIN product_color pcolor
-		ON pcommon.pid = pcolor.pid
+		ON
+		pcommon.pid = pcolor.pid
 
 		INNER JOIN brand brand
-		ON brand.bno = pcommon.bno
+		ON brand.bno =
+		pcommon.bno
 
 		INNER JOIN pid_with_category_view v
 		ON v.pid = pcommon.pid
@@ -30,7 +33,8 @@
 				test="!@com.hyundai.thehandsome.test.MybatisCheckNull@isEmpty(depth3name)">
 				and v.depth3name = #{depth3name}
 			</if>
-			<if test="!@com.hyundai.thehandsome.test.MybatisCheckNull@isZero(brand)">
+			<if
+				test="!@com.hyundai.thehandsome.test.MybatisCheckNull@isZero(brand)">
 				and brand.bno = #{brand}
 			</if>
 		</where>
@@ -60,7 +64,7 @@
 			#{pidList}
 		</foreach>
 	</select>
-	
+
 	<select id="getProductColor"
 		resultType="com.hyundai.thehandsome.Vo.product.ColorVO">
 		SELECT PID, PCID, PCIMG1, PCCHIPIMG, PCCOLORCODE
@@ -68,16 +72,29 @@
 		PRODUCT_COLOR
 		WHERE PID = #{PID}
 	</select>
-	
+
 	<select id="getProductDetail"
 		resultType="com.hyundai.thehandsome.Vo.product.detail.ProductDetailVO">
 		SELECT * FROM PRODUCT_DETAIL_VIEW
 		WHERE PCID = #{PCID}
 	</select>
-	
+
 	<select id="getProductImg" resultType="String">
 		SELECT IMGSRC FROM
 		PRODUCT_IMG
 		WHERE PCID = #{PCID}
+	</select>
+
+	<!-- 대분류만 있을 때, 중분류까지만 구함 -->
+	<select id="getCategory12" resultType="String">
+		select distinct depth2name from category
+		where depth1name = #{depth2name}
+	</select>
+
+	<!-- 대분류만 있을 때, 중분류까지만 구함 -->
+	<select id="getCategory23" resultType="String">
+		select distinct depth3name from category
+		where  depth1name = #{depth1name}
+				and depth2name = #{depth2name}
 	</select>
 </mapper>
