@@ -106,7 +106,7 @@
 			<li class="shop"><a href="/ko/mobilecommon/navShop" onclick="GA_Event('공통', '네비게이션_바', '샵');"><i>메뉴</i></a></li>
 			<li class="sns"><a href="/ko/sns/main" onclick="GA_Event('공통', '네비게이션_바', '타임라인');"><i>스타일 LIVE</i></a></li>
 			<li class="home"><a href="javascript:noLink();" onclick="goMainpage();GA_Event('공통', '네비게이션_바', '홈');"><i>홈</i></a></li>
-			<li class="myheart" id="gnbMyheartBtn"><a href="/ko/mypage/myWish" onclick="GA_Event('공통', '네비게이션_바', '마이하트');"><i>마이하트</i></a></li>
+			<li class="myheart" id="gnbMyheartBtn"><a href="/mypage/myWish" onclick="GA_Event('공통', '네비게이션_바', '마이하트');"><i>마이하트</i></a></li>
 			<li class="mypage active" id="gnbMyPageBtn"><a href="javascript:noLink();" onclick="goMypage();GA_Event('공통', '네비게이션_바', '마이페이지');"><i>마이페이지</i></a>
 			</li>
 			<li class="mypage pageMove" style="display: none"><a href="" id="gnbMypageBtn"></a></li>
@@ -969,7 +969,7 @@
                   if ( wishlists.length === 0 ) {
                       
                       txtHtml += '<p><span>위시리스트에 저장된 상품이 없습니다.</span></p>';
-                      txtHtml += '<a href="/ko/mypage/myWish" class="more">+0</a>';
+                      txtHtml += '<a href="/mypage/myWish" class="more">+0</a>';
                   } else {
                       
                       txtHtml += '<ul>';
@@ -1577,7 +1577,7 @@
           $(".hsome_allContents").css({ marginTop: 0 * -1 });
           $(".hsome_allContents").removeClass("disabled");
 
-          location.href =  "/main";
+          location.href = /ko/ + "main";
 
           /* 
           setTimeout(function () {
@@ -1671,7 +1671,7 @@
 
               rows += '<div class="s-tit"> ';
               rows += "<b>쿠폰</b> ";
-              rows += '<a href="/ko/mypage/voucher" class="more">전체조회</a> ';
+              rows += '<a href="/mypage/voucher" class="more">전체조회</a> ';
               rows += "</div> ";
               rows += '<div id="mypageCouponList">';
  
@@ -2148,7 +2148,7 @@ $(".hs_check01 input[name=pro_name_check]:checked").siblings("label").find("span
 						<option value="/ko/mypage/rsalarm">재입고 알림
 							<!-- 재입고/세일 알림 -->
 						</option>
-						<option value="/ko/mypage/myWish">마이하트
+						<option value="/mypage/myWish">마이하트
 							<!-- 위시리스트 -->
 						</option>
 						<option value="/ko/svcenter/mobilemain">고객센터
@@ -2162,7 +2162,7 @@ $(".hs_check01 input[name=pro_name_check]:checked").siblings("label").find("span
 						</option>
 						<option value="/mypage/voucher">쿠폰
 							<!-- 쿠폰 --></option>
-						<option value="/mypage/myreview">상품평
+						<option value="/ko/mypage/myreview">상품평
 							<!-- 상품평 --></option>
 						<option value="/ko/mypage/mymantomaninquiry">1:1 문의
 							<!-- 1:1 문의 -->
@@ -2294,7 +2294,7 @@ $(".hs_check01 input[name=pro_name_check]:checked").siblings("label").find("span
 							<div class="card_type_inner1903">
 								<div class="stage coupon_stage" id="myCouponList">
 									<div class="s-tit">
-										<b>쿠폰</b> <a href="/ko/mypage/voucher" class="more">전체조회</a>
+										<b>쿠폰</b> <a href="/mypage/voucher" class="more">전체조회</a>
 									</div>
 									<div id="mypageCouponList">
 										<div class="s-coupon">

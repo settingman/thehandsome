@@ -22,7 +22,7 @@
 	</div>
 	<!-- //Loading -->
 
-	<form id="CSRFForm" action="/ko/mypage/myWish" method="post">
+	<form id="CSRFForm" action="/mypage/myWish" method="post">
 		<div>
 			<input type="hidden" name="CSRFToken" value="8a8fdf57-021a-4818-82a8-a81720089936">
 		</div>
@@ -45,32 +45,32 @@
 				<h1 class="h_select">
 					<select id="headerMypageSelect" onchange="GA_Event('마이페이지', 'MY_GNB', this.selectedOptions[0].text.replaceAll(' ', '').replace('신청/조회',''));">
 						<option value="" style="display: none"></option>
-						<option value="/ko/mypage/mypageFloatingPopup">마이페이지
+						<option value="/mypage/mypageFloatingPopup">마이페이지
 							<!-- 마이페이지 --></option>
-						<option value="/ko/mypage/order/myorders">주문/배송조회
+						<option value="/mypage/order/myorders">주문/배송조회
 							<!-- 주문/배송조회 --></option>
 
-						<option value="/ko/mypage/rsalarm">재입고 알림
+						<option value="/mypage/rsalarm">재입고 알림
 							<!-- 재입고/세일 알림 --></option>
-						<option value="/ko/mypage/myWish">마이하트
+						<option value="/mypage/myWish">마이하트
 							<!-- 위시리스트 --></option>
 						<option value="/ko/svcenter/mobilemain">고객센터
 							<!-- 고객센터 -->
 						</option>
-						<option value="/ko/mypage/personInfomationChange">개인정보변경
+						<option value="/mypage/personInfomationChange">개인정보변경
 							<!-- 개인정보변경 --></option>
-						<option value="/ko/mypage/mydelivery">배송지 관리
+						<option value="/mypage/mydelivery">배송지 관리
 							<!-- 배송지 관리 --></option>
-						<option value="/ko/mypage/voucher">쿠폰
+						<option value="/mypage/voucher">쿠폰
 							<!-- 쿠폰 --></option>
-						<option value="/ko/mypage/myreview">상품평
+						<option value="/mypage/myreview">상품평
 							<!-- 상품평 --></option>
-						<option value="/ko/mypage/mymantomaninquiry">1:1 문의
+						<option value="/mypage/mymantomaninquiry">1:1 문의
 							<!-- 1:1 문의 -->
 						</option>
-						<option value="/ko/mypage/myqna">상품 Q&amp;A
+						<option value="/mypage/myqna">상품 Q&amp;A
 							<!-- 상품 Q&A --></option>
-						<option value="/ko/mypage/event/myevents">나의 이벤트
+						<option value="/mypage/event/myevents">나의 이벤트
 							<!-- 나의 이벤트 --></option>
 					</select>
 					<div class="selected_text">
@@ -86,8 +86,8 @@
 											if ($(this).val() == "")
 												return;
 
-											if ($(this).val() == "/ko/mypage/mymantomaninquiry") {
-												location.href = "/ko/mypage/mymantomaninquiry?refererUrl=mypage";
+											if ($(this).val() == "/mypage/mymantomaninquiry") {
+												location.href = "/mypage/mymantomaninquiry?refererUrl=mypage";
 											} else {
 												location.href = $(this).val();
 											}
@@ -293,7 +293,7 @@
 
 					$
 							.ajax({
-								url : '/ko/mypage/myWishList',
+								url : '/mypage/myWishList',
 								type : 'GET',
 								datatype : 'json',
 								data : {
@@ -805,7 +805,7 @@
 
 					$
 							.ajax({
-								url : '/ko/mypage/selectMyWishContents',
+								url : '/mypage/selectMyWishContents',
 								type : 'GET',
 								datatype : 'json',
 								data : {
@@ -944,7 +944,7 @@
 					//alert(prodCode);
 					$
 							.ajax({
-								url : "/ko/mypage/reloadProdSize",
+								url : "/mypage/reloadProdSize",
 								type : "POST",
 								datatype : "json",
 								data : {
@@ -1028,7 +1028,7 @@
 					};
 					lc.confirmAction = function() {
 						$.ajax({
-							url : '/ko/mypage/deleteWish',
+							url : '/mypage/deleteWish',
 							type : 'GET',
 							datatype : 'json',
 							data : {
@@ -1069,7 +1069,7 @@
 						lc.confirmAction = function() {
 							GA_Event('마이하트', '삭제', '선택상품삭제');
 							$.ajax({
-								url : '/ko/mypage/deleteWish',
+								url : '/mypage/deleteWish',
 								type : 'GET',
 								datatype : 'json',
 								data : {
@@ -1092,7 +1092,7 @@
 					var deltarget = $this.attr('data-value');
 
 					$.ajax({
-						url : '/ko/mypage/deleteWishContents',
+						url : '/mypage/deleteWishContents',
 						type : 'GET',
 						datatype : 'json',
 						data : {
@@ -1535,7 +1535,7 @@
 						//};
 						//lc.confirmAction= function() {
 						$.ajax({
-							url : '/ko/mypage/checkSaleAlarmYN',
+							url : '/mypage/checkSaleAlarmYN',
 							type : 'POST',
 							datatype : 'json',
 							data : {
@@ -1557,7 +1557,7 @@
 				function saveSaleAlarms() {
 					if (checkValidation()) {
 						$.ajax({
-							url : '/ko/mypage/saveDiscountAlarm',
+							url : '/mypage/saveDiscountAlarm',
 							type : 'POST',
 							datatype : 'json',
 							//		data	: {
@@ -1594,7 +1594,7 @@
 					};
 					lc.confirmAction = function() {
 						$.ajax({
-							url : '/ko/mypage/removeDiscountAlarm',
+							url : '/mypage/removeDiscountAlarm',
 							type : 'POST',
 							datatype : 'json',
 							data : {
@@ -1649,7 +1649,7 @@
 						$('.layerpop_wrap.lp_wish_to_order_wrap').removeClass(
 								'visible active activated');
 
-						layerPopupOpen("/ko/mypage/wishToOrderPopup?wishcodes="
+						layerPopupOpen("/mypage/wishToOrderPopup?wishcodes="
 								+ wishcodes,
 								'.hsome_layerpop_contents.lp_depth1',
 								'.layerpop_wrap.lp_wish_to_order_wrap');
@@ -2032,7 +2032,7 @@
 			$.cookie("handsomeappreturnurl", "/ko/", {
 				path : "/"
 			});
-			location.href = "/ko/mypage/mypageFloatingPopup";
+			location.href = "/mypage/mypageFloatingPopup";
 			//}
 		}
 
@@ -2056,7 +2056,7 @@
 			<li class="shop "><a href="/ko/mobilecommon/navShop" onclick="GA_Event('공통', '네비게이션_바', '샵');"><i>메뉴</i></a></li>
 			<li class="sns "><a href="/ko/sns/main" onclick="GA_Event('공통', '네비게이션_바', '타임라인');"><i>스타일 LIVE</i></a></li>
 			<li class="home "><a href="javascript:noLink();" onclick="goMainpage();GA_Event('공통', '네비게이션_바', '홈');"><i>홈</i></a></li>
-			<li class="myheart active" id="gnbMyheartBtn"><a href="/ko/mypage/myWish" onclick="GA_Event('공통', '네비게이션_바', '마이하트');"><i>마이하트</i></a></li>
+			<li class="myheart active" id="gnbMyheartBtn"><a href="/mypage/myWish" onclick="GA_Event('공통', '네비게이션_바', '마이하트');"><i>마이하트</i></a></li>
 			<li class="mypage" id="gnbMyPageBtn"><a href="javascript:noLink();" onclick="goMypage();GA_Event('공통', '네비게이션_바', '마이페이지');"><i>마이페이지</i></a></li>
 			<li class="mypage pageMove" style="display: none;"><a href="" id="gnbMypageBtn"></a></li>
 			<li class="mypage" style="display: none;"><a href="/ko/mobilecommon/myPagePopup" id="gnbMypagePopupBtn"></a></li>

@@ -11605,7 +11605,7 @@ function moveBrandLookBook(brandCode) {
 
 $(".hsome_quickMenu .shop a").click(function (e) {
   e.preventDefault();
-  console.log("shop click");
+  console.log("Quick");
   $(".hsome_quickMenu_contents").addClass("active absolute");
   $(".hsome_quickMenu_contents").html(template);
 });
