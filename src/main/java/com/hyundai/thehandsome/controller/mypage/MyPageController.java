@@ -111,10 +111,12 @@ public class MyPageController {
 			throw e;
 		}
 		
-		
-		
+	}
+	
+	@GetMapping(value = "/voucherDetail")
+	public String voucher(Model model) {
 
-		
+		return "/mypage/voucher";
 	}
 
 }

@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import com.hyundai.thehandsome.domain.mypage.Voucher;
 import com.hyundai.thehandsome.domain.mypage.WishList;
 
 
@@ -31,5 +32,7 @@ public interface MyPageMapper {
 	List<WishList> findWishlist(@Param("mId") String mId);
 	
 	String findWish(@Param("mId") String mId, @Param("productCode") String productCode);
+	
+	List<Voucher> findVoucher(@Param("mId") String mId);
 
 }

@@ -2,6 +2,7 @@ package com.hyundai.thehandsome.domain.mypage;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 /**
  * @since   : 2023. 2. 8.
@@ -17,10 +18,11 @@ import lombok.Setter;
  */
 @Getter
 @Setter
+@ToString
 public class Voucher {
 	public String startdate;
 	public String description;
-	public String voucherCode;
+	public String vouchercode;
 	public String name;
 	public Integer value;
 	public String usedate;
@@ -31,7 +33,7 @@ public class Voucher {
 			String enddate, String currency) {
 		this.startdate = startdate;
 		this.description = description;
-		this.voucherCode = voucherCode;
+		this.vouchercode = voucherCode;
 		this.name = name;
 		this.value = value;
 		this.usedate = usedate;

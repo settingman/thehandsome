@@ -17,9 +17,8 @@
 		LIKES.Member_MID=#{mId}
 		and LIKES.PID=Product_color.PCID
 	</select>
-	
-	<select id="findWish"
-		resultType="String">
+
+	<select id="findWish" resultType="String">
 		SELECT PID
 		FROM LIKES
 		Where
@@ -29,7 +28,8 @@
 
 	<insert id="insertWishlist">
 		INSERT INTO LIKES
-		VALUES( #{productCode} , #{mId}, #{sysdate})
+		VALUES( #{productCode} , #{mId},
+		#{sysdate})
 	</insert>
 
 	<delete id="deleteWishlist">
@@ -37,6 +37,18 @@
 		WHERE PID=#{productCode} and
 		Member_MID=#{mId}
 	</delete>
+
+
+	<select id="findVoucher"
+		resultType="com.hyundai.thehandsome.domain.mypage.Voucher">
+		select c.CPISSUEDATE AS startdate , e.ECONTENT AS
+		description, c.CPID AS voucherCode, e.ECOUPONTITLE AS name,
+		e.EDISCOUNT AS value, c.CPUSEDATE AS usedate, c.CPEXPIREDATE AS enddate,
+		e.etitle AS currency
+		from COUPON_DETAIL c join EVENT e
+		on c.ENO = e.ENO
+		where c.mId =#{mId}
+	</select>
 
 
 
