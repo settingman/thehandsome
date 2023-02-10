@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.hyundai.thehandsome.Vo.product.CatePListVO;
 import com.hyundai.thehandsome.Vo.product.ListVO;
 import com.hyundai.thehandsome.Vo.product.detail.ProductDetailVO;
-import com.hyundai.thehandsome.service.ProductListService;
+import com.hyundai.thehandsome.service.product.ProductListService;
 
 import lombok.extern.log4j.Log4j2;
 
@@ -41,15 +41,17 @@ public class ProductController {
 	@Autowired
 	private ProductListService plistService;
 
-	@GetMapping(value = { "/ProductList/{category}", "/ProductList/{category}/{brand}" })
-	public String getProductList(@PathVariable("category") String category,
+	@GetMapping(value = { "/ProductList/{category}", "/ProductList/{category}/br{brand}","/ProductList/br{brand}" })
+	public String getProductList(@PathVariable(required = false) String category,
 			@PathVariable(required = false) String brand, Model model) {
 		log.info("getProductList-----------------");
 		try {
 			// out of bound 예방을 위해 다섯자리로 맞춤, brand 해결
+			if (category == null) category ="";
 			category = String.format("%-5s", category);
-			if (brand == null)
-				brand = "";
+			
+			// brand input null 처리
+			if (brand == null) brand = "";
 
 			List<CatePListVO> pList = plistService.getPListWithCategory(category, brand);
 			model.addAttribute("pList", pList);

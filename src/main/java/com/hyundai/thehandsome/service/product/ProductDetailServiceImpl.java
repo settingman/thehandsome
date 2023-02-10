@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import com.hyundai.thehandsome.Vo.product.detail.ProductStockVO;
 import com.hyundai.thehandsome.mapper.product.ProductDetailDAO;
 import com.hyundai.thehandsome.mapper.product.ProductListDAO;
-import com.hyundai.thehandsome.service.ProductListServiceImpl;
 
 import lombok.extern.log4j.Log4j2;
 

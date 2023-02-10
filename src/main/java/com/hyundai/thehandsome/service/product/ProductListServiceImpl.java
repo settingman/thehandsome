@@ -1,4 +1,4 @@
-package com.hyundai.thehandsome.service;
+package com.hyundai.thehandsome.service.product;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,7 +49,7 @@ public class ProductListServiceImpl implements ProductListService {
 			depth3 = categoryCode.substring(4, 5);
 			
 			if (brand == null) brand = ""; 
-			int bno = (brand.length() == 4 ? Integer.parseInt(brand.substring(2)) : 0);
+			int bno = Integer.parseInt(brand);
 			
 			List<CatePListVO> list = plistDAO.getPListWithCategory(depth1, depth2, depth3, bno);
 			for (CatePListVO item : list) {
