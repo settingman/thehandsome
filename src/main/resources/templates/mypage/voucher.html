@@ -89,7 +89,7 @@
 						<option value="/ko/mypage/mydelivery">배송지 관리
 							<!-- 배송지 관리 -->
 						</option>
-						<option value="/ko/mypage/voucher">쿠폰
+						<option value="/mypage/voucherDetail">쿠폰
 							<!-- 쿠폰 --></option>
 						<option value="/ko/mypage/myreview">상품평
 							<!-- 상품평 --></option>
@@ -151,6 +151,7 @@
 				$(document)
 						.ready(
 								function() {
+									console.log("어디야 2");
 									showLoadingLp(); //로딩레이어 호출
 									var idSel = "N";
 
@@ -204,6 +205,7 @@
 												.each(
 														results,
 														function() {
+															console.log("어디야 1");
 															listTag = "<li>";
 															listTag += '<div class="coupon">';
 
@@ -265,12 +267,15 @@
 
 									voucherList.doWork();
 
+									
 									$("#N, #Y")
 											.click(
 													function() {
+														console.log("어디야 3");
 														showLoadingLp(); //로딩레이어 호출
 														var tid = $(this).attr(
 																"id");
+														console.log(tid);
 														$("#searchForm")
 																.attr("action",
 																		"/mypage/voucher");
@@ -329,6 +334,9 @@
 								<p>쿠폰 사용 및 유효 기간 만료 후 1개월 간 내역입니다.</p>
 							</div>
 							<ul class="coupon_list_wrap" id="listBodyN">
+							
+							
+							
 								
 							</ul>
 							<!-- paging s -->

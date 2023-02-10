@@ -58,8 +58,13 @@ public class MyPageRestController {
 	// 마이페이지 쿠폰 영역 AJAX
 	// 디테일 쿠폰 페이지 영역 AJAX
 	@RequestMapping(value = "/voucher", produces = "application/json; charset=UTF-8", method = RequestMethod.GET)
-	public void ajaxVoucher(HttpServletResponse response, Principal principal) throws Exception {
+	public void ajaxVoucher(String id_sel ,HttpServletResponse response, Principal principal) throws Exception {
 
+		log.info(id_sel);
+		
+		// N일때  Y일때 쿠폰 Statue 보고 뿌리기.
+		
+		
 		Gson gson = new Gson();
 
 		// 회원 아이디로 보유 쿠폰 조회하여 voucher 객체를 만들어 준뒤 넣어주기.
@@ -68,6 +73,8 @@ public class MyPageRestController {
 		List<Voucher> voucherList = myPageMapper.findVoucher(principal.getName());
 
 		for (Voucher voucher : voucherList) {
+			
+			log.info(voucher.toString());
 
 			if (voucher.getValue() > 100)
 				voucher.currency = "₩";
