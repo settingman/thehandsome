@@ -7,6 +7,7 @@ function chgColor(pid, pcid) {
   url = url.replace(target, pcid);
   $("#" + pid).attr("src", url);
   $("#" + pid + "_link").attr("href", "/product/ProductDetail/" + pcid);
+  $('#' + pid + "Like").attr("data-value", pcid);
 }
 
 // FEAT: depth가 1일때

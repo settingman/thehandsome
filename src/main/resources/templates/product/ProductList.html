@@ -51,9 +51,6 @@
         <header class="hsome_header">
           <h1 class="h_ttl ellipsis" id="headerTitle">
             <a href="javascript:noLink();" onclick="openGnbPopup();" class="select_">여성</a>
-            <script >
-
-            </script>
           </h1>
 
           <a href="javascript:noLink();" onclick="goBack();GA_Event('카테고리_리스트', '헤더', '이전');" class="h_prev"
@@ -138,37 +135,6 @@
           <!-- filter_wrap -->
           <div class="filter_wrap fix hsDelivery1902" style="height: 20px">
             <div>
-              <div
-                class="shipping swiper-container fil swiper-container-horizontal swiper-container-free-mode swiper-container-android swiper-container-wp8-horizontal"
-              >
-                <div class="hs_float_check swiper-wrapper">
-                  <span class="hs_check01 swiper-slide swiper-slide-active">
-                    <input
-                      type="checkbox"
-                      name="checkSale"
-                      id="checkSale"
-                      onclick="setCheckSaleCode();GA_Event('카테고리_리스트', '필터', 'SALE');"
-                      style="cursor: pointer"
-                    />
-                    <label for="checkSale" style="cursor: pointer">SALE</label>
-                  </span>
-                  <span class="hs_check01" id="hsDelivery" style="display: none">
-                    <input
-                      type="checkbox"
-                      name="checkDelivery"
-                      id="checkDelivery"
-                      onclick="setCheckDeliveryCode();GA_Event('카테고리_리스트', '필터', '한섬딜리버리');"
-                      style="cursor: pointer"
-                    />
-                    <label for="checkDelivery" style="cursor: pointer">한섬딜리버리</label>
-                    <div class="fitguide_tooltip">
-                      <div class="hs_tooltip_wrap">
-                        <a href="#" class="ico_btn">한섬딜리버리란?</a>
-                      </div>
-                    </div>
-                  </span>
-                </div>
-              </div>
               <div class="filter">
                 <a
                   href=".product_filter_pop"
@@ -235,6 +201,8 @@
                 <button
                   type="button"
                   class="like"
+                  th:like-data="${pInfo.colorList[0].PCID}"
+                  th:classappend="${pInfo.colorList[0].isLiked} == true ? on"
                   th:id="${pInfo.pid}+Like"
                   onclick="callWishListClick($(this), this.getAttribute('data-value'), '%uB9B0%uB128%20%uBE14%uB80C%uB4DC%20%uBC84%uD2BC%20%uC5C5%20%uC2F1%uAE00%20%uC7AC%uD0B7', '1','8');"
                   th:data-value="${pInfo.colorList[0].PCID}"
@@ -6592,7 +6560,7 @@ layer popup 형식의 confirm 창
             if (msg == "insert") {
               console.log("insert");
               $("#" + productCode).addClass("on");
-              conseol.log(productCode);
+              console.log(productCode);
             } else {
               console.log("delete");
               $("#" + productCode).removeClass("on");
