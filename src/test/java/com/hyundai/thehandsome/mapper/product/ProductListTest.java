@@ -53,15 +53,23 @@ public class ProductListTest {
 		}
 	}
 	
-	@Test
+	@Disabled
 	void getCategory12() {
 		List<String> list = pListDAO.getCategory12("we");
 		log.info(list);
 	}
 	
-	@Test
+	@Disabled
 	void getCategory23() {
 		List<String> list = pListDAO.getCategory23("we", "10");
 		log.info(list);
+	}
+	
+	@Test
+	void isLiked() {
+		//대분류에 따른 중분류
+//		Boolean isLiked = pListDAO.isLiked("abcd@naver.com", "SY2D0KTO604W_PE"); //true
+		Boolean isLiked = pListDAO.isLiked("abcd@naver.com", "SY2D0KTO604W_BL"); //false
+		log.info(isLiked);
 	}
 }

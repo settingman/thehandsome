@@ -37,6 +37,8 @@ public interface ProductListDAO {
 
 	// 좋아요 리스트
 	List<CatePListVO> getPListWithLikes(List<String> pidList);
+	// 좋아요 여부
+	Boolean isLiked(String mid, String pcid);
 	
 	// 상세정보 불러오기
 	ProductDetailVO getProductDetail(String PCID);
