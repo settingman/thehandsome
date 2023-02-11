@@ -1,5 +1,6 @@
 package com.hyundai.thehandsome.service.product;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.hyundai.thehandsome.Vo.product.CatePListVO;
+import com.hyundai.thehandsome.Vo.product.ColorVO;
 import com.hyundai.thehandsome.Vo.product.detail.ProductDetailVO;
 import com.hyundai.thehandsome.domain.mypage.WishList;
 import com.hyundai.thehandsome.mapper.product.ProductListDAO;
@@ -38,8 +40,10 @@ public class ProductListServiceImpl implements ProductListService {
 	private ProductListDAO plistDAO;
 
 	@Override
-	public List<CatePListVO> getPListWithCategory(String categoryCode, String brand) {
+	public List<CatePListVO> getPListWithCategory(String categoryCode, String brand, Principal principal) {
 		try {
+			
+			// 파라미터들 null 예외 처리
 			String depth1 = "";
 			String depth2 = "";
 			String depth3 = "";
@@ -54,10 +58,16 @@ public class ProductListServiceImpl implements ProductListService {
 			if (brand != null && brand != "") {
 				bno = Integer.parseInt(brand);
 			}
-
+			
+			String mid = (principal == null) ? "" : principal.getName();
+			
+			// 상품 list 불러오기
 			List<CatePListVO> list = plistDAO.getPListWithCategory(depth1, depth2, depth3, bno);
 			for (CatePListVO item : list) {
 				item.setColorList(plistDAO.getProductColor(item.getPid()));
+				for(ColorVO color : item.getColorList()) {
+					color.setLiked(plistDAO.isLiked(mid, color.getPCID()));
+				}
 				log.info(item);
 			}
 

@@ -1,5 +1,6 @@
 package com.hyundai.thehandsome.controller.product;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 
@@ -45,7 +46,7 @@ public class ProductController {
 	@GetMapping(value = { "/ProductList/{category}", "/ProductList/{category}/br{brand}",
 						  "/ProductList/br{brand}" })
 	public String getProductList(@PathVariable(required = false) String category,
-			@PathVariable(required = false) String brand, Model model) {
+			@PathVariable(required = false) String brand, Model model, Principal principal) {
 		log.info("getProductList-----------------");
 		try {
 			// input null 처리
@@ -55,7 +56,7 @@ public class ProductController {
 			// out of bound 예방을 위해 다섯자리로 맞춤
 			String categoryCode = String.format("%-5s", category);
 			// 전체 item list 불러오기
-			List<CatePListVO> pList = plistService.getPListWithCategory(categoryCode, brand);
+			List<CatePListVO> pList = plistService.getPListWithCategory(categoryCode, brand, principal);
 			model.addAttribute("pList", pList);
 
 			return "/product/ProductList";
