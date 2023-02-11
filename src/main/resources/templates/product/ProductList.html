@@ -51,6 +51,9 @@
         <header class="hsome_header">
           <h1 class="h_ttl ellipsis" id="headerTitle">
             <a href="javascript:noLink();" onclick="openGnbPopup();" class="select_">여성</a>
+            <script >
+
+            </script>
           </h1>
 
           <a href="javascript:noLink();" onclick="goBack();GA_Event('카테고리_리스트', '헤더', '이전');" class="h_prev"
@@ -6599,12 +6602,7 @@ layer popup 형식의 confirm 창
         });
       }
 
-      var flagWrapSwiper = new Swiper(".flag_wrap.case.swiper-container", {
-        slidesPerView: "auto",
-        freeMode: true,
-        spaceBetween: 6,
-        freeModeMomentumBounce: false,
-      });
+      
 
       $(document).on("click", ".hs_product_list .chip", function () {
         $(this).closest("li").find(".chip").removeClass("on");

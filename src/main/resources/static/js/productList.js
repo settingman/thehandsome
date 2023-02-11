@@ -31,7 +31,9 @@ function getSecondDepth(url) {
     });
     depthList += `</ul></div>`;
     $(".cate_wrap191028").html(depthList);
+    
     makeNewSwiper();
+    chgHeaderTitle(url);
   });
 
 }
@@ -95,6 +97,7 @@ function getThirdDepth(url) {
     depthList += `</ul></div>`;
     $(".cate_wrap191028").html(depthList);
     makeNewSwiper();
+    chgHeaderTitle(depth1);
   });
 }
 
@@ -111,3 +114,8 @@ function makeNewSwiper(){
 스와이퍼가 움직이지 않습니다.
 swiper 참고 : https://github.com/nolimits4web/Swiper/issues/1053
 */
+
+function chgHeaderTitle(title){
+  var headerTitleHtml = `<a href="javascript:noLink();" onclick="openGnbPopup();" class="select_">${title}</a>`;
+  $("#headerTitle").html(headerTitleHtml);
+}
