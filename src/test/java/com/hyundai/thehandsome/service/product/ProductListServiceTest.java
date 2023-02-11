@@ -24,6 +24,7 @@ import lombok.extern.log4j.Log4j2;
  * ----------  --------    ---------------------------
  * 2023.02.03  	박세영       최초 생성, getPListWithCategoryTest() 추가
  * 2023.02.10  	박세영       getCategory() 추가
+ * 2023.02.11  	박세영       getIsLiked() 추가
  *          </pre>
  */
 
@@ -44,7 +45,7 @@ public class ProductListServiceTest {
 		}
 	}
 	
-	@Test
+	@Disabled
 	void getCategory() {
 		//대분류에 따른 중분류
 //		List<String> list = pService.getCategory("we101", 12);
@@ -55,5 +56,13 @@ public class ProductListServiceTest {
 		List<String> list = pService.getCategory("we10", 23);
 //		List<String> list = pService.getCategory("we", 23);
 		log.info(list);
+	}
+	
+	@Test
+	void getIsLiked(){
+		Boolean isLiked = pService.getIsLiked("MN2D3KTO244W_BK", "");
+//		Boolean isLiked = pService.getIsLiked("MN2D3KTO244W_BK", "qwer1234!");
+		
+		log.info(isLiked);
 	}
 }

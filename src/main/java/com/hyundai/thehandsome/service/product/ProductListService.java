@@ -20,6 +20,7 @@ import com.hyundai.thehandsome.domain.mypage.WishList;
  * 2023.02.05  	박세영       getProductDetail(), getProductImg() 추가
  * 2023.02.06  	박성환       getPListWithLikes() 추가
  * 2023.02.10  	박세영       getCategory() 추가
+ * 2023.02.11  	박세영       getIsLiked() 추가
  * </pre>
  */
 
@@ -27,6 +28,9 @@ public interface ProductListService {
 	// 리스트 정보 받아오기
 	List<CatePListVO> getPListWithCategory(String categoryCode, String brand, Principal principal);
 	List<CatePListVO> getPListWithLikes(List<WishList> wishList);
+	
+	// 좋아요 여부 확인
+	Boolean getIsLiked(String MID, String PCID);
 	
 	// 상품 상세 정보 가져오기
 	ProductDetailVO getProductDetail(String PCID);
