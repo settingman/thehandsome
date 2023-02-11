@@ -6,7 +6,7 @@
 	namespace="com.hyundai.thehandsome.mapper.product.ProductListDAO">
 	<select id="getPListWithCategory"
 		resultType="com.hyundai.thehandsome.Vo.product.CatePListVO">
-		SELECT DISTINCT
+		SELECT DISTINCT /*+ INDEX(pcommon PRODUCT_COMMON_PK) */
 		brand.bname, pcommon.pname, pcolor.pcprice, pcommon.pid
 		FROM product_common pcommon
 
@@ -14,7 +14,7 @@
 		ON
 		pcommon.pid = pcolor.pid
 
-		INNER JOIN brand brand
+		INNER JOIN brand
 		ON brand.bno =
 		pcommon.bno
 
