@@ -180,7 +180,10 @@
                       href="javascript:noLink();"
                       th:data-pid="${pInfo.pid}"
                       th:data-pcid="${color.PCID}"
-                      th:onclick="|chgColor(this.getAttribute('data-pid'), this.getAttribute('data-pcid'))|"
+                      th:data-mid="${mid}"
+                      th:onclick="${mid != null} ?
+                              |chgColor(this.getAttribute('data-pid'), this.getAttribute('data-pcid')); + getIsLiked(this.getAttribute('data-pcid'), this.getAttribute('data-mid')); |:
+                              |chgColor(this.getAttribute('data-pid'), this.getAttribute('data-pcid'));| "
                     >
                       <button
                         th:class="${stat.index} == 0 ? 'chip on' : 'chip'"

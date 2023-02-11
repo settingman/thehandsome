@@ -7,7 +7,28 @@ function chgColor(pid, pcid) {
   url = url.replace(target, pcid);
   $("#" + pid).attr("src", url);
   $("#" + pid + "_link").attr("href", "/product/ProductDetail/" + pcid);
-  $('#' + pid + "Like").attr("data-value", pcid);
+  $("#" + pid + "Like").attr("data-value", pcid);
+}
+
+// TODO: 좋아요 확인
+function getIsLiked(PCID, MID) {
+  console.log(`TESTLISKE: ${PCID} , ${MID}`);
+  $.ajax({
+    url: `/productList/like/${PCID}/${MID}`,
+    type: "get",
+    dataType: "json",
+    error: function (request, status, error) {
+      console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+    },
+    success: function (result) {
+      const PID = `${PCID.split("_")[0]}Like`;
+      if (result == true) {
+        $(`#${PID}`).addClass("on");
+      } else {
+        $(`#${PID}`).removeClass("on");
+      }
+    },
+  });
 }
 
 // FEAT: depth가 1일때
@@ -32,14 +53,13 @@ function getSecondDepth(url) {
     });
     depthList += `</ul></div>`;
     $(".cate_wrap191028").html(depthList);
-    
+
     makeNewSwiper();
     chgHeaderTitle(url);
   });
-
 }
 
-// TODO: depth가 2 이상일때
+// FEAT: depth가 2 이상일때
 function getThirdDepth(url) {
   console.log("getNextDepth" + url);
   console.log(url.substring(0, 2) + " / " + url.substring(2, 4));
@@ -102,7 +122,7 @@ function getThirdDepth(url) {
   });
 }
 
-function makeNewSwiper(){
+function makeNewSwiper() {
   var flagWrapSwiper = new Swiper(".flag_wrap.case.swiper-container", {
     slidesPerView: "auto",
     freeMode: true,
@@ -116,7 +136,7 @@ function makeNewSwiper(){
 swiper 참고 : https://github.com/nolimits4web/Swiper/issues/1053
 */
 
-function chgHeaderTitle(title){
+function chgHeaderTitle(title) {
   var headerTitleHtml = `<a href="javascript:noLink();" onclick="openGnbPopup();" class="select_">${title}</a>`;
   $("#headerTitle").html(headerTitleHtml);
 }
