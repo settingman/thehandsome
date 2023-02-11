@@ -21,6 +21,7 @@ import com.hyundai.thehandsome.Vo.product.detail.ProductDetailVO;
  * 2023.02.02  	박세영        getPListWithCategory(), getProductColor() 추가
  * 2023.02.04  	박세영        getProductDetail() 추가
  * 2023. 2. 6.  박세영		getProductImg() 추가
+ * 2023. 2.10.  박세영		getCategory12(), getCategory23() 추가
  * </pre>
  */
 
@@ -42,4 +43,8 @@ public interface ProductListDAO {
 	
 	// 상세 상품 이미지 리스트 불러오기
 	List<String> getProductImg(String PCID);
+	
+	// 상품 카테고리 헤더 
+	List<String> getCategory12 (String depth1name);
+	List<String> getCategory23 (String depth1name, String depth2name);
 }

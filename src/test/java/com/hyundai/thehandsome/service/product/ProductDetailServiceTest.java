@@ -9,7 +9,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import com.hyundai.thehandsome.Vo.product.detail.ProductDetailVO;
 import com.hyundai.thehandsome.Vo.product.detail.ProductStockVO;
-import com.hyundai.thehandsome.service.ProductListService;
 
 import lombok.extern.log4j.Log4j2;
 /**
