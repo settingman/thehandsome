@@ -1,5 +1,6 @@
 package com.hyundai.thehandsome.service.product;
 
+import java.security.Principal;
 import java.util.List;
 
 import com.hyundai.thehandsome.Vo.product.CatePListVO;
@@ -24,7 +25,7 @@ import com.hyundai.thehandsome.domain.mypage.WishList;
 
 public interface ProductListService {
 	// 리스트 정보 받아오기
-	List<CatePListVO> getPListWithCategory(String categoryCode, String brand);
+	List<CatePListVO> getPListWithCategory(String categoryCode, String brand, Principal principal);
 	List<CatePListVO> getPListWithLikes(List<WishList> wishList);
 	
 	// 상품 상세 정보 가져오기
