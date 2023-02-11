@@ -13,17 +13,19 @@ import org.springframework.web.bind.annotation.RestController;
 import com.hyundai.thehandsome.service.product.ProductListService;
 
 import lombok.extern.log4j.Log4j2;
+
 /**
  * ProductListRestController
  * 
  * @author 박세영
  * @since 2023.02.10
  * 
- *          <pre>
+ *        <pre>
  * 수정일        		수정자       				수정내용
  * ----------  --------    ---------------------------
  * 2023.02.10  	박세영        최초 생성, getCategoryDepth 추가
- *          </pre>
+ * 2023.02.11  	박세영        최초 생성, isLiked 추가
+ *        </pre>
  */
 @Log4j2
 @RestController
@@ -47,6 +49,13 @@ public class ProductListRestController {
 			e.printStackTrace();
 		}
 		return result;
+	}
+
+	@GetMapping("/like/{pcid}/{mid}")
+	public ResponseEntity<Boolean> isLiked(@PathVariable("pcid") String pcid, @PathVariable("mid") String mid) {
+		ResponseEntity<Boolean> isLiked 
+			= new ResponseEntity<Boolean>(plistService.getIsLiked(pcid, mid),HttpStatus.OK);
+		return isLiked;
 	}
 
 }
