@@ -58,6 +58,8 @@ public class ProductController {
 			// 전체 item list 불러오기
 			List<CatePListVO> pList = plistService.getPListWithCategory(categoryCode, brand, principal);
 			model.addAttribute("pList", pList);
+			
+			if (principal != null) model.addAttribute("mid", principal.getName());
 
 			return "/product/ProductList";
 		} catch (Exception e) {
