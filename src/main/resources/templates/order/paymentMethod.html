@@ -1,0 +1,2015 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<meta charset="utf-8">
+  <th:block th:fragment="paymentMethodFragment">
+    <script>
+      function checkoutCartView() {
+        $.ajax({
+          type: "GET",
+          url: "/ko/checkout/checkoutCartView",
+          data: {},
+          dataType: "html",
+          async: false,
+          error: function (request, status, error) {
+            alert(
+              "code:" +
+                request.status +
+                "\n" +
+                "message:" +
+                request.responseText +
+                "\n" +
+                "error:" +
+                error
+            );
+            return false;
+          },
+          success: function (data) {
+            var packoptChecked = $("#packopt").is(":checked");
+            $("#checkoutCartView").html(data);
+            $("#packopt").prop("checked", packoptChecked);
+          },
+        });
+      }
+      
+      function cancelDiscountApply(){
+    	
+    	      	const queryString = window.location.search;
+    	      	const urlParams = new URLSearchParams(queryString);
+    	      	const totalAmount = urlParams.get('total_amount');
+    	      	const itemPriceKRW = new Intl.NumberFormat('ko-KR', {
+    			    style: 'currency',
+    			    currency: 'KRW',
+    			});
+    	      	
+    	         // before, after price update
+    	      	const userRequest = localStorage.getItem("userOrderRequest");
+    	    	const parsed = JSON.parse(userRequest);
+    	    	if(parsed){
+    	    		parsed.obeforeprice = totalAmount;
+    	    		parsed.oafterprice = totalAmount;
+    	    		const stringified = JSON.stringify(parsed);
+    	    		localStorage.setItem("userOrderRequest",stringified);
+    	    	}
+    	    	
+    	    	// 최종결제금액 원상복구
+    	        const innerHTMLTotalPrice = `"\u003Cdiv class=\"df_box
+    	        	total_price_wrap\"\u003E\n\t\t\t\t\u003Ch3
+    	        	class=\"df_box_tit\"\u003E\n\t\t\t\t\t최종 결제금액\u003Cdiv
+    	        	class=\"pay_price\"\u003E\n\t\t\t\t\t\t${itemPriceKRW.format(totalAmount)}\u003C\/div\u003E\n\t\t\t\t\u003C\/h3\u003E\n\t\t\t\t\n\t\t\t\t\u003Cul
+    	        	class=\"total_price_detail\"\u003E\n\t\t\t\t\t\n\t\t\t\t\t\u003Cli
+    	        	id=\"subtotal\" class=\"sub_total190816\"\u003E\n\t\t\t\t\t\t\u003Cdiv
+    	        	class=\"ttpd_tit\"\u003E상품 합계\u003C\/div\u003E\t\n\t\t\t\t\t\t\u003Cdiv
+    	        	class=\"ttpd_con\"\u003E${itemPriceKRW.format(totalAmount)}\u003C\/div\u003E\n\t\t\t\t\t\u003C\/li\u003E\n\t\t\t\t\t\n\t\t\t\t\t\n\t\t\t\t\t\u003Cli\u003E\t\n\t\t\t\t\t\t\u003Cdiv
+    	        	class=\"ttpd_tit\"\u003E\n\t\t\t\t\t\t배송비\u003C!-- tootip s
+    	        	--\u003E\n\t\t\t\t\t\t\t\u003Cspan class=\"dpIB\"\u003E\u003Cdiv
+    	        	class=\"icon_help btn_tooltip\"
+    	        	data-tooltip-target=\"tooltip_buy_delivery_charge\"\u003E\u003C\/div\u003E\u003C\/span\u003E\n\t\t\t\t\t\t\t\u003C!--
+    	        	tootip : contents_area s --\u003E\n\t\t\t\t\t\t\t\u003Cdiv
+    	        	class=\"tooltip_contens\"\u003E\n\t\t\t\t\t\t\t\t\u003Cdiv class=\"tooltip_wrap
+    	        	tooltip_buy_delivery_charge\"\u003E\n\t\t\t\t\t\t\t\t\u003Cdiv
+    	        	class=\"tltp_close_btn
+    	        	btn_tltp_close\"\u003E\u003Cspan\u003E닫기\u003C\/span\u003E\u003C\/div\u003E\n\t\t\t\t\t\t\t\t\u003Ch1
+    	        	class=\"tltp_header\"\u003E배송비\u003C\/h1\u003E\n\t\t\t\t\t\t\t\t\u003Cdiv
+    	        	class=\"tltp_content\"\u003E\n\t\t\t\t\t\t\t\t\t\u003Cul
+    	        	class=\"ul_dot_blk\"\u003E\n\t\t\t\t\t\t\t\t\t \u003Cli\u003E쿠폰\/바우처
+    	        	할인금액 및 한섬마일리지\/H.Point 사용을 제외한 실 결제금액 기준
+    	        	\u003Cstrong\u003E3만원 미만 결제 시 2,500원 배송비가
+    	        	부과\u003C\/strong\u003E됩니다. (3만원 이상 구매 시 무료배송)\u003C\/li\u003E\n
+    	        	\u003Cli\u003E도서산간 지역은 배송비가 추가 될 수 있습니다.\u003C\/li\u003E\n
+    	        	\u003Cli\u003E한섬마일리지, H.Point, e-money로 배송비 결제가
+    	        	불가합니다.\u003C\/li\u003E\n
+    	        	\u003C\/ul\u003E\n\t\t\t\t\t\t\t\t\u003C\/div\u003E\n\t\t\t\t\t\t\t\t\u003C\/div\u003E\n\t\t\t\t\t\t\t\u003C\/div\u003E\n\t\t\t\t\t\t\t\u003C!--
+    	        	tootip : contents_area e --\u003E\n\t\t\t\t\t\t\t\u003C!-- tootip e
+    	        	--\u003E\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\u003C\/div\u003E
+    	        	\n\t\t\t\t\t\t\n\t\t\t\t\t\t\u003Cdiv class=\"ttpd_con\"\u003E₩
+    	        	0\u003C\/div\u003E\n\t\t\t\t\t\u003C\/li\u003E\n\t\t\t\t\t\u003C\/ul\u003E\n\t\t\t\u003C\/div\u003E\n\u003Cinput
+    	        	type=\"hidden\" name=\"total\" id=\"total\" value=\"${totalAmount}\"
+    	        	\/\u003E\n\t\t\t\u003Cinput type=\"hidden\" name=\"cartDeliveryCost\"
+    	        	id=\"cartDeliveryCost\" value=\"0.0\" \/\u003E\n\t\t\t\u003Cinput
+    	        	type=\"hidden\" name=\"voucherRateCheck\" id=\"voucherRateCheck\" value=\"\"
+    	        	\/\u003E\t\t\t\n\t\t\t\u003Cinput type=\"hidden\" id=\"customDueAmount\"
+    	        	value=\"0.0\" \/\u003E\n\t\t\t"`;
+    	        
+    	        $("#checkoutCartTotalPrice").html(innerHTMLTotalPrice);
+
+    	        //setDeliveryMode();
+    	        fn_updateDiscInfo();
+
+    	        checkRedVoucher();
+
+    	        changeOrderButtonText();
+
+    	        if (typeof checkoutWpay != "undefined") {
+    	          checkoutWpay.drawInstallment($("input[name=card_choice]").val());
+    	        }
+      }
+
+      function discountApply(data, isViewReload) {
+        if (isViewReload) {
+         // checkoutCartView();
+        }
+      	const queryString = window.location.search;
+      	const urlParams = new URLSearchParams(queryString);
+      	const totalAmount = urlParams.get('total_amount');
+		
+      	// 값계산
+        const finalAmount = ((100-data.ediscount)/100) * totalAmount;
+        const discounted = totalAmount - finalAmount;
+    	const itemPriceKRW = new Intl.NumberFormat('ko-KR', {
+		    style: 'currency',
+		    currency: 'KRW',
+		}); 
+    	
+    	// before, after price update
+      	const userRequest = localStorage.getItem("userOrderRequest");
+    	const parsed = JSON.parse(userRequest);
+    	if(parsed){
+    		parsed.obeforeprice = totalAmount;
+    		parsed.oafterprice = finalAmount;
+    		const stringified = JSON.stringify(parsed);
+    		localStorage.setItem("userOrderRequest",stringified);
+    	}
+    	
+    	// 최종결제금액 업데이트
+        const innerHTMLTotalPrice = `"\u003Cdiv class=\"df_box
+        	total_price_wrap\"\u003E\n\t\t\t\t\u003Ch3
+        	class=\"df_box_tit\"\u003E\n\t\t\t\t\t최종 결제금액\u003Cdiv
+        	class=\"pay_price\"\u003E\n\t\t\t\t\t\t${itemPriceKRW.format(finalAmount)}\u003C\/div\u003E\n\t\t\t\t\u003C\/h3\u003E\n\t\t\t\t\n\t\t\t\t\u003Cul
+        	class=\"total_price_detail\"\u003E\n\t\t\t\t\t\n\t\t\t\t\t\u003Cli
+        	id=\"subtotal\" class=\"sub_total190816\"\u003E\n\t\t\t\t\t\t\u003Cdiv
+        	class=\"ttpd_tit\"\u003E상품 합계\u003C\/div\u003E\t\n\t\t\t\t\t\t\u003Cdiv
+        	class=\"ttpd_con\"\u003E${itemPriceKRW.format(totalAmount)}\u003C\/div\u003E\n\t\t\t\t\t\u003C\/li\u003E\n\t\t\t\t\t\n\t\t\t\t\t\u003Cli\u003E\t\n\t\t\t\t\t\t\t\u003Cdiv
+        	class=\"ttpd_tit\"\u003E프로모션\/쿠폰\u003C\/div\u003E
+        	\n\t\t\t\t\t\t\t\u003Cdiv class=\"ttpd_con\"\u003E-
+        	${itemPriceKRW.format(discounted)}\u003C\/div\u003E\n\t\t\t\t\t\t\u003C\/li\u003E\n\t\t\t\t\t\u003Cli\u003E\t\n\t\t\t\t\t\t\u003Cdiv
+        	class=\"ttpd_tit\"\u003E\n\t\t\t\t\t\t배송비\u003C!-- tootip s
+        	--\u003E\n\t\t\t\t\t\t\t\u003Cspan class=\"dpIB\"\u003E\u003Cdiv
+        	class=\"icon_help btn_tooltip\"
+        	data-tooltip-target=\"tooltip_buy_delivery_charge\"\u003E\u003C\/div\u003E\u003C\/span\u003E\n\t\t\t\t\t\t\t\u003C!--
+        	tootip : contents_area s --\u003E\n\t\t\t\t\t\t\t\u003Cdiv
+        	class=\"tooltip_contens\"\u003E\n\t\t\t\t\t\t\t\t\u003Cdiv class=\"tooltip_wrap
+        	tooltip_buy_delivery_charge\"\u003E\n\t\t\t\t\t\t\t\t\u003Cdiv
+        	class=\"tltp_close_btn
+        	btn_tltp_close\"\u003E\u003Cspan\u003E닫기\u003C\/span\u003E\u003C\/div\u003E\n\t\t\t\t\t\t\t\t\u003Ch1
+        	class=\"tltp_header\"\u003E배송비\u003C\/h1\u003E\n\t\t\t\t\t\t\t\t\u003Cdiv
+        	class=\"tltp_content\"\u003E\n\t\t\t\t\t\t\t\t\t\u003Cul
+        	class=\"ul_dot_blk\"\u003E\n\t\t\t\t\t\t\t\t\t \u003Cli\u003E쿠폰\/바우처
+        	할인금액 및 한섬마일리지\/H.Point 사용을 제외한 실 결제금액 기준
+        	\u003Cstrong\u003E3만원 미만 결제 시 2,500원 배송비가
+        	부과\u003C\/strong\u003E됩니다. (3만원 이상 구매 시 무료배송)\u003C\/li\u003E\n
+        	\u003Cli\u003E도서산간 지역은 배송비가 추가 될 수 있습니다.\u003C\/li\u003E\n
+        	\u003Cli\u003E한섬마일리지, H.Point, e-money로 배송비 결제가
+        	불가합니다.\u003C\/li\u003E\n
+        	\u003C\/ul\u003E\n\t\t\t\t\t\t\t\t\u003C\/div\u003E\n\t\t\t\t\t\t\t\t\u003C\/div\u003E\n\t\t\t\t\t\t\t\u003C\/div\u003E\n\t\t\t\t\t\t\t\u003C!--
+        	tootip : contents_area e --\u003E\n\t\t\t\t\t\t\t\u003C!-- tootip e
+        	--\u003E\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\u003C\/div\u003E
+        	\n\t\t\t\t\t\t\n\t\t\t\t\t\t\u003Cdiv class=\"ttpd_con\"\u003E₩
+        	0\u003C\/div\u003E\n\t\t\t\t\t\u003C\/li\u003E\n\t\t\t\t\t\u003C\/ul\u003E\n\t\t\t\u003C\/div\u003E\n\u003Cinput
+        	type=\"hidden\" name=\"total\" id=\"total\" value=\"${finalAmount}\"
+        	\/\u003E\n\t\t\t\u003Cinput type=\"hidden\" name=\"cartDeliveryCost\"
+        	id=\"cartDeliveryCost\" value=\"0.0\" \/\u003E\n\t\t\t\u003Cinput
+        	type=\"hidden\" name=\"voucherRateCheck\" id=\"voucherRateCheck\" value=\"\"
+        	\/\u003E\t\t\t\n\t\t\t\u003Cinput type=\"hidden\" id=\"customDueAmount\"
+        	value=\"0.0\" \/\u003E\n\t\t\t"`;
+        
+        $("#checkoutCartTotalPrice").html(innerHTMLTotalPrice);
+
+        //setDeliveryMode();
+        fn_updateDiscInfo();
+
+        checkRedVoucher();
+
+        if (
+          $("#accumulationPoint").length > 0 &&
+          $.trim(data.accumulationPoint) != ""
+        ) {
+          $("#accumulationPoint").val(data.accumulationPoint);
+        }
+        if (
+          $("#txtAccumulationPoint").length > 0 &&
+          $.trim(data.accumulationPoint) != ""
+        ) {
+          $("#txtAccumulationPoint").text(
+            numberFormatComma(data.accumulationPoint)
+          );
+        }
+        if (
+          $("#accumulationHPoint").length > 0 &&
+          $.trim(data.accumulationHPoint) != ""
+        ) {
+          $("#accumulationHPoint").val(data.accumulationHPoint);
+        }
+        if (
+          $("#txtAccumulationHPoint").length > 0 &&
+          $.trim(data.accumulationHPoint) != ""
+        ) {
+          $("#txtAccumulationHPoint").text(
+            numberFormatComma(data.accumulationHPoint)
+          );
+        }
+        changeOrderButtonText();
+
+        if (typeof checkoutWpay != "undefined") {
+          checkoutWpay.drawInstallment($("input[name=card_choice]").val());
+        }
+      }
+
+      function numberFormatComma(num) {
+        num = Math.floor(num).toString();
+        var pattern = /(-?[0-9]+)([0-9]{3})/;
+
+        while (pattern.test(num)) {
+          num = num.replace(pattern, "$1,$2");
+        }
+        return num;
+      }
+
+      function fn_updateDiscInfo() {
+        var selectObj = $('input[name="card_choice"]:checked').parent();
+
+        var applYn = selectObj.find(".discInfo_applYn").val();
+        var cardName = selectObj.find(".card_name").text();
+        var discAmt = selectObj.find(".discInfo_discAmt").val();
+        var minAmt = selectObj.find(".discInfo_minAmt").val();
+
+        var couponCode = "";
+
+        var totalPrice = $("#total").val();
+        var totalAmountHtml = "";
+
+        totalAmountHtml = "&#8361;" + addComma(Number(totalPrice));
+
+        $(".discinfo_point").remove();
+
+        if (totalPrice != null && discAmt != null && minAmt != null) {
+          discAmt =
+            discAmt != "" && discAmt != null ? discAmt.split(",").join("") : 0;
+          minAmt =
+            minAmt != "" && minAmt != null ? minAmt.split(",").join("") : 0;
+
+          if (
+            applYn != "Y" ||
+            minAmt == "" ||
+            Number(totalPrice) < Number(minAmt) ||
+            discAmt == ""
+          ) {
+            discAmt = 0;
+          }
+
+          if (discAmt > 0) {
+            couponCode = selectObj.find(".discInfo_couponCode").val();
+
+            var discInfoHtml = "";
+
+            discInfoHtml += "<li class='discinfo_point'>";
+            discInfoHtml += "<div class='ttpd_tit'>즉시할인</div> \n";
+            discInfoHtml +=
+              "<div class='ttpd_con'>- " + addComma(discAmt) + "</div>";
+            discInfoHtml += "</li>";
+
+            $("#subtotal").after(discInfoHtml);
+
+            totalAmountHtml =
+              "&#8361;" + addComma(Number(totalPrice) - Number(discAmt));
+          }
+        }
+
+        $(".discInfo_minAmt").each(function () {
+          var cardMinAmt = $(this).val();
+          var totalPriceOrg = $("#total").val();
+
+          cardMinAmt =
+            cardMinAmt != null && cardMinAmt != "" && cardMinAmt != undefined
+              ? cardMinAmt
+              : 0;
+
+          if (
+            totalPrice != null &&
+            cardMinAmt != null &&
+            Number(cardMinAmt) < Number(totalPriceOrg)
+          ) {
+            $(this).parents(".card_item").find(".sale_now_box1910").show();
+          } else {
+            $(this).parents(".card_item").find(".sale_now_box1910").hide();
+          }
+        });
+        $(".pay_price").html(totalAmountHtml);
+
+        $("#discInfo_coupon").val(couponCode);
+      }
+    </script>
+    <div class="df_box payment_choice_wrap" style="overflow: hidden">
+      <h3 class="df_box_tit">결제수단선택</h3>
+
+      <!-- tab_head s -->
+ <ul class="ui_tab red_border_tab payment_choice_tab">
+				<li class="pct2 on"><a href="#general_pay"><span>일반결제</span></a></li>
+			</ul>
+      <!-- tab_head e -->
+      <!-- tab_cont s -->
+      <div class="tab_cont on">
+        <!-- tab_cont : 카드간편결제 s -->
+        <div class="cont" id="tabCardEasyPay">
+          <div
+            class="card_easy_pay_wrap swiper-container swiper_card_easy_pay swiper-container-android swiper-container-horizontal swiper-container-wp8-horizontal"
+            id="card_easy_pay"
+          >
+            <ul
+              class="swiper-wrapper"
+              style="
+                transition-duration: 0ms;
+                transform: translate3d(430px, 0px, 0px);
+              "
+            >
+              <li
+                class="swiper-slide last swiper-slide-active"
+                style="margin-right: 20px"
+              >
+                <div class="card_item cd_kind_add">
+                  <a
+                    href="javascript:;"
+                    class="card_add_btn"
+                    onclick="checkoutWpay.btnCardRegist()"
+                    >카드등록</a
+                  >
+                </div>
+                <div style="overflow:hidden;">
+                  <input
+                    type="radio"
+                    id="card_choice_"
+                    name="card_choice"
+                    value=""
+                  />
+                </div>
+              </li>
+            </ul>
+          </div>
+          <!-- card_easy_pay s -->
+          <!-- card_easy_pay e -->
+        </div>
+        <!-- tab_cont : 카드간편결제 s -->
+        <!-- tab_cont : 일반결제 s -->
+        <div class="cont on" id="general_pay">
+          <div class="general_pay_wrap" style="overflow: hidden">
+            <ul class="general_pay_list gpd_tab_w1">
+              <li class="">
+                <a
+                  href="#none"
+                  class="gpd_a_credit"
+                  data-g-pay-kind="credit"
+                  data-g-pay-mode="KO001"
+                  >신용카드</a
+                >
+              </li>
+            </ul>
+
+            <ul class="general_pay_list gpd_tab_w3">
+              <li class="">
+                <a
+                  href="#none"
+                  class="gpd_a_real_account"
+                  data-g-pay-kind="real_account"
+                  data-g-pay-mode="KO002"
+                  >실시간 계좌이체</a
+                >
+              </li>
+              <li class="">
+                <a
+                  href="#none"
+                  class="gpd_a_payco"
+                  data-g-pay-kind="payco"
+                  data-g-pay-mode="KO008"
+                  >페이코</a
+                >
+              </li>
+              <!-- #2610 [주문] 가상계좌 결제수단 제외 및 중복 구매 제한 처리 요청 건 (가상계좌 선택 삭제) 50268 -->
+              <li class="on">
+                <a
+                  href="#none"
+                  class="gpd_a_kakakopay"
+                  data-g-pay-kind="kakakopay"
+                  data-g-pay-mode="INIKakao"
+                  >카카오페이</a
+                >
+              </li>
+              <li class="">
+                <a
+                  href="#none"
+                  class="gpd_a_smilepay"
+                  data-g-pay-kind="smilepay"
+                  data-g-pay-mode="KO006"
+                  >스마일페이</a
+                >
+              </li>
+              <li class="">
+                <a
+                  href="#none"
+                  class="gpd_a_tosspay"
+                  data-g-pay-kind="tosspay"
+                  data-g-pay-mode="KO007"
+                  >토스</a
+                >
+              </li>
+              <li class="">
+                <a
+                  href="#none"
+                  class="gpd_a_hyundaiRed"
+                  data-g-pay-kind="redvoucher"
+                  data-g-pay-mode="KO001-4"
+                >
+                  현대카드
+                  <br />
+                  레드쇼핑바우처
+                </a>
+              </li>
+            </ul>
+            <!-- 추가(redmine:1173) : 20180912 s -->
+            <!-- 								<p class="text_box desc_box2">※ 카카오페이는 곧 서비스 예정입니다.</p> -->
+            <!-- 추가(redmine:1173) : 20180912 e -->
+
+            <div
+              class="general_pay_desc gpd_con_real_account gpd_con_virtual_account"
+            >
+              <p class="text_box mt0">
+                ※ 한섬마일리지 / 기프트카드와 가상계좌 함께 사용 시, 입금시점에
+                한섬마일리지 / 기프트카드의 결제 잔액이 있어야 주문이
+                완료됩니다.
+              </p>
+              <p id="virtualText" class="text_box mt0">
+                ※
+                <font color="red">4시간 이내 입금</font>
+                하셔야 주문이 완료 됩니다.
+              </p>
+              <p class="text_desc_tit">에스크로 서비스</p>
+              <ul class="radio_ul escrow_rd_wrap">
+                <li class="">
+                  <div class="radio_stl radio_stl1">
+                    <input
+                      type="radio"
+                      id="ipt_escrow_01"
+                      name="escrowYn"
+                      value="N"
+                      checked=""
+                    />
+                    <label for="ipt_escrow_01" class="agr_escrow">아니오</label>
+                  </div>
+                </li>
+                <li class="">
+                  <div class="radio_stl radio_stl1">
+                    <input
+                      type="radio"
+                      id="ipt_escrow_02"
+                      name="escrowYn"
+                      value="Y"
+                    />
+                    <label for="ipt_escrow_02" class="agr_escrow">예</label>
+                  </div>
+                </li>
+              </ul>
+              <p class="text_box">
+                정부방침에 따라 실시간계좌이체 및 무통장입금, 가상계좌로
+                주문하시는 경우 에스크로 서비스 이용여부를 선택하실 수 있습니다.
+              </p>
+              <p>
+                <a
+                  href="https://mark.inicis.com/mark/escrow_popup.php?mid=handsomem1"
+                  class="text_btn"
+                  id="id_escrow_popup"
+                  target="_blank"
+                  >에스크로 서비스 가입확인</a
+                >
+              </p>
+            </div>
+          </div>
+        </div>
+        <!-- tab_cont : 일반결제 e -->
+      </div>
+      <!-- tab_cont e -->
+      <!-- guide s -->
+      <ul
+        class="shoppingbag_guide_wrap btn_wrap btn_wrap_div1 ta_c"
+        id="cardBenefit"
+      >
+        <li>
+          <a
+            href=".product_card_pop"
+            class="btnstl5 arrow_btn spb_card_benefit btn_popup_trigger"
+          >
+            <span>카드 행사 혜택(무이자, 청구, 즉시할인)</span>
+          </a>
+        </li>
+      </ul>
+
+      <div class="hympoint_banner_wrap" style="display: none">
+        <div class="hympoint_banner" style="margin-top: 23px">
+          <div class="img">
+            <img
+              src="http://cdn.thehandsome.com/mobile/hyundai_mpointcard.png"
+              alt="현대카드 Mpoint"
+            />
+          </div>
+          <p>
+            현대카드 M카드계열 결제 시,
+            <br />
+            최종 결제금액의 10%(최대 3만원)
+            <br />
+            M포인트로 사용 가능
+            <br />
+            <span>(자세한 내용 이벤트 페이지 참고)</span>
+          </p>
+        </div>
+      </div>
+
+      <div class="NEWhyRed_banner_wrap" style="display: none">
+        <div class="hyRed_banner" style="margin-top: 23px">
+          <div class="img">
+            <img
+              src="http://cdn.thehandsome.com/mobile/hyundaiRedcard_220502.png"
+              alt="더한섬닷컴x현대카드"
+            />
+          </div>
+          <p>
+            현대카드 the Red Edition 2/3/4/5 결제 시, 쇼핑바우처 사용 가능
+            <br />
+            <span>(자세한 내용 이벤트 페이지 참고)</span>
+          </p>
+        </div>
+      </div>
+      <div class="hyred_notice" id="NEWredVoucherBenefit" style="display: none">
+        <strong>NOTICE</strong>
+        <ul>
+          <li>
+            현대카드 the Red Edition 2/4/5로 30만원 이상 결제 시, 쇼핑바우처
+            10만원권 사용 가능합니다.
+            <br />
+            현대카드 the Red Edition 3 으로 50만원 이상 결제 시, 쇼핑바우처
+            15만원권 사용 가능합니다.
+          </li>
+          <li>
+            레드카드 쇼핑바우처는 부분 사용 불가하며 카드대금 결제일에 일괄
+            <span>청구할인</span>
+            됩니다.
+          </li>
+          <li>예약 판매 상품은 레드카드 쇼핑바우처 사용 불가합니다.</li>
+          <li>
+            레드카드 쇼핑바우처를 사용한 구매는
+            <span>부분취소/부분반품</span>
+            <span>불가</span>
+            하오니 단품 주문을 권장합니다.
+          </li>
+          <li>
+            취소 시
+            <span>전체취소 후 재결제 필요</span>
+            하며, 교환/취소 관련 문의는 고객센터 1:1 문의를 이용해 주세요.
+          </li>
+        </ul>
+      </div>
+      <div class="hyRed_banner_wrap" style="display: none">
+        <div class="hyRed_banner" style="margin-top: 23px">
+          <div class="img">
+            <img
+              src="http://cdn.thehandsome.com/mobile/hyundaiRedcard_220502.png"
+              alt="더한섬닷컴x현대카드"
+            />
+          </div>
+          <p>
+            현대카드 the Red Edition2로 30만원 이상 결제 시, 쇼핑바우처 10만원
+            사용 가능
+            <br />
+            <span>(자세한 내용 하단 노티스 참고)</span>
+          </p>
+        </div>
+      </div>
+      <div class="hyred_notice" id="redVoucherBenefit" style="display: none">
+        <strong>NOTICE</strong>
+        <ul>
+          <li>
+            최종 결제금액 30만원 이상일 시, 현대카드 the Red Edition2 로 결제 및
+            쇼핑바우처 10만원권 사용 가능합니다.
+          </li>
+          <li>
+            레드카드 쇼핑바우처 10만원권은 부분 사용 불가하며 카드 대금 결제일에
+            10만원 일괄
+            <span>청구할인</span>
+            됩니다.
+          </li>
+          <li>예약 판매 상품은 레드카드 쇼핑바우처 사용 불가합니다.</li>
+          <li>
+            레드카드 쇼핑바우처를 사용한 구매는
+            <span>부분취소/부분반품</span>
+            <br />
+            <span>불가</span>
+            하오니 단품 주문을 권장합니다.
+          </li>
+          <li>
+            취소 시
+            <span>전체취소 후 재결제 필요</span>
+            하며, 교환/취소 관련 문의는 고객센터 1:1문의를 이용해 주세요.
+          </li>
+        </ul>
+      </div>
+
+      <div class="smilepay_banner_wrap" style="display: none">
+        <img
+          src="http://cdn.thehandsome.com/mobile/event/detail/image/m_banner_smilepay_210929.jpg"
+          alt="스마일페이"
+          style="width: 100%; margin-top: 23px"
+        />
+      </div>
+
+      <div class="tosspay_banner_wrap" style="display: none">
+        <img
+          src="http://cdn.thehandsome.com/mobile/event/detail/image/toss_card_banner_200630.jpg"
+          alt="토스페이"
+          style="width: 100%; margin-top: 23px"
+        />
+      </div>
+      <!-- #3068 [수정] 결제수단 선택 영역 띠배너 & 노티스 문구 수정 (현대카드, 페이코) hyunbae 20220620 -->
+      <div class="payco_banner_wrap" style="display: none">
+        <div class="payco_banner">
+          <img
+            src="http://cdn.thehandsome.com/mobile/event/detail/image/m_banner_payco.jpg"
+            alt="페이코"
+            style="width: 100%; margin-top: 23px"
+          />
+        </div>
+      </div>
+      <!-- guide e -->
+    </div>
+    <div
+      class="hsome_layer_popup product_card_pop"
+      id="cardBenefitLayerPopup"
+      style="z-index: 1000"
+    >
+      <!-- 카드사 혜택 -->
+      <!-- <div class="hsome_layer_popup product_card_pop"> -->
+      <h2 class="pop-comm-ttl">카드사 혜택</h2>
+      <ul class="ui_tab hs_red_border_tab size03">
+        <li class="on">
+          <a href="#card_tab01">무이자 할부</a>
+        </li>
+        <li>
+          <a href="#card_tab02">청구할인</a>
+        </li>
+        <li>
+          <a href="#card_tab03">즉시할인</a>
+        </li>
+      </ul>
+      <div class="pop-comm-cnts">
+        <div class="tab_cont">
+          <div class="cont on" id="card_tab01">
+            <div class="card_list_wrap">
+              <h3 class="tit_txt">무이자 할부 행사</h3>
+              <ul class="card_list">
+                <li>
+                  <div class="card_logo">
+                    <img
+                      src="/medias/shinhan.jpg?context=bWFzdGVyfHJvb3R8MjY1N3xpbWFnZS9qcGVnfGhkZS9oMmIvODgxNDE4MTUxNTI5NC5qcGd8NTAwMDYxM2ZmZmRlZGFhZDQ0ODNmODJjZTg2OTE3MGI3OWQ2ZmE3YzI0ZjA3MDY3NzIxYWVhNmY3NDQyYWUzMA"
+                      alt="신한카드"
+                    />
+                  </div>
+                  <div class="card_cont">
+                    <p class="name">신한카드</p>
+                    <div class="cont_area">
+                      <!-- 												<p class="tit">5만원 이상 결제 시 2~6개월 무이자 할부</p> -->
+                      <p class="text">
+                        <span>
+                          <b>신한카드 5만원이상 결제시 2~3개월 무이자 할부</b>
+                          <br />
+                          대상: 신한카드 전 회원
+                          <br />
+                          (신한BC 제외/ 법인,기프트,체크,선불카드 제외)
+                        </span>
+                        <!-- 													<span>(신한BC 제외 / 법인, 기프트, 체크, 선불카드 제외)</span> -->
+                        <span>2023.02.01 ~ 2023.02.28</span>
+                      </p>
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <div class="card_logo">
+                    <img
+                      src="/medias/SAMSUNG.jpg?context=bWFzdGVyfHJvb3R8MzIxOXxpbWFnZS9qcGVnfGgzZC9oNGQvODgxNDE4MTYxMzU5OC5qcGd8ZGY1NDJiM2U1YWNmNGE5MTJkOTA0MTAxMDliMDc4ZjRlNTJmZjJlOTkxOTQzZTEwMDcxZWU2NGU2MjJmMWE2Mw"
+                      alt="삼성카드"
+                    />
+                  </div>
+                  <div class="card_cont">
+                    <p class="name">삼성카드</p>
+                    <div class="cont_area">
+                      <!-- 												<p class="tit">5만원 이상 결제 시 2~6개월 무이자 할부</p> -->
+                      <p class="text">
+                        <span>
+                          <b>삼성카드 5만원이상 결제시 2~3개월 무이자 할부</b>
+                          <br />
+                          대상: 삼성카드 전 회원
+                          <br />
+                          (법인,기프트,체크,선불카드 제외)
+                        </span>
+                        <!-- 													<span>(신한BC 제외 / 법인, 기프트, 체크, 선불카드 제외)</span> -->
+                        <span>2023.02.01 ~ 2023.02.28</span>
+                      </p>
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <div class="card_logo">
+                    <img
+                      src="/medias/BC.jpg?context=bWFzdGVyfHJvb3R8MjQ1OHxpbWFnZS9qcGVnfGhmMi9oMGQvODgxNDE4MTIyMDM4Mi5qcGd8MjZlZGU2ZGQyNDBkYzU5YmY2NWY0MDU3NDc1OTA0YWI5NmM4NDJjMDFiYjBiYjBjY2FhZjhmMzg3ZmE5NGU5Yw"
+                      alt="비씨카드"
+                    />
+                  </div>
+                  <div class="card_cont">
+                    <p class="name">비씨카드</p>
+                    <div class="cont_area">
+                      <!-- 												<p class="tit">5만원 이상 결제 시 2~6개월 무이자 할부</p> -->
+                      <p class="text">
+                        <span>
+                          <b>비씨카드 5만원이상 결제시 2~3개월 무이자 할부</b>
+                          <br />
+                          대상: 비씨카드 전 회원
+                          <br />
+                          (법인,기프트,체크,선불카드 제외)
+                        </span>
+                        <!-- 													<span>(신한BC 제외 / 법인, 기프트, 체크, 선불카드 제외)</span> -->
+                        <span>2023.02.01 ~ 2023.02.28</span>
+                      </p>
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <div class="card_logo">
+                    <img
+                      src="/medias/HYUNDAI.jpg?context=bWFzdGVyfHJvb3R8MjYxMHxpbWFnZS9qcGVnfGg1ZC9oN2MvODgxNDE4MTcxMTkwMi5qcGd8YmM5ZWY0ZjlhODlkMzdmMjYyNmY4NjQ4OWU5NWVjOWFlMGY4ODIwYzZlNjA0MjBlNDkwNWI0ZDllYThjMWE5Mw"
+                      alt="현대카드"
+                    />
+                  </div>
+                  <div class="card_cont">
+                    <p class="name">현대카드</p>
+                    <div class="cont_area">
+                      <!-- 												<p class="tit">5만원 이상 결제 시 2~6개월 무이자 할부</p> -->
+                      <p class="text">
+                        <span>
+                          <b>현대카드 5만원이상 결제시 2~3개월 무이자 할부</b>
+                          <br />
+                          대상: 현대카드 전 회원
+                          <br />
+                          (법인,기프트,체크,선불카드 제외)
+                        </span>
+                        <!-- 													<span>(신한BC 제외 / 법인, 기프트, 체크, 선불카드 제외)</span> -->
+                        <span>2023.02.01 ~ 2023.02.28</span>
+                      </p>
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <div class="card_logo">
+                    <img
+                      src="/medias/kucmin.jpg?context=bWFzdGVyfHJvb3R8MzMwM3xpbWFnZS9qcGVnfGgyZS9oMzQvODgxNDE4MTAyMzc3NC5qcGd8MjM1YjEyN2I4OTljMGIxYzY3MjhjNDhkZWMyOTE5ODZjYmRiYWExNDdhOWZmNDQ3ZWNhNGIxZjYwYzk2MDA4Zg"
+                      alt="국민카드"
+                    />
+                  </div>
+                  <div class="card_cont">
+                    <p class="name">국민카드</p>
+                    <div class="cont_area">
+                      <!-- 												<p class="tit">5만원 이상 결제 시 2~6개월 무이자 할부</p> -->
+                      <p class="text">
+                        <span>
+                          <b>KB국민카드 5만원이상 결제시 2~3개월 무이자 할부</b>
+                          <br />
+                          대상: KB국민카드 전 회원
+                          <br />
+                          (NH농협, 국민BC 제외/ 법인,기프트,체크,선불카드 제외)
+                        </span>
+                        <!-- 													<span>(신한BC 제외 / 법인, 기프트, 체크, 선불카드 제외)</span> -->
+                        <span>2023.02.01 ~ 2023.02.28</span>
+                      </p>
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <div class="card_logo">
+                    <img
+                      src="/medias/hanacard.gif?context=bWFzdGVyfHJvb3R8MTkzNXxpbWFnZS9naWZ8aDYwL2hmYi84ODE0MDU0OTY1Mjc4LmdpZnxhMGM5OWY0MDdhNDhjYzkwOTdiMzhkM2VmMDQ2YTI0NTAyNDBjZTljNTdiYzk4YWRhZmI0NjBhOWRhNzRiMGYw"
+                      alt="하나카드"
+                    />
+                  </div>
+                  <div class="card_cont">
+                    <p class="name">하나카드</p>
+                    <div class="cont_area">
+                      <!-- 												<p class="tit">5만원 이상 결제 시 2~6개월 무이자 할부</p> -->
+                      <p class="text">
+                        <span>
+                          <b>하나카드 5만원이상 결제시 2~8개월 무이자 할부</b>
+                          <br />
+                          대상: 하나카드 전 회원 (구 하나SK, 구 외환)
+                          <br />
+                          (하나BC카드 포함/법인,기프트,체크,선불카드 제외)
+                        </span>
+                        <!-- 													<span>(신한BC 제외 / 법인, 기프트, 체크, 선불카드 제외)</span> -->
+                        <span>2023.02.01 ~ 2023.02.28</span>
+                      </p>
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <div class="card_logo">
+                    <img
+                      src="/medias/NH.jpg?context=bWFzdGVyfHJvb3R8Mzk3OXxpbWFnZS9qcGVnfGg4ZS9oMzYvODgxNDE4MTkwODUxMC5qcGd8ZWVlNmY1OWM0NDdmMjg2M2Y4NGZkNDZjYThmOTVkMWNmY2QwYWNkOWI1ODc5YTdiMTc5MjY4MThiZTkzYzNmMw"
+                      alt="NH카드"
+                    />
+                  </div>
+                  <div class="card_cont">
+                    <p class="name">NH카드</p>
+                    <div class="cont_area">
+                      <!-- 												<p class="tit">5만원 이상 결제 시 2~6개월 무이자 할부</p> -->
+                      <p class="text">
+                        <span>
+                          <b>NH농협카드 5만원이상 결제시 2~4개월 무이자 할부</b>
+                          <br />
+                          대상: NH농협카드 전 회원
+                          <br />
+                          (NH농협BC카드 포함/ 법인,기프트,체크,선불카드 제외)
+                        </span>
+                        <!-- 													<span>(신한BC 제외 / 법인, 기프트, 체크, 선불카드 제외)</span> -->
+                        <span>2023.02.01 ~ 2023.02.28</span>
+                      </p>
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <div class="card_logo">
+                    <img
+                      src="/medias/LOTTE.jpg?context=bWFzdGVyfHJvb3R8MzI3MXxpbWFnZS9qcGVnfGhiMy9oNDcvODgxNDE4MTgxMDIwNi5qcGd8MDliOThkNzA1ZDc2ZDE4MzZhYmUzYjI2MDMxZDk0NGU3OTVjYzBhYTA1MmMzMjAyZmE0Y2U4OTZlNTU3NDU2Zg"
+                      alt="롯데카드"
+                    />
+                  </div>
+                  <div class="card_cont">
+                    <p class="name">롯데카드</p>
+                    <div class="cont_area">
+                      <!-- 												<p class="tit">5만원 이상 결제 시 2~6개월 무이자 할부</p> -->
+                      <p class="text">
+                        <span>
+                          <b>롯데카드 5만원이상 결제시 2~3개월 무이자 할부</b>
+                          <br />
+                          대상:롯데카드 전 회원
+                          <br />
+                          (법인,기프트,체크,선불카드 제외)
+                        </span>
+                        <!-- 													<span>(신한BC 제외 / 법인, 기프트, 체크, 선불카드 제외)</span> -->
+                        <span>2023.02.01 ~ 2023.02.28</span>
+                      </p>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+              <h3 class="tit_txt mt">부분 무이자 할부 행사</h3>
+              <ul class="card_list">
+                <li>
+                  <div class="card_logo">
+                    <img
+                      src="/medias/shinhan.jpg?context=bWFzdGVyfHJvb3R8MjY1N3xpbWFnZS9qcGVnfGhkZS9oMmIvODgxNDE4MTUxNTI5NC5qcGd8NTAwMDYxM2ZmZmRlZGFhZDQ0ODNmODJjZTg2OTE3MGI3OWQ2ZmE3YzI0ZjA3MDY3NzIxYWVhNmY3NDQyYWUzMA"
+                      alt="신한카드"
+                    />
+                  </div>
+                  <div class="card_cont">
+                    <p class="name">신한카드</p>
+                    <div class="cont_area">
+                      <!-- 												<p class="tit">5만원 이상 결제 시 2~6개월 무이자 할부</p> -->
+                      <p class="text">
+                        <span>
+                          <b>10개월 부분무이자</b>
+                          <br />
+                          (5만원이상 결제시/1,2,3,4회차 고객부담, 잔여할부
+                          수수료 면제/법인,체크,기프트카드 제외)
+                        </span>
+                        <!-- 													<span>(신한BC 제외 / 법인, 기프트, 체크, 선불카드 제외)</span> -->
+                        <span>2023.02.01 ~ 2023.02.28</span>
+                      </p>
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <div class="card_logo">
+                    <img
+                      src="/medias/shinhan.jpg?context=bWFzdGVyfHJvb3R8MjY1N3xpbWFnZS9qcGVnfGhkZS9oMmIvODgxNDE4MTUxNTI5NC5qcGd8NTAwMDYxM2ZmZmRlZGFhZDQ0ODNmODJjZTg2OTE3MGI3OWQ2ZmE3YzI0ZjA3MDY3NzIxYWVhNmY3NDQyYWUzMA"
+                      alt="신한카드"
+                    />
+                  </div>
+                  <div class="card_cont">
+                    <p class="name">신한카드</p>
+                    <div class="cont_area">
+                      <!-- 												<p class="tit">5만원 이상 결제 시 2~6개월 무이자 할부</p> -->
+                      <p class="text">
+                        <span>
+                          <b>12개월 부분무이자</b>
+                          <br />
+                          (5만원이상 결제시/1,2,3,4,5회차 고객부담, 잔여할부
+                          수수료 면제/법인,체크,기프트카드 제외)
+                        </span>
+                        <!-- 													<span>(신한BC 제외 / 법인, 기프트, 체크, 선불카드 제외)</span> -->
+                        <span>2023.02.01 ~ 2023.02.28</span>
+                      </p>
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <div class="card_logo">
+                    <img
+                      src="/medias/SAMSUNG.jpg?context=bWFzdGVyfHJvb3R8MzIxOXxpbWFnZS9qcGVnfGgzZC9oNGQvODgxNDE4MTYxMzU5OC5qcGd8ZGY1NDJiM2U1YWNmNGE5MTJkOTA0MTAxMDliMDc4ZjRlNTJmZjJlOTkxOTQzZTEwMDcxZWU2NGU2MjJmMWE2Mw"
+                      alt="삼성카드"
+                    />
+                  </div>
+                  <div class="card_cont">
+                    <p class="name">삼성카드</p>
+                    <div class="cont_area">
+                      <!-- 												<p class="tit">5만원 이상 결제 시 2~6개월 무이자 할부</p> -->
+                      <p class="text">
+                        <span>
+                          <b>6개월 부분무이자</b>
+                          <br />
+                          (5만원이상 결제시/1,2,3회차 고객 부담, 잔여할부 수수료
+                          면제/법인,체크,기프트카드 제외)
+                        </span>
+                        <!-- 													<span>(신한BC 제외 / 법인, 기프트, 체크, 선불카드 제외)</span> -->
+                        <span>2023.02.01 ~ 2023.02.28</span>
+                      </p>
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <div class="card_logo">
+                    <img
+                      src="/medias/SAMSUNG.jpg?context=bWFzdGVyfHJvb3R8MzIxOXxpbWFnZS9qcGVnfGgzZC9oNGQvODgxNDE4MTYxMzU5OC5qcGd8ZGY1NDJiM2U1YWNmNGE5MTJkOTA0MTAxMDliMDc4ZjRlNTJmZjJlOTkxOTQzZTEwMDcxZWU2NGU2MjJmMWE2Mw"
+                      alt="삼성카드"
+                    />
+                  </div>
+                  <div class="card_cont">
+                    <p class="name">삼성카드</p>
+                    <div class="cont_area">
+                      <!-- 												<p class="tit">5만원 이상 결제 시 2~6개월 무이자 할부</p> -->
+                      <p class="text">
+                        <span>
+                          <b>10개월 부분무이자</b>
+                          <br />
+                          (5만원이상 결제시/1,2,3,4회차 고객 부담, 잔여할부
+                          수수료 면제/법인,체크,기프트카드 제외)
+                        </span>
+                        <!-- 													<span>(신한BC 제외 / 법인, 기프트, 체크, 선불카드 제외)</span> -->
+                        <span>2023.02.01 ~ 2023.02.28</span>
+                      </p>
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <div class="card_logo">
+                    <img
+                      src="/medias/SAMSUNG.jpg?context=bWFzdGVyfHJvb3R8MzIxOXxpbWFnZS9qcGVnfGgzZC9oNGQvODgxNDE4MTYxMzU5OC5qcGd8ZGY1NDJiM2U1YWNmNGE5MTJkOTA0MTAxMDliMDc4ZjRlNTJmZjJlOTkxOTQzZTEwMDcxZWU2NGU2MjJmMWE2Mw"
+                      alt="삼성카드"
+                    />
+                  </div>
+                  <div class="card_cont">
+                    <p class="name">삼성카드</p>
+                    <div class="cont_area">
+                      <!-- 												<p class="tit">5만원 이상 결제 시 2~6개월 무이자 할부</p> -->
+                      <p class="text">
+                        <span>
+                          <b>12개월 부분무이자</b>
+                          <br />
+                          (5만원이상 결제시/1,2,3,4,5회차 고객 부담, 잔여할부
+                          수수료 면제/법인,체크,기프트카드 제외)
+                        </span>
+                        <!-- 													<span>(신한BC 제외 / 법인, 기프트, 체크, 선불카드 제외)</span> -->
+                        <span>2023.02.01 ~ 2023.02.28</span>
+                      </p>
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <div class="card_logo">
+                    <img
+                      src="/medias/BC.jpg?context=bWFzdGVyfHJvb3R8MjQ1OHxpbWFnZS9qcGVnfGhmMi9oMGQvODgxNDE4MTIyMDM4Mi5qcGd8MjZlZGU2ZGQyNDBkYzU5YmY2NWY0MDU3NDc1OTA0YWI5NmM4NDJjMDFiYjBiYjBjY2FhZjhmMzg3ZmE5NGU5Yw"
+                      alt="비씨카드"
+                    />
+                  </div>
+                  <div class="card_cont">
+                    <p class="name">비씨카드</p>
+                    <div class="cont_area">
+                      <!-- 												<p class="tit">5만원 이상 결제 시 2~6개월 무이자 할부</p> -->
+                      <p class="text">
+                        <span>
+                          <b> 우리BC 10개월 부분무이자</b>
+                          <br />
+                          (5만원이상 결제시/1,2,3회차 고객부담, 잔여할부 수수료
+                          면제/법인,체크,기프트카드 제외)
+                        </span>
+                        <!-- 													<span>(신한BC 제외 / 법인, 기프트, 체크, 선불카드 제외)</span> -->
+                        <span>2023.02.01 ~ 2023.02.28</span>
+                      </p>
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <div class="card_logo">
+                    <img
+                      src="/medias/BC.jpg?context=bWFzdGVyfHJvb3R8MjQ1OHxpbWFnZS9qcGVnfGhmMi9oMGQvODgxNDE4MTIyMDM4Mi5qcGd8MjZlZGU2ZGQyNDBkYzU5YmY2NWY0MDU3NDc1OTA0YWI5NmM4NDJjMDFiYjBiYjBjY2FhZjhmMzg3ZmE5NGU5Yw"
+                      alt="비씨카드"
+                    />
+                  </div>
+                  <div class="card_cont">
+                    <p class="name">비씨카드</p>
+                    <div class="cont_area">
+                      <!-- 												<p class="tit">5만원 이상 결제 시 2~6개월 무이자 할부</p> -->
+                      <p class="text">
+                        <span>
+                          <b>우리BC 12개월 부분무이자</b>
+                          <br />
+                          (5만원이상 결제시/1,2,3,4회차 고객부담, 잔여할부
+                          수수료 면제/법인,체크,기프트카드 제외)
+                        </span>
+                        <!-- 													<span>(신한BC 제외 / 법인, 기프트, 체크, 선불카드 제외)</span> -->
+                        <span>2023.02.01 ~ 2023.02.28</span>
+                      </p>
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <div class="card_logo">
+                    <img
+                      src="/medias/kucmin.jpg?context=bWFzdGVyfHJvb3R8MzMwM3xpbWFnZS9qcGVnfGgyZS9oMzQvODgxNDE4MTAyMzc3NC5qcGd8MjM1YjEyN2I4OTljMGIxYzY3MjhjNDhkZWMyOTE5ODZjYmRiYWExNDdhOWZmNDQ3ZWNhNGIxZjYwYzk2MDA4Zg"
+                      alt="국민카드"
+                    />
+                  </div>
+                  <div class="card_cont">
+                    <p class="name">국민카드</p>
+                    <div class="cont_area">
+                      <!-- 												<p class="tit">5만원 이상 결제 시 2~6개월 무이자 할부</p> -->
+                      <p class="text">
+                        <span>
+                          <b>6개월 부분무이자</b>
+                          <br />
+                          (5만원이상 결제시/1,2,3회차 고객부담, 잔여할부 수수료
+                          면제/법인,체크,기프트카드 제외)
+                        </span>
+                        <!-- 													<span>(신한BC 제외 / 법인, 기프트, 체크, 선불카드 제외)</span> -->
+                        <span>2023.02.01 ~ 2023.02.28</span>
+                      </p>
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <div class="card_logo">
+                    <img
+                      src="/medias/kucmin.jpg?context=bWFzdGVyfHJvb3R8MzMwM3xpbWFnZS9qcGVnfGgyZS9oMzQvODgxNDE4MTAyMzc3NC5qcGd8MjM1YjEyN2I4OTljMGIxYzY3MjhjNDhkZWMyOTE5ODZjYmRiYWExNDdhOWZmNDQ3ZWNhNGIxZjYwYzk2MDA4Zg"
+                      alt="국민카드"
+                    />
+                  </div>
+                  <div class="card_cont">
+                    <p class="name">국민카드</p>
+                    <div class="cont_area">
+                      <!-- 												<p class="tit">5만원 이상 결제 시 2~6개월 무이자 할부</p> -->
+                      <p class="text">
+                        <span>
+                          <b>10개월 부분무이자</b>
+                          <br />
+                          (5만원이상 결제시/1,2,3,4 회차 고객부담, 잔여할부
+                          수수료 면제/법인,체크,기프트카드 제외)
+                        </span>
+                        <!-- 													<span>(신한BC 제외 / 법인, 기프트, 체크, 선불카드 제외)</span> -->
+                        <span>2023.02.01 ~ 2023.02.28</span>
+                      </p>
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <div class="card_logo">
+                    <img
+                      src="/medias/kucmin.jpg?context=bWFzdGVyfHJvb3R8MzMwM3xpbWFnZS9qcGVnfGgyZS9oMzQvODgxNDE4MTAyMzc3NC5qcGd8MjM1YjEyN2I4OTljMGIxYzY3MjhjNDhkZWMyOTE5ODZjYmRiYWExNDdhOWZmNDQ3ZWNhNGIxZjYwYzk2MDA4Zg"
+                      alt="국민카드"
+                    />
+                  </div>
+                  <div class="card_cont">
+                    <p class="name">국민카드</p>
+                    <div class="cont_area">
+                      <!-- 												<p class="tit">5만원 이상 결제 시 2~6개월 무이자 할부</p> -->
+                      <p class="text">
+                        <span>
+                          <b>12개월 부분무이자</b>
+                          <br />
+                          (5만원이상 결제시/1,2,3,4,5 회차 고객부담, 잔여할부
+                          수수료 면제/법인,체크,기프트카드 제외)
+                        </span>
+                        <!-- 													<span>(신한BC 제외 / 법인, 기프트, 체크, 선불카드 제외)</span> -->
+                        <span>2023.02.01 ~ 2023.02.28</span>
+                      </p>
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <div class="card_logo">
+                    <img
+                      src="/medias/hanacard.gif?context=bWFzdGVyfHJvb3R8MTkzNXxpbWFnZS9naWZ8aDYwL2hmYi84ODE0MDU0OTY1Mjc4LmdpZnxhMGM5OWY0MDdhNDhjYzkwOTdiMzhkM2VmMDQ2YTI0NTAyNDBjZTljNTdiYzk4YWRhZmI0NjBhOWRhNzRiMGYw"
+                      alt="하나카드"
+                    />
+                  </div>
+                  <div class="card_cont">
+                    <p class="name">하나카드</p>
+                    <div class="cont_area">
+                      <!-- 												<p class="tit">5만원 이상 결제 시 2~6개월 무이자 할부</p> -->
+                      <p class="text">
+                        <span>
+                          <b>10개월 부분무이자</b>
+                          <br />
+                          (5만원이상 결제시/1,2,3,4회차 고객부담, 잔여할부
+                          수수료 면제/법인,체크,기프트카드 제외)
+                        </span>
+                        <!-- 													<span>(신한BC 제외 / 법인, 기프트, 체크, 선불카드 제외)</span> -->
+                        <span>2023.02.01 ~ 2023.02.28</span>
+                      </p>
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <div class="card_logo">
+                    <img
+                      src="/medias/hanacard.gif?context=bWFzdGVyfHJvb3R8MTkzNXxpbWFnZS9naWZ8aDYwL2hmYi84ODE0MDU0OTY1Mjc4LmdpZnxhMGM5OWY0MDdhNDhjYzkwOTdiMzhkM2VmMDQ2YTI0NTAyNDBjZTljNTdiYzk4YWRhZmI0NjBhOWRhNzRiMGYw"
+                      alt="하나카드"
+                    />
+                  </div>
+                  <div class="card_cont">
+                    <p class="name">하나카드</p>
+                    <div class="cont_area">
+                      <!-- 												<p class="tit">5만원 이상 결제 시 2~6개월 무이자 할부</p> -->
+                      <p class="text">
+                        <span>
+                          <b>12개월 부분무이자</b>
+                          <br />
+                          (5만원이상 결제시/1,2,3,4,5회차 고객부담, 잔여할부
+                          수수료 면제/법인,체크,기프트카드 제외)
+                        </span>
+                        <!-- 													<span>(신한BC 제외 / 법인, 기프트, 체크, 선불카드 제외)</span> -->
+                        <span>2023.02.01 ~ 2023.02.28</span>
+                      </p>
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <div class="card_logo">
+                    <img
+                      src="/medias/NH.jpg?context=bWFzdGVyfHJvb3R8Mzk3OXxpbWFnZS9qcGVnfGg4ZS9oMzYvODgxNDE4MTkwODUxMC5qcGd8ZWVlNmY1OWM0NDdmMjg2M2Y4NGZkNDZjYThmOTVkMWNmY2QwYWNkOWI1ODc5YTdiMTc5MjY4MThiZTkzYzNmMw"
+                      alt="NH카드"
+                    />
+                  </div>
+                  <div class="card_cont">
+                    <p class="name">NH카드</p>
+                    <div class="cont_area">
+                      <!-- 												<p class="tit">5만원 이상 결제 시 2~6개월 무이자 할부</p> -->
+                      <p class="text">
+                        <span>
+                          <b>4-6개월 부분무이자</b>
+                          <br />
+                          (5만원이상 결제시/1,2회차 고객부담, 잔여할부 수수료
+                          면제/법인,체크,기프트카드 제외) (NH농협BC카드 포함/
+                          법인,기프트,체크,선불카드 제외)
+                        </span>
+                        <!-- 													<span>(신한BC 제외 / 법인, 기프트, 체크, 선불카드 제외)</span> -->
+                        <span>2023.02.01 ~ 2023.02.28</span>
+                      </p>
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <div class="card_logo">
+                    <img
+                      src="/medias/NH.jpg?context=bWFzdGVyfHJvb3R8Mzk3OXxpbWFnZS9qcGVnfGg4ZS9oMzYvODgxNDE4MTkwODUxMC5qcGd8ZWVlNmY1OWM0NDdmMjg2M2Y4NGZkNDZjYThmOTVkMWNmY2QwYWNkOWI1ODc5YTdiMTc5MjY4MThiZTkzYzNmMw"
+                      alt="NH카드"
+                    />
+                  </div>
+                  <div class="card_cont">
+                    <p class="name">NH카드</p>
+                    <div class="cont_area">
+                      <!-- 												<p class="tit">5만원 이상 결제 시 2~6개월 무이자 할부</p> -->
+                      <p class="text">
+                        <span>
+                          <b>7-10개월 부분무이자</b>
+                          <br />
+                          (5만원이상 결제시/1,2,3회차 고객부담, 잔여할부 수수료
+                          면제/법인,체크,기프트카드 제외) (NH농협BC카드 포함/
+                          법인,기프트,체크,선불카드 제외)
+                        </span>
+                        <!-- 													<span>(신한BC 제외 / 법인, 기프트, 체크, 선불카드 제외)</span> -->
+                        <span>2023.02.01 ~ 2023.02.28</span>
+                      </p>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+              <ul class="hs_bul_list btm">
+                <li class="dot">
+                  ARS 무이자 할부는 해당 카드사 ARS 번호로 사전 신청을 하신
+                  경우에 한하여
+                  <br />
+                  무이자 혜택이 적용됩니다.(ARS 부문 무이자 할부 포함)
+                </li>
+                <li class="dot">
+                  상기 부분 무이자 할부는 5만원 이상 결제 시 자동 적용되며,
+                  결제창에는 무이자 표시가 되지 않을 수 있습니다.
+                </li>
+                <li class="dot">
+                  법인 / 체크 / 선불 / 기프트 / 은행 계열 카드는 제외됩니다.
+                </li>
+                <li class="dot">
+                  고객 부담 수수료는 해당 카드사로 문의 바랍니다.
+                </li>
+                <li class="dot">
+                  본 행사는 카드사 사정에 따라 일부 내용이 변경 또는 중단될 수
+                  있습니다.
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="cont" id="card_tab02">
+            <div class="card_list_wrap">
+              <ul class="card_list">
+                <p class="no_data">카드행사가 없습니다.</p>
+                <!-- 180615_카드행사 없음 케이스 추가 -->
+              </ul>
+              <ul class="hs_bul_list btm">
+                <li class="dot">
+                  법인 / 체크 / 선불 / 기프트 / 은행 계열 카드는 제외됩니다.
+                </li>
+                <li class="dot">
+                  본 행사는 카드사 사정에 따라 일부 내용이 변경 또는 중단될 수
+                  있습니다.
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="cont" id="card_tab03">
+            <div class="card_list_wrap">
+              <ul class="card_list">
+                <p class="no_data">카드행사가 없습니다.</p>
+                <!-- 180615_카드행사 없음 케이스 추가 -->
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <a href="javascript:;" class="pop-comm-cls">닫기</a>
+      <!-- </div> -->
+      <!--// 카드사 혜택 -->
+    </div>
+    <script type="text/javascript">
+      var inicisCookieFlag = true;
+      var inicisMethod = "";
+      var authData = "";
+
+      var uagentLow = navigator.userAgent.toLocaleLowerCase();
+      if (uagentLow.search("android") > -1) {
+      } else if (uagentLow.search("iphone") > -1) {
+        var isSafari = navigator.userAgent.toLowerCase().indexOf("safari") > -1;
+        var isChrome = navigator.userAgent.toLowerCase().indexOf("chrome") > -1;
+        if (isSafari) {
+          if (isChrome) {
+            isSafari = false;
+          } else {
+            if (navigator.userAgent.toLowerCase().indexOf("crios") > -1) {
+              isSafari = false;
+            }
+            inicisCookieFlag = false;
+          }
+        }
+      }
+
+      var WPAY = {
+        FORMID: "frmWpayHspay",
+        IFRAMEID: "ifrmWpayHspayLayer",
+        loading: false,
+        startLoading: function () {
+          WPAY.loading = true;
+          showLoadingLp();
+        },
+        stopLoading: function () {
+          setTimeout(function () {
+            WPAY.loading = false;
+            hideLoadingLp();
+          }, 300);
+        },
+
+        addForm: function () {
+          if ($("#" + WPAY.FORMID).length > 0) {
+            $("#" + WPAY.FORMID).remove();
+          }
+          return $("<form/>", {
+            id: WPAY.FORMID,
+            enctype: "application/x-www-form-urlencodeed",
+          }).appendTo($("body"));
+        },
+
+        open: function (callback) {
+          var depthIndex = layerNextActiveIndex();
+          $(".hsome_layerpop_contents").removeClass("hspay-layer");
+
+          callLayerPopupShow("depth" + depthIndex, function (obj) {
+            $(obj).addClass("hspay-layer");
+            var wpayTag = "";
+            var wpayStyleTag =
+              "width: 100%; height: 99%; margin-top: 0; z-index: 100001;display: block !important; top: 0px; left: 0; -webkit-overflow-scrolling: touch; background: #fff";
+            wpayTag += '<div class="layerpop_wrap lp_loading_wrap">';
+            wpayTag += '	<div class="lyrpp_top">';
+            wpayTag +=
+              '		<a href="javascript:;" class="lyrpp_close lyrpp_close_stl1 btn_lyrpp_close"><span>닫기<!-- 닫기 --></span></a>';
+            wpayTag += "	</div>";
+            wpayTag += '	<div class="lyrpp_mid" id="wpayLoadingImage">';
+            wpayTag += '		<div class="loading_box">';
+            wpayTag += '			<p class="guide_box">처리중입니다</p>';
+            wpayTag += "		</div>";
+            wpayTag += "	</div>";
+            wpayTag +=
+              '<iframe id="' +
+              WPAY.IFRAMEID +
+              '" name="' +
+              WPAY.IFRAMEID +
+              '" src="about:blank" width="100%" height="100%" style="' +
+              wpayStyleTag +
+              '" frameborder="0" border="0"></iframe>';
+
+            wpayTag += "</div>";
+            $(obj).html(wpayTag);
+
+            callback();
+            setTimeout(function () {
+              WPAY.loadingHide();
+            }, 500);
+          });
+        },
+
+        loadingShow: function () {
+          $("#wpayLoadingImage").show();
+        },
+
+        loadingHide: function () {
+          $("#wpayLoadingImage").fadeOut();
+        },
+
+        close: function () {
+          var $obj = $(".hsome_layerpop_contents.hspay-layer");
+          $obj.removeClass("visible");
+          $obj.removeClass("active");
+          $obj.removeClass("hspay-layer");
+          $(".hsome_layerpop_contents .fcs").hide();
+          holdBodyHide();
+          hs_allCon.css({ marginTop: curScrollPosition * -1 });
+          setTimeout(function () {
+            hs_allCon.css({ marginTop: 0 });
+            $(window).scrollTop(curScrollPosition);
+            $obj.empty();
+          }, 200);
+          return false;
+        },
+
+        convertFormToJSON: function convertFormToJSON(_form) {
+          var obj = {};
+          try {
+            if (_form[0].tagName && _form[0].tagName.toUpperCase() == "FORM") {
+              var arr = _form.serializeArray();
+              if (arr != null) {
+                $.each(arr, function () {
+                  obj[this.name] = this.value;
+                });
+              }
+            }
+          } catch (e) {
+          } finally {
+          }
+          return obj;
+        },
+
+        wpaylayerConfirm: function (msg, confirmMsg, cancleMsg) {
+          var layer = new layerConfirm(msg, confirmMsg, cancleMsg);
+          $("#confirmCloseDiv").click(function () {
+            WPAY.stopLoading();
+          });
+          return layer;
+        },
+      };
+
+      WPAY.cardRegistSubmit = function (data) {
+        var $frmWpayHspay = WPAY.addForm();
+        $frmWpayHspay.empty();
+        addHidden($frmWpayHspay, "mid", data.mid);
+        addHidden($frmWpayHspay, "wpayUserKey", data.wpayUserKey);
+        addHidden($frmWpayHspay, "ci", data.ci);
+        addHidden($frmWpayHspay, "payMethod", data.payMethod);
+        addHidden($frmWpayHspay, "bankCardCode", data.bankCardCode);
+        addHidden($frmWpayHspay, "returnUrl", data.returnUrl);
+        addHidden($frmWpayHspay, "signature", data.signature);
+
+        $frmWpayHspay.attr({
+          method: "POST",
+          action: data.url,
+          //'target': WPAY.IFRAMEID
+        });
+        $frmWpayHspay.submit();
+      };
+
+      WPAY.memberRegistSubmit = function (data) {
+        var $frmWpayHspay = WPAY.addForm();
+        $frmWpayHspay.empty();
+        addHidden($frmWpayHspay, "mid", data.mid);
+        addHidden($frmWpayHspay, "userId", data.userId);
+        addHidden($frmWpayHspay, "ci", data.ci);
+        addHidden($frmWpayHspay, "reqType", data.reqType);
+        addHidden($frmWpayHspay, "userNm", data.userNm);
+        addHidden($frmWpayHspay, "hNum", data.hNum);
+        addHidden($frmWpayHspay, "hCorp", data.hCorp);
+        addHidden($frmWpayHspay, "birthDay", data.birthDay);
+        addHidden($frmWpayHspay, "socialNo2", data.socialNo2);
+        addHidden($frmWpayHspay, "frnrYn", data.frnrYn);
+        addHidden($frmWpayHspay, "returnUrl", data.returnUrl);
+        addHidden($frmWpayHspay, "payUrl", data.payUrl);
+        addHidden($frmWpayHspay, "signature", data.signature);
+
+        $frmWpayHspay.attr({
+          method: "POST",
+          action: data.url,
+          //'target': WPAY.IFRAMEID
+        });
+        $frmWpayHspay.submit();
+      };
+
+      WPAY.memberUnRegistSubmit = function (data) {
+        var $frmWpayHspay = WPAY.addForm();
+        $frmWpayHspay.empty();
+        addHidden($frmWpayHspay, "mid", data.mid);
+        addHidden($frmWpayHspay, "wpayUserKey", data.wpayUserKey);
+        addHidden($frmWpayHspay, "ci", data.ci);
+        addHidden($frmWpayHspay, "returnUrl", data.returnUrl);
+        addHidden($frmWpayHspay, "signature", data.signature);
+
+        $frmWpayHspay.attr({
+          method: "POST",
+          action: data.url,
+          //'target': WPAY.IFRAMEID
+        });
+        $frmWpayHspay.submit();
+      };
+
+      WPAY.passwordChangeSubmit = function (data) {
+        var $frmWpayHspay = WPAY.addForm();
+        $frmWpayHspay.empty();
+        addHidden($frmWpayHspay, "mid", data.mid);
+        addHidden($frmWpayHspay, "wpayUserKey", data.wpayUserKey);
+        addHidden($frmWpayHspay, "ci", data.ci);
+        addHidden($frmWpayHspay, "returnUrl", data.returnUrl);
+        addHidden($frmWpayHspay, "signature", data.signature);
+
+        $frmWpayHspay.attr({
+          method: "POST",
+          action: data.url,
+          //'target': WPAY.IFRAMEID
+        });
+        $frmWpayHspay.submit();
+      };
+
+      WPAY.paymentAuthSubmit = function (data) {
+        var $frmWpayHspay = WPAY.addForm();
+        $frmWpayHspay.empty();
+
+        inicisMethod = "paymentAuthSubmit";
+        authData = data;
+
+        addHidden($frmWpayHspay, "mid", data.mid);
+        addHidden($frmWpayHspay, "wpayUserKey", data.wpayUserKey);
+        addHidden($frmWpayHspay, "wpayToken", data.wpayToken);
+        addHidden($frmWpayHspay, "ci", data.ci);
+        addHidden($frmWpayHspay, "payMethod", data.payMethod);
+        addHidden($frmWpayHspay, "bankCardCode", data.bankCardCode);
+        addHidden($frmWpayHspay, "oid", data.oid);
+        addHidden($frmWpayHspay, "goodsName", data.goodsName);
+        addHidden($frmWpayHspay, "goodsPrice", data.goodsPrice);
+        addHidden($frmWpayHspay, "buyerName", data.buyerName);
+        addHidden($frmWpayHspay, "buyerTel", data.buyerTel);
+        addHidden($frmWpayHspay, "buyerEmail", data.buyerEmail);
+        addHidden($frmWpayHspay, "cardQuota", data.cardQuota);
+        addHidden($frmWpayHspay, "cardInterest", data.cardInterest);
+        addHidden($frmWpayHspay, "couponCode", data.couponCode);
+        addHidden($frmWpayHspay, "flagPin", data.flagPin);
+        addHidden($frmWpayHspay, "flagPinMsg", data.flagPinMsg);
+        addHidden($frmWpayHspay, "returnUrl", data.returnUrl);
+        addHidden($frmWpayHspay, "flagCardPoint", data.flagCardPoint);
+        addHidden($frmWpayHspay, "signature", data.signature);
+
+        $frmWpayHspay.attr({
+          method: "POST",
+          action: data.url,
+          //'target': WPAY.IFRAMEID
+        });
+        $frmWpayHspay.submit();
+      };
+
+      WPAY.accesstermsSubmit = function (data) {
+        var $frmWpayHspay = WPAY.addForm();
+        $frmWpayHspay.empty();
+        addHidden($frmWpayHspay, "mid", data.mid);
+        addHidden($frmWpayHspay, "returnUrl", data.returnUrl);
+        addHidden($frmWpayHspay, "signature", data.signature);
+        $frmWpayHspay.attr({
+          method: "POST",
+          action: data.url,
+          //'target': WPAY.IFRAMEID
+        });
+        $frmWpayHspay.submit();
+      };
+
+      var checkoutWpay = (function () {
+        var btnCardRegist = function () {
+          //if (WPAY.loading == true) return;
+          //WPAY.startLoading();
+
+          $.get(
+            "/ko/wpay/cardRegist?fncallback=checkoutCardRegistCallback&wpayReferUrl=" +
+              referUrl,
+            function (data) {
+              if (data.resultCode == "NOT_WPAY_MEMBER") {
+                var layer = WPAY.wpaylayerConfirm(
+                  "간편결제 회원으로 등록되어 있지 않습니다.<br/>간편결제 가입 및 결제수단 등록을 진행하시겠습니까?",
+                  "확인",
+                  "취소"
+                );
+                layer.confirmAction = function () {
+                  //WPAY.open(function () {
+                  inicisMethod = "memberRegist";
+                  wpayMemberRegist();
+                  //});
+                };
+                layer.cancleAction = function () {
+                  //WPAY.stopLoading();
+                };
+                return;
+              }
+
+              WPAY.open(function () {
+                inicisMethod = "cardRegist";
+                WPAY.cardRegistSubmit(data);
+                //WPAY.stopLoading();
+              });
+            }
+          ).fail(function () {
+            //WPAY.stopLoading();
+          });
+        };
+
+        $("#card_easy_pay").on("click", "li.swiper-slide", function () {
+          if ($(this).hasClass("last")) {
+            checkoutWpay.resetEasyPay();
+            checkoutWpay.resetGeneralPay();
+
+            $("input[name=wpayToken]").val("");
+            $("input[name=cardQuota]").val("00");
+            $("input[name=cardInterest]").val("N");
+          } else {
+            var $cardCode = $(this).find("input[name=card_choice]"),
+              selectCardCode = $("input[name=bankCardCode]").val();
+
+            $("input[name=mode]").val($cardCode.val() == "" ? "" : "KO001-3");
+            $("input[name=bankCardCode]").val($cardCode.val());
+            $("input[name=wpayToken]").val($cardCode.data("token"));
+            $("input[name=cardQuota]").val("00");
+            $("input[name=cardInterest]").val("N");
+            if ($cardCode.val() != selectCardCode)
+              checkoutWpay.drawInstallment($cardCode.val());
+          }
+
+          if (typeof onclickButtonTextChange === "function") {
+            onclickButtonTextChange();
+          }
+        });
+
+        var drawCardList = function drawCardList() {
+          var drawEasyPayTag = function (data) {
+            var $card_easy_pay = $("#card_easy_pay"),
+              easyPay = "";
+
+            easyPay += '	<ul class="swiper-wrapper">';
+
+            if (data.resultCode == "0000") {
+              $card_easy_pay.data("nointlist", data.noIntCardList);
+              $.each(data.cardList, function (index, item) {
+                var wpayCardInfo = WPAY_CARD_INFO[item.bankCardCode];
+
+                easyPay += '		<li class="swiper-slide">';
+                easyPay += '			<div class="card_item ' + wpayCardInfo.cls + '">';
+                if (item.discinfo != null && item.discinfo.applYn == "Y") {
+                  easyPay += '	<div class="sale_now_box1910">';
+                  easyPay += '		<span class="sale_type1">즉시할인</span>';
+                  easyPay += "	</div>";
+                }
+                easyPay += '				<div class="radio_stl">';
+                easyPay +=
+                  '					<input type="radio" id="card_choice_' +
+                  item.bankCardNo +
+                  '" name="card_choice" value="' +
+                  item.bankCardCode +
+                  '" data-token="' +
+                  item.wpayToken +
+                  '" />';
+                easyPay += '					<label for="card_choice_' + index + '">';
+                easyPay +=
+                  '						<div class="card_name">' +
+                  decodeURIComponent(item.cardName) +
+                  "</div>";
+                easyPay += "					</label>";
+                easyPay +=
+                  '                    <input type="hidden" class="discInfo_applYn" value="' +
+                  item.discinfo.applYn +
+                  '"/>';
+                easyPay +=
+                  '                    <input type="hidden" class="discInfo_couponCode" value="' +
+                  item.discinfo.couponCode +
+                  '"/>';
+                easyPay +=
+                  '                    <input type="hidden" class="discInfo_discAmt" value="' +
+                  item.discinfo.discAmt +
+                  '"/>';
+                easyPay +=
+                  '                    <input type="hidden" class="discInfo_minAmt" value="' +
+                  item.discinfo.minAmt +
+                  '"/>';
+                easyPay +=
+                  '                    <input type="hidden" class="discInfo_maxAmt" value="' +
+                  item.discinfo.maxAmt +
+                  '"/>';
+                easyPay += "				</div>";
+                easyPay +=
+                  '				<div class="card_num">' +
+                  $.trim(item.bankCardNo).replace(/-/g, " ") +
+                  "</div>";
+                easyPay +=
+                  '				<select name="card_pay_term_' +
+                  item.bankCardCode +
+                  '" id="card_pay_term_' +
+                  item.bankCardCode +
+                  '" class="sodsb" data-custom-class="card_pay_term">';
+                easyPay += '					<option value="00">일시불</option>';
+                easyPay += "				</select>";
+                easyPay += "			</div>";
+                easyPay += "		</li>";
+              });
+            }
+
+            easyPay += '		<li class="swiper-slide last">';
+            easyPay += '			<div class="card_item cd_kind_add_guide">';
+            easyPay +=
+              '				<p class="desc_box"><span class="under" id="linkOneBuySetting">마이페이지>정보>등록한 카드 정보</span>에서<br>신규카드를 등록하실 수 있습니다.</p>';
+            easyPay += "			</div>";
+            easyPay += '			<div style="hidden">';
+            easyPay +=
+              '				<input type="radio" id="card_choice_" name="card_choice" value=""/>';
+            easyPay += "			</div>";
+            easyPay += "		</li>";
+            easyPay += "	</ul>";
+            $("#card_easy_pay").html(easyPay);
+            $("#card_easy_pay select.sodsb").selectOrDie();
+
+            var easyPaySwiper = $("#card_easy_pay")[0].swiper;
+            if (easyPaySwiper != null) easyPaySwiper.destroy();
+            swiperCardActive("swiper_card_easy_pay");
+
+            if ($card_easy_pay.find("li.swiper-slide").length > 1) {
+              $card_easy_pay
+                .find('[name="card_choice"]:eq(0)')
+                .trigger("click");
+            }
+            if (typeof fn_updateDiscInfo === "function") {
+              $("#oneClickCardLoadYn").val("Y");
+              fn_updateDiscInfo();
+            }
+          };
+
+          return $.get("/ko/wpay/cardListForPayment")
+            .done(drawEasyPayTag)
+            .fail(drawEasyPayTag);
+        };
+
+        var drawInstallment = function drawInstallment(cardCode) {
+          var noIntList = $("#card_easy_pay").data("nointlist");
+          var paymentPrice = parseInt($("#total").val(), 0) || 0;
+          var MAX_INSTALLMENT = 12,
+            MAX_NOINTSTALLMENT_PRICE = 0,
+            MAX_NOINTSTALLMENT_MONTH = ["0"];
+          var $selectInstallment = $(
+              "select[id='card_pay_term_" + cardCode + "']"
+            ),
+            selectTag = "";
+
+          if ($("[name='mode']").val() != "KO001-3") return;
+
+          selectTag = '<option value="00">일시불</option>';
+
+          if (paymentPrice >= 50000) {
+            if (noIntList != null) {
+              $.each(noIntList, function (idx, item) {
+                if (item.cardCode != cardCode) return true;
+
+                $.each(item.cardEventList, function (i, cardEvent) {
+                  if (
+                    paymentPrice >= cardEvent.amount * 10000 &&
+                    cardEvent.amount * 10000 > MAX_NOINTSTALLMENT_PRICE
+                  ) {
+                    MAX_NOINTSTALLMENT_PRICE = cardEvent.amount * 10000;
+                    MAX_NOINTSTALLMENT_MONTH = cardEvent.month;
+                  }
+                });
+              });
+            }
+
+            for (var i = 2; i <= MAX_INSTALLMENT; i++) {
+              if (i < 10) {
+                month = "0" + i;
+              } else {
+                month = i;
+              }
+              if ($.inArray(i.toString(), MAX_NOINTSTALLMENT_MONTH) > -1) {
+                selectTag +=
+                  '<option value="' +
+                  month +
+                  '" data-nointstallment="Y">' +
+                  i.toString() +
+                  "개월 무이자</option>";
+              } else {
+                selectTag +=
+                  '<option value="' +
+                  month +
+                  '">' +
+                  i.toString() +
+                  "개월</option>";
+              }
+            }
+          }
+
+          $selectInstallment.html(selectTag);
+          $selectInstallment.selectOrDie("update");
+        };
+        var drawCardListForCheckout = function () {
+          return this.drawCardList().always(function () {
+            var $lastSlide = $("#card_easy_pay").find(".swiper-slide.last"),
+              $cardItem = $lastSlide.find(".card_item");
+            $cardItem.addClass("cd_kind_add").removeClass("cd_kind_add_guide");
+            $cardItem.html(
+              '<a href="javascript:;" class="card_add_btn" onclick="checkoutWpay.btnCardRegist()">카드등록</a>'
+            );
+          });
+        };
+        var drawCardListForOneclick = function () {
+          return this.drawCardList().always(function () {
+            var $lastSlide = $("#card_easy_pay").find(".swiper-slide.last"),
+              $cardItem = $lastSlide.find(".card_item");
+            $cardItem.addClass("cd_kind_add_guide").removeClass("cd_kind_add");
+            $cardItem.html(
+              '<p class="desc_box"><span class="under" id="linkOneBuySetting">마이페이지>정보>등록한 카드 정보</span>에서<br>신규카드를 등록하실 수 있습니다.</p>'
+            );
+          });
+        };
+        return {
+          drawCardList: drawCardList,
+
+          drawCardListForCheckout: drawCardListForCheckout,
+
+          drawCardListForOneclick: drawCardListForOneclick,
+
+          drawInstallment: drawInstallment,
+
+          btnCardRegist: btnCardRegist,
+
+          resetEasyPay: function resetEasyPay() {
+            $("input[name=mode]").val("");
+            $("input[name=bankCardCode]").val("");
+            $("input[name=card_choice]").attr("checked", false);
+          },
+
+          resetGeneralPay: function resetGeneralPay() {
+            $("input[name=mode]").val("");
+            $("#general_pay li").removeClass();
+          },
+        };
+      })();
+
+      var wpayStartMemberRegist = function () {
+        if (WPAY.loading == true) return;
+        WPAY.startLoading();
+
+        wpayMemberRegist();
+      };
+
+      var wpayMemberRegist = function () {
+        $.get(
+          "/ko/wpay/memberRegist?fncallback=checkoutMemberRegistCallback&wpayReferUrl=" +
+            referUrl,
+          function (memberData) {
+            setTimeout(function () {
+              if ($.trim(memberData.mid) == "") {
+                layerAlert(
+                  decodeURIComponent(memberData.resultMsg) ||
+                    "간편결제 회원등록을 실패하였습니다."
+                );
+                WPAY.close();
+                return;
+              }
+
+              WPAY.memberRegistSubmit(memberData);
+            }, 300);
+          }
+        ).always(function () {
+          WPAY.stopLoading();
+        });
+      };
+
+      var wpayStartCardRegist = function () {
+        if (WPAY.loading == true) return;
+        WPAY.startLoading();
+
+        WPAY.open(function () {
+          wpayCardRegist();
+        });
+      };
+
+      var wpayCardRegist = function () {
+        $.get(
+          "/ko/wpay/cardRegist?fncallback=cardRegistCallback&wpayReferUrl=" +
+            referUrl,
+          function (data) {
+            switch (data.resultCode) {
+              case "0000":
+                WPAY.cardRegistSubmit(data);
+                break;
+              case "NOT_WPAY_MEMBER":
+                wpayMemberRegistConfirm();
+                break;
+              case "IS_ANONYMOUS":
+                location.href = "/ko/member/login";
+                break;
+              default:
+                new layerAlert(
+                  decodeURIComponent(
+                    data.resultMsg || "신규카드등록중 오류가 발생하였습니다."
+                  )
+                );
+            }
+          }
+        );
+      };
+
+      var checkoutMemberRegistCallback = function (resultCode, resultMsg) {
+        switch (resultCode) {
+          case "2406":
+            if (inicisCookieFlag == false && inicisMethod == "memberRegist") {
+              inicisCookieFlag = true;
+              inicisIosCookieSetting();
+
+              wpayStartMemberRegist();
+            } else {
+              layerWpayCookieSettingView();
+              WPAY.close();
+            }
+            break;
+          case "0000":
+            $.get(
+              "/ko/wpay/cardRegist?fncallback=checkoutCardRegistCallback",
+              function (data) {
+                WPAY.cardRegistSubmit(data);
+              }
+            );
+            break;
+          default:
+            new layerAlert(resultMsg);
+            WPAY.close();
+            break;
+        }
+      };
+
+      var checkoutCardRegistCallback = function (
+        resultCode,
+        resultMsg,
+        result
+      ) {
+        switch (resultCode) {
+          case "2406":
+            if (inicisCookieFlag == false && inicisMethod == "cardRegist") {
+              inicisCookieFlag = true;
+              inicisIosCookieSetting();
+
+              wpayStartCardRegist();
+            } else {
+              layerWpayCookieSettingView();
+              WPAY.close();
+            }
+            break;
+          case "0000":
+            checkoutWpay.drawCardListForCheckout();
+            layerWpayCardDetailView(result);
+            break;
+          default:
+            new layerAlert(resultMsg);
+            WPAY.close();
+            break;
+        }
+      };
+
+      var layerWpayCardDetailView = function (data) {
+        var cardDetailTag = "";
+        var card = WPAY_CARD_INFO[data.bankCardCode];
+        cardDetailTag += '<div class="layerpop_wrap lp_simple_pay_wrap">';
+        cardDetailTag += '	<div class="lyrpp_top">';
+        cardDetailTag +=
+          '		<a href="javascript:;" onclick="WPAY.close()" class="lyrpp_close lyrpp_close_stl1 btn_lyrpp_close"><span>닫기</span></a>';
+        cardDetailTag += "		<h2>등록 완료</h2>";
+        cardDetailTag += "	</div>";
+        cardDetailTag += '	<div class="lyrpp_mid">';
+        cardDetailTag += '		<div class="card_preview_wrap">';
+        cardDetailTag += '			<div class="card_item ' + card.cls + '">';
+        cardDetailTag +=
+          '				<div class="card_name">' + decodeURIComponent(card.name) + "</div>";
+        cardDetailTag +=
+          '				<div class="card_num">' +
+          $.trim(data.bankCardNo).replace(/-/g, " ") +
+          "</div>";
+        cardDetailTag += "			</div>";
+        cardDetailTag += '			<p class="msg_box">카드등록이 완료되었습니다.</p>';
+        cardDetailTag += "		</div>";
+        cardDetailTag += '		<ul class="btn_wrap btn_wrap_div1">';
+        cardDetailTag +=
+          '			<li><a href="javascript:;" onclick="WPAY.close()" class="btnstl3 solid_btn_blk">';
+        cardDetailTag += "				<span>간편결제를 등록해 주셔서 감사합니다</span></a>";
+        cardDetailTag += "			</li>";
+        cardDetailTag += "		</ul>";
+        cardDetailTag += "	</div>";
+        cardDetailTag += "</div>";
+
+        var $wpayLayer = $(".hsome_layerpop_contents.hspay-layer");
+        $wpayLayer.html(cardDetailTag);
+      };
+
+      var layerWpayCookieSettingView = function () {
+        $("#btnWpayCookieSetting").click();
+      };
+
+      $(document).on("click", "#linkOneBuySetting", function () {
+        window.parent.postMessage(
+          {
+            func: "oneclickPostMovePage",
+            data: {
+              url: "/ko/mypage/oneBuy",
+            },
+          },
+          "*"
+        );
+      });
+
+      var WPAY_CARD_INFO = [];
+      WPAY_CARD_INFO["03"] = { name: "롯데카드", cls: "cd_kind_lotte" };
+      WPAY_CARD_INFO["04"] = {
+        name: "현대카드",
+        cls: "cd_kind_hyundai",
+      };
+      WPAY_CARD_INFO["06"] = { name: "국민카드", cls: "cd_kind_kb" };
+      WPAY_CARD_INFO["11"] = { name: "BC카드", cls: "cd_kind_bc" };
+      WPAY_CARD_INFO["12"] = {
+        name: "삼성카드",
+        cls: "cd_kind_samsung",
+      };
+      WPAY_CARD_INFO["14"] = {
+        name: "신한카드",
+        cls: "cd_kind_shinhan",
+      };
+      WPAY_CARD_INFO["16"] = { name: "NH카드", cls: "cd_kind_nh" };
+      WPAY_CARD_INFO["01"] = { name: "하나카드", cls: "cd_kind_hana" };
+      WPAY_CARD_INFO["17"] = { name: "하나카드", cls: "cd_kind_hana" };
+
+      function inicisIosCookieSetting() {
+        WPAY.close();
+        var uagentLow = navigator.userAgent.toLocaleLowerCase();
+        if (uagentLow.search("android") > -1) {
+        } else if (uagentLow.search("iphone") > -1) {
+          var isSafari =
+            navigator.userAgent.toLowerCase().indexOf("safari") > -1;
+          var isChrome =
+            navigator.userAgent.toLowerCase().indexOf("chrome") > -1;
+          if (isSafari) {
+            if (isChrome) {
+              isSafari = false;
+            } else {
+              if (navigator.userAgent.toLowerCase().indexOf("crios") > -1) {
+                isSafari = false;
+              }
+              iniWin = window.open(
+                "https://wpay.inicis.com/hspay/error/cookieErr",
+                "iniErr",
+                "top=10, left=100, width500, height=500"
+              );
+              iniWin.blur();
+            }
+          }
+        }
+      }
+    </script>
+  </th:block>
+</html>

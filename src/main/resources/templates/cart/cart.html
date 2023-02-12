@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="_csrf" th:content="${_csrf.token}"/>
+	<meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+	<link rel="stylesheet" href="./css/reset.css">
+	<link rel="stylesheet" href="./css/common.css">
+	<link rel="stylesheet" href="./css/style.css">
+	<script src="./js/jquery-3.6.3.min.js"></script>
+	<script src="./js/cart.js"></script>
+	<script src="./js/cartscript.js"></script>
+	<title>쇼핑백</title>
+</head>
+<body>
+	<div id="wrap" class="p_cart">
+		<!-- header :: S -->
+		<header id="header">
+			<h1 class="page_ttl">쇼핑백</h1>
+			<div class="page_util">
+				<a href="" class="back_btn">뒤로 가기</a> <a href="/" class="home_btn">메인으로
+					가기</a>
+			</div>
+			<div class="home_util">
+				<a href="#" class="search_btn">검색창 바로가기</a> <a href="./cart.html"
+					class="cart_btn"> <span class="count">3</span> 장바구니 바로가기
+				</a>
+			</div>
+		</header>
+		<!-- header :: E -->
+		<!-- contents :: S -->
+		<div id="contents">
+			<div class="cart_tab">
+				<ul>
+					<li class="on"><a href="#" class="btn">택배(<span
+							class="count">3</span>)
+					</a></li>
+					<li><a href="#" class="btn">매장수령(<span class="count">0</span>)
+					</a></li>
+					<li><a href="#" class="btn">퀵배송(<span class="count">0</span>)
+					</a></li>
+				</ul>
+			</div>
+			<p class="cart_notice">4PM 상품은 오후 4시 이후 주문 시 일반 택배 상품으로 발송됩니다.</p>
+
+			<div class="cart_all">
+				<div class="check_item">
+					<input type="checkbox" name="" id="check_all"> <label
+						for="check_all">담은 상품(<span class="count2">[[${cartlist.size}]] </span>개)
+					</label>
+				</div>
+			</div>
+
+
+			<div class="cart_list">
+				<!-- 상품 리스트 뿌려주기 -->
+				<ul>
+					<li class="cart_item" th:each="item, idx: ${cartlist}">
+						<div class="cart_util">
+							<div class="check_item">
+								<input type="checkbox" class="cart_item"
+									th:id="'gl_check_'+${idx.count}" th:onchange="onChangeCheckBox(this.getAttribute('data-index'), event)" th:data-index="${item.index}"/>
+								<label th:for="'gl_check_'+${idx.count}"></label>
+							</div>
+							<ul class="prd_status">
+								<li><span class="sold_out">sold out</span></li>
+								<li><span class="quick_delivery">4PM</span></li>
+							</ul>
+							<button type="button" class="like_btn">좋아요</button>
+							
+							<form id="delete_form" 
+							 th:action="@{/cart/delete/{mid}/{psid}(mid = ${item.mid}, psid=${item.psid})}"\th:method="post">
+    						<input type="hidden" name="_method" value="delete"/>	
+    						<a onclick="if (confirm('정말로 삭제하시겠습니까?')) document.getElementById('delete_form').submit();" 
+    						class="del_btn">삭제</a>
+							</form>
+							
+							
+							<!-- <a type="button" class="del_btn"  
+							 th:data-psid="${item.psid}" 
+							 th:data-mid= "${item.mid}"
+							 th:href="@{/cart/delete/{mid}/{psid}(mid = ${item.mid}, psid=${item.psid})}">
+							 삭제
+							 </a> -->
+							 
+						
+						</div>
+						<div class="prd_info">
+							<a href="#">
+								<figure class="img">
+								<img th:src= "${item.pcimg1}">
+					
+								</figure>
+								
+								<div class="txt">
+									<span class="brand">[[${item.bname}]]</span> 
+									<span class="name">[[${item.pname}]]</span> 
+									<p class="price">[[${item.pcprice}]]원</p>
+									<p class="priceTotal">합계 [[${item.realPcPrice}]]원</p>
+									<p class="psid" style="display: none">[[${item.psid}]]</p>
+									<p class="mid" style="display: none">[[${item.mid}]]</p>
+								</div>
+							</a>
+						</div>
+						<div class="prd_opt">
+							<dl>
+								<dt>옵션수량</dt>
+								<dd>
+									<span class="color">[[${item.pcolorname}]]</span> 
+									<span class="size">[[${item.psize}]]</span> 
+									<span class="count pquantity">[[${item.pquantity}]]개</span>
+								</dd>
+							</dl>
+
+							<button type="button" class="opt_change">변경</button>
+						</div>
+						<div class="change_form">
+							<dl>
+								<dt>색상</dt>
+								<dd>
+									<div class="color_list_box">
+										<ul class="color_list">
+											 <li>
+                                                <div class="color_chip">
+                                                    <input type="radio" name="color" value="violet" id="violet" checked>
+                                                    <label for="violet" th:style="|background-image: url(${item.pcchipimg})|"></label>
+                                                </div>
+                                            </li>
+											
+									
+										</ul>
+										<span class="color_name">컬러네임</span>
+									</div>
+								</dd>
+							</dl>
+							<dl>
+								<dt>사이즈</dt>
+								<dd>
+									<select name="" id="">
+										<option th:each = "item., size: ${sizeList}" th:value="${size}">[[${size}]]</option>
+									</select>
+								</dd>
+							</dl>
+							<dl>
+							<dt>수량</dt>
+							<dd>
+								<div class="count_box">
+									<button type="button" class="minus_btn" th:id="'minus_btn' + ${item.index}"  th:onclick="setCount('minus' , this.getAttribute('data-index'), this.getAttribute('data-count'), event)" th:data-index="${item.index}" th:data-count="${item.pquantity}">감소</button>
+									<input type="tel" class = "quantity_input" name="" th:id="'plusCount' + ${item.index}" value="1" th:data-mid= "${item.mid}" th:data-psid= "${item.psid}" th:data-index="${item.index}" >
+									<button type="button" class="plus_btn" th:onclick="setCount('plus' , this.getAttribute('data-index'), this.getAttribute('data-count'), event)" th:data-index="${item.index}" th:data-count="${item.pquantity}">증가</button>
+								</div>
+							</dd>
+						</dl>
+						<div class="btn_row">
+							<button type="button" class="btn bg_gray cancel_btn">취소</button>
+							<button type="button" class="btn bg_black save_btn" th:onclick="updateTotalCount(this.getAttribute('data-index'))" th:data-index="${item.index}" >저장</button>
+						</div>
+						</div>
+					</li>
+				</ul>
+			</div>
+
+			<div class="cart_final">
+				<h2 class="cart_ttl">
+					총 <span class="count">0</span>개 상품
+				</h2>
+				<dl>
+					<dt>상품 합계</dt>
+					<dd></dd>
+					<span class="total_price">₩<span id="total2">0</span> </span>
+				</dl>
+				<dl>
+					<dt>배송비</dt>
+					<dd>₩0</dd>
+				</dl>
+				<dl class="total">
+					<dt>합계</dt>
+					<dd></dd>
+					<span class="total_price"> 총 결제금액 :  <span id="total2"> </span> </span>
+				</dl>
+
+				<div class="btn_row">
+					<button type="button" class="btn default">품절상품 삭제</button>
+					<button type="button" class="btn default" id="selectDelete_btn">선택상품 삭제</button>
+					
+				</div>
+				<div class="btn_row">
+					<button type="button" class="btn bg_black" id="orderProduct">선택상품 주문하기</button>
+				</div>
+			</div>
+
+			<div class="fix_bar">
+				<div class="check_off">
+					<p class="no_select">주문하실 상품을 선택해 주세요</p>
+				</div>
+				<div class="check_on">
+					<button type="button" class="order_btn">
+						<span class="total_price"> 총 결제금액 :  <span id="total"> 원</span> </span> 
+						<span class="order_txt">주문하기</span>
+					</button>
+				</div>
+			</div>
+
+		</div>
+		<!-- contents :: E -->
+		<!-- footer :: S -->
+		<footer id="footer">
+			<div class="notice_row">
+				<h2 class="notice_ttl">공지</h2>
+				<div class="notice_link">
+					<a href="#">더한섬닷컴 편집/해외 브랜드 종료(예정) 안내(~2/22)</a>
+				</div>
+				<a href="#" class="notice_more">공지사항 바로가기</a>
+			</div>
+			<div class="foot_inner">
+				<div class="foot_top">
+					<ul class="foot_list">
+						<li><a href="#">로그인</a></li>
+						<li><a href="#">고객센터</a></li>
+						<li><a href="#">매장안내</a></li>
+						<li><a href="#">한섬 회원 혜택</a></li>
+						<li><a href="#">회사소개</a></li>
+						<li><button type="button">family site</button></li>
+					</ul>
+					<ul class="sns_list">
+						<li><a href="#" target="_blank" class="insta">인스타그램 바로가기</a></li>
+						<li><a href="#" target="_blank" class="youtube">유튜브 바로가기</a></li>
+					</ul>
+				</div>
+				<div class="foot_bot">
+					<ul class="foot_terms">
+						<li><a href="#">서비스이용약관</a></li>
+						<li><a href="#"><strong>개인정보처리방침</strong></a></li>
+						<li>
+							<div class="lang">
+								<select name="" id="">
+									<option value="">LANGUAGE</option>
+									<option value="">한국어</option>
+									<option value="">ENGLISH</option>
+									<option value="">中文</option>
+								</select>
+							</div>
+						</li>
+					</ul>
+					<p class="copy">COPYRIGHT © 2018 HANDSOME. ALL RIGHT RESERVED</p>
+					<div class="foot_info">
+						<button type="button" class="toggle_btn">
+							<span>(주) 한섬</span> <span><img
+								src="./images/mob-footer-logo.png" alt=""></span> <span
+								class="arrow"></span>
+						</button>
+						<div class="toggle_cont">
+							<address>
+								<span>대표이사 : 김민덕</span> <span>서울시 강남구 도산대로 523 한섬빌딩</span> <br>
+								<span>TEL : 1800-5700 (유료)</span> <span>FAX :
+									02-6078-2856</span> <br> <span>개인정보보호책임자 : 윤인수</span> <span>호스팅서비스
+									: (주) 한섬</span> <br> <span>사업자등록번호 : 120-81-26337</span> <br>
+								<span>통신판매업신고번호 : 제 2009-서울강남-00826호</span>
+							</address>
+							<ul class="other_link">
+								<li><a href="#">채용정보</a></li>
+								<li><a href="#">동반성장</a></li>
+								<li><a href="#">환경경영</a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</footer>
+		<!-- footer :: E -->
+		<button type="button" id="top_btn">위로가기</button>
+	</div>
+<!-- chat -->
+<span th:text="${price != null && !#numbers.isNaN(price) ? #numbers.formatDecimal(price, 0, '.', ',') : '-'}"></span>
+
+<script th:inline="javascript">
+document.addEventListener("DOMContentLoaded", function () {
+    // Get the checkbox elements
+    const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+	const pmbutns = document.querySelectorAll('input[type="count_box"]');
+	
+    // Get the price elements
+    const prices = document.querySelectorAll('.price');
+
+	localStorage.removeItem("checkCart");
+
+    // Calculate the total price
+    
+    for (let i = 1; i <= checkboxes.length; i++) {
+    	console.log("check")
+        checkboxes[i].addEventListener('change', function () {
+        	
+        	let total=0;
+        	for (let i = 1; i < checkboxes.length; i++) {
+    			
+    			if($('#gl_check_'+i).is(':checked')){
+    				total += parseInt(prices[i-1].innerText);
+    			}
+    		}
+            let origin = intToWon(total);
+            console.log(origin);
+            document.getElementById('total').innerText = origin;
+            document.getElementById('total2').innerText = origin;
+        });
+    }
+    
+    
+    
+});
+
+function wonToInt(s) {
+    return parseInt(s.substr(0, s.length - 1).replaceAll(',', ''));
+  }
+
+function intToWon(s) {
+    
+    return s.toLocaleString() + '원';
+  }
+  
+ $(document).ready(function() {
+	  // 맨 위 체크박스 클릭 시
+	 /*
+	  $('#check_all').on('click', function() {
+	    // 전체 상품 가격
+	    var totalPrice = 0;
+	    // 상품 리스트 각각의 체크박스들에 대하여
+	    $('.cart_item').each(function() {
+	      // 맨 위 체크박스의 상태에 따라
+	      if ($('#check_all').is(':checked')) {
+	        // 모든 체크박스를 체크
+	        $(this).prop('checked', true);
+	        // 상품 가격을 전체 상품 가격에 더함
+	        if (!isNaN(parseInt($(this).closest('.cart_item').find('.price').text().replace('원', '')))){
+		         totalPrice += parseInt($(this).closest('.cart_item').find('.price').text().replace('원', '')); 
+		         console.log(parseInt($(this).closest('.cart_item').find('.price').text().replace('원', ''))); }
+	        else{
+	        	
+	        }
+		      } else {
+	        // 모든 체크박스를 체크 해제
+	        $(this).prop('checked', false);
+	        // 상품 가격을 전체 상품 가격에서 뺌
+	        totalPrice -= parseInt($(this).closest('.cart_item').find('.price').text().replace('원', ''));
+	      }
+	    });
+	    // 전체 상품 가격을 HTML에 반영
+	    $('.total_price').text(totalPrice + '원');
+	  });
+
+	  */
+	}); 
+
+ const updateTotalCount = (index) => {
+		const data = document.getElementById("plusCount" + index);
+
+		const postData = {
+			mid: data.getAttribute("data-mid"),
+			psId: data.getAttribute("data-psid"),
+			count: Number(data.getAttribute("value"))
+		}
+		const token = $("meta[name='_csrf']").attr("content");
+		const header = $("meta[name='_csrf_header']").attr("content");
+
+
+		$.ajax({
+			url: "http://localhost:8080/cart/updateCartCount",
+			async: true,
+			type: "POST",
+			contentType: "application/json;charset=utf-8",
+			data: JSON.stringify(postData),
+			dataType: 'json',
+			success: (res) => {
+				if(res.code === "0000") {
+					alert("데이터가 변경되었습니다.");
+						window.location.reload();
+				}
+			},
+			beforeSend: (xhr) => {
+				xhr.setRequestHeader(header, token)
+			}
+		})
+	}
+ 
+ const setCount = (type, index, count ,e) => {
+		const value = document.getElementById("plusCount" + index).getAttribute("value");
+	 	const minus = document.getElementById("minus_btn" + index);
+
+
+		if(type === "plus") {
+			minus.disabled = false;
+			document.getElementById("plusCount" + index).setAttribute("value", Number(value) + 1);
+		} else {
+				document.getElementById("plusCount"+ index).setAttribute("value", Number(value) - 1);
+				if(Number(count) + Number(value) === 2) {
+					minus.disabled = true;
+				}
+		}
+	}
+
+	const onChangeCheckBox = (index, e) => {
+
+	 	const listAll = [[${cartlist}]];
+
+		 console.log(listAll);
+
+
+	 	if(e.target.checked) {
+			 if(localStorage.getItem("checkCart")) {
+				 let checkedArr = JSON.parse(localStorage.getItem("checkCart"));
+				 if(!Boolean(checkedArr[0])) {
+					 const listOne = listAll.find(e=> e.index === Number(index));
+					 localStorage.removeItem("checkCart");
+					 localStorage.setItem("checkCart", JSON.stringify([listOne]));
+					 console.log(checkedArr.length);
+				 } else {
+					 if(!Boolean(checkedArr.filter(e => e.index === Number(index))[0])) {
+						 checkedArr.push(listAll.find(e=> e.index === Number(index)));
+					 }
+					 localStorage.removeItem("checkCart");
+					 localStorage.setItem("checkCart", JSON.stringify(checkedArr));
+				 }
+			 } else {
+				 const listOne = listAll.find(e=> e.index === Number(index));
+				 localStorage.removeItem("checkCart");
+				 localStorage.setItem("checkCart", JSON.stringify([listOne]));
+			 }
+		} else {
+			let checkedArr = JSON.parse(localStorage.getItem("checkCart"));
+			localStorage.removeItem("checkCart");
+			localStorage.setItem("checkCart", JSON.stringify(checkedArr.filter(e => e.index !== Number(index))));
+
+		}
+	}
+
+ // cd
+</script>
+</body>
+</html>

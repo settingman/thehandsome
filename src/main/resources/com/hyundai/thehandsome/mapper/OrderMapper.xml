@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.hyundai.thehandsome.mapper.OrderMapper">
+
+	<insert id="save"
+		parameterType="com.hyundai.thehandsome.domain.order.OrderRequest">
+		INSERT INTO
+		    ORDERS( OID, ORECEIVER, OADDRESS1, OADDRESS2, OZIPCODE, OPHONE, OTEL, OMEMO, OBEFOREPRICE, OAFTERPRICE, OSTATUS, MID, PMCODE, CPID, OEMAIL)
+		VALUES(#{oid}, #{oreceiver}, #{oaddress1}, #{oaddress2}, #{ozipcode}, #{ophone}, #{otel}, #{omemo}, #{obeforePrice}, #{oafterPrice}, '주문완료', #{mid}
+			, 'pmcode1', #{cpid}, #{oemail})
+	</insert>
+
+	<insert id="saveItem"
+			parameterType="com.hyundai.thehandsome.domain.order.OrderRequest">
+		INSERT INTO
+			ORDER_ITEM(
+				PSID
+				,OID
+				,OICOUNT
+				,OITOTALPRICE
+		)
+		VALUES(
+				'PSID'
+				,'OID'
+				,#{oicount}
+				,#{oafterPrice}
+			  )
+	</insert>
+
+	<insert id="savePayment"
+			parameterType="com.hyundai.thehandsome.domain.order.OrderRequest">
+		INSERT INTO
+			PAYMENT_METHOD(
+				PMCODE
+				,PMCOMPANY
+				,PMMETHOD
+		)
+		VALUES(
+				'PMCODE'
+				,#{pmcompany}
+				,#{pmmethod}
+			  )
+	</insert>
+
+
+</mapper>

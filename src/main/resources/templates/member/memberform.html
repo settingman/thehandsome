@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<!-- 사용자 CSS 추가 -->
+<th:block layout:fragment="css">
+	<style>
+.fieldError {
+	color: #bd2130;
+}
+</style>
+</th:block>
+<th:block th:replace="common/head :: headFragment"></th:block>
+
+<div>
+
+
+	<form id="memberJoinForm" action="/member/joininfoform" method="POST" th:object="${memberFormDto}">
+		<div class="form-group py-2">
+			<input type="text" id="uid" th:field="*{mId}" value="95parksh@naver.com" />
+			<input type="text" id="name" th:field="*{mName}" class="user_name" placeholder="이름을 입력하세요." title="이름을 입력하세요." maxlength="100" />
+			<input type="password" id="pw" th:field="*{mPassword}" class="user_pw" placeholder="비밀번호를 입력하세요." title="비밀번호를 입력하세요." maxlength="100" />
+			<input type="text" id="emailAddress" th:field="*{mEmail}" class="user_email" placeholder="이메일을 입력하세요." title="이메일을 입력하세요." maxlength="100" />
+			<input type="text" id="sample6_postcode" th:field="*{mZipCode}" placeholder="우편번호">
+			<input type="text" id="phone" th:field="*{mPhone}" class="user_Phone" placeholder="핸드폰번호를 입력하세요." title="핸드폰번호를 입력하세요." maxlength="100" />
+			<br>
+			<input type="text" id="sample6_address" th:field="*{mAddress1}" placeholder="주소">
+			<br>
+			<input type="text" id="sample6_detailAddress" th:field="*{mAddress2}" placeholder="상세주소">
+			<input type="radio" th:field="*{mGender}" value="1" style="opacity: initial; position: relative; appearance: auto">
+			남자
+			<input type="radio" th:field="*{mGender}" value="2" checked="checked" style="opacity: initial; position: relative; appearance: auto">
+			여자
+		</div>
+
+
+		<div style="text-align: center" class="py-3">
+			<button type="submit" class="btn btn-outline-dark">Submit</button>
+			<button type="button" class="btn btn-outline-dark" onclick="history.back();">Cancel</button>
+		</div>
+		
+	</form>
+
+</div>
+
+</html>

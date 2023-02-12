@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.hyundai.thehandsome.mapper.MyPageMapper">
+
+
+
+
+
+	<select id="findWishlist"
+		resultType="com.hyundai.thehandsome.domain.mypage.WishList">
+		SELECT LIKES.PID as productCode, Product_color.PCIMG1 as
+		productImages FROM LIKES, Product_color
+		WHERE
+		LIKES.Member_MID=#{mId}
+		and LIKES.PID=Product_color.PCID
+	</select>
+	
+	<select id="findWish"
+		resultType="String">
+		SELECT PID
+		FROM LIKES
+		Where
+		Member_MID=#{mId}
+		and PID=#{productCode}
+	</select>
+
+	<insert id="insertWishlist">
+		INSERT INTO LIKES
+		VALUES( #{productCode} , #{mId}, #{sysdate})
+	</insert>
+
+	<delete id="deleteWishlist">
+		delete from LIKES
+		WHERE PID=#{productCode} and
+		Member_MID=#{mId}
+	</delete>
+
+
+
+</mapper>

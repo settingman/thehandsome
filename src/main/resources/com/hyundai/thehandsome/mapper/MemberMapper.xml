@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.hyundai.thehandsome.mapper.MemberMapper">
+
+
+
+
+
+	<select id="findById"
+		resultType="com.hyundai.thehandsome.domain.member.Member">
+		SELECT MID, MPassword, MName, MPhone, MEmail, MZipCode,
+		MAddress1, MAddress2, MBirth, MGender, MRole
+		FROM MEMBER
+		where
+		MID=#{mId}
+	</select>
+	
+	
+	<select id="findByNameBirth"
+		resultType="com.hyundai.thehandsome.domain.member.Member">
+		SELECT MID, MPassword, MName, MPhone, MEmail, MZipCode,
+		MAddress1, MAddress2, MBirth, MGender, MRole
+		FROM MEMBER
+		where
+		MName=#{mName} and MBirth=#{mBirth}
+	</select>
+	
+	<select id="findByNameId"
+		resultType="com.hyundai.thehandsome.domain.member.Member">
+		SELECT MID, MPassword, MName, MPhone, MEmail, MZipCode,
+		MAddress1, MAddress2, MBirth, MGender, MRole
+		FROM MEMBER
+		where
+		MName=#{mName} and MId=#{mId}
+	</select>
+	
+	
+	<update id="updatePassword">
+		update MEMBER set MPassword = #{encryptPassword}
+		where mId =#{mId}
+	</update>
+	
+
+
+	<insert id="save"
+		parameterType="com.hyundai.thehandsome.domain.member.Member">
+
+
+		INSERT INTO MEMBER
+		VALUES(
+		#{mId},
+		#{mPassword},
+		#{mName},
+		#{mEmail},
+		#{mPhone},
+		1,
+		#{mZipCode},
+		#{mAddress1},
+		#{mAddress2},
+		#{mBirth},
+		#{mGender},
+		1,
+		1,
+		1,
+		1,
+		#{mRole},
+		1,
+		1)
+
+
+
+	</insert>
+
+
+
+</mapper>

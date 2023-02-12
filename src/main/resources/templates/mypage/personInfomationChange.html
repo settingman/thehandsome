@@ -1,0 +1,1767 @@
+<!--
+ @Date : 2023. 02. 06.
+ @작성자 : 박성환
+ @설명 :  개인정보 변경 페이지
+-->
+
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<title>개인정보 변경 비밀번호 체크 | 더한섬닷컴</title>
+
+<th:block th:replace="common/head :: headFragment"></th:block>
+
+
+<body class="back">
+	<script>
+			(function(){
+				if (document.cookie.indexOf('thehyundai=true') > -1) {
+					var d = new Date();
+					d.setTime(d.getTime() + (365*24*60*60*1000));
+					document.cookie = 'sslvisit=true; expires=' + d.toUTCString() + '; path=/';
+				}else if (document.cookie.indexOf('rakuten=') > -1) {
+					var d = new Date();
+					d.setTime(d.getTime() + (365*24*60*60*1000));
+					document.cookie = 'sslvisit1=true; expires=' + d.toUTCString() + '; path=/';
+				}else if (document.cookie.indexOf('hyundaihmall=true') > -1) {
+					var d = new Date();
+					d.setTime(d.getTime() + (365*24*60*60*1000));
+					document.cookie = 'sslvisit2=true; expires=' + d.toUTCString() + '; path=/';
+				}else if (document.cookie.indexOf('fromSite') > -1) {
+	                var d = new Date();
+	                d.setTime(d.getTime() + (365*24*60*60*1000));
+	                document.cookie = 'sslvisit3='+ "" +'; expires=' + d.toUTCString() + '; path=/';
+	            }else if (document.cookie.indexOf('recommender') > -1) {
+	                var d = new Date();
+	                d.setTime(d.getTime() + (365*24*60*60*1000));
+	                document.cookie = 'sslvisit4='+ "" +'; path=/';
+	            }
+			})();
+			</script>
+	<!-- Loading -->
+	<div style="display: none;">
+		<div id="loadingBarDiv" style="display: none;"></div>
+	</div>
+	<!-- //Loading -->
+
+	<form id="CSRFForm" action="/ko/mypage/personInfomationChange" method="post">
+		<div>
+			<input type="hidden" name="CSRFToken" value="8a6fb5d8-a401-44ec-87d4-f82247220f5b">
+		</div>
+	</form>
+	<div id="mapleMainPopwrap"
+		style="position: fixed; top: 50%; left: 50%; width: 81.333333%; z-index: 805; transform: translate(-50%, -50%); display: none"
+	></div>
+
+	<div class="layerArea" id="mapleLayer" style="display: none;">
+		<div class="layerBg"></div>
+	</div>
+
+	<!-- ################## hsome_allContents_wrapper | ë³¸ë¬¸ ì»¨íì¸  ìì­ ################## -->
+	<div class="hsome_allContents_wrapper">
+
+		<div class="hsome_allContents" style="margin-top: 0px;">
+
+			<header class="hsome_header header_noline header_mypage">
+				<!-- 마이페이지 알림 아이콘 -->
+				<a href="/ko/mypage/noticebox" class="h_report mypage">마이페이지 알림(SNS 알림과 동일 이미지)<span class="">new</span></a>
+				<h1 class="h_select">
+					<select id="headerMypageSelect" onchange="GA_Event('마이페이지', 'MY_GNB', this.selectedOptions[0].text.replaceAll(' ', '').replace('신청/조회',''));">
+						<option value="" style="display: none"></option>
+						<option value="/ko/mypage/mypageFloatingPopup">마이페이지
+							<!-- 마이페이지 --></option>
+						<option value="/ko/mypage/order/myorders">주문/배송조회
+							<!-- 주문/배송조회 --></option>
+
+						<option value="/ko/mypage/rsalarm">재입고 알림
+							<!-- 재입고/세일 알림 --></option>
+						<option value="/ko/mypage/myWish">마이하트
+							<!-- 위시리스트 --></option>
+						<option value="/ko/svcenter/mobilemain">고객센터
+							<!-- 고객센터 -->
+						</option>
+						<option value="/mypage/personInfomationChangePWCheck">개인정보변경
+							<!-- 개인정보변경 --></option>
+						<option value="/ko/mypage/mydelivery">배송지 관리
+							<!-- 배송지 관리 --></option>
+						<option value="/ko/mypage/voucher">쿠폰
+							<!-- 쿠폰 --></option>
+						<option value="/ko/mypage/myreview">상품평
+							<!-- 상품평 --></option>
+						<option value="/ko/mypage/mymantomaninquiry">1:1 문의
+							<!-- 1:1 문의 -->
+						</option>
+						<option value="/ko/mypage/myqna">상품 Q&amp;A
+							<!-- 상품 Q&A --></option>
+						<option value="/ko/mypage/event/myevents">나의 이벤트
+							<!-- 나의 이벤트 --></option>
+					</select>
+					<div class="selected_text">
+						<span> 개인정보변경</span>
+					</div>
+
+					<script type="text/javascript">
+$(document).on('change', '#headerMypageSelect', function () {
+	if ($(this).val() == "") return;
+
+	
+    
+	if($(this).val() == "/ko/mypage/mymantomaninquiry") {
+		location.href = "/ko/mypage/mymantomaninquiry?refererUrl=mypage";
+	} else {
+		location.href = $(this).val();
+	}
+});
+$('#headerMypageSelect > option').each(function (idx, obj) {
+	if ($(obj).attr('value') == "") return true;
+	if (location.pathname == $(obj).attr('value')) {
+		$(obj).prop('selected', 'selected');
+	}
+	
+	if(location.pathname.indexOf("mantomaninquiry") > -1 && $(obj).attr('value').indexOf("mymantomaninquiry") > -1) {
+		$(obj).prop('selected', 'selected');
+	}
+});
+</script>
+				</h1>
+				<a href="javascript:noLink();" onclick="goBack();" class="h_prev">이전 페이지로 가기</a>
+				<ul class="h_gnbMenu">
+					<li class="search"><a href="/ko/mobilecommon/search"><span>search</span></a></li>
+					<li class="cart"><a href="/ko/shoppingbag"><span>cart</span><i>0</i></a></li>
+				</ul>
+			</header>
+			<script type="text/javascript">
+//<![CDATA[ 
+$(document).ready(function(){
+	
+		$(".our_privacy_info_btn").click(function(){
+			$(".m_popModalBg_ldg").show();
+			$(".privacy_info_popwrap_01").show();
+		});
+		$(".privacy_info_popwrap_01 .b-close").click(function() {
+			$(".m_popModalBg_ldg").hide();
+			$(".privacy_info_popwrap_01").hide();
+		});
+		 
+	
+	$("#agr_mkt_04").change(function() {
+		 if($('#agr_mkt_04').is(":checked")){
+				$("#checkYN").val("Y");
+		 }else{
+			 	$("#checkYN").val("N");
+		 }
+	});
+
+    //일반
+    $('#addrSearchBtn').click(function(){
+		searchAddressLayer('address1', 'address2', 'zipCode');
+	});
+	
+	$('#zipCode').click(function(){
+		$('#addrSearchBtn').click();
+	});
+	
+
+	$(".numberInput").keypress(function(event){
+		if(!isNum(event.which)) return false;
+	}).keydown(function(event){
+		if(!isNum(event.which)) return false;
+	});
+	
+	var isNum = function(keyNum){
+		if(keyNum && (keyNum  > 47 && keyNum  < 58 || keyNum  > 95 && keyNum  < 106 || keyNum == 8 || keyNum == 9 || keyNum == 37 || keyNum == 39 || keyNum == 46)){
+			return true;
+		}else{
+			return false;
+		}
+	};
+	
+    $("#selDay").change(function(){
+        if($("#selDay option:eq(0)").val() == "default"){
+           $("#selDay option:eq(0)").remove();
+        }       
+    });
+	
+	
+	    //간편
+        var nowYear = parseInt('2009');
+        var nowMonth = parseInt('02');
+        var nowDay = parseInt('06');
+        var monthArray = [0, 31, 28, 31, 30, 31, 30, 31, 31 ,30, 31, 30, 31];
+
+       //if(nowYear < 2000) nowYear += 1900;
+       
+       
+       //년도 
+       for(var i=nowYear; i>=1900; i--) {
+           $('#selYear').append("<option value='" + i + "'>" + i + "</option>");
+       }
+       
+        $("#selDay").val("**");
+        $("#selMonth").val("09");
+        $("#selYear").val("1995");
+       
+       $("#selYear").change(function(){
+
+       	var selYear1 = $('#selYear').val();
+       	
+    		if($('#selMonth').val() == 02){
+    			
+    			if($("#selDay option:last").val() >= 29){
+
+       			$("#selDay option[value='29']").remove();
+       			$("#selDay option[value='30']").remove();
+       			$("#selDay option[value='31']").remove();
+       		}
+       		
+    			if((selYear1%4 == 0 && selYear1%100 !=0) || selYear1%400 == 0 ){
+    				
+       			$("#selDay").append("<option value='29'>29</option>");
+       		}
+       	}
+    		
+    		//만14세미만 가입X
+    		if(nowYear == selYear1){
+    			for(var i = nowMonth+1;i <= 12; i++){
+    				if(i<10){$("#selMonth option[value='0"+i+"']").remove();}
+    				else{$("#selMonth option[value='"+i+"']").remove();}
+    				if($("#selMonth").val() > nowMonth)$("#selMonth").val('').prop("selected", true);
+    			}
+    			
+    			if(nowMonth == parseInt($('#selMonth').val())){
+    				
+    				var n_selMonth = parseInt($('#selMonth').val());
+    				var maxDay = monthArray[n_selMonth];
+
+    				for(var i = nowDay+1;i <= maxDay;i++){
+    					if(i<10){$("#selDay option[value='0"+i+"']").remove();}
+    					else{$("#selDay option[value='"+i+"']").remove();}
+    					if($("#selDay").val() > nowDay){$("#selDay").val('').prop("selected", true);}
+    				}
+    			}
+    		}else{
+    			var n_selMonth = parseInt($('#selMonth').val());
+    			var maxDay = monthArray[n_selMonth];
+    			
+    			if($("#selMonth option:last").val() < 12){
+    				for(var i = nowMonth+1;i <= 12; i++){
+    					if(i<10){$("#selMonth").append("<option value='0"+i+"'>0"+i+"</option>");}
+    					else{$("#selMonth").append("<option value='"+i+"'>"+i+"</option>");}
+    				}
+    			}
+    			if($("#selDay option:last").val() < maxDay){
+    				if($('#selMonth').val() == 02){
+    					if((selYear1%4 == 0 && selYear1%100 !=0) || selYear1%400 == 0 ){maxDay=29;}
+    				}
+    				for(var i = parseInt($("#selDay option:last").val())+1;i <= maxDay;i++){
+    					if(i<10){$("#selDay").append("<option value='0"+i+"'>0"+i+"</option>");}
+    					else{$("#selDay").append("<option value='"+i+"'>"+i+"</option>");}
+    				}
+    			}
+    			
+    		}
+       });
+       
+       $("#selMonth").change(function(){
+       	var lastDay = $("#selDay option:last").val();
+       	var selYear1 = $('#selYear').val();
+       	var n_selMonth = parseInt($('#selMonth').val());
+    		var maxDay = monthArray[n_selMonth];
+       	
+       	if($(this).val() == 02){
+       		
+       		
+       		$("#selDay option[value='31']").remove();
+    			$("#selDay option[value='30']").remove();
+    			$("#selDay option[value='29']").remove();
+       		
+       		if((selYear1%4 == 0 && selYear1%100 !=0) || selYear1%400 == 0){
+       			$("#selDay").append("<option value='29'>29</option>");
+           		
+       		};
+
+       		
+       	}else if($(this).val() == 04 || $(this).val() == 06 || $(this).val() == 09 || $(this).val() == 11){
+       		
+       		
+       			if(lastDay == 28){
+    					$("#selDay").append("<option value='29'>29</option>");
+    					$("#selDay").append("<option value='30'>30</option>");
+       			}else if(lastDay == 29){
+    					$("#selDay").append("<option value='30'>30</option>");
+       			}else if(lastDay == 31){
+    					$("#selDay option[value='31']").remove();
+       			}
+       		
+       			
+       	}else{
+       		
+       		if(lastDay == 28){
+       			$("#selDay").append("<option value='29'>29</option>");
+       			$("#selDay").append("<option value='30'>30</option>");
+       			$("#selDay").append("<option value='31'>31</option>");
+       		}else if(lastDay == 29){
+       			$("#selDay").append("<option value='30'>30</option>");
+       			$("#selDay").append("<option value='31'>31</option>");
+       		}else if(lastDay == 30){
+    				$("#selDay").append("<option value='31'>31</option>");
+       		}
+       	}
+       	
+       	
+       	//만14세미만 가입X
+    		if(nowYear == selYear1 && nowMonth == $('#selMonth').val()){
+    			
+    				for(var i = nowDay + 1;i <= $("#selDay option:last").val();i++){
+    					if(i<10){$("#selDay option[value='0"+i+"']").remove();}
+    					else{$("#selDay option[value='"+i+"']").remove();}
+    					if($("#selDay option:last").val() < $("#selDay").val())$("#selDay").val('').prop("selected", true);
+    				}
+    		}else{
+    			
+    			if($("#selDay option:last").val() < maxDay){
+    				for(var i = parseInt($("#selDay option:last").val()) + 1;i <= maxDay;i++){
+    					if(i<10){$("#selDay").append("<option value='0"+i+"'>0"+i+"</option>");}
+    					else{$("#selDay").append("<option value='"+i+"'>"+i+"</option>");}
+    				}
+    			}
+    		}
+       });
+       
+        $("#selYear").trigger('change');
+        $("#selMonth").trigger('change');
+            
+	    if ("false" === "true") {
+			$('input[name="emailReceiveYN"]:checkbox').attr('checked', 'checked');	
+		}
+	    
+	    $("#selDay option:eq(0)").prop("selected",true);
+   	
+   	
+   	var hPointConnectYn = "N";
+	var url = window.location.href;
+	
+	if(url.indexOf("development.thehandsome.com") > -1) {
+		hPointConnectYn = "Y";
+	} else if (url.indexOf("staging.thehandsome.com") > -1){
+		hPointConnectYn = "Y";
+	} else {
+		hPointConnectYn = "Y";
+			
+	}
+	if(hPointConnectYn == "N") {
+		$("#updateBtn").click(function(){
+			var la = new layerAlert("통합멤버십 작업으로 인해 일시적으로 사용이 제한 됩니다.불편을 드려 죄송합니다.");
+			return false;
+		});
+		
+		$("#memberSecessionBtn").click(function(){
+			var la = new layerAlert("통합멤버십 작업으로 인해 일시적으로 사용이 제한 됩니다.불편을 드려 죄송합니다.");
+			return false;
+		});
+		
+		$("#hpJoinChangeBtn").click(function() {
+			var la = new layerAlert("통합멤버십 작업으로 인해 일시적으로 사용이 제한 됩니다.불편을 드려 죄송합니다.");
+			return false;
+		});
+		
+		$("#pwChangeBtn").click(function() {
+			var la = new layerAlert("통합멤버십 작업으로 인해 일시적으로 사용이 제한 됩니다.불편을 드려 죄송합니다.");
+			return false;
+		});
+	} else {
+		$("#updateBtn").click(function(){
+			$("#addrMsg").hide();
+			$("#hpMsg").hide();
+			$("#emailMsg").hide();
+			
+			
+		        if ( ($.trim($("#email").val()) == "") || ($.trim($("#emailDomain").val()) == "") ) {
+		        	$("#emailMsg").text("이메일을 입력하세요.");
+		        	$("#emailMsg").show();
+		        	$("#email").focus();
+		        	return;
+		        }	        
+			
+				if ( ($.trim($("#selYear").val()) == "") || ($.trim($("#selMonth").val()) == "") || ($.trim($("#selDay").val()) == "") ) {
+		        	$("#birthMsg").text("생년월일을 입력하세요.");
+		        	$("#birthMsg").show();
+		        	$("#selYear").focus();
+		        	return;
+		        }
+				
+		        if ($.trim($("#name").val()) == "") {
+		        	$("#nameMsg").text("이름을 입력하세요.");
+		        	$("#nameMsg").show();
+		        	$("#name").focus();
+		        	return;
+		        }
+		        
+		        $("#sBirthday").val($("#selYear").val() + $("#selMonth").val() + $("#selDay").val());
+	        
+	        
+			var hpCheckResult = phoneNumbericCheck();
+			
+			if(hpCheckResult != "SUCCESS"){
+				$("#hpMsg").text("전화번호는 숫자만 입력가능 합니다.");
+				$('#'+hpCheckResult).focus();
+			}
+					
+	        if ($.trim($("#email").val()) == "") {
+	        	$("#emailMsg").text("이메일을 입력하세요.");
+	        	$("#email").focus();
+	        	return;
+	        }
+	
+	        if ($.trim($("#emailDomain").val()) == "") {
+	        	$("#emailMsg").text("이메일을 입력하세요.");
+	        	$("#emailDomain").focus();
+	        	return;
+	        }
+	        
+	        if ($.trim($("#emailDuplChk").val()) == "") {
+	        	$("#emailMsg").show();
+	        	$("#emailMsg").text('이메일 중복체크를 해주세요.');
+	        	$("#emailDubChkBtn").focus();
+	        	return;
+	        }     
+	        
+	        if ($.trim($("#emailDuplChk").val()) == "N") {
+	        	$("#emailMsg").show();
+	        	$("#emailMsg").text('이미 사용중인 이메일입니다.');
+	        	$("#emailDubChkBtn").focus();
+	        	return;
+	        }
+	        
+	        var chkEmail = $("#email").val()+"@"+$("#emailDomain").val();
+	        
+	        if (chkEmail.length > 50){
+	            $("#emailMsg").show();
+	            $("#emailMsg").text("이메일은 최대 50자입니다.");
+                $("#email").focus();
+                return;
+            }
+	        
+			
+			var la = new layerConfirm('회원정보를 변경하시겠습니까?','확인','취소');
+			la.confirmAction = function(){//확인 호출 펑션
+				showLoadingLp(); //로딩레이어 호출
+				$("#emailAddress").val($("#email").val()+"@"+$("#emailDomain").val());
+				$("#mobilePhoneNumber").val($("#hp1").val()+"-"+$("#hp2").val()+"-"+$("#hp3").val());
+				
+				if($("#ph1").val() == "")
+					$("#telephoneNumber").val("");
+				else if($("#ph2").val() == "")
+					$("#telephoneNumber").val("");
+				else if($("#ph3").val() == "")
+					$("#telephoneNumber").val("");
+				else
+					$("#telephoneNumber").val($("#ph1").val()+"-"+$("#ph2").val()+"-"+$("#ph3").val());
+				
+				var paramDatas = $("#updateProfileForm").serialize();
+				
+				$.ajax({
+					type:"POST",
+					url:"/ko/mypage/memberUpdate",
+					datatype:"json",
+					data:paramDatas,
+					error : function( request, status, error ){
+						hideLoadingLp(); //로딩레이어 숨기
+						layerAlert("예상치 못한 오류가 발생하였습니다.</br>" + "다시 시도해 주시기 바랍니다.");
+						console.log( "code:" + request.status+"\n\n\n\n" + "message:" + request.responseText+"\n\n\n\n" + "error:" + error );
+					},
+					success:function(result){
+						if(result == "SUCCESS"){
+							var lc = new layerAlert('입력하신 정보가 변경완료 되었습니다.');
+							
+							lc.confirmAction = function(){
+								//location.href="/ko/mypage/personInfomationChange";
+								$("#addrMsg").hide();
+								$("hpMsg").hide();
+								$("emailMsg").hide();
+								hideLoadingLp(); //로딩레이어 숨기
+							};						
+						}else{
+							hideLoadingLp(); //로딩레이어 숨기
+							layerAlert("예상치 못한 오류가 발생하였습니다.</br>" + "다시 시도해 주시기 바랍니다.");
+						}
+					}
+				});
+			};
+		});
+		
+	    //회원탈퇴
+	    $("#memberSecessionBtn").click(function(){
+	        var selectTypeYn = "N";
+	        if(selectTypeYn == 'Y'){ 
+	            location.href = "/mypage/memberSecessionType";
+	        }else {
+	            location.href = "/mypage/memberSecessionStep1";    
+	        }
+	    });
+	    
+	 // 통합회원 회원가입 페이지
+	    $("#hpJoinChangeBtn").click(function() {
+	    	transMember();
+			//window.open("https://www.h-point.co.kr/cu/join/start.nhd");
+	    });
+	    
+		//비밀번호변경
+		$("#pwChangeBtn").click(function() {
+			callLayerPopup('/mypage/changePw','depth1');
+		});
+	}
+    
+    
+	if("ko" == "ko"){
+	    $("#cancleBtn").click(function(){
+	        var lc = new layerConfirm('개인정보 변경을 <br/>취소하시겠습니까?', '확인', '취소');
+	        lc.confirmAction = function(){
+	            location.href="/ko/";
+	        };
+	    });
+	}
+	
+    $("#email,#emailDomain").bind("change keyup input", function(event){
+        $(this).val( $(this).val().replace(' ', '') );
+        $("#emailDuplChk").val('');
+    });
+	
+    $('#emailDubChkBtn').click(function(){
+        var vc = new ValidationCheck();
+        vc.checkIdList = ['email','emailDomain'];
+        vc.msgFn = function(msg){
+        	$("#emailMsg").show();
+            $("#emailMsg").text(msg);
+            $("#emailDuplChk").val('');
+            return;
+        };
+        
+        if(vc.isValid()){
+        	var emailRegExp = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/;
+            var email = $("#email").val()+"@"+$("#emailDomain").val();
+            
+            if ( emailRegExp.test(email) !== true ) {
+            	$("#emailMsg").show();
+                $("#emailMsg").text("잘못된 E-mail 형식입니다.");
+                $("#emailDuplChk").val('');
+                return;
+            } 
+            
+            
+            
+            if (email == '95n*****************') {
+            	$("#emailMsg").show();
+                $("#emailMsg").text('사용 가능한 이메일입니다.');
+            	$("#emailDuplChk").val('Y');
+            	return;
+            }
+      
+            if (email == '95n*******'+'@'+'naver.com') {
+            	$("#emailMsg").show();
+                $("#emailMsg").text('사용 가능한 이메일입니다.');
+            	$("#emailDuplChk").val('Y');
+            	return;
+            }
+            
+            $.ajax({
+                type:"GET",
+                url:"/ko/member/isduplemail?email="+email,
+                success:function(response){
+                    if(response==true){
+                    	$("#emailMsg").show();
+                        $("#emailMsg").text('이미 사용중인 이메일입니다.');
+                        $("#emailDuplChk").val('N');
+                        return;
+                    }else{
+                    	$("#emailMsg").show();
+                        $("#emailMsg").text('사용 가능한 이메일입니다.');
+                        $("#emailDuplChk").val('Y');
+                        return;
+                    }
+                },
+                error:function(e){
+                	alert(e);
+                    console.log(e);
+                    return;
+                }
+            });
+        }
+    });
+    
+    $('#emailDomainSel').change(function(){
+        var $current = $('#emailDomainSel option:selected').val();
+        if($current==""){
+            $('#emailDomain').val('');
+            $('#emailDomain').attr('readOnly', false);
+        }else{
+            $('#emailDomain').val($current);
+            $('#emailDomain').attr('readOnly', true);
+        }       
+    });	
+	
+	//핸드폰번호, 집전화번호 첫번째 자리 셋팅
+	$("#hp1").val("");
+	$("#ph1").val("");
+	
+	if ("false" === "true") {
+		$('input[name="emailReceiveYN"]:checkbox').attr('checked', 'checked');	
+	}
+	
+	if ("false" === "true") {
+		$('input[name="smsReceiveYN"]:checkbox').attr('checked', 'checked');	
+	}
+	
+/*  	if ("true" === "true") {
+		$('input[name="pushMktYN"]:checkbox').attr('checked', 'checked');	
+	} */	 
+});
+
+//회원변경시에만 사용되는 블라인드 영역을 클릭해도 팝업이 안닫히도록 수정
+var halfLayerChangePopup = function(layerId){
+	
+	var PARAMS = {};
+	PARAMS.layerId = layerId;
+	PARAMS.layer = $("#"+PARAMS.layerId);
+
+
+	this.openNewLayer = function(){
+
+		var lp=($(window).width()-PARAMS.layer.width())/2;
+		var tp=($(window).height()-PARAMS.layer.height())/2+$(window).scrollTop();
+		if(lp<0) lp=0;
+		if(tp<0) tp=0;
+
+		var layer_width = PARAMS.layer.width();
+		var layer_height = PARAMS.layer.height();
+		var window_height = $(window).height();
+		
+		var scrollTop = $(window).scrollTop();
+		PARAMS.layer.css("position", "absolute").css("z-index", 101).css("left", lp).css("height", "auto").css("overflow-y", "auto").css("top", scrollTop).css("top", "25%");
+
+		var layerTag = '<div class="layerArea">';
+		layerTag +='<div class="layerBg"></div> ';
+		layerTag +='</div>';
+
+		var thisLayer = $(layerTag).appendTo($('body')).append(PARAMS.layer.clone().show());
+		$('body').css("cssText", " overflow:hidden !important");
+		
+		
+		thisLayer.find('.btn_close, .pop_cls, #cancelBtn, #backBtn').click(function(){
+			$('body').css('overflow', '');
+			thisLayer.remove();
+			PARAMS.layer.clone().hide();
+		});
+		
+		return thisLayer;
+	};
+	
+	return this.openNewLayer();
+};
+
+function showZipPop() {
+	searchAddressLayer('address1', 'address2', 'zipCode');
+}
+
+function transMember(){
+	var hdUrl = "https://www.h-point.co.kr" + "/cu/join/start.nhd";
+    
+    
+		document.getElementById("ptcoReqnMdaInf").value = "web";		
+	    $("#userHiddenForm").attr("action", hdUrl);
+	    $("#userHiddenForm").submit();		
+	
+} 
+
+//]]>
+</script>
+			<form id="userHiddenForm" method="post" target="transMember">
+				<input type="hidden" name="prtnrReqGb" value="03">
+				<input type="hidden" name="prtnrId" value="D080">
+				<input type="hidden" name="chnnlId" value="1705">
+				<input type="hidden" name="custNm" value="박성환">
+				<input type="hidden" name="birthDt" value="19950908">
+				<input type="hidden" name="mophNo" value="">
+				<input type="hidden" name="chId" value="95nanoland@naver.com">
+				<input type="hidden" name="custUniqKey" value="95nanoland@naver.com">
+				<input type="hidden" name="email" value="95nanoland@naver.com">
+				<input type="hidden" name="sexGbCd" value="2">
+				<input type="hidden" name="ci" value="">
+				<input type="hidden" name="ptcoReqnMdaInf" id="ptcoReqnMdaInf" value="">
+			</form>
+			<form id="updateProfileForm" action="/ko/mypage/personInfomationChange" method="post">
+				<input type="hidden" name="prk" id="prk" value="8953969410052">
+				<input type="hidden" name="emailDuplChk" id="emailDuplChk" value="Y" title="이메일 중복">
+				<input type="hidden" id="emailAddress" name="emailAddress" value="">
+				<input type="hidden" id="sBirthday" name="sBirthday" value="">
+				<input type="hidden" id="checkYN" name="checkYN" value="N">
+
+				<!-- contents s -->
+				<div id="contents" class="hsome_contents mp_profile_wrap mp_profile_simple_wrap">
+					<div class="gray_tab">
+						<h4 class="title">비밀번호를 변경하고 싶으세요?</h4>
+						<div class="btn_wrap btn_wrap_div1">
+							<a href="#none" class="btnstl3 solid_btn_blk btn_layerpopup_call" id="pwChangeBtn">비밀번호 변경</a>
+						</div>
+					</div>
+					<div class="mp_input_wrap">
+						<span class="point_star_l">표시는 필수항목입니다.</span>
+
+						<div class="input_box">
+							<div class="ipt_tit">
+								<span>아이디</span>
+							</div>
+							<div class="ipt_con">
+								<input type="text" value="95n*****************" readonly="readonly">
+							</div>
+						</div>
+
+						<div class="input_box">
+							<div class="ipt_tit">
+								<span>이메일 </span><span class="sub_tit point_star_r">(정보수신용)</span>
+							</div>
+							<div class="ipt_con">
+								<p>
+									정확한 이메일 정보를 입력하셔야 주문/배송 및 서비스 정보를<br>받아 보실 수 있습니다.
+								</p>
+								<ul class="input_email_stl">
+									<li class="inp_email1"><input type="text" id="email" value="95n*******" title="이메일"></li>
+									<li class="inp_email2">@</li>
+									<li class="inp_email3"><input type="text" id="emailDomain" value="naver.com" title="이메일"></li>
+									<li class="inp_email4">
+										<div class="select_box">
+											<select id="emailDomainSel">
+												<option value="">직접입력</option>
+												<option value="naver.com">naver.com</option>
+												<option value="daum.net">daum.net</option>
+												<option value="gmail.com">gmail.com</option>
+												<option value="yahoo.co.kr">yahoo.co.kr</option>
+												<option value="lycos.co.kr">lycos.co.kr</option>
+												<option value="nate.com">nate.com</option>
+												<option value="empas.com">empas.com</option>
+												<option value="hotmail.com">hotmail.com</option>
+												<option value="msn.com">msn.com</option>
+												<option value="hanmir.com">hanmir.com</option>
+												<option value="chol.net">chol.net</option>
+												<option value="korea.com">korea.com</option>
+												<option value="netsgo.com">netsgo.com</option>
+												<option value="dreamwiz.com">dreamwiz.com</option>
+												<option value="hanafos.com">hanafos.com</option>
+												<option value="freechal.com">freechal.com</option>
+												<option value="hitel.net">hitel.net</option>
+											</select>
+										</div>
+									</li>
+								</ul>
+							</div>
+							<p class="err_box" id="emailMsg">
+								<!-- 이메일을 입력하세요. -->
+							</p>
+							<div class="btn_wrap btn_wrap_div1">
+								<a href="#none" class="btnstl3 border_btn_blk btn_chk_email mb0" id="emailDubChkBtn">이메일 중복확인</a>
+							</div>
+						</div>
+
+						<div class="input_box">
+							<div class="ipt_tit">
+								<span class="point_star_r">이름</span>
+							</div>
+							<div class="ipt_con">
+								<input type="text" id="name" name="name" value="박*환">
+							</div>
+							<p class="err_box" id="nameMsg"></p>
+						</div>
+
+						<div class="input_box">
+							<div class="ipt_tit">
+								<span class="point_star_r">생년월일</span>
+							</div>
+							<div class="ipt_con input_user_bday mb40">
+								<div class="bday_year">
+									<div class="select_box select_box_selected">
+										<select name="bday_01" id="selYear">
+											<option value="">년</option>
+											<option value="2009">2009</option>
+											<option value="2008">2008</option>
+											<option value="2007">2007</option>
+											<option value="2006">2006</option>
+											<option value="2005">2005</option>
+											<option value="2004">2004</option>
+											<option value="2003">2003</option>
+											<option value="2002">2002</option>
+											<option value="2001">2001</option>
+											<option value="2000">2000</option>
+											<option value="1999">1999</option>
+											<option value="1998">1998</option>
+											<option value="1997">1997</option>
+											<option value="1996">1996</option>
+											<option value="1995">1995</option>
+											<option value="1994">1994</option>
+											<option value="1993">1993</option>
+											<option value="1992">1992</option>
+											<option value="1991">1991</option>
+											<option value="1990">1990</option>
+											<option value="1989">1989</option>
+											<option value="1988">1988</option>
+											<option value="1987">1987</option>
+											<option value="1986">1986</option>
+											<option value="1985">1985</option>
+											<option value="1984">1984</option>
+											<option value="1983">1983</option>
+											<option value="1982">1982</option>
+											<option value="1981">1981</option>
+											<option value="1980">1980</option>
+											<option value="1979">1979</option>
+											<option value="1978">1978</option>
+											<option value="1977">1977</option>
+											<option value="1976">1976</option>
+											<option value="1975">1975</option>
+											<option value="1974">1974</option>
+											<option value="1973">1973</option>
+											<option value="1972">1972</option>
+											<option value="1971">1971</option>
+											<option value="1970">1970</option>
+											<option value="1969">1969</option>
+											<option value="1968">1968</option>
+											<option value="1967">1967</option>
+											<option value="1966">1966</option>
+											<option value="1965">1965</option>
+											<option value="1964">1964</option>
+											<option value="1963">1963</option>
+											<option value="1962">1962</option>
+											<option value="1961">1961</option>
+											<option value="1960">1960</option>
+											<option value="1959">1959</option>
+											<option value="1958">1958</option>
+											<option value="1957">1957</option>
+											<option value="1956">1956</option>
+											<option value="1955">1955</option>
+											<option value="1954">1954</option>
+											<option value="1953">1953</option>
+											<option value="1952">1952</option>
+											<option value="1951">1951</option>
+											<option value="1950">1950</option>
+											<option value="1949">1949</option>
+											<option value="1948">1948</option>
+											<option value="1947">1947</option>
+											<option value="1946">1946</option>
+											<option value="1945">1945</option>
+											<option value="1944">1944</option>
+											<option value="1943">1943</option>
+											<option value="1942">1942</option>
+											<option value="1941">1941</option>
+											<option value="1940">1940</option>
+											<option value="1939">1939</option>
+											<option value="1938">1938</option>
+											<option value="1937">1937</option>
+											<option value="1936">1936</option>
+											<option value="1935">1935</option>
+											<option value="1934">1934</option>
+											<option value="1933">1933</option>
+											<option value="1932">1932</option>
+											<option value="1931">1931</option>
+											<option value="1930">1930</option>
+											<option value="1929">1929</option>
+											<option value="1928">1928</option>
+											<option value="1927">1927</option>
+											<option value="1926">1926</option>
+											<option value="1925">1925</option>
+											<option value="1924">1924</option>
+											<option value="1923">1923</option>
+											<option value="1922">1922</option>
+											<option value="1921">1921</option>
+											<option value="1920">1920</option>
+											<option value="1919">1919</option>
+											<option value="1918">1918</option>
+											<option value="1917">1917</option>
+											<option value="1916">1916</option>
+											<option value="1915">1915</option>
+											<option value="1914">1914</option>
+											<option value="1913">1913</option>
+											<option value="1912">1912</option>
+											<option value="1911">1911</option>
+											<option value="1910">1910</option>
+											<option value="1909">1909</option>
+											<option value="1908">1908</option>
+											<option value="1907">1907</option>
+											<option value="1906">1906</option>
+											<option value="1905">1905</option>
+											<option value="1904">1904</option>
+											<option value="1903">1903</option>
+											<option value="1902">1902</option>
+											<option value="1901">1901</option>
+											<option value="1900">1900</option>
+										</select>
+									</div>
+								</div>
+								<div class="bday_month">
+									<div class="select_box select_box_selected">
+										<select name="bday_02" id="selMonth">
+											<option value="">월</option>
+											<option value="01">01</option>
+											<option value="02">02</option>
+											<option value="03">03</option>
+											<option value="04">04</option>
+											<option value="05">05</option>
+											<option value="06">06</option>
+											<option value="07">07</option>
+											<option value="08">08</option>
+											<option value="09">09</option>
+											<option value="10">10</option>
+											<option value="11">11</option>
+											<option value="12">12</option>
+										</select>
+									</div>
+								</div>
+								<div class="bday_day">
+									<div class="select_box">
+										<select name="bday_03" id="selDay">
+											<option value="default" selected="">**</option>
+											<option value="01">01</option>
+											<option value="02">02</option>
+											<option value="03">03</option>
+											<option value="04">04</option>
+											<option value="05">05</option>
+											<option value="06">06</option>
+											<option value="07">07</option>
+											<option value="08">08</option>
+											<option value="09">09</option>
+											<option value="10">10</option>
+											<option value="11">11</option>
+											<option value="12">12</option>
+											<option value="13">13</option>
+											<option value="14">14</option>
+											<option value="15">15</option>
+											<option value="16">16</option>
+											<option value="17">17</option>
+											<option value="18">18</option>
+											<option value="19">19</option>
+											<option value="20">20</option>
+											<option value="21">21</option>
+											<option value="22">22</option>
+											<option value="23">23</option>
+											<option value="24">24</option>
+											<option value="25">25</option>
+											<option value="26">26</option>
+											<option value="27">27</option>
+											<option value="28">28</option>
+											<option value="29">29</option>
+											<option value="30">30</option>
+
+										</select>
+									</div>
+								</div>
+							</div>
+							<p class="err_box" id="birthMsg"></p>
+						</div>
+					</div>
+
+					<!-- legacy -->
+
+					<div class="mp_input_wrap last_box">
+						<div class="btn_wrap btn_wrap_div1">
+							<a href="#none" class="btnstl3 border_btn_gray" id="memberSecessionBtn">회원탈퇴</a>
+						</div>
+					</div>
+				</div>
+				<!-- contents e -->
+				<div>
+					<input type="hidden" name="CSRFToken" value="8a6fb5d8-a401-44ec-87d4-f82247220f5b">
+				</div>
+			</form>
+			<script type="text/javascript">
+//<![CDATA[ 
+var height = 20;
+var num = 0;
+var max = height * num;
+var move = 0;
+var lastChild;
+var notiCnt = 0;
+var curTabId = 0;
+ 
+$(document).ready(function() {
+
+    //자동로그인
+    
+
+	$(".chatbotlink").click(function () {
+        callChatbot();
+    });
+	
+	
+	// 2022.03.29 푸터 공지사항 추가
+	getFooterNotices("/ko/svcenter");
+	
+	
+});
+
+
+function moveDesktop(){
+	location.href = location.href.replace("?uiel=Mobile", "") + "?uiel=Desktop";
+}
+
+$(function(){
+	var pcVersionButtons = null;
+	if(getCookie("app") != "android" && getCookie("app") != "ios") {
+		pcVersionButtons = '<a href="javascript:moveDesktop();">PC버전</a>';
+		$("#pcVersion").html(pcVersionButtons);
+	} else {
+		$("#footerMenu").prop("class","menu m3");
+	}
+	
+	
+// 	if(getCookie("app") == "ios"){
+// 	    $(".f_policy .language").hide(); //ios 메인 처음 진입시 language 노출되는 오류 수정
+// 	}
+});
+
+function hpAutoLogin(data){
+    if (data.succYn == "Y") {
+        $.ajax({
+            type:"GET",
+            url:"/ko/hpoint/simpleJoinMember",
+            data: {"mcustNo":data.mcustNo},
+            success:function(data){
+                if(data.resultCode == "L"){
+                    $("#hcid").val(data.uid);
+                    $("#autologinForm").submit();
+                }
+            },
+            error:function(e){
+            }
+        });
+    }
+}
+
+function familySiteSelect(){
+	$('.fixed_dim_layer').stop().show();
+	$('.family_site_popup_191108').stop().slideDown();
+}
+function familySiteSelectClosed(){
+	$('.family_site_popup_191108').stop().slideUp();
+	$('.fixed_dim_layer').stop().fadeOut(500);
+ }
+
+//app 언어설정창 추가
+function selectLangChg(obj){
+    
+}
+
+
+//외부 브라우저로 링크 열기  
+function callWebBrowser(){
+    var appYn='N';
+    if(getCookie("app")==null || getCookie("app")=="") {
+        //
+    } else { // 앱 접속일 경우 앱 여부 Y
+        appYn = 'Y';
+    }
+    var appOs = '';
+       
+    if(appYn == "Y") {
+        if(appOs == "ios") {
+            webkit.messageHandlers.callWebBrowser.postMessage("http://www.naver.com");
+        } else {
+            Android.callWebBrowser("http://www.naver.com");
+        }
+    }
+}
+
+/************************Footer Notice Start*********************/
+function getFooterNotices(moveUrl){
+    to_date = new Date();
+    $.ajax({
+        type: "get",
+        url :  moveUrl+"/getFooterNotices?now=" + to_date.getTime(),
+        dataType : "json",
+        error : function( request, status, error ){
+            console.log(error);
+        }, 
+        success : function(data){
+            notiCnt = data.length;
+            var noticeContent = "";
+            //var viewCnt = 0;
+            $.each(data, function(){
+                //if(viewCnt < 4){
+                    var listTag = "<li>";
+                    listTag += '<a href="' + moveUrl + '/mobilenotice?noticeCode=' + this.pk + '">' + this.subject + '</a>';
+                    listTag += "</li>";
+                    
+                    noticeContent += listTag;
+                    //viewCnt++;
+                //}
+            });
+            
+            $('.notice-wrap').html(noticeContent);
+        }
+    });
+}
+/**********************Footer Notice End****************************/
+//]]>
+</script>
+			<script>
+
+$(window).load(function(){
+    function noticeRolling(){
+        if(notiCnt > 1){
+            height = 20;
+            num = notiCnt;
+            max = height * num;
+            move += height;
+            
+            //메인여부 체크(메인진입시 1개, 메인탭별 푸터 진입시 1개씩 추가)
+            if($(".notice-wrap").length > 1){
+                $("#topNav1909 li").each(function(index){
+                    if($(this).hasClass("on")){
+                        curTabId = index;
+                    }
+                })
+                $("footer#footer"+curTabId+" .notice-wrap").animate({"top":-move},600,function(){
+                    if (move >= max){
+                        $(this).css("top",0);
+                        move = 0;
+                    }
+                });
+                
+            }else{
+                $(".notice-wrap").animate({"top":-move},600,function(){
+                    if (move >= max){
+                        $(this).css("top",0);
+                        move = 0;
+                    }
+                });
+            }
+        }
+    };
+    noticeRollingOff = setInterval(noticeRolling, 3000);
+    
+    //메인여부 체크(메인진입시 1개, 메인탭별 푸터 진입시 1개씩 추가)
+    if($(".notice-wrap").length > 1){
+        $("#topNav1909 li").each(function(index){
+            if($(this).hasClass("on")){
+                curTabId = index;
+            }
+        })
+        $("footer#footer"+curTabId+" .notice-wrap").append($("footer#footer"+curTabId+" .notice-wrap li").first().clone());
+    }else{
+        $(".notice-wrap").append($('.notice-wrap li').first().clone());
+    }
+});
+</script>
+			<form id="autologinForm" name="autologinForm" action="/ko/hp/autologin" method="get">
+				<input type="hidden" name="hcid" id="hcid" value="e2gaf@naver.com">
+			</form>
+			<!-- ################## footer ################## -->
+			<!-- 푸터 공지 추가 220404 -->
+
+			<!-- // 푸터 공지 추가 220404 -->
+			<!-- //################## footer ################## -->
+		</div>
+
+	</div>
+	<!-- ################## //hsome_allContents_wrapper | ë³¸ë¬¸ ì»¨íì¸  ìì­ ################## -->
+	<a href="noLink();" class="hsome_topBtn active" id="handsomeTopBtn">mobile.bottom.top</a>
+	<!-- 20180530 추가 -->
+
+	<script type="text/javascript">
+	function goMypage() {
+		//if("N" == "Y") {
+		//	$("#gnbMypageBtn").click();
+		//} else {
+			//$.cookie("handsomeappreturnurl", location.href, {path:"/"});
+			$.cookie("handsomeappreturnurl", "/ko/", {path:"/"});
+			location.href = "/ko/mypage/mypageFloatingPopup";
+		//}
+	}
+	
+    $(window).load(function() {
+        //모든 리소스 로드 후에 처리
+        $('.hsome_quickMenu').addClass('active');
+        
+    });
+    
+    function goMainpage() {
+    	window.sessionStorage.removeItem('moveYn'); 
+    	window.sessionStorage.removeItem('width'); 
+    	window.sessionStorage.removeItem('height'); 
+		location.href = "/ko/main";
+	}
+    
+</script>
+
+
+	<aside class="hsome_quickMenu hsome_quickMenu1909">
+		<ul>
+			<li class="shop "><a href="/ko/mobilecommon/navShop" onclick="GA_Event('공통', '네비게이션_바', '샵');"><i>메뉴</i></a></li>
+			<li class="sns "><a href="/ko/sns/main" onclick="GA_Event('공통', '네비게이션_바', '타임라인');"><i>스타일 LIVE</i></a></li>
+			<li class="home "><a href="javascript:noLink();" onclick="goMainpage();GA_Event('공통', '네비게이션_바', '홈');"><i>홈</i></a></li>
+			<li class="myheart " id="gnbMyheartBtn"><a href="/ko/mypage/myWish" onclick="GA_Event('공통', '네비게이션_바', '마이하트');"><i>마이하트</i></a></li>
+			<li class="mypage active" id="gnbMyPageBtn"><a href="javascript:noLink();" onclick="goMypage();GA_Event('공통', '네비게이션_바', '마이페이지');"><i>마이페이지</i></a></li>
+			<li class="mypage pageMove" style="display: none;"><a href="" id="gnbMypageBtn"></a></li>
+			<li class="mypage" style="display: none;"><a href="/ko/mobilecommon/myPagePopup" id="gnbMypagePopupBtn"></a></li>
+		</ul>
+	</aside>
+
+
+	<div class="fixed_dim_layer" onclick="familySiteSelectClosed();"></div>
+	<div class="family_site_popup_191108">
+		<ul>
+			<li><a href="http://m.hfashionmall.com/sfmmbl/mbl/main.do" target="_blank" onclick="GA_Event('공통', '푸터_CNT', 'FAMILYSITE_H패션몰');">H패션몰<!-- H패션몰 --></a></li>
+			<li><a href="https://m.hyundaihmall.com/front/index.do" target="_blank" onclick="GA_Event('공통', '푸터_CNT', 'FAMILYSITE_현대홈쇼핑');">현대홈쇼핑<!-- (주)현대홈쇼핑 --></a></li>
+			<li><a href="https://m.thehyundai.com/Home.html" target="_blank" onclick="GA_Event('공통', '푸터_CNT', 'FAMILYSITE_더현대닷컴');">더현대닷컴<!-- 더현대닷컴 --></a></li>
+			<li><a href="http://mall.hyundailivart.co.kr/front/index_org.lv" target="_blank" onclick="GA_Event('공통', '푸터_CNT', 'FAMILYSITE_현대리바트');">현대리바트<!-- (주)현대 리바트 --></a></li>
+			<li><a href="https://www.h-point.co.kr/cu/main/index.nhd" target="_blank" onclick="GA_Event('공통', '푸터_CNT', 'FAMILYSITE_H.Point');">H.Point</a></li>
+			<li><a href="http://www.ehyundai.com/newPortal/ir/main.do" target="_blank" onclick="GA_Event('공통', '푸터_CNT', 'FAMILYSITE_현대백화점그룹');">현대백화점그룹<!-- 현대백화점 그룹 --></a></li>
+		</ul>
+		<a href="#;" class="family_site_popup_close" onclick="familySiteSelectClosed();">닫기<!-- 닫기 --></a>
+	</div>
+
+	<div class="hsome_quickMenu_contents"></div>
+
+
+	<script type="text/javascript">
+$(document).ready(function() {
+    if(false) {
+        $('#cateTab').click();
+    }
+});
+
+function closeAction() {
+    $('.twoDepthNavPopup').hide();
+    $('.one_lists.on').toggleClass('on');
+}
+</script>
+	<div class="hsome_layer_popup hs_brand_category_pop2 multibrd-category-pop blk ">
+		<h2 class="pop-comm-ttl">편집샵</h2>
+		<ul class="ui_tab hs_red_border_tab size02">
+			<li class="on"><a href="#brand_tab" id="brandTab" onclick="GA_Event('편집샵_카테고리','1DEPTH','브랜드');">브랜드</a></li>
+			<li><a href="#category_tab" id="cateTab" onclick="GA_Event('편집샵_카테고리','1DEPTH','카테고리');">카테고리</a></li>
+			<li class="fcs"></li>
+		</ul>
+		<div class="pop-comm-cnts">
+			<div class="tab_cont shop_cont">
+				<!-- 브랜드 -->
+				<div class="cont on" id="brand_tab">
+					<ul class="one_depth brand">
+						<li class="one_lists">
+							<div class="one_wrap">
+								<a href="javascript:noLink();" class="one_link" id="BR15_oneDepth" onclick="GA_Event('편집샵_카테고리','2DEPTH','TOM GREYHOUND');">TOM GREYHOUND</a>
+							</div>
+							<ul class="two_depth twoDepthNavPopup">
+								<li class="two_lists"><a href="/ko/c/br15/br15" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','TOM GREYHOUND_전체보기');"> 전체보기
+								</a></li>
+								<li class="two_lists"><a href="/ko/c/br15/br15?subBrand=TN" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','TOM GREYHOUND_TOM GREYHOUND');"
+								> TOM GREYHOUND</a> <a href="/ko/c/br15/br15?subBrand=TN" class="ico-pb-all"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','TOM GREYHOUND_TOM GREYHOUND');"
+								> <img src="http://cdn.thehandsome.com/_ui/handsomemobile/images/common/ico_pb.png" alt="ico_pb">
+								</a></li>
+								<li class="two_lists"><a href="/ko/c/br15/br15?subBrand=TGTM" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','TOM GREYHOUND_TOTEME');"
+								> TOTEME</a></li>
+								<li class="two_lists"><a href="/ko/c/br15/br15?subBrand=TG13" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','TOM GREYHOUND_R13');"
+								> R13</a></li>
+								<li class="two_lists"><a href="/ko/c/br15/br15?subBrand=TGOS" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','TOM GREYHOUND_OPERA SPORT');"
+								> OPERA SPORT</a></li>
+								<li class="two_lists"><a href="/ko/c/br15/br15?subBrand=TGGX" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','TOM GREYHOUND_GANNI');"
+								> GANNI</a></li>
+								<li class="two_lists"><a href="/ko/c/br15/br15?subBrand=TGRX" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','TOM GREYHOUND_REST &amp;amp;amp; RECREATION');"
+								> REST &amp; RECREATION</a></li>
+								<li class="two_lists"><a href="/ko/c/br15/br15?subBrand=TGDU" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','TOM GREYHOUND_DUNST');"
+								> DUNST</a></li>
+								<li class="two_lists"><a href="/ko/c/br15/br15?subBrand=TG29" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','TOM GREYHOUND_PUMA');"
+								> PUMA</a></li>
+								<li class="two_lists"><a href="/ko/c/br15/br15?subBrand=TGS3" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','TOM GREYHOUND_SALOMON');"
+								> SALOMON</a></li>
+								<li class="two_lists"><a href="/ko/c/br15/br15?subBrand=TGDI" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','TOM GREYHOUND_ADIDAS');"
+								> ADIDAS</a></li>
+								<li class="two_lists"><a href="/ko/c/br15/br15?subBrand=TGGW" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','TOM GREYHOUND_GLOWNY');"
+								> GLOWNY</a></li>
+								<li class="two_lists"><a href="/ko/c/br15/br15?subBrand=TG4Q" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','TOM GREYHOUND_AGOLDE');"
+								> AGOLDE</a></li>
+								<li class="two_lists"><a href="/ko/c/br15/br15?subBrand=TGYY" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','TOM GREYHOUND_LEE.Y');"
+								> LEE.Y</a></li>
+								<li class="two_lists"><a href="/ko/c/br15/br15?subBrand=TGZO" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','TOM GREYHOUND_MOTHER DENIM');"
+								> MOTHER DENIM</a></li>
+								<li class="two_lists"><a href="/ko/c/br15/br15?subBrand=TGAL" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','TOM GREYHOUND_ALIGHIERI');"
+								> ALIGHIERI</a></li>
+								<li class="two_lists"><a href="/ko/c/br15/br15?subBrand=TGED" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','TOM GREYHOUND_EDMMOND STUDIO');"
+								> EDMMOND STUDIO</a></li>
+								<li class="two_lists"><a href="/ko/c/br15/br15?subBrand=TGSK" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','TOM GREYHOUND_SHOREDITCH SKI CLUB');"
+								> SHOREDITCH SKI CLUB</a></li>
+								<li class="two_lists"><a href="/ko/c/br15/br15?subBrand=TGJF" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','TOM GREYHOUND_JAMES PERSE');"
+								> JAMES PERSE</a></li>
+								<li class="two_lists"><a href="/ko/c/br15/br15?subBrand=TGVL" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','TOM GREYHOUND_MUVEIL');"
+								> MUVEIL</a></li>
+								<li class="two_lists"><a href="/ko/c/br15/br15?subBrand=TGWD" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','TOM GREYHOUND_WILD DONKEY');"
+								> WILD DONKEY</a></li>
+								<li class="two_lists"><a href="/ko/c/br15/br15?subBrand=TGRT" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','TOM GREYHOUND_RUE MADAM PARIS');"
+								> RUE MADAM PARIS</a></li>
+								<li class="two_lists"><a href="/ko/c/br15/br15?subBrand=TGSL" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','TOM GREYHOUND_SELETTI');"
+								> SELETTI</a></li>
+								<li class="two_lists"><a href="/ko/c/br15/br15?subBrand=TGHK" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','TOM GREYHOUND_HVISK');"
+								> HVISK</a></li>
+								<li class="two_lists"><a href="/ko/c/br15/br15?subBrand=TGCP" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','TOM GREYHOUND_ROHE');"
+								> ROHE</a></li>
+								<li class="two_lists"><a href="/ko/c/br15/br15?subBrand=TGX3" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','TOM GREYHOUND_XIRENA');"
+								> XIRENA</a></li>
+								<li class="two_lists"><a href="/ko/c/br15/br15?subBrand=TGOR" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','TOM GREYHOUND_WEHOURS');"
+								> WEHOURS</a></li>
+								<li class="two_lists"><a href="/ko/c/br15/br15?subBrand=TGD6" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','TOM GREYHOUND_DROGHERIA CRIVELLINI');"
+								> DROGHERIA CRIVELLINI</a></li>
+								<li class="two_lists"><a href="/ko/c/br15/br15?subBrand=TGHC" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','TOM GREYHOUND_HOTEL CERRITOS');"
+								> HOTEL CERRITOS</a></li>
+								<li class="two_lists"><a href="/ko/c/br15/br15?subBrand=TGRR" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','TOM GREYHOUND_RECREATIONAL HABITS');"
+								> RECREATIONAL HABITS</a></li>
+							</ul>
+						</li>
+						<li class="one_lists">
+							<div class="one_wrap">
+								<a href="javascript:noLink();" class="one_link" id="BR35_oneDepth" onclick="GA_Event('편집샵_카테고리','2DEPTH','FOURM THE STORE');">FOURM THE
+									STORE</a>
+							</div>
+							<ul class="two_depth twoDepthNavPopup">
+								<li class="two_lists"><a href="/ko/c/br35/br35" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_전체보기');">
+										전체보기 </a></li>
+								<li class="two_lists"><a href="/ko/c/br35/br35?subBrand=YN" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_FOURM THE STORE');"
+								> FOURM THE STORE</a> <a href="/ko/c/br35/br35?subBrand=YN" class="ico-pb-all"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_FOURM THE STORE');"
+								> <img src="http://cdn.thehandsome.com/_ui/handsomemobile/images/common/ico_pb.png" alt="ico_pb">
+								</a></li>
+								<li class="two_lists"><a href="/ko/c/br35/br35?subBrand=YSZS" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_SAINT JAMES');"
+								> SAINT JAMES</a></li>
+								<li class="two_lists"><a href="/ko/c/br35/br35?subBrand=YSZO" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_MOTHER DENIM');"
+								> MOTHER DENIM</a></li>
+								<li class="two_lists"><a href="/ko/c/br35/br35?subBrand=YSNS" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_RE/DONE');"
+								> RE/DONE</a></li>
+								<li class="two_lists"><a href="/ko/c/br35/br35?subBrand=YSHS" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_HOUSE OF SUNNY');"
+								> HOUSE OF SUNNY</a></li>
+								<li class="two_lists"><a href="/ko/c/br35/br35?subBrand=YSFE" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_FRAME');"
+								> FRAME</a></li>
+								<li class="two_lists"><a href="/ko/c/br35/br35?subBrand=YSJS" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_JOSHUA SANDERS');"
+								> JOSHUA SANDERS</a></li>
+								<li class="two_lists"><a href="/ko/c/br35/br35?subBrand=YSEK" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_EENK');"
+								> EENK</a></li>
+								<li class="two_lists"><a href="/ko/c/br35/br35?subBrand=YSAB" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_ANINE BING');"
+								> ANINE BING</a></li>
+								<li class="two_lists"><a href="/ko/c/br35/br35?subBrand=YSFS" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_FRONT STREET 8');"
+								> FRONT STREET 8</a></li>
+								<li class="two_lists"><a href="/ko/c/br35/br35?subBrand=YSRP" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_REPLUME');"
+								> REPLUME</a></li>
+								<li class="two_lists"><a href="/ko/c/br35/br35?subBrand=YSKA" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_KARHU');"
+								> KARHU</a></li>
+								<li class="two_lists"><a href="/ko/c/br35/br35?subBrand=YSVJ" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_VEJA');"
+								> VEJA</a></li>
+								<li class="two_lists"><a href="/ko/c/br35/br35?subBrand=YS46" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_JUMPER 1234');"
+								> JUMPER 1234</a></li>
+								<li class="two_lists"><a href="/ko/c/br35/br35?subBrand=YSRT" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_ROTATE');"
+								> ROTATE</a></li>
+								<li class="two_lists"><a href="/ko/c/br35/br35?subBrand=YS4D" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_GRLFRND');"
+								> GRLFRND</a></li>
+								<li class="two_lists"><a href="/ko/c/br35/br35?subBrand=YSTC" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_TACH CLOTHING');"
+								> TACH CLOTHING</a></li>
+								<li class="two_lists"><a href="/ko/c/br35/br35?subBrand=YSOS" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_OSOI');"
+								> OSOI</a></li>
+								<li class="two_lists"><a href="/ko/c/br35/br35?subBrand=YSML" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_MADLUV');"
+								> MADLUV</a></li>
+								<li class="two_lists"><a href="/ko/c/br35/br35?subBrand=YS8B" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_JAMIE WANDER');"
+								> JAMIE WANDER</a></li>
+								<li class="two_lists"><a href="/ko/c/br35/br35?subBrand=YSND" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_BONNE MAISON');"
+								> BONNE MAISON</a></li>
+								<li class="two_lists"><a href="/ko/c/br35/br35?subBrand=YSOT" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_ROSEANNA');"
+								> ROSEANNA</a></li>
+								<li class="two_lists"><a href="/ko/c/br35/br35?subBrand=YSKT" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_KITRI');"
+								> KITRI</a></li>
+								<li class="two_lists"><a href="/ko/c/br35/br35?subBrand=YSGS" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_GCDS');"
+								> GCDS</a></li>
+								<li class="two_lists"><a href="/ko/c/br35/br35?subBrand=YSTB" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_KSUBI');"
+								> KSUBI</a></li>
+								<li class="two_lists"><a href="/ko/c/br35/br35?subBrand=YS4Q" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_AGOLDE');"
+								> AGOLDE</a></li>
+								<li class="two_lists"><a href="/ko/c/br35/br35?subBrand=YSPD" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_PAIRS DELI&amp;amp;amp;GROCERY');"
+								> PAIRS DELI&amp;GROCERY</a></li>
+								<li class="two_lists"><a href="/ko/c/br35/br35?subBrand=YSF5" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_FIORUCCI');"
+								> FIORUCCI</a></li>
+								<li class="two_lists"><a href="/ko/c/br35/br35?subBrand=YSRX" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_RIXO');"
+								> RIXO</a></li>
+								<li class="two_lists"><a href="/ko/c/br35/br35?subBrand=YSHO" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_HOLZWEILER');"
+								> HOLZWEILER</a></li>
+								<li class="two_lists"><a href="/ko/c/br35/br35?subBrand=YSGR" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_G KERO');"
+								> G KERO</a></li>
+								<li class="two_lists"><a href="/ko/c/br35/br35?subBrand=YSGE" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_GESTUZ');"
+								> GESTUZ</a></li>
+								<li class="two_lists"><a href="/ko/c/br35/br35?subBrand=YSET" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_ETRE CECILE');"
+								> ETRE CECILE</a></li>
+								<li class="two_lists"><a href="/ko/c/br35/br35?subBrand=YSIP" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_IPANEMA');"
+								> IPANEMA</a></li>
+								<li class="two_lists"><a href="/ko/c/br35/br35?subBrand=YSPA" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_PAIRS');"
+								> PAIRS</a></li>
+							</ul>
+						</li>
+						<li class="one_lists">
+							<div class="one_wrap">
+								<a href="javascript:noLink();" class="one_link" id="BR30_oneDepth" onclick="GA_Event('편집샵_카테고리','2DEPTH','FOURM STUDIO');">FOURM STUDIO</a>
+							</div>
+							<ul class="two_depth twoDepthNavPopup">
+								<li class="two_lists"><a href="/ko/c/br30/br30" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM STUDIO_전체보기');"> 전체보기 </a>
+								</li>
+								<li class="two_lists"><a href="/ko/c/br30/br30?subBrand=CN" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM STUDIO_FOURM STUDIO');"
+								> FOURM STUDIO</a> <a href="/ko/c/br30/br30?subBrand=CN" class="ico-pb-all" onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM STUDIO_FOURM STUDIO');">
+										<img src="http://cdn.thehandsome.com/_ui/handsomemobile/images/common/ico_pb.png" alt="ico_pb">
+								</a></li>
+								<li class="two_lists"><a href="/ko/c/br30/br30?subBrand=CS71" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM STUDIO_LE17SEPTEMBRE');"
+								> LE17SEPTEMBRE</a></li>
+								<li class="two_lists"><a href="/ko/c/br30/br30?subBrand=CSMG" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM STUDIO_MARGESHERWOOD');"
+								> MARGESHERWOOD</a></li>
+								<li class="two_lists"><a href="/ko/c/br30/br30?subBrand=CSMS" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM STUDIO_MATIAS');"
+								> MATIAS</a></li>
+								<li class="two_lists"><a href="/ko/c/br30/br30?subBrand=CS51" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM STUDIO_REJINA PYO');"
+								> REJINA PYO</a></li>
+								<li class="two_lists"><a href="/ko/c/br30/br30?subBrand=CSLV" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM STUDIO_LVIR');"
+								> LVIR</a></li>
+								<li class="two_lists"><a href="/ko/c/br30/br30?subBrand=CSZ8" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM STUDIO_ERIKA CAVALLINI');"
+								> ERIKA CAVALLINI</a></li>
+								<li class="two_lists"><a href="/ko/c/br30/br30?subBrand=CSMJ" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM STUDIO_MIJEONG PARK');"
+								> MIJEONG PARK</a></li>
+								<li class="two_lists"><a href="/ko/c/br30/br30?subBrand=CSNL" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM STUDIO_NEUL');"
+								> NEUL</a></li>
+								<li class="two_lists"><a href="/ko/c/br30/br30?subBrand=CSLE" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM STUDIO_LEMELS');"
+								> LEMELS</a></li>
+								<li class="two_lists"><a href="/ko/c/br30/br30?subBrand=CSGM" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM STUDIO_GREY MANSION');"
+								> GREY MANSION</a></li>
+								<li class="two_lists"><a href="/ko/c/br30/br30?subBrand=CSLS" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM STUDIO_LSA INTERNATIONAL');"
+								> LSA INTERNATIONAL</a></li>
+								<li class="two_lists"><a href="/ko/c/br30/br30?subBrand=CSCS" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM STUDIO_CA4LA');"
+								> CA4LA</a></li>
+								<li class="two_lists"><a href="/ko/c/br30/br30?subBrand=CSCT" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM STUDIO_CATERINA BERTINI');"
+								> CATERINA BERTINI</a></li>
+								<li class="two_lists"><a href="/ko/c/br30/br30?subBrand=CSHY" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM STUDIO_HAY');"
+								> HAY</a></li>
+								<li class="two_lists"><a href="/ko/c/br30/br30?subBrand=CSMZ" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM STUDIO_MAISON LOUIS MARIE');"
+								> MAISON LOUIS MARIE</a></li>
+								<li class="two_lists"><a href="/ko/c/br30/br30?subBrand=CSCZ" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM STUDIO_CRYSTAL HAZE');"
+								> CRYSTAL HAZE</a></li>
+								<li class="two_lists"><a href="/ko/c/br30/br30?subBrand=CSD7" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM STUDIO_ALLUDE');"
+								> ALLUDE</a></li>
+								<li class="two_lists"><a href="/ko/c/br30/br30?subBrand=CSIN" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM STUDIO_INOUI EDITION');"
+								> INOUI EDITION</a></li>
+								<li class="two_lists"><a href="/ko/c/br30/br30?subBrand=CSGG" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM STUDIO_GI&amp;#039;N&amp;#039;GI');"
+								> GI'N'GI</a></li>
+							</ul>
+						</li>
+						<li class="one_lists">
+							<div class="one_wrap">
+								<a href="javascript:noLink();" class="one_link" id="BR32_oneDepth" onclick="GA_Event('편집샵_카테고리','2DEPTH','FOURM MEN&amp;#039;S LOUNGE');">FOURM
+									MEN'S LOUNGE</a>
+							</div>
+							<ul class="two_depth twoDepthNavPopup">
+								<li class="two_lists"><a href="/ko/c/br32/br32" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM MEN&amp;#039;S LOUNGE_전체보기');"
+								> 전체보기 </a></li>
+								<li class="two_lists"><a href="/ko/c/br32/br32?subBrand=HSPO" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM MEN&amp;#039;S LOUNGE_POP TRADING COMPANY');"
+								> POP TRADING COMPANY</a></li>
+								<li class="two_lists"><a href="/ko/c/br32/br32?subBrand=HSSS" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM MEN&amp;#039;S LOUNGE_STANCE SEOUL');"
+								> STANCE SEOUL</a></li>
+								<li class="two_lists"><a href="/ko/c/br32/br32?subBrand=HSRN" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM MEN&amp;#039;S LOUNGE_NORTH WORKS');"
+								> NORTH WORKS</a></li>
+								<li class="two_lists"><a href="/ko/c/br32/br32?subBrand=HS0T" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM MEN&amp;#039;S LOUNGE_WILD DONKEY');"
+								> WILD DONKEY</a></li>
+								<li class="two_lists"><a href="/ko/c/br32/br32?subBrand=HSXQ" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM MEN&amp;#039;S LOUNGE_JOHNSTONS OF ELGIN');"
+								> JOHNSTONS OF ELGIN</a></li>
+								<li class="two_lists"><a href="/ko/c/br32/br32?subBrand=HSXY" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM MEN&amp;#039;S LOUNGE_BEGG x CO');"
+								> BEGG x CO</a></li>
+								<li class="two_lists"><a href="/ko/c/br32/br32?subBrand=HSKA" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM MEN&amp;#039;S LOUNGE_KASSIOPEA');"
+								> KASSIOPEA</a></li>
+								<li class="two_lists"><a href="/ko/c/br32/br32?subBrand=HSOC" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM MEN&amp;#039;S LOUNGE_OROBIANCO');"
+								> OROBIANCO</a></li>
+								<li class="two_lists"><a href="/ko/c/br32/br32?subBrand=HSXV" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM MEN&amp;#039;S LOUNGE_MADOVA');"
+								> MADOVA</a></li>
+								<li class="two_lists"><a href="/ko/c/br32/br32?subBrand=HSHN" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM MEN&amp;#039;S LOUNGE_HOWLIN');"
+								> HOWLIN</a></li>
+								<li class="two_lists"><a href="/ko/c/br32/br32?subBrand=HSBE" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM MEN&amp;#039;S LOUNGE_BEARBRICK');"
+								> BEARBRICK</a></li>
+								<li class="two_lists"><a href="/ko/c/br32/br32?subBrand=HSPT" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM MEN&amp;#039;S LOUNGE_PHILIPPE AUDIBERT');"
+								> PHILIPPE AUDIBERT</a></li>
+								<li class="two_lists"><a href="/ko/c/br32/br32?subBrand=HSIN" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM MEN&amp;#039;S LOUNGE_INOUITOOSH');"
+								> INOUITOOSH</a></li>
+								<li class="two_lists"><a href="/ko/c/br32/br32?subBrand=HS2K" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM MEN&amp;#039;S LOUNGE_KARHU');"
+								> KARHU</a></li>
+								<li class="two_lists"><a href="/ko/c/br32/br32?subBrand=HSMH" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM MEN&amp;#039;S LOUNGE_MARSHALL');"
+								> MARSHALL</a></li>
+								<li class="two_lists"><a href="/ko/c/br32/br32?subBrand=HSPE" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM MEN&amp;#039;S LOUNGE_PUEBCO');"
+								> PUEBCO</a></li>
+							</ul>
+						</li>
+						<li class="one_lists">
+							<div class="one_wrap">
+								<a href="javascript:noLink();" class="one_link" id="BR16_oneDepth" onclick="GA_Event('편집샵_카테고리','2DEPTH','MUE');">MUE</a>
+							</div>
+							<ul class="two_depth twoDepthNavPopup">
+								<li class="two_lists"><a href="/ko/c/br16/br16" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','MUE_전체보기');"> 전체보기 </a></li>
+								<li class="two_lists"><a href="/ko/c/br16/br16?subBrand=MU5E" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','MUE_ESSENTIALS | Fear of God');"
+								> ESSENTIALS | Fear of God</a></li>
+								<li class="two_lists"><a href="/ko/c/br16/br16?subBrand=MUT0" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','MUE_AUTRY');">
+										AUTRY</a></li>
+								<li class="two_lists"><a href="/ko/c/br16/br16?subBrand=MUMY" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','MUE_MIHARA YASUHIRO');"
+								> MIHARA YASUHIRO</a></li>
+								<li class="two_lists"><a href="/ko/c/br16/br16?subBrand=MU0P" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','MUE_MUSEUM OF PEACE&amp;amp;QUIET');"
+								> MUSEUM OF PEACE&amp;QUIET</a></li>
+								<li class="two_lists"><a href="/ko/c/br16/br16?subBrand=MUJ9" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','MUE_JACQUEMUS');">
+										JACQUEMUS</a></li>
+								<li class="two_lists"><a href="/ko/c/br16/br16?subBrand=MU0H" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','MUE_HOMME GIRLS');">
+										HOMME GIRLS</a></li>
+								<li class="two_lists"><a href="/ko/c/br16/br16?subBrand=MUUN" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','MUE_EMOTIONALLY UNAVAILABLE');"
+								> EMOTIONALLY UNAVAILABLE</a></li>
+								<li class="two_lists"><a href="/ko/c/br16/br16?subBrand=MUYX" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','MUE_KHAITE');">
+										KHAITE</a></li>
+								<li class="two_lists"><a href="/ko/c/br16/br16?subBrand=MUGF" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','MUE_GALLERY DEPARTMENT');"
+								> GALLERY DEPARTMENT</a></li>
+								<li class="two_lists"><a href="/ko/c/br16/br16?subBrand=MU7M" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','MUE_MARINE SERRE');"
+								> MARINE SERRE</a></li>
+								<li class="two_lists"><a href="/ko/c/br16/br16?subBrand=MU6O" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','MUE_MM6 MAISON MARGIELA');"
+								> MM6 MAISON MARGIELA</a></li>
+								<li class="two_lists"><a href="/ko/c/br16/br16?subBrand=MUNS" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','MUE_RE/DONE');">
+										RE/DONE</a></li>
+								<li class="two_lists"><a href="/ko/c/br16/br16?subBrand=MUP7" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','MUE_PACO RABANNE');"
+								> PACO RABANNE</a></li>
+							</ul>
+						</li>
+						<li class="one_lists">
+							<div class="one_wrap">
+								<a href="javascript:noLink();" class="one_link" id="BR47_oneDepth" onclick="GA_Event('편집샵_카테고리','2DEPTH','H : SCENE');">H : SCENE</a>
+							</div>
+							<ul class="two_depth twoDepthNavPopup">
+								<li class="two_lists"><a href="/ko/c/br47/br47" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','H : SCENE_전체보기');"> 전체보기 </a></li>
+								<li class="two_lists"><a href="/ko/c/br47/br47?subBrand=ON" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','H : SCENE_H:SCENE');">
+										H:SCENE</a> <a href="/ko/c/br47/br47?subBrand=ON" class="ico-pb-all" onclick="GA_Event('편집샵_카테고리','3DEPTH','H : SCENE_H:SCENE');"> <img
+										src="http://cdn.thehandsome.com/_ui/handsomemobile/images/common/ico_pb.png" alt="ico_pb"
+									>
+								</a></li>
+								<li class="two_lists"><a href="/ko/c/br47/br47?subBrand=ONYN" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','H : SCENE_YUN');">
+										YUN</a></li>
+								<li class="two_lists"><a href="/ko/c/br47/br47?subBrand=ONAP" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','H : SCENE_APPEAR SEOUL');"
+								> APPEAR SEOUL</a></li>
+							</ul>
+						</li>
+						<li class="one_lists">
+							<div class="one_wrap">
+								<a href="javascript:noLink();" class="one_link" id="BR62_oneDepth" onclick="GA_Event('편집샵_카테고리','2DEPTH','Liquides Perfume Bar');">Liquides
+									Perfume Bar<img class="icon-new-m" src="http://cdn.thehandsome.com/_ui/handsomemobile/images/common_sub/icon_new_m.png" alt="newIcon">
+								</a>
+							</div>
+							<ul class="two_depth twoDepthNavPopup">
+								<li class="two_lists"><a href="/ko/c/br62/br62" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','Liquides Perfume Bar_전체보기');">
+										전체보기 </a></li>
+								<li class="two_lists"><a href="/ko/c/br62/br62?subBrand=LPBD" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','Liquides Perfume Bar_BDK');"
+								> BDK</a></li>
+								<li class="two_lists"><a href="/ko/c/br62/br62?subBrand=LPCR" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','Liquides Perfume Bar_Carine Roitfeld');"
+								> Carine Roitfeld</a></li>
+								<li class="two_lists"><a href="/ko/c/br62/br62?subBrand=LPDO" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','Liquides Perfume Bar_D&amp;#039;ORSAY');"
+								> D'ORSAY</a></li>
+								<li class="two_lists"><a href="/ko/c/br62/br62?subBrand=LPFR" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','Liquides Perfume Bar_FRAPIN');"
+								> FRAPIN</a></li>
+								<li class="two_lists"><a href="/ko/c/br62/br62?subBrand=LPGB" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','Liquides Perfume Bar_GOLDFIELD &amp;amp; BANKS');"
+								> GOLDFIELD &amp; BANKS</a></li>
+								<li class="two_lists"><a href="/ko/c/br62/br62?subBrand=LPOB" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','Liquides Perfume Bar_OBVIOUS');"
+								> OBVIOUS</a></li>
+								<li class="two_lists"><a href="/ko/c/br62/br62?subBrand=LPRF" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','Liquides Perfume Bar_Regime des Fleurs');"
+								> Regime des Fleurs</a></li>
+								<li class="two_lists"><a href="/ko/c/br62/br62?subBrand=LPVG" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','Liquides Perfume Bar_VERONIQUE GABAI');"
+								> VERONIQUE GABAI</a></li>
+								<li class="two_lists"><a href="/ko/c/br62/br62?subBrand=LPAM" class="two_link"
+									onclick="GA_Event('편집샵_카테고리','3DEPTH','Liquides Perfume Bar_AMEN');"
+								> AMEN</a></li>
+							</ul>
+						</li>
+					</ul>
+				</div>
+				<!--// 브랜드 -->
+				<!-- 카테고리 -->
+				<div class="cont" id="category_tab">
+					<ul class="one_depth category">
+						<li class="one_lists">
+							<div class="one_wrap">
+								<a href="#" class="one_link" onclick="GA_Event('편집샵_카테고리','2DEPTH','여성');">여성</a>
+							</div>
+							<ul class="two_depth twoDepthNavPopup">
+								<li class="two_lists"><a href="/ko/c/we05/ed" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','여성_아우터');">아우터</a></li>
+								<li class="two_lists"><a href="/ko/c/we10/ed" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','여성_니트');">니트</a></li>
+								<li class="two_lists"><a href="/ko/c/we01/ed" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','여성_탑');">탑</a></li>
+								<li class="two_lists"><a href="/ko/c/we04/ed" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','여성_드레스');">드레스</a></li>
+								<li class="two_lists"><a href="/ko/c/we02/ed" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','여성_팬츠');">팬츠</a></li>
+								<li class="two_lists"><a href="/ko/c/we03/ed" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','여성_스커트');">스커트</a></li>
+								<li class="two_lists"><a href="/ko/c/we09/ed" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','여성_SPECIAL SHOP*');">SPECIAL
+										SHOP*</a></li>
+							</ul>
+						</li>
+						<li class="one_lists">
+							<div class="one_wrap">
+								<a href="#" class="one_link" onclick="GA_Event('편집샵_카테고리','2DEPTH','남성');">남성</a>
+							</div>
+							<ul class="two_depth twoDepthNavPopup">
+								<li class="two_lists"><a href="/ko/c/me03/ed" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','남성_아우터');">아우터</a></li>
+								<li class="two_lists"><a href="/ko/c/me10/ed" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','남성_니트');">니트</a></li>
+								<li class="two_lists"><a href="/ko/c/me01/ed" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','남성_탑');">탑</a></li>
+								<li class="two_lists"><a href="/ko/c/me02/ed" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','남성_팬츠');">팬츠</a></li>
+							</ul>
+						</li>
+						<li class="one_lists">
+							<div class="one_wrap">
+								<a href="#" class="one_link" onclick="GA_Event('편집샵_카테고리','2DEPTH','잡화');">잡화</a>
+							</div>
+							<ul class="two_depth twoDepthNavPopup">
+								<li class="two_lists"><a href="/ko/c/as01/ed" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','잡화_여성슈즈');">여성슈즈</a></li>
+								<li class="two_lists"><a href="/ko/c/as02/ed" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','잡화_남성슈즈');">남성슈즈</a></li>
+								<li class="two_lists"><a href="/ko/c/as03/ed" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','잡화_여성백');">여성백</a></li>
+								<li class="two_lists"><a href="/ko/c/as04/ed" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','잡화_남성백');">남성백</a></li>
+								<li class="two_lists"><a href="/ko/c/as05/ed" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','잡화_머플러/스카프');">머플러/스카프</a></li>
+								<li class="two_lists"><a href="/ko/c/as06/ed" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','잡화_주얼리');">주얼리</a></li>
+								<li class="two_lists"><a href="/ko/c/as07/ed" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','잡화_기타 ACC');">기타 ACC</a></li>
+							</ul>
+						</li>
+						<li class="one_lists">
+							<div class="one_wrap">
+								<a href="#" class="one_link" onclick="GA_Event('편집샵_카테고리','2DEPTH','뷰티');">뷰티</a>
+							</div>
+							<ul class="two_depth twoDepthNavPopup">
+								<li class="two_lists"><a href="/ko/c/be03/ed" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','뷰티_바디/헤어케어');">바디/헤어케어</a></li>
+								<li class="two_lists"><a href="/ko/c/be04/ed" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','뷰티_향수');">향수</a></li>
+							</ul>
+						</li>
+						<li class="one_lists">
+							<div class="one_wrap">
+								<a href="#" class="one_link" onclick="GA_Event('편집샵_카테고리','2DEPTH','라이프스타일');">라이프스타일</a>
+							</div>
+							<ul class="two_depth twoDepthNavPopup">
+								<li class="two_lists"><a href="/ko/c/ls01/ed" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','라이프스타일_홈');">홈</a></li>
+								<li class="two_lists"><a href="/ko/c/ls02/ed" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','라이프스타일_배스');">배스</a></li>
+								<li class="two_lists"><a href="/ko/c/ls03/ed" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','라이프스타일_키친');">키친</a></li>
+								<li class="two_lists"><a href="/ko/c/ls04/ed" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','라이프스타일_데스크');">데스크</a></li>
+								<li class="two_lists"><a href="/ko/c/ls06/ed" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','라이프스타일_키즈');">키즈</a></li>
+								<li class="two_lists"><a href="/ko/c/ls05/ed" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','라이프스타일_펫');">펫</a></li>
+							</ul>
+						</li>
+					</ul>
+				</div>
+				<!--// 카테고리 -->
+			</div>
+		</div>
+
+	</div>
+	<th:block th:replace="common/footer :: footFragment"></th:block>
+</body>
+
+</html>
