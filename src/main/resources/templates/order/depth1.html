@@ -1,0 +1,394 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<meta charset="utf-8">
+  <th:block th:fragment="depth1Fragment">
+    <input type="hidden" id="isSetNewDelivery" value="false" />
+
+    <!-- layerpop_wrap | 다른배송지선택 s -->
+    <div class="layerpop_wrap layerpop_wrap_full lp_find_other_dlvr_wrap">
+      <!-- layerpop_top s -->
+      <div class="lyrpp_top">
+        <a
+          href="#none"
+          class="lyrpp_close lyrpp_close_stl1 btn_lyrpp_close delivery_pop_close"
+          ><span>닫기</span></a
+        >
+        <h2>나의 배송지에서 검색</h2>
+      </div>
+      <!-- layerpop_top e -->
+      <!-- layerpop_middle s -->
+      <div class="mp_mng_dlvr_wrap">
+        <ul class="ui_tab red_border_tab fw active">
+          <li class="on" onclick="fn_viewTapChange('tab_01')">
+            <a href="#" onclick="" data-name="deliveryPage" data-gubun="1">
+              나의 배송지 목록<!-- 나의 배송지 --></a
+            >
+          </li>
+          <li class="" onclick="fn_viewTapChange('tab_02')">
+            <a href="#" data-name="deliveryPage" data-gubun="2">
+              최근 배송지 목록<!-- 최근 배송지 --></a
+            >
+          </li>
+          <li class="fcs" style="transform: translateX(0px)"></li>
+        </ul>
+
+        <div class="tab_cont">
+          <div id="tab_01" class="cont on">
+            <ul class="btn_wrap btn_wrap_div1 mt0 pb0">
+              <li>
+                <a
+                  href="/order/mydeliveryRegistePopup?depth=2"
+                  onclick="closeDepth1()"
+                  data-layerpop-depth="depth2"
+                  class="btnstl3 border_btn_blk btn_layerpopup_call"
+                  >배송지 새로 입력</a
+                >
+                <div class="call_link_registe_mydelivery"></div>
+              </li>
+            </ul>
+
+            <ul id="radio_list_wrap_01" class="radio_list_wrap mt0"></ul>
+          </div>
+          <div id="tab_02" class="cont">
+            <ul id="radio_list_wrap_02" class="radio_list_wrap mt0"></ul>
+          </div>
+        </div>
+
+        <!-- layerpop_btns s -->
+        <div class="btn_wrap btn_wrap_div2 btn_group_mydelivery">
+          <a
+            href="#none"
+            class="btnstl3 border_btn_gray btn_lyrpp_close delivery_pop_close"
+            id="deliDepth1Close"
+            ><span>취소</span></a
+          >
+          <a href="#none" class="btnstl3 solid_btn_blk" id="deliDepth1Save"
+            ><span>확인</span></a
+          >
+        </div>
+        <!-- layerpop_btns e -->
+      </div>
+      <!-- layerpop_middle e -->
+    </div>
+    <!-- layerpop_wrap | 다른배송지선택 e -->
+    <script>
+      $(document).ready(function () {
+        // 로컬스토리지에서 유저 배송목록 가져오기
+        const userDelieveryArrList = localStorage.getItem("userDelieveryList");
+        const parsed = JSON.parse(userDelieveryArrList) ?? [];
+
+        // 데이터 화면에 추가
+        var innerHTML = "";
+        parsed.forEach((data, idx) => {
+          innerHTML += '	<li class="radio_list_item item_select_mydelivery">';
+          innerHTML += '		<div class="radio_stl">';
+          innerHTML +=
+            '			<input type="radio" id="lp_radio_dlvr_adrs_' +
+            idx +
+            '" name="lp_radio_dlvr_adrs" value="' +
+            "" +
+            '"';
+          innerHTML += '				data-email="' + data.oemail + '"';
+          innerHTML += '				data-phone1="' + data.otel + '"';
+          innerHTML += "				/>";
+          innerHTML += '				<label for="lp_radio_dlvr_adrs_' + idx + '">';
+          innerHTML += '					<div class="rlct_con ' + "" + ' aa">';
+          innerHTML +=
+            '						<span class="dlvr_adrs_name">' +
+            data.oreceiver +
+            '</span> / <span class="dlvr_adrs_phone">' +
+            data.ophone +
+            "</span><br>";
+          innerHTML +=
+            '						(<span class="dlvr_adrs_zipcode">' + data.ozipcode + "</span>)";
+          innerHTML += '						<span class="dlvr_adrs_adrs">';
+          innerHTML +=
+            '							<span class="mydeliveryLine1">' + data.oaddress1 + "</span>";
+          innerHTML +=
+            '							<span class="mydeliveryLine2">' + data.oaddress2 + "</span>";
+          innerHTML += "						</span>";
+          innerHTML += '						<span class="none_delivery" style="display:none;">';
+          innerHTML +=
+            '							<span class="none_delivery_firstName">' + "" + "</span>";
+          innerHTML += '							<span class="none_delivery_lastName">' + "" + "</span>";
+          innerHTML += '							<span class="none_delivery_country">' + "" + "</span>";
+          innerHTML += '							<span class="none_delivery_state">' + "" + "</span>";
+          innerHTML += '							<span class="none_delivery_town">' + "" + "</span>";
+          innerHTML += "						</span>";
+          innerHTML += "					</div>";
+          innerHTML += "				</label>";
+          innerHTML += "			</div>";
+          innerHTML += "	</li>";
+        });
+
+        if (innerHTML != "") {
+          $("#radio_list_wrap_01").html(innerHTML);
+        }
+
+        $(".call_link_registe_mydelivery").off();
+
+        $("#deliDepth1Save").on("click", function () {
+          if (
+            !$(
+              "li.item_select_mydelivery input:radio[name=lp_radio_dlvr_adrs]"
+            ).is(":checked")
+          ) {
+            layerAlert("주소를 선택하세요");
+            return;
+          }
+
+          // callback
+          var checkedMyDelivery = $(
+            "li.item_select_mydelivery input:radio[name='lp_radio_dlvr_adrs']:checked"
+          );
+
+          var callbackData = {
+            pk: checkedMyDelivery.val(),
+            name: checkedMyDelivery.parent().find(".dlvr_adrs_name").html(),
+            email: checkedMyDelivery.data("email"),
+            phone: checkedMyDelivery.data("phone1"),
+            cellphone: checkedMyDelivery
+              .parent()
+              .find(".dlvr_adrs_phone")
+              .html(),
+            zipcode: checkedMyDelivery
+              .parent()
+              .find(".dlvr_adrs_zipcode")
+              .html(),
+            address1: checkedMyDelivery
+              .parent()
+              .find(".mydeliveryLine1")
+              .html(),
+            address2: checkedMyDelivery
+              .parent()
+              .find(".mydeliveryLine2")
+              .html(),
+            address2_raw: checkedMyDelivery
+              .parent()
+              .find(".mydeliveryLine2")
+              .text(),
+            firstName: checkedMyDelivery
+              .parent()
+              .find(".none_delivery_firstName")
+              .html(),
+            lastName: checkedMyDelivery
+              .parent()
+              .find(".none_delivery_lastName")
+              .html(),
+            country: checkedMyDelivery
+              .parent()
+              .find(".none_delivery_country")
+              .html(),
+            state: checkedMyDelivery
+              .parent()
+              .find(".none_delivery_state")
+              .html(),
+            town: checkedMyDelivery.parent().find(".none_delivery_town").html(),
+            defaultShipmentAddress: "",
+          };
+			
+			// 로컬스토리지 배열 가져오기
+	        const userDelieveryArrList = localStorage.getItem("userDelieveryList");
+	        const parsed = JSON.parse(userDelieveryArrList);
+	        
+	        // 배열에서 유저가 선택한 주소 filter
+	        const selected = parsed.filter((data)=> data.oaddress1 === callbackData.address1 && data.ophone === callbackData.cellphone && data.oreceiver === callbackData.name)[0];
+			const stringified = JSON.stringify(selected);
+			
+			// 로컬스토리지 유저리퀘스트
+			const userRequest = localStorage.getItem("userOrderRequest");
+        	const parsedUserRequest = JSON.parse(userRequest);
+        	//이미 존재할경우 업데이트 아니면 그대로 저장
+        	if(!parsedUserRequest){        		
+			localStorage.setItem("userOrderRequest", stringified);
+        	}else {
+        		const merge = Object.assign(selected, parsedUserRequest);
+    			const mergeStringified = JSON.stringify(merge);
+    			localStorage.setItem("userOrderRequest", mergeStringified);
+        	}
+
+
+          if ("" != "") {
+            window[""](callbackData);
+          } else if (typeof fn_mydeliverycallback === "function") {
+            fn_mydeliverycallback(callbackData);
+          }
+         $("#isSetNewDelivery").val("true");
+         $("#deliDepth1Close").trigger("click");
+        });
+
+        $(".delivery_pop_close").on("click", function () {
+          if (
+            typeof fn_setShippingAddresses === "function" &&
+            $("#isSetNewDelivery").val() == "false"
+          ) {
+            fn_setShippingAddresses("", "");
+          }
+        });
+      });
+
+      function fn_viewTapChange(tabNo) {
+        if (tabNo == "tab_01") {
+          $("#tab_02").removeClass("on");
+          $("#tab_01").addClass("on");
+          $(
+            "#tab_02 li.item_select_mydelivery input:radio[name='lp_radio_dlvr_adrs']:checked"
+          ).removeAttr("checked");
+        } else if (tabNo == "tab_02") {
+          $("#tab_01").removeClass("on");
+          $("#tab_02").addClass("on");
+          $(
+            "#tab_01 li.item_select_mydelivery input:radio[name='lp_radio_dlvr_adrs']:checked"
+          ).removeAttr("checked");
+        }
+      }
+
+      function fn_maxDeliveryAddressAlert() {
+        layerAlert("더 이상 등록 할 수 없습니다."); // 더 이상 등록 할 수 없습니다.
+      }
+
+      function regionCheck(self) {
+        globalOrderInitialize();
+
+        var isocode = $(self).val();
+        $("#globalStreet_info").remove();
+        $("#globalStreet2_info").remove();
+        $("#city_info").remove();
+        $("#state_info").remove();
+        $("#zipcode_info").remove();
+
+        if (isocode != "") {
+          //20210531 배송지 -> 영국 25만원 조건 추가
+          if (isocode == "GB") {
+            var totalPrice = $("#total").val();
+            totalPrice = totalPrice != null ? Number(totalPrice) : 0;
+            if (totalPrice < 250000) {
+              var la = new layerAlert("checkout.alert.region.unitedkingdom");
+            }
+          }
+          /*
+		if(isocode == "CN") {
+			$("#globalStreet").attr('placeholder', 'checkout.shipto.chn.placeholder');
+			$("#globalStreet2").attr('placeholder', 'checkout.shipto.chn.placeholder');
+			$("#city").attr('placeholder', 'checkout.shipto.chn.placeholder');
+			$("#state").attr('placeholder', 'checkout.shipto.chn.placeholder');
+		} else {
+		*/
+          $("#globalStreet").attr(
+            "placeholder",
+            "checkout.shipto.eng.placeholder"
+          );
+          $("#globalStreet2").attr(
+            "placeholder",
+            "checkout.shipto.eng.placeholder"
+          );
+          $("#city").attr("placeholder", "checkout.shipto.eng.placeholder");
+          $("#state").attr("placeholder", "checkout.shipto.eng.placeholder");
+          //}
+
+          $("#globalStreet_li").before(
+            '<div id="globalStreet_info" class="desc_box pt10 pl10">Input Your Street Address 1</div>'
+          );
+          $("#globalStreet2_li").before(
+            '<div id="globalStreet2_info" class="desc_box pt10 pl10">Input Your Street Address 2</div>'
+          );
+          $("#city_li").before(
+            '<div id="city_info" class="desc_box pt10 pl10">Input Your City</div>'
+          );
+          $("#state_li").before(
+            '<div id="state_info" class="desc_box pt10 pl10">Input Your State</div>'
+          );
+          $("#zipcode_li").before(
+            '<div id="zipcode_info" class="desc_box pt10 pl10">handsome.mobile.mypage.order.global.ph.zipcode.info</div>'
+          );
+        } else {
+          $("#globalStreet").attr("placeholder", "Input Your Street Address 1");
+          $("#globalStreet2").attr(
+            "placeholder",
+            "Input Your Street Address 2"
+          );
+          $("#city").attr("placeholder", "Input Your City");
+          $("#state").attr("placeholder", "Input Your State");
+        }
+      }
+
+      function globalOrderInitialize() {
+        $("#globalStreet").val("");
+        $("#globalStreet2").val("");
+        $("#city").val("");
+        $("#state").val("");
+        $("#zipCode").val("");
+        $("#phoneNumber").val("");
+      }
+
+      function checkValidation() {
+        var inputTextchk = /^[0-9a-zA-Z\s]+$/;
+        var inputadresschk = /^[0-9a-zA-Z-\s/-]+$/;
+        var inputNumberchk = /^[0-9]+$/;
+
+        // 	if (!inputTextchk.test($("#firstName").val()) && ($("#firstName").val().length > 0) )  {
+        // 		var lc = new layerAlert("mypage.delivery.pc.firstName : "+"checkout.shipto.onlyeng.msg" );
+        // 		lc.confirmAction = function(){$("#firstName").focus();};
+        // 		return false;
+        // 	}
+        if (
+          !inputTextchk.test($("#lastName").val()) &&
+          $("#lastName").val().length > 0
+        ) {
+          var lc = new layerAlert(
+            "mypage.delivery.pc.lastName : " + "checkout.shipto.onlyeng.msg"
+          );
+          lc.confirmAction = function () {
+            $("#lastName").focus();
+          };
+          return false;
+        }
+        // 	if (!inputadresschk.test($("#globalStreet").val()) && ($("#globalStreet").val().length > 0) ) {
+        // 		var lc = new layerAlert("mypage.delivery.pc.streetAddress : "+"checkout.shipto.onlyeng.msg" );
+        // 		lc.confirmAction = function(){$("#globalStreet").focus();};
+        // 		return false;
+        // 	}
+        // 	if (!inputadresschk.test($("#globalStreet2").val()) && ($("#globalStreet2").val().length > 0) ) {
+        // 		var lc = new layerAlert("mypage.delivery.pc.streetAddress2 : "+"checkout.shipto.onlyeng.msg" );
+        // 		lc.confirmAction = function(){$("#globalStreet2").focus();};
+        // 		return false;
+        // 	}
+        // 	if (!inputTextchk.test($("#city").val()) && ($("#city").val().length > 0) ) {
+        // 		var lc = new layerAlert("mypage.delivery.pc.city : "+"checkout.shipto.onlyeng.msg" );
+        // 		lc.confirmAction = function(){$("#city").focus();};
+        // 		return false;
+        // 	}
+        // 	if (!inputTextchk.test($("#state").val()) && ($("#state").val().length > 0) ) {
+        // 		var lc = new layerAlert("mypage.delivery.pc.state : "+"checkout.shipto.onlyeng.msg" );
+        // 		lc.confirmAction = function(){$("#state").focus();};
+        // 		return false;
+        // 	}
+        if (
+          !inputTextchk.test($("#zipCode").val()) &&
+          $("#zipCode").val().length > 0
+        ) {
+          var lc = new layerAlert(
+            "mypage.delivery.pc.postalCode : " + "checkout.shipto.zipcode.msg"
+          );
+          lc.confirmAction = function () {
+            $("#zipCode").focus();
+          };
+          return false;
+        }
+        if (
+          !inputNumberchk.test($("#phoneNumber").val()) &&
+          $("#phoneNumber").val().length > 0
+        ) {
+          var lc = new layerAlert(
+            "mypage.delivery.pc.phoneNumber : " + "checkout.shipto.phone.msg"
+          );
+          lc.confirmAction = function () {
+            $("#phoneNumber").focus();
+          };
+          return false;
+        }
+
+        return true;
+      }
+    </script>
+  </th:block>
+</html>

@@ -24,5 +24,11 @@ public class ThehandsomeApplication {
 	 * characterEncodingFilter.setForceEncoding(true); return
 	 * characterEncodingFilter; }
 	 */
+	
+	// 삭제 추가 - 최태승
+	@Bean
+	public HiddenHttpMethodFilter hiddenHttpMethodFilter(){
+		return new HiddenHttpMethodFilter();
+	}
 
 }

@@ -84,12 +84,28 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
+			<exclusions>
+
+				<exclusion>
+
+					<groupId>com.vaadin.external.google</groupId>
+
+					<artifactId>android-json</artifactId>
+
+				</exclusion>
+
+			</exclusions>
 		</dependency>
 
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-test</artifactId>
 			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.json</groupId>
+			<artifactId>json</artifactId>
+			<version>20160810</version>
 		</dependency>
 
 		<!-- mybatis -->
@@ -166,4 +182,8 @@
 		</plugins>
 	</build>
 
+<<<<<<< HEAD
 </project>
+=======
+</project>
+>>>>>>> 690b65640150e27fe63ca01e3893e6c175595122
