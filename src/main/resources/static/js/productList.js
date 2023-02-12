@@ -10,7 +10,7 @@ function chgColor(pid, pcid) {
   $("#" + pid + "Like").attr("data-value", pcid);
 }
 
-// TODO: 좋아요 확인
+// FEAT: 좋아요 확인
 function getIsLiked(PCID, MID) {
   console.log(`TESTLISKE: ${PCID} , ${MID}`);
   $.ajax({
@@ -136,6 +136,7 @@ function makeNewSwiper() {
 swiper 참고 : https://github.com/nolimits4web/Swiper/issues/1053
 */
 
+// FEAT : 리스트 헤더 변경
 function chgHeaderTitle(title) {
   var headerTitleHtml = `<a href="javascript:noLink();" onclick="openGnbPopup();" class="select_">${title}</a>`;
   $("#headerTitle").html(headerTitleHtml);
