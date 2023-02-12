@@ -53,8 +53,8 @@ public class ProductListServiceImpl implements ProductListService {
 
 			if (categoryCode != null && categoryCode != "") {
 				depth1 = categoryCode.substring(0, 2);
-				depth2 = categoryCode.substring(2, 4);
-				depth3 = categoryCode.substring(4, 5);
+				depth2 = (categoryCode.length() ==4 ? categoryCode.substring(2, 4) : "");
+				depth3 = (categoryCode.length() ==5 ? categoryCode.substring(4, 5) : "");
 			}
 
 			if (brand != null && brand != "") {
