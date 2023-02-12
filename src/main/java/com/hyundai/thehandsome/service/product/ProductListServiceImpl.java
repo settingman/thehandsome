@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.hyundai.thehandsome.Vo.product.CatePListVO;
 import com.hyundai.thehandsome.Vo.product.ColorVO;
 import com.hyundai.thehandsome.Vo.product.detail.ProductDetailVO;
+import com.hyundai.thehandsome.domain.Criteria;
 import com.hyundai.thehandsome.domain.mypage.WishList;
 import com.hyundai.thehandsome.mapper.product.ProductListDAO;
 
@@ -41,7 +42,7 @@ public class ProductListServiceImpl implements ProductListService {
 	private ProductListDAO plistDAO;
 
 	@Override
-	public List<CatePListVO> getPListWithCategory(String categoryCode, String brand, Principal principal) {
+	public List<CatePListVO> getPListWithCategory(Criteria cri, String categoryCode, String brand, Principal principal) {
 		try {
 			
 			// 파라미터들 null 예외 처리
@@ -63,7 +64,7 @@ public class ProductListServiceImpl implements ProductListService {
 			String mid = (principal == null) ? "" : principal.getName();
 			
 			// 상품 list 불러오기
-			List<CatePListVO> list = plistDAO.getPListWithCategory(depth1, depth2, depth3, bno);
+			List<CatePListVO> list = plistDAO.getPListWithCategory(cri, depth1, depth2, depth3, bno);
 			for (CatePListVO item : list) {
 				item.setColorList(plistDAO.getProductColor(item.getPid()));
 				for(ColorVO color : item.getColorList()) {

@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.hyundai.thehandsome.Vo.product.CatePListVO;
-import com.hyundai.thehandsome.mapper.product.ProductListTest;
+import com.hyundai.thehandsome.domain.Criteria;
 
 import lombok.extern.log4j.Log4j2;
 
@@ -34,12 +34,12 @@ public class ProductListServiceTest {
 	@Autowired
 	private ProductListService pService;
 	
-	@Disabled
+	@Test
 	void getPListWithCategoryTest() {
-		List<CatePListVO> list = pService.getPListWithCategory("we052", null);
-//		List<CatePListVO> list = pService.getPListWithCategory("we052", "");
-//		List<CatePListVO> list = pService.getPListWithCategory("we052", "br01");
-//		List<CatePListVO> list = pService.getPListWithCategory("we052", "br35");
+		Criteria cri = new Criteria();
+//		Criteria cri = new Criteria();
+		
+		List<CatePListVO> list = pService.getPListWithCategory(cri, "we052", null, null);
 		for (CatePListVO item : list) {
 			log.info(item);
 		}
@@ -58,7 +58,7 @@ public class ProductListServiceTest {
 		log.info(list);
 	}
 	
-	@Test
+	@Disabled
 	void getIsLiked(){
 		Boolean isLiked = pService.getIsLiked("MN2D3KTO244W_BK", "");
 //		Boolean isLiked = pService.getIsLiked("MN2D3KTO244W_BK", "qwer1234!");
