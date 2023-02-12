@@ -157,5 +157,30 @@ function YesScroll() {
 }
 
 function madeBox(){
+    console.log("url", window.location.href);
+    var token = $("meta[name='_csrf']").attr("content");
+    var header = $("meta[name='_csrf_header']").attr("content");
+    $.ajax({
+        url: `/productList/getList`,
+         type: "post",
+        beforeSend : function(xhr){
+            xhr.setRequestHeader(header, token);
+        },
+        data : {
+            currentPage:2,
+            categoryCode : 'we051',
+            brand: ""
+        },
+        dataType: "json",
+        error: function (request, status, error) {
+          console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+        },
+        success: function (result) {
+          result.forEach(el => {
+            console.log(el)
+          });
+        },
+      });
+
 	console.log('Done');
 }
