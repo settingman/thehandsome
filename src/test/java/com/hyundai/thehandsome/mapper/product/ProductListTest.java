@@ -9,6 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import com.hyundai.thehandsome.Vo.product.CatePListVO;
 import com.hyundai.thehandsome.Vo.product.ColorVO;
+import com.hyundai.thehandsome.domain.Criteria;
 
 import lombok.extern.log4j.Log4j2;
 
@@ -35,11 +36,13 @@ public class ProductListTest {
 	@Autowired
 	private ProductListDAO pListDAO;
 
-	@Disabled
+	@Test
 	void getPListWithCategoryTest() {
-//		List<CatePListVO> list = pListDAO.getPListWithCategory("we", "", "", 03);
-//		List<CatePListVO> list = pListDAO.getPListWithCategory("we", "05", "", 03);
-		List<CatePListVO> list = pListDAO.getPListWithCategory("we", "05", "2", 3);
+		Criteria cri = new Criteria();
+
+		List<CatePListVO> list = pListDAO.getPListWithCategory(cri, "we", "05", "", 0);
+//		List<CatePListVO> list = pListDAO.getPListWithCategory(cri, "we", "05", "2", 0);
+//		List<CatePListVO> list = pListDAO.getPListWithCategory(cri, "we", "05", "2", 3);
 		for (CatePListVO item : list) {
 			log.info(item);
 		}
@@ -65,7 +68,7 @@ public class ProductListTest {
 		log.info(list);
 	}
 	
-	@Test
+	@Disabled
 	void isLiked() {
 		//대분류에 따른 중분류
 //		Boolean isLiked = pListDAO.isLiked("abcd@naver.com", "SY2D0KTO604W_PE"); //true

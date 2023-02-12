@@ -6,20 +6,22 @@
 	namespace="com.hyundai.thehandsome.mapper.product.ProductListDAO">
 	<select id="getPListWithCategory"
 		resultType="com.hyundai.thehandsome.Vo.product.CatePListVO">
-		SELECT DISTINCT /*+ INDEX(pcommon PRODUCT_COMMON_PK) */
-		brand.bname, pcommon.pname, pcolor.pcprice, pcommon.pid
-		FROM product_common pcommon
-
-		INNER JOIN product_color pcolor
-		ON
-		pcommon.pid = pcolor.pid
-
-		INNER JOIN brand
-		ON brand.bno =
-		pcommon.bno
-
-		INNER JOIN pid_with_category_view v
-		ON v.pid = pcommon.pid
+		<![CDATA[
+		SELECT SEQ, bname, pname, pcprice, pid
+		FROM (
+		    SELECT DISTINCT /*+ INDEX_ASC(product_common PRODUCT_COMMON_PK) */
+		    ROWNUM AS SEQ, brand.bname, pcommon.pname, pcolor.pcprice, pcommon.pid
+		    FROM product_common pcommon
+		
+		    INNER JOIN product_color pcolor
+		    ON pcommon.pid = pcolor.pid
+		
+		    INNER JOIN brand
+		    ON brand.bno = pcommon.bno
+		
+		    INNER JOIN pid_with_category_view v
+		    ON v.pid = pcommon.pid
+		]]>
 		<where>
 			<if
 				test="!@com.hyundai.thehandsome.test.MybatisCheckNull@isEmpty(depth1name)">
@@ -38,6 +40,12 @@
 				and brand.bno = #{brand}
 			</if>
 		</where>
+		<![CDATA[  
+		      and rownum <= #{cri.pageNum} * #{cri.amount}
+		    )
+			WHERE SEQ > (#{cri.pageNum} -1) * #{cri.amount}
+		]]>
+
 	</select>
 
 	<select id="getPListWithLikes"
@@ -64,10 +72,11 @@
 			#{pidList}
 		</foreach>
 	</select>
-	
+
 	<select id="isLiked" resultType="boolean">
 		select count(*) from likes
-		where member_mid = #{mid}
+		where
+		member_mid = #{mid}
 		and pid = #{pcid}
 	</select>
 
@@ -93,14 +102,17 @@
 
 	<!-- 대분류만 있을 때, 중분류까지만 구함 -->
 	<select id="getCategory12" resultType="String">
-		select distinct depth2name from category
+		select distinct depth2name
+		from category
 		where depth1name = #{depth2name}
 	</select>
 
 	<!-- 대분류만 있을 때, 중분류까지만 구함 -->
 	<select id="getCategory23" resultType="String">
-		select distinct depth3name from category
-		where  depth1name = #{depth1name}
-				and depth2name = #{depth2name}
+		select distinct depth3name
+		from category
+		where depth1name = #{depth1name}
+		and depth2name =
+		#{depth2name}
 	</select>
 </mapper>
