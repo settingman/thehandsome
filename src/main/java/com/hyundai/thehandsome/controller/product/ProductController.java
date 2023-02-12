@@ -2,7 +2,6 @@ package com.hyundai.thehandsome.controller.product;
 
 import java.security.Principal;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -10,11 +9,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import com.hyundai.thehandsome.Vo.product.CatePListVO;
-import com.hyundai.thehandsome.Vo.product.ListVO;
 import com.hyundai.thehandsome.Vo.product.detail.ProductDetailVO;
+import com.hyundai.thehandsome.domain.Criteria;
 import com.hyundai.thehandsome.service.product.ProductListService;
 
 import lombok.extern.log4j.Log4j2;
@@ -45,7 +43,7 @@ public class ProductController {
 
 	@GetMapping(value = { "/ProductList/{category}", "/ProductList/{category}/br{brand}",
 						  "/ProductList/br{brand}" })
-	public String getProductList(@PathVariable(required = false) String category,
+	public String getProductList(Criteria cri, @PathVariable(required = false) String category,
 			@PathVariable(required = false) String brand, Model model, Principal principal) {
 		log.info("getProductList-----------------");
 		try {
@@ -56,7 +54,7 @@ public class ProductController {
 			// out of bound 예방을 위해 다섯자리로 맞춤
 			String categoryCode = String.format("%-5s", category);
 			// 전체 item list 불러오기
-			List<CatePListVO> pList = plistService.getPListWithCategory(categoryCode, brand, principal);
+			List<CatePListVO> pList = plistService.getPListWithCategory(cri, categoryCode, brand, principal);
 			model.addAttribute("pList", pList);
 			
 			if (principal != null) model.addAttribute("mid", principal.getName());
