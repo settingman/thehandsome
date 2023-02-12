@@ -33,7 +33,6 @@ function getIsLiked(PCID, MID) {
 
 // FEAT: depth가 1일때
 function getSecondDepth(url) {
-  console.log("getSecondDepth" + url);
   $.getJSON(`http://localhost:8080/productList/category/${url}`, function (data) {
     let depthList = `
     <div class="flag_wrap case swiper-container swiper-container-horizontal swiper-container-free-mode swiper-container-android swiper-container-wp8-horizontal"> 
@@ -44,7 +43,6 @@ function getSecondDepth(url) {
       `;
 
     $(data).each(function () {
-      console.log(this);
       depthList += `
         <li class="swiper-slide flag swiper-slide-next" style="margin-right: 6px; width: fit-content;">
           <a href="/product/ProductList/${url}${this}/" class="name" onclick="GA_Event('카테고리_리스트', '카테고리', '재킷');">${this}</a>
@@ -61,8 +59,6 @@ function getSecondDepth(url) {
 
 // FEAT: depth가 2 이상일때
 function getThirdDepth(url) {
-  console.log("getNextDepth" + url);
-  console.log(url.substring(0, 2) + " / " + url.substring(2, 4));
   const depth1 = url.substring(0, 2);
   const depth2 = url.substring(2, 4);
 
@@ -80,7 +76,6 @@ function getThirdDepth(url) {
     depthList += `<li><a href="/product/ProductList/${depth1}" class="two_link">전체보기</a></li>`;
 
     $(data).each(function () {
-      console.log(this);
       depthList += `
             <li>
               <a href="/product/ProductList/${depth1}${this}" class="two_link">${this}</a>
@@ -108,7 +103,6 @@ function getThirdDepth(url) {
       `;
 
     $(data).each(function () {
-      console.log(this);
       depthList += `
         <li class="swiper-slide flag swiper-slide-next" style="margin-right: 6px; width: fit-content;  ">
           <a href="/product/ProductList/${depth1}${depth2}${this}/" class="name" onclick="GA_Event('카테고리_리스트', '카테고리', '재킷');">${this}</a>
@@ -140,4 +134,28 @@ swiper 참고 : https://github.com/nolimits4web/Swiper/issues/1053
 function chgHeaderTitle(title) {
   var headerTitleHtml = `<a href="javascript:noLink();" onclick="openGnbPopup();" class="select_">${title}</a>`;
   $("#headerTitle").html(headerTitleHtml);
+}
+
+// TODO: 무한 스크롤
+function YesScroll() {
+  const pagination = document.querySelector("#listEnd"); // 페이지네이션 정보획득
+  const fullContent = document.querySelector("#hsProductList"); // 전체를 둘러싼 컨텐츠 정보획득
+  const screenHeight = screen.height; // 화면 크기
+  let oneTime = false; // 일회용 글로벌 변수
+  document.addEventListener("scroll", OnScroll, { passive: true }); // 스크롤 이벤트함수정의
+  function OnScroll() {
+    //스크롤 이벤트 함수
+    const fullHeight = fullContent.clientHeight; // listBody 클래스의 높이
+    const scrollPosition = pageYOffset; // 스크롤 위치
+    if ((fullHeight-200) - screenHeight / 2 <= scrollPosition && !oneTime) {
+      // 만약 전체높이-화면높이/2가 스크롤포지션보다 작아진다면, 그리고 oneTime 변수가 거짓이라면
+      oneTime = true; // oneTime 변수를 true로 변경해주고,
+      console.log('madeBox')
+      madeBox(); // 컨텐츠를 추가하는 함수를 불러온다.
+    }
+  }
+}
+
+function madeBox(){
+	console.log('Done');
 }
