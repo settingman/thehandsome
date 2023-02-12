@@ -2183,10 +2183,10 @@ $(".hs_check01 input[name=pro_name_check]:checked").siblings("label").find("span
                 if ($(this).val() == "") return;
 
                 if ($(this).val() == "/ko/mypage/mymantomaninquiry") {
-                  location.href =
+                  window.location.href =
                     "/ko/mypage/mymantomaninquiry?refererUrl=mypage";
                 } else {
-                  location.href = $(this).val();
+                	window.location.href = $(this).val();
                 }
               });
               $("#headerMypageSelect > option").each(function (idx, obj) {

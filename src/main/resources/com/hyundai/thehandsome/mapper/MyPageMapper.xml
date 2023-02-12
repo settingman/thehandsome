@@ -47,7 +47,7 @@
 		e.etitle AS currency
 		from COUPON_DETAIL c join EVENT e
 		on c.ENO = e.ENO
-		where c.mId =#{mId}
+		where c.mId =#{mId} and c.CPSTATUS=#{CPSTATUS}
 	</select>
 
 

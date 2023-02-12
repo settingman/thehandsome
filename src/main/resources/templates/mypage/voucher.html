@@ -5,40 +5,159 @@
 -->
 
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-<title> 쿠폰 | 더한섬닷컴</title>
+<title>쿠폰 | 더한섬닷컴</title>
 
-<th:block th:replace="common/head :: headFragment"></th:block>
+<head>
+
+
+<!-- csrf 가 null 인 케이스에 발생한 문제:
+	로그인하지 않았을 때 csrf가 null이므로 에러가 터졌다.
+	다음과 같이 null 이 아닐 경우에만 csrf.token 등을 참조하도록 수정했다. -->
+<meta charset="UTF-8">
+<meta name="_csrf" th:content="${_csrf?.token}" th:if="${_csrf} ne null">
+<meta name="_csrf_header" th:content="${_csrf?.headerName}" th:if="${_csrf} ne null">
+<meta name="HandheldFriendly" content="true" />
+<meta name="viewport" content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, width=device-width" />
+
+<script src="https://kit.fontawesome.com/c2edef0625.js" crossorigin="anonymous"></script>
+
+
+
+
+
+
+<link rel="shortcut icon" href="https://www.thehandsome.com/_ui/mobile/common/images/common/thehandsome_ic_16x16.ico" />
+<link rel="apple-touch-icon" href="https://www.thehandsome.com/_ui/mobile/common/images/common/app_ban_logo.png" />
+<link rel="apple-touch-icon-precomposed" href="https://www.thehandsome.com/_ui/mobile/common/images/common/app_ban_logo.png" />
+<link rel="apple-touch-icon-120x120" href="https://www.thehandsome.com/_ui/mobile/common/images/common/app_ban_logo.png" />
+<link rel="apple-touch-icon-120x120-precomposed" href="https://www.thehandsome.com/_ui/mobile/common/images/common/app_ban_logo.png" />
+
+
+<link rel="shortcut icon" type="image/x-icon" media="all" href="//" />
+
+<link href="http://www.thehandsome.com/_ui/handsomemobile/css/handsomecss/font_80.css?20221121" rel="stylesheet" type="text/css" />
+<link href="http://www.thehandsome.com/_ui/handsomemobile/css/handsomecss/jquery-ui.css" rel="stylesheet" type="text/css" />
+<link href="http://www.thehandsome.com/_ui/handsomemobile/css/handsomecss/selectordie.css" rel="stylesheet" type="text/css" />
+<link href="http://www.thehandsome.com/_ui/handsomemobile/css/handsomecss/default.css?202200826" rel="stylesheet" type="text/css" />
+<link href="http://www.thehandsome.com/_ui/handsomemobile/css/handsomecss/display.css?20221107" rel="stylesheet" type="text/css" />
+<link href="http://www.thehandsome.com/_ui/handsomemobile/css/handsomecss/assist.css?20220929" rel="stylesheet" type="text/css" />
+<link href="http://www.thehandsome.com/_ui/handsomemobile/css/handsomecss/devAssist.css" rel="stylesheet" type="text/css" />
+
+<link href="http://www.thehandsome.com/_ui/handsomemobile/css/handsomecss/swiper-vr1908.min.css" rel="stylesheet" type="text/css" />
+<link href="http://www.thehandsome.com/_ui/handsomemobile/css/handsomecss/main201909.css?20200423" rel="stylesheet" type="text/css" />
+<link href="http://www.thehandsome.com/_ui/handsomemobile/css/handsomecss/renew_main.css?20220826" rel="stylesheet" type="text/css" />
+<link href="http://www.thehandsome.com/_ui/handsomemobile/css/handsomecss/popup.css" rel="stylesheet" type="text/css" />
+
+<script type="text/javascript">
+	/*<![CDATA[*/
+
+	var ACCMOB = {
+		config : {}
+	};
+	ACCMOB.config.contextPath = "";
+	ACCMOB.config.encodedContextPath = "/ko";
+	ACCMOB.config.commonResourcePath = "https://www.thehandsome.com/_ui/handsomemobile/common";
+	ACCMOB.config.themeResourcePath = "https://www.thehandsome.com/_ui/handsomemobile/theme-blue";
+	ACCMOB.config.siteResourcePath = "https://www.thehandsome.com/_ui/handsomemobile/site-handsome";
+	ACCMOB.config.rootPath = "https://www.thehandsome.com/_ui/handsomemobile";
+	ACCMOB.config.CSRFToken = "cd9050c6-105b-4660-8eff-bcdaba320336";
+
+	/*]]>*/
+</script>
+<script type="text/javascript">
+	/*<![CDATA[*/
+	ACCMOB.addons = {}; //JS holder for addons properties
+
+	/*]]>*/
+</script>
+<script type="text/javascript">
+	var handsomePageId = "joinCompletePage";
+	var main_bul = false;
+</script>
+
+<script type="text/javascript">
+	var goToMySmartFilterYn = "N";
+	var gnbType = "br";
+	var UserAgent = navigator.platform;
+	var userPhoneOs = "";
+	if (UserAgent.match(/i(Phone|Pod|Pad)/i) != null) {
+		userPhoneOs = "IOS";
+	} else {
+		userPhoneOs = "ANDROID";
+	}
+</script>
+
+<script type="text/javascript">
+	var handsomeUserLoginYn = "N";
+</script>
+<script type="text/javascript">
+	var isoKoYn = "Y";
+</script>
+<script type="text/javascript">
+	var handsomeIsoCode = "ko";
+	var handsomeContextPath = "/ko";
+</script>
+
+
+
+
+<script type="text/javascript" src="https://www.thehandsome.com/_ui/handsomemobile/js/jquery.min.js"></script>
+<script type="text/javascript" src="https://www.thehandsome.com/_ui/handsomemobile/js/jquery.vticker.js"></script>
+<script type="text/javascript" src="https://www.thehandsome.com/_ui/handsomemobile/js/masonry.pkgd.min.js"></script>
+<script type="text/javascript" src="https://www.thehandsome.com/_ui/handsomemobile/js/imagesloaded.pkgd.min.js"></script>
+<script type="text/javascript" src="https://www.thehandsome.com/_ui/handsomemobile/js/jquery.form.min.js"></script>
+<script type="text/javascript" src="https://www.thehandsome.com/_ui/handsomemobile/js/jquery.cookie.js"></script>
+<script type="text/javascript" src="https://www.thehandsome.com/_ui/handsomemobile/js/jquery-ui.min.js"></script>
+<script type="text/javascript" src="https://www.thehandsome.com/_ui/handsomemobile/js/swiper.min.js"></script>
+<script type="text/javascript" src="https://www.thehandsome.com/_ui/handsomemobile/js/selectordie.min.js"></script>
+<script type="text/javascript" src="https://www.thehandsome.com/_ui/handsomemobile/js/jquery.bpopup.min.js"></script>
+<script type="text/javascript" src="https://www.thehandsome.com/_ui/handsomemobile/js/echarts.min.js"></script>
+<!-- 마이페이지 오류로인한 주석처리 - 박성환  -->
+<!-- <script type="text/javascript" src="https://www.thehandsome.com/_ui/handsomemobile/js/common.js?20210501"></script> -->
+<script type="text/javascript" src="https://www.thehandsome.com/_ui/handsomemobile/js/assist_common.js?v=20220630"></script>
+<script type="text/javascript" src="https://www.thehandsome.com/_ui/handsomemobile/js/assist_new.js"></script>
+<script type="text/javascript" src="https://www.thehandsome.com/_ui/handsomemobile/js/handsome.js"></script>
+<script type="text/javascript" src="https://www.thehandsome.com/_ui/handsomemobile/js/common_function.js"></script>
+<script type="text/javascript" src="https://www.thehandsome.com/_ui/handsomemobile/js/json2.js"></script>
+<script type="text/javascript" src="https://www.thehandsome.com/_ui/handsomemobile/js/SsoAjax.js"></script>
+
+
+<script type="text/javascript" src="https://www.thehandsome.com/_ui/handsomemobile/js/makePCookie.js"></script>
+<script type="text/javascript" src="https://www.thehandsome.com/_ui/handsomemobile/js/content.js"></script>
+<script type="text/javascript" src="https://www.thehandsome.com/_ui/handsomemobile/js/e-smart-zoom-jquery.min.js"></script>
+<script type="text/javascript" src="https://www.thehandsome.com/_ui/handsomemobile/js/popup.js"></script>
+<script type="text/javascript" src="https://www.thehandsome.com/_ui/handsomemobile/js/simplepagination.js"></script>
+<script type="text/javascript" src="https://www.thehandsome.com/_ui/handsomemobile/js/netfunnel.js" charset="UTF-8"></script>
+<script type="text/javascript" src="https://www.thehandsome.com/_ui/handsomemobile/js/netfunnel_skin.js" charset="UTF-8"></script>
+
+<script type="text/javascript" src="https://www.thehandsome.com/_ui/handsomemobile/js/unorm.js"></script>
+
+
+<style media="screen">
+.blsmflw1 {
+	animation: target_image 1.5s;
+	animation-iteration-count: 2;
+	transform-origin: 50% 50%;
+}
+</style>
+
+
+<script>
+	// 검색 결과 페이지
+	if (window.location.pathname.indexOf("/hssearch/searchCount") > -1) {
+		var groobeeKeyword = ""; //검색_검색어(검색결과페이지일때 사용)
+		groobee("SE", {
+			keyword : groobeeKeyword
+		});
+	}
+</script>
+
+<link rel="stylesheet" type="text/css" href="//code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css" />
+<link rel="stylesheet" type="text/css" href="//static.groobee.io/dist/g2/css/grb-recommend-list_v2.css" />
+<link rel="stylesheet" type="text/css" href="//static.groobee.io/dist/g2/css/custom-swiper.css" />
+</head>
 
 <body class="back">
-	<script>
-		(function() {
-			if (document.cookie.indexOf("thehyundai=true") > -1) {
-				var d = new Date();
-				d.setTime(d.getTime() + 365 * 24 * 60 * 60 * 1000);
-				document.cookie = "sslvisit=true; expires=" + d.toUTCString()
-						+ "; path=/";
-			} else if (document.cookie.indexOf("rakuten=") > -1) {
-				var d = new Date();
-				d.setTime(d.getTime() + 365 * 24 * 60 * 60 * 1000);
-				document.cookie = "sslvisit1=true; expires=" + d.toUTCString()
-						+ "; path=/";
-			} else if (document.cookie.indexOf("hyundaihmall=true") > -1) {
-				var d = new Date();
-				d.setTime(d.getTime() + 365 * 24 * 60 * 60 * 1000);
-				document.cookie = "sslvisit2=true; expires=" + d.toUTCString()
-						+ "; path=/";
-			} else if (document.cookie.indexOf("fromSite") > -1) {
-				var d = new Date();
-				d.setTime(d.getTime() + 365 * 24 * 60 * 60 * 1000);
-				document.cookie = "sslvisit3=" + "" + "; expires="
-						+ d.toUTCString() + "; path=/";
-			} else if (document.cookie.indexOf("recommender") > -1) {
-				var d = new Date();
-				d.setTime(d.getTime() + 365 * 24 * 60 * 60 * 1000);
-				document.cookie = "sslvisit4=" + "" + "; path=/";
-			}
-		})();
-	</script>
 	<!-- Loading -->
 	<div style="display: none">
 		<div id="loadingBarDiv" style="display: none"></div>
@@ -205,7 +324,8 @@
 												.each(
 														results,
 														function() {
-															console.log("어디야 1");
+															console
+																	.log("어디야 1");
 															listTag = "<li>";
 															listTag += '<div class="coupon">';
 
@@ -267,7 +387,6 @@
 
 									voucherList.doWork();
 
-									
 									$("#N, #Y")
 											.click(
 													function() {
@@ -334,10 +453,8 @@
 								<p>쿠폰 사용 및 유효 기간 만료 후 1개월 간 내역입니다.</p>
 							</div>
 							<ul class="coupon_list_wrap" id="listBodyN">
-							
-							
-							
-								
+
+
 							</ul>
 							<!-- paging s -->
 							<div class="hs_paging assist" id="pageN">
@@ -391,17 +508,6 @@
 				var notiCnt = 0;
 				var curTabId = 0;
 
-				$(document).ready(function() {
-					//자동로그인
-
-					$(".chatbotlink").click(function() {
-						callChatbot();
-					});
-
-					// 2022.03.29 푸터 공지사항 추가
-					getFooterNotices("/ko/svcenter");
-				});
-
 				function moveDesktop() {
 					location.href = location.href.replace("?uiel=Mobile", "")
 							+ "?uiel=Desktop";
@@ -421,60 +527,6 @@
 					// 	    $(".f_policy .language").hide(); //ios 메인 처음 진입시 language 노출되는 오류 수정
 					// 	}
 				});
-
-				function hpAutoLogin(data) {
-					if (data.succYn == "Y") {
-						$.ajax({
-							type : "GET",
-							url : "/ko/hpoint/simpleJoinMember",
-							data : {
-								mcustNo : data.mcustNo
-							},
-							success : function(data) {
-								if (data.resultCode == "L") {
-									$("#hcid").val(data.uid);
-									$("#autologinForm").submit();
-								}
-							},
-							error : function(e) {
-							},
-						});
-					}
-				}
-
-				function familySiteSelect() {
-					$(".fixed_dim_layer").stop().show();
-					$(".family_site_popup_191108").stop().slideDown();
-				}
-				function familySiteSelectClosed() {
-					$(".family_site_popup_191108").stop().slideUp();
-					$(".fixed_dim_layer").stop().fadeOut(500);
-				}
-
-				//app 언어설정창 추가
-				function selectLangChg(obj) {
-				}
-
-				//외부 브라우저로 링크 열기
-				function callWebBrowser() {
-					var appYn = "N";
-					if (getCookie("app") == null || getCookie("app") == "") {
-						//
-					} else {
-						// 앱 접속일 경우 앱 여부 Y
-						appYn = "Y";
-					}
-					var appOs = "";
-
-					if (appYn == "Y") {
-						if (appOs == "ios") {
-							webkit.messageHandlers.callWebBrowser
-									.postMessage("http://www.naver.com");
-						} else {
-							Android.callWebBrowser("http://www.naver.com");
-						}
-					}
-				}
 
 				/************************Footer Notice Start*********************/
 				function getFooterNotices(moveUrl) {
@@ -2173,246 +2225,6 @@
 		//window.history.back();
 		//}
 
-		$(document)
-				.ready(
-						function() {
-							var appVersionCheckOS = getCookie("app");
-							var appVersionCheckVer = getCookie("appVer");
-							if ((appVersionCheckOS == "ios" && appVersionCheckVer
-									.startsWith("1."))
-									|| (appVersionCheckOS == "android" && appVersionCheckVer < 43)) {
-								location.href = "/ko/mobilecommon/appDownload";
-								return;
-							}
-
-							var todayDate = new Date();
-
-							if (getCookie("mainNoticeWrapKo") != todayDate
-									.getDate()) {
-								var innerHtml = "";
-								innerHtml += '<div class="notice_pop" id="mainNoticeWrap" style="z-index:100000;">                                                                              ';
-								innerHtml += '    <div class="popwrap_renewal1910" id="mainNoticeWrapKo">                                                                                       ';
-								innerHtml += '        <div class="pop_cnt">                                                                                                                     ';
-								innerHtml += '            <h3 class="pop_tlt" style="font-size:20px">                                                                                           ';
-								innerHtml += "            아이폰 APP <br>                                                                                                                       ";
-								innerHtml += "            카드결제 불가 안내                                                                                                                    ";
-								innerHtml += "            </h3>                                                                                                                                 ";
-								innerHtml += '            <p class="pop_txt">                                                                                                                   ';
-								innerHtml += "            아이폰 APP 2.2.2 버전에서<br/>일부 결제 오류가 발생하고 있습니다.<br/>(원클릭결제는 정상)<br/><br/>                                   ";
-								innerHtml += "            2.2.3 버전으로 업데이트 하시면<br/>정상 결제가 가능합니다.<br/>업데이트 후, 결제 진행 부탁드립니다.<br/><br/>                         ";
-								innerHtml += "            고객님께 불편을 드려 죄송합니다.                                                                                                      ";
-								innerHtml += "            </p>                                                                                                                                  ";
-								innerHtml += "        </div>                                                                                                                                    ";
-								innerHtml += '        <div class="btnwrap">                                                                                                                     ';
-								innerHtml += '            <input type="button" class="btn stoptoday closeLayerPopup" value="오늘은 그만보기 ">                                                  ';
-								innerHtml += '            <input type="button" class="btn close closeLayerPopup" value="닫기">                                                                  ';
-								innerHtml += "        </div>                                                                                                                                    ";
-								innerHtml += '        <a href="#" class="btn_close closeLayerPopup"></a>                                                                                        ';
-								innerHtml += "    </div>                                                                                                                                        ";
-								innerHtml += "</div> ";
-								innerHtml += '<div style="position:absolute; top:0; left:0; width:100%; height:100%; z-index:9999;" id="notice_pop_layer"><div style="position:fixed; top:0; left:0; width:100%; height:100%; background:#fff; opacity:0;"></div> </div> ';
-
-								if (appVersionCheckOS == "ios"
-										&& appVersionCheckVer == "2.2.2") {
-									if ("HSVoucherOnlinePage" == "ordersheet"
-											|| "HSVoucherOnlinePage" == "cartPage") {
-										$(".hsome_contents").after(innerHtml);
-										$("#notice_pop_layer").show();
-									}
-								}
-							}
-
-							$(".closeLayerPopup").on(
-									"click",
-									function() {
-										$("#notice_pop_layer").hide();
-										if ($(this).hasClass("stoptoday")) {
-											//오늘은 그만보기
-											var todayDate = new Date();
-											var cookieId = $(this).parents(
-													".popwrap_renewal1910")
-													.attr("id");
-											setOneDayCookie(cookieId, todayDate
-													.getDate(), 1);
-										}
-										$(this).parents(".popwrap_renewal1910")
-												.css("display", "none");
-									});
-
-							//        else if((appVersionCheckOS == "ios" && "2.0.1".indexOf(appVersionCheckVer)  < 0)
-							//            ||   (appVersionCheckOS == "android" && "44".indexOf(appVersionCheckVer) < 0))
-
-							//        {
-							//            var la = new layerConfirm("새로운 기능이 추가되었습니다.<br>업데이트 하시겠습니까?", "확인", "취소");
-							//            la.cancleAction = function(){//취소 호출 펑션
-							//             };
-
-							//             la.confirmAction = function(){//확인 호출 펑션
-							//                 //location.href = '/ko/mobilecommon/appDownload';
-							//                 goDownload1(appVersionCheckOS);
-							//                 return;
-							//             };
-							//         }
-
-							if (handsomePageId != "mainIntro") {
-								if ($.cookie("handsomecategorypagecnt") !== null) {
-									$.removeCookie("handsomecategorypagecnt", {
-										path : "/"
-									});
-								}
-								if ($.cookie("handsomecategoryscroll") !== null) {
-									$.removeCookie("handsomecategoryscroll", {
-										path : "/"
-									});
-								}
-								if ($.cookie("handsomelayerscroll") !== null) {
-									$.removeCookie("handsomelayerscroll", {
-										path : "/"
-									});
-								}
-								if ($.cookie("handsomeproductback") !== null
-										&& handsomePageId != "productList") {
-									$.removeCookie("handsomeproductback", {
-										path : "/"
-									});
-								}
-								if ($.cookie("handsomecategoryhash") !== null
-										&& !(handsomePageId == "productList" || handsomePageId == "hsProductDetailPage")) {
-									$.removeCookie("handsomecategoryhash", {
-										path : "/"
-									});
-								}
-							}
-							/* var la = new layerConfirm('메시지','확인 버튼 텍스트','취소 버튼 텍스트');
-							la.cancleAction = function(){//취소 호출 펑션
-							return;
-							};
-
-							la.confirmAction = function(){//확인 호출 펑션
-							return;
-							}; */
-
-							$(document).on("click", ".set", function() {
-								location.href = "/ko/mypage/configMain";
-							});
-						});
-
-		// 쿠키 생성
-		function setCookie(cName, cValue, cDay) {
-			var expire = new Date();
-			expire.setDate(expire.getDate() + cDay);
-			cookies = cName + "=" + escape(cValue) + "; path=/ ";
-			if (typeof cDay != "undefined")
-				cookies += ";expires=" + expire.toGMTString() + ";";
-			document.cookie = cookies;
-		}
-
-		//쿠키 삭제
-		function deletecookie(name, pram_searchwords) {
-			var today = new Date();
-			var path = "/ko/";
-			var lastIndex = path.lastIndexOf("/");
-			path = path.substring(0, lastIndex);
-			today.setDate(today.getDate() + -1);
-			document.cookie = name + "=; path=" + path + "; expires="
-					+ today.toGMTString() + ";";
-			$("." + pram_searchwords).css("display", "none");
-		}
-
-		function deletecookiePath(name, pram_searchwords, path) {
-			var today = new Date();
-			if (path == "") {
-				path = "/";
-			}
-			today.setDate(today.getDate() + -1);
-			document.cookie = name + "=; path=" + path + "; expires="
-					+ today.toGMTString() + ";";
-			if (pram_searchwords != "") {
-				$("." + pram_searchwords).css("display", "none");
-			}
-		}
-
-		//언어설정
-		function language(isoCode) {
-			//같은언어 선택시 문구 비노출
-			if ("ko" == isoCode) {
-				languageProcess(isoCode);
-				$("#footerSelectLang").val("").change();
-			} else {
-				var la = new layerConfirm(
-						"서비스 언어를 변경하시겠습니까?<br/>서비스 언어를 변경하시면 쇼핑백에 담은 상품이 삭제됩니다.",
-						"확인", "취소");
-				la.confirmAction = function() {
-					//확인 호출 펑션
-					languageProcess(isoCode);
-				};
-
-				la.cancleAction = function() {
-					$("#footerSelectLang").val("").change();
-				};
-
-				$("#confirmCloseDiv").on("click", function() {
-					$("#footerSelectLang").val("").change();
-				});
-			}
-		}
-
-		function languageProcess(isoCode) {
-			gaIsoCodeEncoding(isoCode);
-			if (location.href.indexOf("/handsome/") > -1) {
-				$.ajax({
-					type : "post",
-					url : "/ko/logout?" + getCSRFToken(),
-					error : function(request, status, error) {
-						$.ajax({
-							type : "post",
-							url : "/ko/_s/language" + "?" + "code=" + isoCode,
-							dataType : "json",
-							error : function(request, status, error) {
-								console.log("code:" + request.status + "\n"
-										+ "message:" + request.responseText
-										+ "\n" + "error:" + error);
-							},
-							success : function(result) {
-								location.href = "/ko/";
-							},
-						});
-					},
-					success : function(result) {
-						$.ajax({
-							type : "post",
-							url : "/ko/_s/language" + "?" + "code=" + isoCode,
-							dataType : "json",
-							error : function(request, status, error) {
-								console.log("code:" + request.status + "\n"
-										+ "message:" + request.responseText
-										+ "\n" + "error:" + error);
-							},
-							success : function(result) {
-								location.href = "/ko/";
-							},
-						});
-					},
-				});
-			} else {
-				location.href = "/" + isoCode;
-			}
-		}
-
-		function getCSRFToken() {
-			return "CSRFToken="
-					+ $("#CSRFForm [name='CSRFToken']").first().val();
-		}
-
-		function slideOnMain() {
-			var autocom_swiper = new Swiper("#autocompleteImg", {
-				slidesPerView : 3.333,
-				paginationClickable : false,
-				spaceBetween : "1.5625%",
-				freeMode : true,
-			});
-		}
-
 		//재입고 알림 오픈
 		function getWarehousingPage(productcode, layer) {
 			$
@@ -2822,42 +2634,6 @@
 
 			if (typeof window[data.func] == "function") {
 				window[data.func].call(null, data.data);
-			}
-		}
-
-		function callSaveAppPush(pushMsg) {
-			var obj = JSON
-					.parse($.trim(pushMsg).replace(/(?:\r\n|\r|\n)/g, ""));
-			var notiTitle = obj.notiTitle; // 제목
-			var notiMsg = obj.notiMsg; // 메세지 텍스트
-			var notiImg = obj.notiImg; // 이미지 링크
-			var message = obj.message; // html 전달
-			var msgLink = obj.msgLink; // link
-			var msgType = obj.msgType; // 메시지 유형 ('T' - Text, 'H' - Html, 'L' - Link)
-
-			if (obj.notiTitle != "[스타일라이브♥]") {
-				$.ajax({
-					type : "POST",
-					url : "/ko/mobilecommon/saveMarketPush",
-					datatype : "json",
-					data : {
-						CSRFToken : $("#CSRFForm [name='CSRFToken']").first()
-								.val(),
-						msg : notiMsg,
-						title : notiTitle,
-						img : notiImg,
-						html : encodeURIComponent(message),
-						msgLink : msgLink,
-						msgType : msgType,
-					},
-					error : function(request, status, error) {
-						//    	       console.log( "code:" + request.status+"\n\n\n\n" + "message:" + request.responseText+"\n\n\n\n" + "error:" + error );
-					},
-					success : function(result) {
-						if (result == "SUCCESS") {
-						}
-					},
-				});
 			}
 		}
 
@@ -3554,95 +3330,9 @@
 	<!-- depth8 s -->
 	<div class="hsome_layerpop_contents lp_depth8"></div>
 	<!-- depth8 e -->
-	<script>
-		$("html").on("scroll touchmove mousewheel",
-				".hold_body .sns_comment_ipt_pop .sns-comment-op", function(e) {
-					e.preventDefault();
-					e.stopPropagation();
-					return false;
-				});
 
-		$(document)
-				.ready(
-						function() {
-							$(".write_form_area .reply-write-line #comment")
-									.keyup(
-											function(e) {
-												var content = $(this).val();
-												$(".reply_write_box #counter")
-														.html(content.length);
-											});
 
-							$(".sns_comment_pop #sns_commont_close")
-									.on(
-											"click",
-											function() {
-												$(
-														".sns_comment_ipt_pop .reply-call-btn")
-														.removeClass("on");
-												//         $('.sns_comment_ipt_pop .sns-comment-ipt').removeClass('active');
-												$(".hsome_allContents_wrapper")
-														.css("display", "block");
-												scrollHeightHistory(); //$(window).scrollTop(win_Scroll);
-												$(".sns_comment_pop")
-														.scrollTop(0);
 
-												$("body").removeClass("hidden");
-											});
-
-							$(".reply_write_box").on("focus", "textarea",
-									putBlur);
-
-							// 20200706 댓글 버튼 active 액션
-							$(".sns_comment_ipt_pop")
-									.on(
-											"click",
-											".reply-call-btn > button",
-											function() {
-												$(
-														".sns_comment_ipt_pop .sns-comment-ipt")
-														.addClass("active");
-												$(".reply-call-btn")
-														.removeClass("on");
-												$(
-														".sns-comment-ipt .reply_write_box #counter")
-														.html(0);
-											});
-
-							$(".sns_comment_ipt_pop")
-									.on(
-											"click",
-											".reply-close-btn  a",
-											function(e) {
-												var replu_None = $(
-														".sns_comment_ipt_pop .sns-comment-ipt .ipt-re-uploaded")
-														.hasClass("is-active");
-												e.preventDefault();
-
-												$(
-														".sns_comment_ipt_pop .sns-comment-ipt")
-														.removeClass("active");
-												$(
-														".sns_comment_ipt_pop .reply-call-btn")
-														.addClass("on");
-
-												if (replu_None == true) {
-													$(
-															".sns_comment_ipt_pop .sns-comment-ipt .ipt-re-uploaded")
-															.removeClass(
-																	"is-active");
-												}
-											});
-
-							function putBlur() {
-								var $thisTextarea = $(this);
-								$(".hsome_layer_popup").on("touchstart",
-										function(e) {
-											$thisTextarea.blur();
-										});
-							}
-						});
-	</script>
 
 	<!-- 댓글// -->
 	<div class="hsome_layer_popup hs_img_upload_pop">
@@ -3879,39 +3569,6 @@
 	<script type="text/javascript" src="/_ui/handsomemobile/js/clipboard.min.js"></script>
 	<script type="text/javascript">
 		//App, android 설정 및 공유하기를 위한 KAKAO를 init (init키는 부여받은 key를 넣어주어야 합니다.)
-		$(document)
-				.ready(
-						function() {
-							if (getCookie("app") == "ios") {
-								deviceName = "ios";
-							} else if (getCookie("app") == "android") {
-								deviceName = "android";
-							} else {
-								if (userAgent.search("android") > -1) {
-									deviceName = "android";
-								} else if (userAgent.search("iphone") > -1
-										|| userAgent.search("ipod") > -1
-										|| userAgent.search("ipad") > -1) {
-									deviceName = "ios";
-								}
-							}
-							//테스트용 Key를 발급받으셔야 테스트 환경에서 카카오톡 공유하기를 할 수 있습니다. (development, staging, localhost 호스트 접속용)
-							// 		Kakao.init('개발용key값');
-							//TheHandsome.com 운영 Key 입니다. (www.thehandsome.com)
-							// 		Kakao.init('65f184156e7c83b654f392eacf75c7ed');
-							$
-									.getScript(
-											"//developers.kakao.com/sdk/js/kakao.min.js",
-											function() {
-												if (typeof Kakao !== "undefined") {
-													Kakao
-															.init("65f184156e7c83b654f392eacf75c7ed");
-													//                 Kakao.init('bdfad1be522c19504de903a0d357b855');  //test key
-												}
-											}).fail(function() {
-										console.log("fail");
-									});
-						});
 
 		//현재 페이지 정보 변수화
 		var userAgent = navigator.userAgent.toLocaleLowerCase();
@@ -3991,9 +3648,9 @@
 						webUrl : sUrl,
 					},
 				}, ] /* ,
-					     success: function(data) {
-					    	 Kakao.Link.cleanup();
-					     } */,
+																				     success: function(data) {
+																				    	 Kakao.Link.cleanup();
+																				     } */,
 			});
 		}
 
@@ -4196,37 +3853,7 @@
 	</div>
 	<!-- 참여해주셔서 감사합니다 E -->
 
-	<script>
-		$(document)
-				.ready(
-						function() {
-							// 모달 닫기
-							$(
-									".stlv-mob-stlv-20211001--closed1, .stlv-mob-stlv-20211001--closed2, .stlv-mob-stlv-20211001--closed3")
-									.on(
-											"click",
-											function() {
-												$(
-														".stlv-mob-stlv-20211001--popup")
-														.css("display", "none");
-												setTimeout(
-														function() {
-															$(
-																	".hsome_quickMenu")
-																	.removeClass(
-																			"active");
-															//작성 후 메인으로 이동한 뒤 포스트 팝업을 위한 쿠키값 셋팅
-															setCookie(
-																	"isWriteAfter",
-																	"Y", 1);
-															location.href = "/ko/sns/main?isWriteAfter=true";
-															hideLoadingLp();
-														}, 1000);
-											});
-						});
-	</script>
 
-	<!-- 스타일라이브 팝업 20211001 E -->
 
 	<!-- 결제시도시 처리중 layper 별도 표시 200217 nih -->
 	<div class="pop_loading_oneclick200210_wrap" style="width: 100%; height: 100%; position: fixed; top: 0; left: 0; z-index: 9998; display: none;">
@@ -4467,266 +4094,6 @@
 
 	<!-- Mobile Smart Banner for Anroid Device -->
 	<script defer="defer">
-		var appDownPopContentHtml = "";
-		$(document)
-				.ready(
-						function() {
-							if ("N" == "N") {
-								var linkGateway = window.sessionStorage
-										.getItem("linkGateway");
-								var mobileWebView = getCookie("mobileWebView");
-								if (mobileWebView == "" && linkGateway == "Y") {
-									appDownPopContentHtml += '<div class="app-down-popup-wrap">';
-									appDownPopContentHtml += '	<div class="app-down-popup-box">';
-									appDownPopContentHtml += '		<div class="ad-guide">';
-									appDownPopContentHtml += '			<i class="logo"><img src="http://cdn.thehandsome.com/_ui/handsomemobile/images/popup/apppop_logo.png" alt="HAND SOME"></i>';
-									appDownPopContentHtml += '			<P class="con">';
-									appDownPopContentHtml += "				더한섬닷컴 앱으로<br>";
-									appDownPopContentHtml += "				첫 구매 시<br>";
-									appDownPopContentHtml += "				<strong>3만원 쿠폰</strong> 증정";
-									appDownPopContentHtml += "			</P>";
-									appDownPopContentHtml += "		</div>";
-									appDownPopContentHtml += '		<div class="btn"><a href="javascript:appUseCheck();"><span>앱 설치하고 쿠폰 받기</span><i class="icon"></i></a></div>';
-									appDownPopContentHtml += '		<a class="web-quick">모바일 웹으로 보기</a>';
-									appDownPopContentHtml += "	</div>";
-									appDownPopContentHtml += "</div>";
-
-									$(".b-modal.__b-popup1__").show();
-									$(".hsome_allContents_wrapper").after(
-											appDownPopContentHtml);
-									window.sessionStorage
-											.removeItem("linkGateway");
-								}
-
-								$(".app-down-popup-wrap")
-										.on(
-												"click",
-												".web-quick",
-												function() {
-													var $popupWrap = $(this)
-															.parents(
-																	".app-down-popup-wrap");
-													$popupWrap.hide();
-
-													$(".b-modal.__b-popup1__")
-															.hide();
-													if ($(".hsome_quickMenu").length == 0) {
-														if (appDownPopContentHtml != "") {
-															holdBodyHide();
-														}
-													}
-													// 					window.sessionStorage.removeItem("linkGateway");
-													// 					setMobileWebViewCookie("mobileWebView", "Y", 1);
-												});
-							} else {
-								$
-										.ajax({
-											url : "/ko/common/checkFirstAppIssueYn",
-											type : "get",
-											dataType : "json",
-											success : function(result) {
-												if (result) {
-													$
-															.ajax({
-																url : "/ko/common/checkAppBuyYn",
-																type : "get",
-																dataType : "json",
-																success : function(
-																		result) {
-																},
-																error : function(
-																		e) {
-																},
-															});
-												}
-											},
-											error : function(e) {
-											},
-										});
-							}
-
-							var tempDate = "2022/09/16 10:00:00";
-							if (location.href.indexOf("www.thehandsome.com") == -1) {
-								//test
-								tempDate = "2022/09/06 10:00:00";
-							}
-
-							var todayDate = new Date();
-							var startDate = new Date(tempDate), endDate = new Date(
-									"2022/09/22 23:59:59");
-							if (todayDate.getTime() >= startDate.getTime()
-									&& todayDate.getTime() <= endDate.getTime()) {
-								// 노출페이지 : 정상/아울렛 상품상세페이지, 기획전 (상세), 더매거진(상세)
-								var uid = "HSVoucherOnlinePage";
-
-								var chkPage = [ "hsProductDetailPage",
-										"editorialDetailPage", "productList", ];
-								var target_url = document.location.href;
-
-								if (getCookie("mapleEventPopup") != todayDate
-										.getDate()) {
-									if (chkPage.indexOf(uid) > -1
-											|| target_url
-													.indexOf("/magazine/exhibitions/") > -1) {
-										$
-												.ajax({
-													url : "/ko/magazine/getLeavesEventRandom",
-													type : "get",
-													dataType : "json",
-													data : {
-														pk : "8804481881984",
-														tdate : ""
-													},
-													success : function(data) {
-														// 		                        console.log(data);
-
-														if (data != "11") {
-															var leafType = "leaf_01";
-															if (data == "1"
-																	|| data == "2"
-																	|| data == "3"
-																	|| data == "4") {
-																leafType = "leaf_01";
-															} else if (data == "5"
-																	|| data == "6"
-																	|| data == "7") {
-																leafType = "leaf_03";
-															} else if (data == "8"
-																	|| data == "9"
-																	|| data == "10") {
-																leafType = "leaf_02";
-															}
-
-															var innerHtml = '<div class="evt_minipop_maple">';
-															innerHtml += '    <div class="blsmflw1 '
-																	+ leafType
-																	+ '" onclick="javascript:setPlayLeaves('
-																	+ data
-																	+ ')">';
-															innerHtml += "        <a></a>";
-															innerHtml += "        <span>행운의 단풍잎 줍기!</span>";
-															innerHtml += "    </div>";
-															innerHtml += '    <div class="today_close" style="position:absolute;bottom:-4.133vw;left:0px;width:100%;">';
-															innerHtml += '        <label for="justDay1" style="cursor:pointer;color:#000;letter-spacing:-.5px;font-size:2.933vw">오늘 하루 보지 않기</label>';
-															innerHtml += '        <input id="justDay1" type="checkbox" name="day_close" value="오늘 하루 보지 않기" style="display:none">';
-															innerHtml += '        <a href="javascript:mapleEvtPopClose()" alt="닫기" style="background:url(\'http://cdn.thehandsome.com/_ui/desktop/common/images/common/btn_close.png\') no-repeat; background-size: cover; display:block; position:absolute; bottom:2.5px; right:3px; width:3.067vw; height:3.067vw; z-index:2;">&nbsp;</a>';
-															innerHtml += "    </div>";
-															innerHtml += "</div>";
-
-															$(
-																	".hsome_allContents_wrapper")
-																	.before(
-																			innerHtml);
-														}
-													},
-													error : function(e) {
-														//
-													},
-												});
-									}
-								}
-							}
-						});
-
-		$(window).load(function() {
-			if ($(".hsome_quickMenu").length == 0) {
-				if (appDownPopContentHtml != "") {
-					holdBodyShow();
-				}
-			}
-		});
-
-		function appUseCheck() {
-			var userAgent = navigator.userAgent.toLocaleLowerCase();
-			var url = "https://www.thehandsome.com:443/ko/mypage/voucher";
-			var openAt = new Date().getTime(); // 방문 시간
-			var customUrlScheme = "page?url=" + encodeURIComponent(url);
-
-			if (userAgent.match(/android/)) {
-				if (userAgent.match(/chrome/)) {
-					// 				location.href = "intent://"+customUrlScheme+"#Intent;scheme=thehandsome;package=com.handsome.thehandsome;end";
-					location.href = "https://play.google.com/store/apps/details?id=com.handsome.thehandsome";
-				} else {
-					setTimeout(
-							function() {
-								if (new Date().getTime() - openAt < 2500) {
-									location.href = "https://play.google.com/store/apps/details?id=com.handsome.thehandsome";
-								}
-							}, 2000);
-
-					var iframe = document.createElement("iframe");
-					iframe.style.visibility = "hidden";
-					iframe.src = customUrlScheme;
-					document.body.appendChild(iframe);
-					document.body.removeChild(iframe);
-				}
-			} else {
-				// 			customUrlScheme = "thehandsome://page?url="+encodeURIComponent(url);
-				// 			var visitedAt = +new Date;
-				// 			checkAppTimer = setTimeout(function() {
-				// 				if (+new Date - visitedAt < 2500) {
-				// 					location.href = "https://itunes.apple.com/kr/app/itunes-connect/id1072288949?mt=8";
-				// 				}
-				// 			}, 2000);
-
-				//			location.href = "thehandsome://" + customUrlScheme;
-				//			location.href = "http://thehandsome.com/" + customUrlScheme;
-				//			location.href = "https://demo.newfrom.net/" + customUrlScheme;
-
-				//			location.href = "https://demo.newfrom.net/thehandsome_ios.html" + customUrlScheme;
-				// 			location.href = customUrlScheme;
-				// 			window.setTimeout(function () {
-				window.location.replace(document.head
-						.querySelector("[name=fallbackUrl]").content);
-				// 			}, 3000);
-
-				//			location.href = "http://thehandsome.com/intro/appLink" + customUrlScheme;
-				//			location.href = "http://development.thehandsome.com/_ui/appLink.html" + customUrlScheme;
-				//			location.href = "https://newmedia.thehandsome.com/appLink.html" + customUrlScheme;
-			}
-		}
-
-		function executeAppOrGoStore() {
-			var openAt = new Date(), uagentLow = navigator.userAgent
-					.toLocaleLowerCase(), chrome25, kitkatWebview;
-
-			setTimeout(
-					function() {
-						if (new Date() - openAt < 4000) {
-							if (uagentLow.search("android") > -1) {
-								location.href = "https://play.google.com/store/apps/details?id=com.handsome.thehandsome";
-							} else if (uagentLow.search("iphone") > -1) {
-								location
-										.replace("https://itunes.apple.com/kr/app/itunes-connect/id1072288949?mt=8");
-							}
-						}
-					}, 1000);
-
-			if (uagentLow.search("android") > -1) {
-				document.location.href = "thehandsometransfer://applink?version=1.1";
-			} else if (uagentLow.search("iphone") > -1) {
-				var isSafari = navigator.userAgent.toLowerCase().indexOf(
-						"safari") > -1;
-				var isChrome = navigator.userAgent.toLowerCase().indexOf(
-						"chrome") > -1;
-				if (isSafari) {
-					if (isChrome) {
-						isSafari = false;
-					} else {
-						if (navigator.userAgent.toLowerCase().indexOf("crios") > -1) {
-							isSafari = false;
-						}
-					}
-				}
-
-				if (isSafari) {
-					location.replace("thehandsomePayment://1072288949");
-				} else {
-					document.location.href = "thehandsomePayment://1072288949";
-				}
-			}
-		}
-
 		function mobileWebView() {
 			//$(".app_pop200303").hide();
 			//$(".noti_popup190906_dim").hide();

@@ -33,6 +33,6 @@ public interface MyPageMapper {
 	
 	String findWish(@Param("mId") String mId, @Param("productCode") String productCode);
 	
-	List<Voucher> findVoucher(@Param("mId") String mId);
+	List<Voucher> findVoucher(@Param("mId") String mId,@Param("CPSTATUS") String CPSTATUS);
 
 }
