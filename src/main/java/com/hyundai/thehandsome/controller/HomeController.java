@@ -15,7 +15,7 @@ public class HomeController {
 	@GetMapping(value = "/")
 	public String memberForm(Model model) {
 
-		return "index2";
+		return "main";
 	}
 
 	@GetMapping(value = "/member/testpage")
