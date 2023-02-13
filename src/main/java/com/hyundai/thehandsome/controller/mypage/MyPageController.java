@@ -15,8 +15,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.hyundai.thehandsome.Vo.product.CatePListVO;
+import com.hyundai.thehandsome.domain.mypage.Order;
 import com.hyundai.thehandsome.domain.mypage.WishList;
 import com.hyundai.thehandsome.mapper.MyPageMapper;
+import com.hyundai.thehandsome.mapper.OrderMapper;
 import com.hyundai.thehandsome.security.dto.SecurityMember;
 import com.hyundai.thehandsome.service.product.ProductListService;
 
@@ -49,9 +51,18 @@ public class MyPageController {
 	private final MyPageMapper myPageMapper;
 	@Autowired
 	private ProductListService plistService;
+	
+	@Autowired
+	private OrderMapper orderMapper;
 
 	@GetMapping(value = "/mypage")
-	public String main(Model model) {
+	public String main(Model model, Principal principal) {
+		
+		List<Order> orderList = orderMapper.findOrder(principal.getName());
+		
+		log.info(orderList.get(0).toString());
+		
+		model.addAttribute("orderList", orderList);
 
 		return "mypage/mypage";
 	}

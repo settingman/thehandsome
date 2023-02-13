@@ -1,9 +1,9 @@
 package com.hyundai.thehandsome.mapper;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.sql.Date;
+import java.util.List;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.hyundai.thehandsome.domain.member.Member;
 import com.hyundai.thehandsome.domain.member.MemberRole;
+import com.hyundai.thehandsome.domain.mypage.Order;
 
 import lombok.extern.slf4j.Slf4j;
 @Slf4j
@@ -23,6 +24,10 @@ public class MemberMapperTest {
 	
 	@Autowired
 	MemberMapper memberMapper;
+	
+	
+	@Autowired
+	OrderMapper orderMapper;
 
 	@Test
 	public void testFindById() {
@@ -37,6 +42,14 @@ public class MemberMapperTest {
 		 		() -> memberMapper.save(member));//예외가 발생해야 한다.
 				
 	}
+	
+	@Test
+	public void testFindB() {
+		List<Order> order =orderMapper.findOrder("dev");
+		log.info(order.toString());
+	}
+	
+	
 
 	@Test
 	public void testFindByNameBirth() {

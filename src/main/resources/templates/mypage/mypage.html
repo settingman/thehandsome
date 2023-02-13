@@ -2267,37 +2267,21 @@ $(".hs_check01 input[name=pro_name_check]:checked").siblings("label").find("span
 									<div class="s-tit">
 										<b>주문조회</b> <a href="/ko/mypage/order/myorders" class="more">주문배송조회</a>
 									</div>
-
 									<div th:each="order : ${orderList}" class="orderList">
 										<p class="order_number">
 											<a href="https://www.thehandsome.com/ko/mypage/order/myorderdetails?code=230131P16593895"> <span class="tit">주문번호<!-- 주문번호 --></span> <span
 												class="number"
-											>230131P16593895</span>
+											>[[${order.OrderID}]]</span>
 											</a>
 										</p>
-										<div class="order_product">
-											<!-- 개 -->
-											<a href="https://www.thehandsome.com/ko/p/SH2D1ACK422M_IV_FR" onclick="GA_Event(&#39;마이페이지&#39;, &#39;배송정보&#39;, &#39;상품상세&#39;);">
-												<div class="img">
-													<img src="http://newmedia.thehandsome.com/SH/2D/SS/SH2D1ACK422M_IV_W01.jpg/dims/resize/750x1131" alt="[23SS] 컬러 라인 리브 양말" />
-												</div>
-												<div class="cont">
-													<p class="name">
-														<span class="brand"> SYSTEM HOMME</span> [23SS] 컬러 라인 리브 양말
-													</p>
-													<p class="option">IVORY / FR / 0개</p>
-													<p class="price_wrap">
-														<span class="price">₩0</span>
-													</p>
-													<ul class="order_list">
-														<li><span class="tit">구입일자</span> <span class="txt">2023.01.31</span></li>
-														<li><span class="tit">환불금액</span> <span class="txt">토스머니&nbsp;14,200원</span></li>
-													</ul>
-												</div>
+										<p class="order_number">
+											<a href="https://www.thehandsome.com/ko/mypage/order/myorderdetails?code=230131P16593895"> <span class="tit">주문가격<!-- 주문번호 --></span> <span
+												class="price"
+											>[[${#numbers.formatInteger(order.OrderPrice, 3, 'COMMA') + '원'}]]</span>
 											</a>
-										</div>
-									</div>
+										</p>
 
+									</div>
 								</div>
 							</div>
 						</div>

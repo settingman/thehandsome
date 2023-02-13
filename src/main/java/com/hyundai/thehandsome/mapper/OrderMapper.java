@@ -1,9 +1,13 @@
 package com.hyundai.thehandsome.mapper;
 
-import com.hyundai.thehandsome.domain.order.OrderRequest;
+import java.util.List;
+
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+
+import com.hyundai.thehandsome.domain.mypage.Order;
+import com.hyundai.thehandsome.domain.order.OrderRequest;
 
 /**
  * @filename OrderMapper
@@ -26,5 +30,7 @@ public interface OrderMapper {
 
 	@Select("select count(*) from ORDERS where OID = #{uuid]")
 	public int findOid(@Param("uuid") String uuid);
+	
+	List<Order> findOrder(String mId);
 
 }
