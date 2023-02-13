@@ -1,18 +1,23 @@
 package com.hyundai.thehandsome.mapper;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
+
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.hyundai.thehandsome.domain.mypage.Voucher;
 import com.hyundai.thehandsome.domain.mypage.WishList;
 
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @SpringBootTest
-@Log4j2
+@Transactional
 public class MyPageMapperTest {
 
 	@Autowired
@@ -21,15 +26,15 @@ public class MyPageMapperTest {
 
 	@Test
 	public void testFindWishlist() {
-		List<WishList> wishList = myPageMapper.findWishlist("95parksh@naver.com");
-		log.info(wishList.get(0).toString());
+		List<WishList> wishList = myPageMapper.findWishlist("abcd@naver.com");
+		assertThat(wishList.size()).isNotEqualTo(0);
 
 	}
 	
 	@Test
 	public void testFindfindVoucher() {
-		List<Voucher> VoucherList = myPageMapper.findVoucher("dev");
-		log.info(VoucherList.get(0).toString());
+		List<Voucher> VoucherList = myPageMapper.findVoucher("abcd@naver.com","0");
+		assertThat(VoucherList.size()).isEqualTo(0);
 
 	}
 
