@@ -136,13 +136,12 @@ function chgHeaderTitle(title) {
   $("#headerTitle").html(headerTitleHtml);
 }
 
+// FEAT: 무한 스크롤
 let canLoadNextPage = true; // 일회용 글로벌 변수
-// TODO: 무한 스크롤
 function YesScroll() {
   const pagination = document.querySelector("#listEnd"); // 페이지네이션 정보획득
   const fullContent = document.querySelector("#hsProductList"); // 전체를 둘러싼 컨텐츠 정보획득
   const screenHeight = screen.height; // 화면 크기
-//   let canLoadNextPage = false; // 일회용 글로벌 변수
 
   document.addEventListener("scroll", OnScroll, { passive: true }); // 스크롤 이벤트함수정의
 
@@ -150,11 +149,9 @@ function YesScroll() {
     //스크롤 이벤트 함수
     const fullHeight = fullContent.clientHeight; // listBody 클래스의 높이
     const scrollPosition = pageYOffset; // 스크롤 위치
-    console.log(`${fullHeight} | ${scrollPosition} >> ${canLoadNextPage}`)
     if (fullHeight - 200 - screenHeight / 2 <= scrollPosition && canLoadNextPage) {
       // 만약 전체높이-화면높이/2가 스크롤포지션보다 작아진다면, 그리고 canLoadNextPage 변수가 거짓이라면
       canLoadNextPage = false; // canLoadNextPage 변수를 true로 변경해주고,
-      console.log("madeBox");
       madeBox();
     }
   }
@@ -162,7 +159,6 @@ function YesScroll() {
 
 let currentpage = 2; //다음 로딩할 페이지 글로벌 변수
 function madeBox() {
-  console.log("url", window.location.href);
   var token = $("meta[name='_csrf']").attr("content");
   var header = $("meta[name='_csrf_header']").attr("content");
   $.ajax({
@@ -170,11 +166,10 @@ function madeBox() {
     type: "post",
     beforeSend: function (xhr) {
       xhr.setRequestHeader(header, token);
-      console.log("-------------------------------------------세팅끝");
     },
     data: {
       currentPage: currentpage,
-      categoryCode: "we051",
+      categoryCode: window.location.href.split('/')[5],
       brand: "",
     },
     dataType: "json",
