@@ -1,0 +1,162 @@
+<!--
+ @Date : 2023. 1. 31.
+ @작성자 : 박성환
+ @설명 : 중복 head fragment
+-->
+
+
+<html xmlns:th="http://www.thymeleaf.org">
+<th:block th:fragment="headFragment">
+	<head>
+
+
+<!-- csrf 가 null 인 케이스에 발생한 문제:
+	로그인하지 않았을 때 csrf가 null이므로 에러가 터졌다.
+	다음과 같이 null 이 아닐 경우에만 csrf.token 등을 참조하도록 수정했다. -->
+<meta charset="UTF-8">
+<meta name="_csrf" th:content="${_csrf?.token}" th:if="${_csrf} ne null">
+<meta name="_csrf_header" th:content="${_csrf?.headerName}" th:if="${_csrf} ne null">
+<meta name="HandheldFriendly" content="true" />
+<meta name="viewport" content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, width=device-width" />
+
+<script src="https://kit.fontawesome.com/c2edef0625.js" crossorigin="anonymous"></script>
+
+
+
+
+
+
+<link rel="shortcut icon" href="https://www.thehandsome.com/_ui/mobile/common/images/common/thehandsome_ic_16x16.ico" />
+<link rel="apple-touch-icon" href="https://www.thehandsome.com/_ui/mobile/common/images/common/app_ban_logo.png" />
+<link rel="apple-touch-icon-precomposed" href="https://www.thehandsome.com/_ui/mobile/common/images/common/app_ban_logo.png" />
+<link rel="apple-touch-icon-120x120" href="https://www.thehandsome.com/_ui/mobile/common/images/common/app_ban_logo.png" />
+<link rel="apple-touch-icon-120x120-precomposed" href="https://www.thehandsome.com/_ui/mobile/common/images/common/app_ban_logo.png" />
+
+
+<link rel="shortcut icon" type="image/x-icon" media="all" href="//" />
+
+<link href="http://www.thehandsome.com/_ui/handsomemobile/css/handsomecss/font_80.css?20221121" rel="stylesheet" type="text/css" />
+<link href="http://www.thehandsome.com/_ui/handsomemobile/css/handsomecss/jquery-ui.css" rel="stylesheet" type="text/css" />
+<link href="http://www.thehandsome.com/_ui/handsomemobile/css/handsomecss/selectordie.css" rel="stylesheet" type="text/css" />
+<link href="http://www.thehandsome.com/_ui/handsomemobile/css/handsomecss/default.css?202200826" rel="stylesheet" type="text/css" />
+<link href="http://www.thehandsome.com/_ui/handsomemobile/css/handsomecss/display.css?20221107" rel="stylesheet" type="text/css" />
+<link href="http://www.thehandsome.com/_ui/handsomemobile/css/handsomecss/assist.css?20220929" rel="stylesheet" type="text/css" />
+<link href="http://www.thehandsome.com/_ui/handsomemobile/css/handsomecss/devAssist.css" rel="stylesheet" type="text/css" />
+
+<link href="http://www.thehandsome.com/_ui/handsomemobile/css/handsomecss/swiper-vr1908.min.css" rel="stylesheet" type="text/css" />
+<link href="http://www.thehandsome.com/_ui/handsomemobile/css/handsomecss/main201909.css?20200423" rel="stylesheet" type="text/css" />
+<link href="http://www.thehandsome.com/_ui/handsomemobile/css/handsomecss/renew_main.css?20220826" rel="stylesheet" type="text/css" />
+<link href="http://www.thehandsome.com/_ui/handsomemobile/css/handsomecss/popup.css" rel="stylesheet" type="text/css" />
+
+<script type="text/javascript">
+	/*<![CDATA[*/
+
+	var ACCMOB = {
+		config : {}
+	};
+	ACCMOB.config.contextPath = "";
+	ACCMOB.config.encodedContextPath = "/ko";
+	ACCMOB.config.commonResourcePath = "https://www.thehandsome.com/_ui/handsomemobile/common";
+	ACCMOB.config.themeResourcePath = "https://www.thehandsome.com/_ui/handsomemobile/theme-blue";
+	ACCMOB.config.siteResourcePath = "https://www.thehandsome.com/_ui/handsomemobile/site-handsome";
+	ACCMOB.config.rootPath = "https://www.thehandsome.com/_ui/handsomemobile";
+	ACCMOB.config.CSRFToken = "cd9050c6-105b-4660-8eff-bcdaba320336";
+
+	/*]]>*/
+</script>
+<script type="text/javascript">
+	/*<![CDATA[*/
+	ACCMOB.addons = {}; //JS holder for addons properties
+
+	/*]]>*/
+</script>
+<script type="text/javascript">
+	var handsomePageId = "joinCompletePage";
+	var main_bul = false;
+</script>
+
+<script type="text/javascript">
+	var goToMySmartFilterYn = "N";
+	var gnbType = "br";
+	var UserAgent = navigator.platform;
+	var userPhoneOs = "";
+	if (UserAgent.match(/i(Phone|Pod|Pad)/i) != null) {
+		userPhoneOs = "IOS";
+	} else {
+		userPhoneOs = "ANDROID";
+	}
+</script>
+
+<script type="text/javascript">
+	var handsomeUserLoginYn = "N";
+</script>
+<script type="text/javascript">
+	var isoKoYn = "Y";
+</script>
+<script type="text/javascript">
+	var handsomeIsoCode = "ko";
+	var handsomeContextPath = "/ko";
+</script>
+
+
+
+
+<script type="text/javascript" src="https://www.thehandsome.com/_ui/handsomemobile/js/jquery.min.js"></script>
+<script type="text/javascript" src="https://www.thehandsome.com/_ui/handsomemobile/js/jquery.vticker.js"></script>
+<script type="text/javascript" src="https://www.thehandsome.com/_ui/handsomemobile/js/masonry.pkgd.min.js"></script>
+<script type="text/javascript" src="https://www.thehandsome.com/_ui/handsomemobile/js/imagesloaded.pkgd.min.js"></script>
+<script type="text/javascript" src="https://www.thehandsome.com/_ui/handsomemobile/js/jquery.form.min.js"></script>
+<script type="text/javascript" src="https://www.thehandsome.com/_ui/handsomemobile/js/jquery.cookie.js"></script>
+<script type="text/javascript" src="https://www.thehandsome.com/_ui/handsomemobile/js/jquery-ui.min.js"></script>
+<script type="text/javascript" src="https://www.thehandsome.com/_ui/handsomemobile/js/swiper.min.js"></script>
+<script type="text/javascript" src="https://www.thehandsome.com/_ui/handsomemobile/js/selectordie.min.js"></script>
+<script type="text/javascript" src="https://www.thehandsome.com/_ui/handsomemobile/js/jquery.bpopup.min.js"></script>
+<script type="text/javascript" src="https://www.thehandsome.com/_ui/handsomemobile/js/echarts.min.js"></script>
+<!-- 마이페이지 오류로인한 주석처리 - 박성환  -->
+<!-- <script type="text/javascript" src="https://www.thehandsome.com/_ui/handsomemobile/js/common.js?20210501"></script> -->
+<script type="text/javascript" src="/js/mypage.js"></script>
+<script type="text/javascript" src="https://www.thehandsome.com/_ui/handsomemobile/js/assist_common.js?v=20220630"></script>
+<script type="text/javascript" src="https://www.thehandsome.com/_ui/handsomemobile/js/assist_new.js"></script>
+<script type="text/javascript" src="https://www.thehandsome.com/_ui/handsomemobile/js/handsome.js"></script>
+<script type="text/javascript" src="https://www.thehandsome.com/_ui/handsomemobile/js/common_function.js"></script>
+<script type="text/javascript" src="https://www.thehandsome.com/_ui/handsomemobile/js/json2.js"></script>
+<script type="text/javascript" src="https://www.thehandsome.com/_ui/handsomemobile/js/SsoAjax.js"></script>
+
+
+<script type="text/javascript" src="https://www.thehandsome.com/_ui/handsomemobile/js/makePCookie.js"></script>
+<script type="text/javascript" src="https://www.thehandsome.com/_ui/handsomemobile/js/content.js"></script>
+<script type="text/javascript" src="https://www.thehandsome.com/_ui/handsomemobile/js/e-smart-zoom-jquery.min.js"></script>
+<script type="text/javascript" src="https://www.thehandsome.com/_ui/handsomemobile/js/popup.js"></script>
+<script type="text/javascript" src="https://www.thehandsome.com/_ui/handsomemobile/js/simplepagination.js"></script>
+<script type="text/javascript" src="https://www.thehandsome.com/_ui/handsomemobile/js/netfunnel.js" charset="UTF-8"></script>
+<script type="text/javascript" src="https://www.thehandsome.com/_ui/handsomemobile/js/netfunnel_skin.js" charset="UTF-8"></script>
+
+<script type="text/javascript" src="https://www.thehandsome.com/_ui/handsomemobile/js/unorm.js"></script>
+
+
+<style media="screen">
+.blsmflw1 {
+	animation: target_image 1.5s;
+	animation-iteration-count: 2;
+	transform-origin: 50% 50%;
+}
+</style>
+
+
+<script>
+	// 검색 결과 페이지
+	if (window.location.pathname.indexOf("/hssearch/searchCount") > -1) {
+		var groobeeKeyword = ""; //검색_검색어(검색결과페이지일때 사용)
+		groobee("SE", {
+			keyword : groobeeKeyword
+		});
+	}
+</script>
+
+<link rel="stylesheet" type="text/css" href="//code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css" />
+<link rel="stylesheet" type="text/css" href="//static.groobee.io/dist/g2/css/grb-recommend-list_v2.css" />
+<link rel="stylesheet" type="text/css" href="//static.groobee.io/dist/g2/css/custom-swiper.css" />
+	</head>
+</th:block>
+</html>
+

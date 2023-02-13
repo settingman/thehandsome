@@ -1,0 +1,685 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<meta charset="utf-8">
+  <th:block th:fragment="depth2Fragment">
+    <script
+      src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"
+    ></script>
+    <script>
+      function sample6_execDaumPostcode() {
+        new daum.Postcode({
+          oncomplete: function (data) {
+            // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+
+            // 각 주소의 노출 규칙에 따라 주소를 조합한다.
+            // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+            var addr = ""; // 주소 변수
+            var extraAddr = ""; // 참고항목 변수
+
+            //사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
+            if (data.userSelectedType === "R") {
+              // 사용자가 도로명 주소를 선택했을 경우
+              addr = data.roadAddress;
+            } else {
+              // 사용자가 지번 주소를 선택했을 경우(J)
+              addr = data.jibunAddress;
+            }
+
+            // 사용자가 선택한 주소가 도로명 타입일때 참고항목을 조합한다.
+            if (data.userSelectedType === "R") {
+              // 법정동명이 있을 경우 추가한다. (법정리는 제외)
+              // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
+              if (data.bname !== "" && /[동|로|가]$/g.test(data.bname)) {
+                extraAddr += data.bname;
+              }
+              // 건물명이 있고, 공동주택일 경우 추가한다.
+              if (data.buildingName !== "" && data.apartment === "Y") {
+                extraAddr +=
+                  extraAddr !== ""
+                    ? ", " + data.buildingName
+                    : data.buildingName;
+              }
+
+              // 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
+            }
+
+            // 우편번호와 주소 정보를 해당 필드에 넣는다.
+            document.getElementById("sample6_postcode").value = data.zonecode;
+            document.getElementById("sample6_address").value = addr;
+            // 커서를 상세주소 필드로 이동한다.
+            document.getElementById("sample6_detailAddress").focus();
+          },
+        }).open();
+      }
+    </script>
+    <style>
+      .bul_sty01_li li {
+        padding-left: 10px;
+        background: url("/_ui/desktop/common/images/common/li_bul_1.png") 0 8px
+          no-repeat;
+        line-height: 22px;
+        font-size: 13px;
+        color: #888;
+      }
+    </style>
+    <!-- layerpop_wrap | 배송지등록 s -->
+    <form id="addrAddForm">
+      <div class="layerpop_wrap layerpop_wrap_full lp_new_dlvr_wrap">
+        <!-- layerpop_top s -->
+        <div class="lyrpp_top">
+          <a href="#none" class="lyrpp_close lyrpp_close_stl1 btn_lyrpp_close"
+            ><span>닫기</span></a
+          >
+          <h2>배송지 등록</h2>
+        </div>
+        <!-- layerpop_top e -->
+
+        <!-- layerpop_middle s -->
+        <div class="lyrpp_mid">
+          <p class="desc_box">
+            <span class="point_star_l">표시는 필수항목입니다.</span>
+          </p>
+          <ul class="bul_sty01_li">
+            <li>선택사항을 미입력하더라도 불이익은 발생하지 않습니다.</li>
+          </ul>
+          <!-- input_box s -->
+          <div class="input_box input_box_mydelivery">
+            <div class="ipt_tit">
+              <span class="point_star_r">배송지 주소</span>
+            </div>
+            <div class="ipt_con">
+              <ul class="input_address_stl">
+                <li class="inp_address1">
+                  <input
+                    type="text"
+                    name="postalcode"
+                    id="sample6_postcode"
+                    placeholder="우편번호"
+                  />
+
+                  <input
+                    type="button"
+                    class="btnstl2 border_btn_blk btn_layerpopup_call btn_find_zipcode"
+                    onclick="sample6_execDaumPostcode()"
+                    value="우편번호 찾기"
+                  />
+                </li>
+                <li class="inp_address2">
+                  <input
+                    type="text"
+                    name="streetname"
+                    id="sample6_address"
+                    placeholder="주소"
+                  />
+                </li>
+
+                <li class="inp_address2">
+                  <input
+                    type="text"
+                    name="streetnumber"
+                    id="sample6_detailAddress"
+                    placeholder="상세주소"
+                  />
+                </li>
+              </ul>
+              <p class="err_box" id="zipCodeErr">배송지 주소를 입력하세요</p>
+            </div>
+          </div>
+          <!-- input_box e -->
+          <!-- input_box s -->
+          <div class="input_box">
+            <div class="ipt_tit"><span class="point_star_r">수령인</span></div>
+            <div class="ipt_con">
+              <input type="text" name="lastname" value="" maxlength="10" />
+              <p class="err_box" id="nameErr">수령인을 입력하세요</p>
+            </div>
+          </div>
+          <!-- input_box e -->
+          <!-- input_box s -->
+          <div class="input_box">
+            <div class="ipt_tit">
+              <span class="point_star_r">휴대폰 번호</span>
+            </div>
+            <div class="ipt_con">
+              <ul class="input_phone_stl">
+                <li class="inp_phone1">
+                  <div class="select_box">
+                    <select id="addDeliveryHp1">
+                      <option value="010">010</option>
+                      <option value="011">011</option>
+                      <option value="016">016</option>
+                      <option value="017">017</option>
+                      <option value="018">018</option>
+                      <option value="019">019</option>
+                    </select>
+                  </div>
+                </li>
+                <li class="inp_phone2">
+                  <input
+                    type="tel"
+                    id="addDeliveryHp2"
+                    numberonly="true"
+                    maxlength="4"
+                    value=""
+                  />
+                </li>
+                <li class="inp_phone3">
+                  <input
+                    type="tel"
+                    id="addDeliveryHp3"
+                    numberonly="true"
+                    maxlength="4"
+                    value=""
+                  />
+                </li>
+              </ul>
+              <p class="err_box" id="hp1Err">휴대폰 번호를 입력하세요</p>
+            </div>
+          </div>
+          <!-- input_box e -->
+          <!-- input_box s -->
+          <div class="input_box">
+            <div class="ipt_tit"><span>연락처</span></div>
+            <div class="ipt_con">
+              <ul class="input_phone_stl">
+                <li class="inp_phone1">
+                  <div class="select_box">
+                    <select id="addDeliveryTel1">
+                      <option value="">선택</option>
+                      <!-- 선택 -->
+                      <option value="02">02</option>
+                      <option value="031">031</option>
+                      <option value="032">032</option>
+                      <option value="033">033</option>
+                      <option value="041">041</option>
+                      <option value="042">042</option>
+                      <option value="043">043</option>
+                      <option value="044">044</option>
+                      <option value="051">051</option>
+                      <option value="052">052</option>
+                      <option value="053">053</option>
+                      <option value="054">054</option>
+                      <option value="055">055</option>
+                      <option value="061">061</option>
+                      <option value="062">062</option>
+                      <option value="063">063</option>
+                      <option value="064">064</option>
+                    </select>
+                  </div>
+                </li>
+                <li class="inp_phone2">
+                  <input
+                    type="tel"
+                    id="addDeliveryTel2"
+                    maxlength="4"
+                    numberonly="true"
+                    value=""
+                  />
+                </li>
+                <li class="inp_phone3">
+                  <input
+                    type="tel"
+                    id="addDeliveryTel3"
+                    maxlength="4"
+                    numberonly="true"
+                    value=""
+                  />
+                </li>
+              </ul>
+            </div>
+          </div>
+          <!-- input_box e -->
+          <!-- input_box s -->
+          <div class="input_box">
+            <div class="ipt_tit"><span>이메일</span></div>
+            <div class="ipt_con">
+              <ul class="input_email_stl">
+                <li class="inp_email1">
+                  <input type="text" id="addDeliveryEmailId" value="" />
+                </li>
+                <li class="inp_email2">@</li>
+                <li class="inp_email3">
+                  <input type="text" id="addDeliveryEmailHost" value="" />
+                </li>
+                <li class="inp_email4">
+                  <div class="select_box">
+                    <select id="addDeliveryEmailHostSel">
+                      <option value="">직접입력</option>
+                      <option value="naver.com">naver.com</option>
+                      <option value="daum.net">daum.net</option>
+                      <option value="yahoo.co.kr">yahoo.co.kr</option>
+                      <option value="lycos.co.kr">lycos.co.kr</option>
+                      <option value="nate.com">nate.com</option>
+                      <option value="empas.com">empas.com</option>
+                      <option value="hotmail.com">hotmail.com</option>
+                      <option value="msn.com">msn.com</option>
+                      <option value="gmail.com">gmail.com</option>
+                      <option value="hanmir.com">hanmir.com</option>
+                      <option value="chol.net">chol.net</option>
+                      <option value="korea.com">korea.com</option>
+                      <option value="netsgo.com">netsgo.com</option>
+                      <option value="dreamwiz.com">dreamwiz.com</option>
+                      <option value="hanafos.com">hanafos.com</option>
+                      <option value="freechal.com">freechal.com</option>
+                      <option value="hitel.net">hitel.net</option>
+                    </select>
+                  </div>
+                </li>
+              </ul>
+              <p class="err_box" id="emailErr">이메일을 입력하세요</p>
+            </div>
+          </div>
+          <!-- input_box e -->
+
+          <div class="check_stl">
+            <input type="checkbox" id="set_default_dlvr_2" value="1" />
+            <label for="set_default_dlvr_2" class="shoppingbag_add_check"
+              >기본배송지로 설정</label
+            >
+          </div>
+          <!-- layerpop_btns s -->
+          <div class="btn_wrap btn_wrap_div2 btn_group_mydelivery">
+            <a href="#none" class="btnstl3 border_btn_gray btn_lyrpp_close"
+              ><span>취소</span></a
+            >
+            <button
+              type="button"
+              id="addrAddSubmitBtn"
+              class="btnstl3 solid_btn_blk btn_save"
+            >
+              <span>확인</span>
+            </button>
+          </div>
+          <!-- layerpop_btns e -->
+        </div>
+        <!-- layerpop_middle e -->
+      </div>
+    </form>
+
+    <script>
+      $(document).ready(function () {
+        console.log("document loaded");
+
+        $("#addDeliveryEmailHostSel").on("change", function () {
+          if ($("#addDeliveryEmailHostSel option:selected").val() == "") {
+            $("#addDeliveryEmailHost").val("");
+            $("#addDeliveryEmailHost").prop("disabled", false);
+          } else {
+            $("#addDeliveryEmailHost").val(
+              $("#addDeliveryEmailHostSel option:selected").val()
+            );
+            $("#addDeliveryEmailHost").prop("disabled", true);
+          }
+        });
+
+        $("#addrAddForm input[numberonly]").blur(function () {
+          $(this).val(
+            $(this)
+              .val()
+              .replace(/[^0-9]/gi, "")
+          );
+        });
+        $("#addrAddForm input[numberonly]").keydown(function () {
+          $(this).val(
+            $(this)
+              .val()
+              .replace(/[^0-9]/gi, "")
+          );
+        });
+
+        $("#addrAddForm #addrAddSubmitBtn").on("click", function () {
+          addrAddFn();
+        });
+
+        if (true) {
+        } else {
+          var $globalAddrForm = $("#globalAddrForm");
+          chkInputCount(
+            $globalAddrForm.find("#globalStreet"),
+            $globalAddrForm.find("#globalStreetTextCnt1"),
+            40
+          );
+          chkInputCount(
+            $globalAddrForm.find("#globalStreet2"),
+            $globalAddrForm.find("#globalStreetTextCnt2"),
+            40
+          );
+
+          $.ajax({
+            type: "GET",
+            url: "/ko/common/getcountrylist",
+            cache: false,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (response) {
+              $globalAddrForm
+                .find("#countryCode")
+                .html('<option value="">Select Your Conutry</option>');
+              $.each(response, function () {
+                if ("" == this.countryCode) {
+                  $globalAddrForm
+                    .find("#countryCode")
+                    .append(
+                      '<option selected value="' +
+                        this.countryCode +
+                        '">' +
+                        this.countryName +
+                        "</option>"
+                    );
+                } else {
+                  $globalAddrForm
+                    .find("#countryCode")
+                    .append(
+                      '<option value="' +
+                        this.countryCode +
+                        '">' +
+                        this.countryName +
+                        "</option>"
+                    );
+                }
+              });
+            },
+            error: function (e) {
+              alert(e);
+            },
+          });
+        }
+      });
+
+      function fn_deliveryRegistZipcodecallback(zipcodeData) {
+        /* 우편번호 검색 후처리 : 함수명 고정*/
+        var addressDefault = zipcodeData.address1; // [51783] 경상남도 창원시 마산합포구 구산면 이순신로 1 반동건재
+
+        var tempPostal = $.trim(
+          addressDefault.substring(1, addressDefault.indexOf("]"))
+        );
+        var tempAddress1 = $.trim(
+          addressDefault.substring(addressDefault.indexOf("]") + 1)
+        );
+
+        $("#addrAddForm").find("input[name=postalcode]").val(tempPostal);
+        $("#addrAddForm").find("input[name=streetname]").val(tempAddress1);
+
+        $("#addrAddForm").find("input[id=dlvr_addres]").val(addressDefault);
+        $("#addrAddForm")
+          .find("input[id=dlvr_addres2]")
+          .val(zipcodeData.address2);
+      }
+
+      function addrAddFn() {
+        var datas = "";
+        var url = "";
+
+        if ("" == null || "" == "") {
+          url = "/ko/mypage/insertaddr";
+        } else {
+          url = "/ko/mypage/updateaddr";
+          addHidden($("#addrAddForm"), "prk", "");
+        }
+
+        if (true) {
+          var $addrAddForm = $("#addrAddForm");
+          $addrAddForm.find(".err_box").hide();
+          if (
+            $("#addrAddForm").find("input[name=postalcode]").val() == "" ||
+            $("#addrAddForm").find("input[name=streetname]").val() == "" ||
+            $("#addrAddForm").find("input[name=streetnumber]").val() == ""
+          ) {
+            $addrAddForm
+              .find("#zipCodeErr")
+              .html("배송지 주소를 입력하세요")
+              .show();
+            return;
+          }
+          if ($("#addrAddForm").find("input[name=lastname]").val() == "") {
+            $addrAddForm.find("#nameErr").html("수령인를 입력하세요").show();
+            return;
+          }
+          if (
+            $("#addrAddForm").find("select[id=addDeliveryHp1]").val() == "" ||
+            $("#addrAddForm").find("input[id=addDeliveryHp2]").val() == "" ||
+            $("#addrAddForm").find("input[id=addDeliveryHp3]").val() == ""
+          ) {
+            $addrAddForm
+              .find("#hp1Err")
+              .html("휴대폰 번호를 입력하세요")
+              .show();
+            return;
+          } else {
+            var cellphone =
+              $("#addrAddForm").find("select[id=addDeliveryHp1]").val() +
+              "-" +
+              $("#addrAddForm").find("input[id=addDeliveryHp2]").val() +
+              "-" +
+              $("#addrAddForm").find("input[id=addDeliveryHp3]").val();
+
+            addHidden($("#addrAddForm"), "cellphone", cellphone);
+          }
+          if (
+            $("#addrAddForm").find("select[id=addDeliveryTel1]").val() != "" &&
+            $("#addrAddForm").find("input[id=addDeliveryTel2]").val() != "" &&
+            $("#addrAddForm").find("input[id=addDeliveryTel3]").val() != ""
+          ) {
+            var phone1 =
+              $("#addrAddForm").find("select[id=addDeliveryTel1]").val() +
+              "-" +
+              $("#addrAddForm").find("input[id=addDeliveryTel2]").val() +
+              "-" +
+              $("#addrAddForm").find("input[id=addDeliveryTel3]").val();
+
+            addHidden($("#addrAddForm"), "phone1", phone1);
+          }
+          if (
+            $("#addrAddForm").find("input[id=addDeliveryEmailId]").val() ==
+              "" ||
+            $("#addrAddForm").find("input[id=addDeliveryEmailHost]").val() == ""
+          ) {
+            addHidden($("#addrAddForm"), "email", "");
+            /*PC와 동일하게 처리, 필수값 아님.
+			$addrAddForm.find("#emailErr").html("이메일를 입력하세요").show();
+			return;
+			*/
+          } else {
+            var email =
+              $("#addrAddForm").find("input[id=addDeliveryEmailId]").val() +
+              "@" +
+              $("#addrAddForm").find("input[id=addDeliveryEmailHost]").val();
+
+            addHidden($("#addrAddForm"), "email", email);
+          }
+
+          if ($("#addrAddForm").find("input[name=sel_cp]").length > 0) {
+            $("#addrAddForm").find("input[name=sel_cp]").remove();
+          }
+          if (
+            $("#addrAddForm")
+              .find("input:checkbox[id=set_default_dlvr_2]")
+              .is(":checked")
+          ) {
+            addHidden($("#addrAddForm"), "sel_cp", "1");
+          } else {
+            addHidden($("#addrAddForm"), "sel_cp", "2");
+          }
+
+          datas = $("#addrAddForm").serialize();
+        } else {
+          var $globalAddrForm = $("#globalAddrForm");
+          if ("" != null && "" != "") {
+            addHidden($("#globalAddrForm"), "prk", "");
+          }
+          $globalAddrForm.find(".err_box").hide();
+          //Contact name 비어 있을때
+          if ($globalAddrForm.find("#firstName").val() == "") {
+            $globalAddrForm
+              .find("#nameErr")
+              .html("address.contactName.invalid")
+              .show();
+            $("#firstName").focus();
+            return;
+          }
+          if ($globalAddrForm.find("#lastName").val() == "") {
+            $globalAddrForm
+              .find("#nameErr")
+              .html("address.contactName.invalid")
+              .show();
+            $("#lastName").focus();
+            return;
+          }
+          //Contact name (Local language)비어 있을때
+          if ($globalAddrForm.find("#localFirstName").val() == "") {
+            $globalAddrForm
+              .find("#localNameErr")
+              .html("address.localContactName.invalid")
+              .show();
+            $("#localFirstName").focus();
+            return;
+          }
+          if ($globalAddrForm.find("#localLastName").val() == "") {
+            $globalAddrForm
+              .find("#localNameErr")
+              .html("address.localContactName.invalid")
+              .show();
+            $("#localLastName").focus();
+            return;
+          }
+
+          if ($globalAddrForm.find("#countryCode").val() == "") {
+            $globalAddrForm
+              .find("#countryErr")
+              .html("Please select a country")
+              .show();
+            return;
+          }
+          if ($globalAddrForm.find("#globalStreet").val() == "") {
+            $globalAddrForm
+              .find("#countryErr")
+              .html("Please enter address Line 1")
+              .show();
+            return;
+          }
+          if ($globalAddrForm.find("#globalCity").val() == "") {
+            $globalAddrForm
+              .find("#countryErr")
+              .html("Please enter a Town/City")
+              .show();
+            return;
+          }
+          if ($globalAddrForm.find("#globalZip").val() == "") {
+            $globalAddrForm
+              .find("#countryErr")
+              .html("Please enter post code")
+              .show();
+            return;
+          }
+          if ($globalAddrForm.find("#globalPhone").val() == "") {
+            $globalAddrForm
+              .find("#phoneErr")
+              .html("휴대폰번호를 입력하세요")
+              .show();
+            return;
+          }
+
+          var inputNumberchk = /^[0-9]+$/;
+          //해외 전화번호 규칙
+          //var inputNumberchk =/(9[976]\d|8[987530]\d|6[987]\d|5[90]\d|42\d|3[875]\d|2[98654321]\d|9[8543210]|8[6421]|6[6543210]|5[87654321]|4[987654310]|3[9643210]|2[70]|7|1)\W*\d\W*\d\W*\d\W*\d\W*\d\W*\d\W*\d\W*\d\W*(\d{1,2})$/;
+          if (
+            !inputNumberchk.test($("#globalPhone").val()) &&
+            $("#globalPhone").val().length > 0
+          ) {
+            $globalAddrForm
+              .find("#phoneErr")
+              .html("checkout.shipto.phone.msg")
+              .show();
+            return;
+          }
+
+          datas = $globalAddrForm.serialize();
+        }
+        var $addrAddForm = $("#addrAddForm");
+
+        // 로컬스토리지 배열 가져오기
+        const userDelieveryArrList = localStorage.getItem("userDelieveryList");
+        const parsed = JSON.parse(userDelieveryArrList) ?? [];
+
+        // 로컬스토리지에 보관할 배송 객체
+        const dataToStoreInLocalStorage = {
+          oreceiver: $("#addrAddForm").find("input[name=lastname]").val(),
+          ophone:
+            $("#addrAddForm").find("select[id=addDeliveryHp1]").val() +
+            "-" +
+            $("#addrAddForm").find("input[id=addDeliveryHp2]").val() +
+            "-" +
+            $("#addrAddForm").find("input[id=addDeliveryHp3]").val(),
+          ozipcode: $("#addrAddForm").find("input[name=postalcode]").val(),
+          oaddress1: $("#addrAddForm").find("input[name=streetname]").val(),
+          oaddress2: $("#addrAddForm").find("input[name=streetnumber]").val(),
+          otel:
+            $("#addrAddForm").find("select[id=addDeliveryTel1]").val() +
+            "-" +
+            $("#addrAddForm").find("input[id=addDeliveryTel2]").val() +
+            "-" +
+            $("#addrAddForm").find("input[id=addDeliveryTel3]").val(),
+          oemail:
+            $("#addrAddForm").find("input[id=addDeliveryEmailId]")?.val() +
+            "@" +
+            $("#addrAddForm").find("input[id=addDeliveryEmailHost]")?.val(),
+        };
+        // 배열에 추가
+        parsed.push(dataToStoreInLocalStorage);
+
+        // 로컬스토리지에 추가
+        localStorage.setItem("userDelieveryList", JSON.stringify(parsed));
+
+        var innerHTML = "";
+        parsed.forEach((data, idx) => {
+          innerHTML += '	<li class="radio_list_item item_select_mydelivery">';
+          innerHTML += '		<div class="radio_stl">';
+          innerHTML +=
+            '			<input type="radio" id="lp_radio_dlvr_adrs_' +
+            idx +
+            '" name="lp_radio_dlvr_adrs" value="' +
+            "" +
+            '"';
+          innerHTML += '				data-email="' + data.oemail + '"';
+          innerHTML += '				data-phone1="' + data.otel + '"';
+          innerHTML += "				/>";
+          innerHTML += '				<label for="lp_radio_dlvr_adrs_' + idx + '">';
+          innerHTML += '					<div class="rlct_con ' + "" + ' aa">';
+          innerHTML +=
+            '						<span class="dlvr_adrs_name">' +
+            data.oreceiver +
+            '</span> / <span class="dlvr_adrs_phone">' +
+            data.ophone +
+            "</span><br>";
+          innerHTML +=
+            '						(<span class="dlvr_adrs_zipcode">' + data.ozipcode + "</span>)";
+          innerHTML += '						<span class="dlvr_adrs_adrs">';
+          innerHTML +=
+            '							<span class="mydeliveryLine1">' + data.oaddress1 + "</span>";
+          innerHTML +=
+            '							<span class="mydeliveryLine2">' + data.oaddress2 + "</span>";
+          innerHTML += "						</span>";
+          innerHTML += '						<span class="none_delivery" style="display:none;">';
+          innerHTML +=
+            '							<span class="none_delivery_firstName">' + "" + "</span>";
+          innerHTML += '							<span class="none_delivery_lastName">' + "" + "</span>";
+          innerHTML += '							<span class="none_delivery_country">' + "" + "</span>";
+          innerHTML += '							<span class="none_delivery_state">' + "" + "</span>";
+          innerHTML += '							<span class="none_delivery_town">' + "" + "</span>";
+          innerHTML += "						</span>";
+          innerHTML += "					</div>";
+          innerHTML += "				</label>";
+          innerHTML += "			</div>";
+          innerHTML += "	</li>";
+        });
+
+        if (innerHTML != "") {
+          $("#radio_list_wrap_01").html(innerHTML);
+        }
+        showLoadingLpIdx("1300");
+
+        // depth2 닫기
+        $(".lp_new_dlvr_wrap a.btn_lyrpp_close").trigger("click");
+      }
+    </script>
+  </th:block>
+</html>

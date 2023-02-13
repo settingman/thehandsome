@@ -6,6 +6,7 @@ import java.net.URLEncoder;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -25,21 +26,34 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
+import com.hyundai.thehandsome.security.handler.CustomAuthSuccessHandler;
 import com.hyundai.thehandsome.service.MemberService;
 
-/**
- * @Date : 2023. 1. 30.
- * @FileName: SecurityConfig.java
- * @작성자 : 박성환
- * @설명 : Security config setting
- */
+import lombok.extern.slf4j.Slf4j;
 
+/**
+ * @since : 2023. 2. 1.
+ * @FileName: SecurityConfig.java
+ * @author : 박성환
+ * @설명 : 시큐리티 설정
+ * 
+ *     <pre>
+ *   수정일         수정자               수정내용
+ * ----------      --------    ---------------------------
+ * 2023. 2. 1.     박성환      Security config setting
+ * 2023. 2. 3.     박성환      마이페이지 접근권한 수정
+ * 2023. 2. 7.     박성환      SUCCESSHANDLER 수정
+ *     </pre>
+ */
+@Slf4j
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-
+	
+	@Autowired
+	CustomAuthSuccessHandler CustomAuthSuccessHandler;
+	
 	@Autowired
 	MemberService memberService;
 
@@ -47,35 +61,30 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 
-		http.authorizeRequests() // 6
-				.antMatchers("/member/login", "/signup", "/user", "/member/joininfoform", "/member/check").permitAll() // 누구나
-																														// 접근허용
-				.antMatchers("/").hasRole("USER") // USER, ADMIN만 접근 가능
+		http.authorizeRequests().antMatchers("/member/**").permitAll() // 누구나 mypage 접근허용 - 02/03 mypage
+																						// 테스트때문에
+				.antMatchers("/mypage/**","/cart/**","/order/**").hasRole("USER") // USER, ADMIN만 접근 가능
 				.antMatchers("/admin").hasRole("ADMIN") // ADMIN만 접근 가능
-				.anyRequest().authenticated(); // 나머지 요청들은 권한의 종류에 상관 없이 권한이 있어야 접근
-		http.formLogin()// Form 로그인 인증 기능이 작동함
+				.anyRequest().permitAll(); // 접근 제한을 수동으로 걸어주고 나머지는 접근 제한 OK
+				//.authenticated(); // 나머지 요청들은 권한의 종류에 상관 없이 권한이 있어야 접근
+		
+		http
+				.formLogin()// Form 로그인 인증 기능이 작동함
 				.loginPage("/member/login")// 사용자 정의 로그인 페이지
 				.defaultSuccessUrl("/")// 로그인 성공 후 이동 페이지
 				.failureUrl("/login.html?error=true")// 로그인 실패 후 이동 페이지
 				.usernameParameter("mId")// 아이디 파라미터명 설정
 				.passwordParameter("password")// 패스워드 파라미터명 설정
 				.loginProcessingUrl("/member/login")// 로그인 Form Action Url
-				.successHandler(new AuthenticationSuccessHandler() {
-					@Override
-					public void onAuthenticationSuccess(HttpServletRequest httpServletRequest,
-							HttpServletResponse response, Authentication authentication)
-							throws IOException, ServletException {
-						System.out.println("authentication:: " + authentication.getName());
-						System.out.println("authentication:: " + authentication.getAuthorities());
-						response.sendRedirect("/");
-					}
-				})// 로그인 성공 후 핸들러
+				.successHandler(CustomAuthSuccessHandler)// 로그인 성공 후 핸들러
 				.failureHandler(new SimpleUrlAuthenticationFailureHandler() {
 					@Override
 					public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
 							AuthenticationException exception) throws IOException, ServletException {
 
 						String errorMessage;
+
+						request.setAttribute("mId", request.getParameter("mId"));
 
 						if (exception instanceof BadCredentialsException) {
 							errorMessage = "아이디 또는 비밀번호가 맞지 않습니다. 다시 확인해주세요.";
@@ -90,17 +99,46 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 						}
 
 						errorMessage = URLEncoder.encode(errorMessage, "UTF-8"); /* 한글 인코딩 깨진 문제 방지 */
-						setDefaultFailureUrl("/member/login?error=true&exception=" + errorMessage);
+
+						// 로그인 실패시 에러메세지 출력 및 로그인 아이디 저장하여 다시 보여주기.
+						setDefaultFailureUrl("/member/login?error=true&exception=" + errorMessage + "&mId="
+								+ request.getParameter("mId"));
+
 						super.onAuthenticationFailure(request, response, exception);
 					}
 				})// 로그인 실패 후 핸들러 (해당 핸들러를 생성하여 핸들링 해준다.)
 				.permitAll() // 사용자 정의 로그인 페이지 접근 권한 승인
 
-				.and().logout().logoutRequestMatcher(new AntPathRequestMatcher("/members/logout"))
-				.logoutSuccessUrl("/");
+				.and().logout().logoutUrl("/member/logout") // 로그아웃 처리 URL (= form action url)
+				// .logoutSuccessUrl("/login") // 로그아웃 성공 후 targetUrl,
+				// logoutSuccessHandler 가 있다면 효과 없으므로 주석처리.
+				.addLogoutHandler((request, response, authentication) -> {
+					// 사실 굳이 내가 세션 무효화하지 않아도 됨.
+					// LogoutFilter가 내부적으로 해줌.
+					HttpSession session = request.getSession();
+					if (session != null) {
+						session.invalidate();
+					}
+				}) // 로그아웃 핸들러 추가
+				.logoutSuccessHandler((request, response, authentication) -> {
+					response.sendRedirect("/member/login");
+				}) // 로그아웃 성공 핸들러
+				.deleteCookies("remember-me");
+
+		http.oauth2Login().successHandler(new AuthenticationSuccessHandler() {
+
+			@Override
+			public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
+					Authentication authentication) throws IOException, ServletException {
+				log.info("------------------------");
+				log.info("onAuthenticationSuccess");
+				response.sendRedirect("/");
+			}
+		});
+
 	}
 
-	// passwordEncoding
+	// 로그인 검증
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		auth.userDetailsService(memberService).passwordEncoder(passwordEncoder());
@@ -109,7 +147,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	// 인증하지 않을 페이지 목록 지정
 	@Override
 	public void configure(WebSecurity web) throws Exception {
-		web.ignoring().antMatchers("/static/js/**", "/static/css/**", "/static/img/**", "/static/frontend/**");
+		web.ignoring().antMatchers("/js/**", "/css/**", "/img/**", "/frontend/**");
 	}
 
 	@Bean // 비밀번호를 그대로 저장하지않고 암호화 bean.

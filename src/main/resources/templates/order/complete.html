@@ -1,0 +1,1095 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<meta charset="utf-8">
+<meta name="_csrf" th:content="${_csrf.token}" />
+<meta name="_csrf_header" th:content="${_csrf.headerName}" />
+<title>배송 | 더한섬닷컴</title>
+<th:block th:replace="common/head :: headFragment"></th:block>
+
+<body class="back" style="overflow: scroll">
+	ddddddddddddddddddds
+	<script>
+      (function () {
+        if (document.cookie.indexOf("thehyundai=true") > -1) {
+          var d = new Date();
+          d.setTime(d.getTime() + 365 * 24 * 60 * 60 * 1000);
+          document.cookie =
+            "sslvisit=true; expires=" + d.toUTCString() + "; path=/";
+        } else if (document.cookie.indexOf("rakuten=") > -1) {
+          var d = new Date();
+          d.setTime(d.getTime() + 365 * 24 * 60 * 60 * 1000);
+          document.cookie =
+            "sslvisit1=true; expires=" + d.toUTCString() + "; path=/";
+        } else if (document.cookie.indexOf("hyundaihmall=true") > -1) {
+          var d = new Date();
+          d.setTime(d.getTime() + 365 * 24 * 60 * 60 * 1000);
+          document.cookie =
+            "sslvisit2=true; expires=" + d.toUTCString() + "; path=/";
+        } else if (document.cookie.indexOf("fromSite") > -1) {
+          var d = new Date();
+          d.setTime(d.getTime() + 365 * 24 * 60 * 60 * 1000);
+          document.cookie =
+            "sslvisit3=" + "" + "; expires=" + d.toUTCString() + "; path=/";
+        } else if (document.cookie.indexOf("recommender") > -1) {
+          var d = new Date();
+          d.setTime(d.getTime() + 365 * 24 * 60 * 60 * 1000);
+          document.cookie = "sslvisit4=" + "" + "; path=/";
+        }
+      })();
+    </script>
+	<div style="display: none">
+		<div id="loadingBarDiv" style="display: none"></div>
+	</div>
+	<form id="CSRFForm" action="/ko/checkout/ordersheet" method="post">
+		<div>
+			<input type="hidden" name="CSRFToken" value="666aa296-2041-4046-a04b-4453916c3335" />
+		</div>
+	</form>
+	<div id="mapleMainPopwrap"
+		style="position: fixed; top: 50%; left: 50%; width: 81.333333%; z-index: 805; transform: translate(-50%, -50%); display: none;"
+	></div>
+	<div class="layerArea" id="mapleLayer" style="display: none">
+		<div class="layerBg"></div>
+	</div>
+	<div class="hsome_allContents_wrapper">
+		<div class="hsome_allContents">
+			<script type="text/javascript">
+          function goMainpage() {
+            window.sessionStorage.removeItem("moveYn");
+            location.href = "/ko/main";
+          }
+        </script>
+
+			<!-- ################## header ################## -->
+			<header class="hsome_header header_renew2206">
+				<h1 class="h_ttl ellipsis" id="headerTitle">주문완료</h1>
+				<a href="/ko/main" class="h_top_home"><span>홈</span></a>
+
+				<ul class="h_gnbMenu">
+					<li class="search"><a href="/ko/mobilecommon/search" onclick="GA_Event('공통', '헤더', '검색');"><span>search</span></a></li>
+					<li class="cart"><a href="/ko/shoppingbag" onclick="GA_Event('공통', '헤더', '쇼핑백');"><span>cart</span><i>0</i></a></li>
+				</ul>
+			</header>
+			<!-- //################## header ################## -->
+			<div id="contents" class="hsome_contents order_complete_wrap">
+				<!-- 구매전환 스크립트  -->
+				<!-- AceCounter eCommerce (Cart_Inout) v7.5 Start -->
+				<!-- Function and Variables Definition Block Start -->
+				<script language="javascript" type="text/javascript">
+            var _JV = "AMZ2013010701"; //script Version
+            var _UD = "undefined";
+            var _UN = "unknown";
+            var _ace_countvar = 0;
+            var _DC = document.cookie;
+            function _IDV(a) {
+              return typeof a != _UD ? 1 : 0;
+            }
+            var _CRL = "http://" + "dgc17.acecounter.com:8080/";
+            var _GCD = "AP6F40149814536";
+            if (document.URL.substring(0, 8) == "https://") {
+              _CRL = "https://dgc17.acecounter.com/logecgather/";
+            }
+            if (!_IDV(_A_i)) var _A_i = new Image();
+            if (!_IDV(_A_i0)) var _A_i0 = new Image();
+            if (!_IDV(_A_i1)) var _A_i1 = new Image();
+            if (!_IDV(_A_i2)) var _A_i2 = new Image();
+            if (!_IDV(_A_i3)) var _A_i3 = new Image();
+            if (!_IDV(_A_i4)) var _A_i4 = new Image();
+            function _RP(s, m) {
+              if (typeof s == "string") {
+                if (m == 1) {
+                  return s.replace(/[#&^@,]/g, "");
+                } else {
+                  return s.replace(/[#&^@]/g, "");
+                }
+              } else {
+                return s;
+              }
+            }
+            if (!_IDV(_ll)) var _ll = "";
+            if (!_IDV(_AEC_order_code)) var _AEC_order_code = "";
+            function _AGC(nm) {
+              var cn = nm + "=";
+              var nl = cn.length;
+              var cl = _DC.length;
+              var i = 0;
+              while (i < cl) {
+                var j = i + nl;
+                if (_DC.substring(i, j) == cn) {
+                  var val = _DC.indexOf(";", j);
+                  if (val == -1) val = _DC.length;
+                  return unescape(_DC.substring(j, val));
+                }
+                i = _DC.indexOf(" ", i) + 1;
+                if (i == 0) break;
+              }
+              return "";
+            }
+            function _ASC(nm, val, exp) {
+              var expd = new Date();
+              if (exp) {
+                expd.setTime(expd.getTime() + exp * 1000);
+                document.cookie =
+                  nm +
+                  "=" +
+                  escape(val) +
+                  "; expires=" +
+                  expd.toGMTString() +
+                  "; path=";
+              } else {
+                document.cookie = nm + "=" + escape(val);
+              }
+            }
+            function AEC_B_L() {
+              var _AEC_order_code_cookie = "";
+              var olt = [];
+              var oll = [];
+              var olk = [];
+              var oct = 0;
+              if (document.cookie.indexOf("AECORDERCODE") >= 0) {
+                _AEC_order_code_cookie = _AGC("AECORDERCODE");
+              }
+              if (
+                _AEC_order_code != "" &&
+                _AEC_order_code == _AEC_order_code_cookie
+              ) {
+                return "";
+              } else {
+                _ASC("AECORDERCODE", _AEC_order_code, 86400 * 30 * 12);
+                _ll = "";
+                for (var i = 0; i < _A_pl.length; i++) {
+                  var _a = _A_pn[i];
+                  var _o = olt[_a];
+                  olt[_a] = [
+                    _RP(_A_ct[i]),
+                    _RP(_a),
+                    parseInt(_RP(_A_amt[i], 1)) + (_o ? _o[2] : 0),
+                    parseInt(_RP(_A_nl[i], 1)) + (_o ? _o[3] : 0),
+                  ];
+                  if (!_o) {
+                    oll.push(olt[_a].join("@"));
+                    olk[_a] = oct;
+                    oct++;
+                  } else {
+                    oll[olk[_a]] = olt[_a].join("@");
+                  }
+                }
+                _ll = oll.join("^");
+              }
+            }
+            function AEC_S_F(str, md, idx) {
+              var i = 0,
+                _A_cart = "";
+              var k = eval("_A_i" + idx);
+              md = md.toLowerCase();
+              if (md == "b" || md == "i" || md == "o") {
+                _A_cart = _CRL + "?cuid=" + _GCD;
+                _A_cart += "&md=" + md + "&ll=" + str + "&";
+                k.src = _A_cart;
+                window.setTimeout("", 2000);
+              }
+            }
+            if (!_IDV(_A_pl)) var _A_pl = Array(1);
+            if (!_IDV(_A_nl)) var _A_nl = Array(1);
+            if (!_IDV(_A_ct)) var _A_ct = Array(1);
+            if (!_IDV(_A_pn)) var _A_pn = Array(1);
+            if (!_IDV(_A_amt)) var _A_amt = Array(1);
+          </script>
+				<!-- Function and Variables Definition Block End-->
+
+				<!--  criteo 구매전환 페이지 트래커 START ---->
+				<script type="text/javascript" src="//static.criteo.net/js/ld/ld.js" async="true"></script>
+				<script type="text/javascript">
+            window.criteo_q = window.criteo_q || [];
+            window.criteo_q.push(
+              { event: "setAccount", account: 24596 },
+
+              { event: "setHashedEmail", email: getCookie("criteoEmail") },
+
+              { event: "setSiteType", type: "m" },
+              {
+                event: "trackTransaction",
+                id: "230205P16667327",
+                item: [{ id: "SH2C7ACK470M", price: "7000", quantity: "1" }],
+              }
+            );
+            /* 		{ event: "trackTransaction", id: "230205P16667327", item: [
+            
+            { id: "SH2C7ACK470M", price: "7000", quantity: "1"}
+        ], requiresDOM: "yes"}); */
+          </script>
+				<!--  criteo 구매전환 페이지 트래커 END ---->
+
+				<script>
+            $(document).ready(function () {
+              // 결제정보 가져오기
+              const queryString = window.location.search;
+              const urlParams = new URLSearchParams(queryString);
+              const pgToken = urlParams.get("pg_token");
+              const userRequest = localStorage.getItem("userOrderRequest");
+              const parsed = JSON.parse(userRequest);
+              const itemPriceKRW = new Intl.NumberFormat("ko-KR", {
+                style: "currency",
+                currency: "KRW",
+              });
+              const oreceiverString = `
+        	  			<h3 class="df_box_tit">배송지 정보</h3>
+        	  			<div class="dlvr_adrs">
+                      <span class="dlvr_adrs_name">${parsed.oreceiver}</span>
+                      / <span class="dlvr_adrs_phone">${parsed.ophone}</span><br>
+                      (<span class="dlvr_adrs_zipcode">${parsed.ozipcode}</span>)
+                      <span class="dlvr_adrs_adrs">${parsed.oaddress1}
+                        &nbsp;${parsed.oaddress2}</span>
+                    </div>`;
+              $(".order_complete_delivery_info_wrap").append(oreceiverString);
+
+              const itemInfoString = `
+                    	  <li class="gl_con_brand"></li>
+                          <li class="gl_con_name">${parsed.item_name}</li>
+                          <li class="gl_con_option">${parsed.quantity}개</li>
+                          <li class="gl_con_price">
+                            <span> ${itemPriceKRW.format(
+                              parsed.oafterprice
+                            )} <strike>${itemPriceKRW.format(
+                parsed.obeforeprice
+              )}</strike> </span>
+                          </li>`;
+              $(".item_info_wrap").append(itemInfoString);
+              $.ajax({
+                type: "GET",
+                url: `/order/pay/end?tid=${parsed.tid}&cid=TC0ONETIME&partner_order_id=1001&partner_user_id=itsme&pg_token=${pgToken}`,
+
+                success: function (data) {
+                  const resParsed = JSON.parse(data);
+
+                  $("#final_amount").html(
+                    itemPriceKRW.format(parsed.oafterprice)
+                  );
+                  $("#total_amount").html(
+                    itemPriceKRW.format(parsed.obeforeprice)
+                  );
+                  $("#discount").html(
+                    itemPriceKRW.format(
+                      Number(parsed.obeforeprice) - Number(parsed.oafterprice)
+                    )
+                  );
+
+                  $("#card_info").html(resParsed.payment_method_type);
+                  $("#card_amount").html(
+                    itemPriceKRW.format(resParsed.amount.total)
+                  );
+
+
+                  const token = $("meta[name='_csrf']").attr("content");
+                  const header = $("meta[name='_csrf_header']").attr("content");
+
+                  $.ajax({
+                      type: "POST",
+                      url: "/order/save",
+                      contentType: "application/json; charset=UTF-8",
+                      dataType: "json",
+    					data: JSON.stringify({
+    						oicount: parsed.quantity,
+    						oreceiver: parsed.oreceiver,
+    						oaddress1: parsed.oaddress1,
+    						oaddress2: parsed.oaddress2,
+    						ozipcode: parsed.ozipcode,
+    						ophone: parsed.ophone.replaceAll('-',''),
+    						otel:parsed.otel.replaceAll('-',''),
+    						omemo: '',
+    						obeforePrice: parsed.obeforeprice,
+    						oafterPrice: String(parsed.oafterprice),
+    						cpid: parsed.cpid ?? '',
+    						oemail: parsed.oemail,
+    						mmileage:'',
+    						pmmethod:'',
+    						pmcompany:'',
+                          mid: JSON.parse(localStorage.getItem("checkCart"))[0].mid
+    					}),
+                      success: function (data) {
+                        console.log(data);
+                      },
+                      error: function (e) {
+                        console.log("save error", e);
+                      },
+                    beforeSend: (xhr) => {
+                      xhr.setRequestHeader(header, token)
+                    }
+                    });
+
+                  
+                },
+                error: function (e) {
+                  console.log("error", e);
+                },
+              });
+            
+             
+            });
+          </script>
+				<!-- 완료 메세지 -->
+				<div class="order_complete_img_box">
+					<img src="http://www.thehandsome.com/_ui/handsomemobile/images/order/order_complete_img.gif" class="order_complete_img" alt="주문완료축하이미지" />
+				</div>
+
+				<!-- df_box : 주문완료메세지 s -->
+				<div class="order_complete_msg_wrap">
+					<h3 class="ocm_tit">주문이 완료되었습니다.</h3>
+					<!-- 주문이 완료 되었습니다. -->
+					<p class="ocm_num">
+						주문번호 : <b>230205P16667327</b>
+					</p>
+					<p class="ocm_date">(주문일시 : 2023.02.05 22:44)</p>
+				</div>
+				<!-- df_box : 주문완료메세지 e -->
+				<!-- 위탁업체 -->
+				<div class="hsome_layer_popup product_oeramilege_pop">
+					<h2 class="pop-comm-ttl">오에라 마일리지 안내</h2>
+					<div class="pop-comm-cnts">
+						<h3>오에라 마일리지란?</h3>
+						<p class="sub-desc">
+							더한섬닷컴/오프라인 매장에서 오에라 상품 구매 시 상품 구매금액의 01.~0.15%가 적립됩니다 (등급별 상이) <br />적립된 마일리지는 리워드 상품으로 교환할 수 있습니다 <br />(리워드 상품은 오에라 사이트에서 확인 가능합니다)
+						</p>
+						<div class="oera-mileage-order">
+							<h3>오에라 마일리지 적립 방법</h3>
+							<ul class="oera-mileage-desc">
+								<li>
+									<div class="icon">
+										<img src="http://cdn.thehandsome.com/_ui/handsomemobile/images/beauty/ico_mileage01.gif" alt="" />
+									</div>
+									<dl class="desc">
+										<dt>오에라 상품 구매</dt>
+										<dd>더한섬닷컴에서 오에라 상품 구매</dd>
+									</dl>
+								</li>
+								<li>
+									<div class="icon">
+										<img src="http://cdn.thehandsome.com/_ui/handsomemobile/images/beauty/ico_mileage02.gif" alt="" />
+									</div>
+									<dl class="desc">
+										<dt>오에라 마일리지 적립 신청</dt>
+										<dd>
+											더한섬닷컴 주문완료 페이지에서<br class="m-block" /> '정보 제공 동의 및 마일리지 신청' 필수<br class="m-block" /> <span class="notice">*미신청 시 오에라 마일리지 적립 불가</span>
+										</dd>
+									</dl>
+								</li>
+								<li>
+									<div class="icon">
+										<img src="http://cdn.thehandsome.com/_ui/handsomemobile/images/beauty/ico_mileage03.gif" alt="" />
+									</div>
+									<dl class="desc">
+										<dt>오에라 마일리지 적립 완료 및 조회</dt>
+										<dd>
+											오에라 고객센터 1800-6700로 문의<br class="m-block" /> <span class="notice">(더한섬닷컴 배송완료 10일 후 조회 가능)</span>
+										</dd>
+									</dl>
+								</li>
+							</ul>
+						</div>
+						<dl class="p-info-agree">
+							<dt>개인정보 제 3자 제공 항목</dt>
+							<dd>더한섬닷컴 제휴사(한섬라이프앤, 오에라)에 마일리지 적립을 위해 필요한 정보가 제공됩니다</dd>
+							<dd>
+								<ul>
+									<li>제휴사 : 한섬라이프앤</li>
+									<li>사용목적 : 오에라 마일리지 적립 시 고객 식별</li>
+									<li>제공정보 : 이름 , 더한섬닷컴 ID, 식별번호 , 휴대폰번호, 더한섬닷컴 주문 정보 (주문 상품/금액, 주소)</li>
+									<li>보유기간 : 법령에 따른 보관 의무기간 동안 보관</li>
+								</ul>
+							</dd>
+						</dl>
+					</div>
+					<a href="#" class="pop-comm-cls">닫기<!-- 닫기 --></a>
+				</div>
+
+				<script type="text/javascript">
+            $(document).ready(function () {
+              $("#agreeOera, #disagreeOera").on("click", function () {
+                var commissionAction = $(this).attr("id").replace("Oera", "");
+                $.ajax({
+                  type: "POST",
+                  url:
+                    "/ko/rest/checkout/commission/oera/230205P16667327/" +
+                    commissionAction +
+                    "?CSRFToken=3f8fd450-9234-4bc4-aba0-9f9fb1506604",
+                  dataType: "json",
+                  async: false,
+                  contentType: "application/json; charset=UTF-8",
+                  success: function (data) {
+                    if (data) {
+                      if (data == 1) {
+                        if (commissionAction == "agree") {
+                          $(".oera-mileage-accumulation-guide.type1").hide();
+                          $(".oera-mileage-accumulation-guide.type2").show();
+                        } else {
+                          $(".oera-mileage-accumulation-guide.type1").show();
+                          $(".oera-mileage-accumulation-guide.type2").hide();
+                        }
+                      } else {
+                        console.log(data);
+                        layerAlert(
+                          "일시적인 오류가 발생하였습니다.<br/>잠시 후 다시 이용해 주세요"
+                        );
+                      }
+                    } else {
+                      console.log("data is undefined!");
+                      layerAlert(
+                        "예기치 않은 오류가 발생하였습니다.<br/>잠시 후 다시 이용해 주세요"
+                      );
+                    }
+                  },
+                  error: function (xhr, Status, error) {
+                    alert(
+                      "sendRequest error : " +
+                        xhr.status +
+                        " ( " +
+                        error +
+                        " ) "
+                    );
+                  },
+                });
+              });
+            });
+          </script>
+				<!-- 프로모션 결과 -->
+				<script type="text/javascript">
+            $(document).ready(function () {});
+          </script>
+				<!-- 배송지 -->
+				<!-- df_box : 주문완료_배송지정보 s -->
+				<div class="df_box order_complete_delivery_info_wrap"></div>
+				<!-- df_box : 주문완료_배송지정보 e -->
+				<!-- 배송 요청사항 -->
+				<!-- 상품 리스트 -->
+				<!-- df_box : 주문완료상품 s -->
+				<div class="df_box df_box_slide_on order_complete_goods_list_wrap">
+					<ul class="order_gl_item goods_list_wrap">
+						<li>
+							<!-- goods_list_item s -->
+							<div class="ogl_item gl_item">
+								<div class="gl_tit">
+									<a href="/ko/p/SH2C7ACK470M_BK_FR"> <img src="http://newmedia.thehandsome.com/SH/2C/FW/SH2C7ACK470M_BK_S01.jpg" alt="gl_thumbimg"
+										class="gl_thumbimg" id="productImg"
+									/>
+									</a>
+								</div>
+								<ul class="gl_con item_info_wrap"></ul>
+							</div> <!-- goods_list_item e -->
+						</li>
+
+						<!-- AceCounter eCommerce (Cart_InOut) v7.5 Start -->
+						<!-- Data Allocation (Cart_InOut) -->
+						<script language="javascript" type="text/javascript">
+
+                console.log(document.getElementById("productImg"));
+                document.getElementById("productImg").setAttribute("src", JSON.parse(localStorage.getItem("checkCart"))[0].pcimg1)
+
+                _A_amt[_ace_countvar] = "7000";
+                _A_nl[_ace_countvar] = "1";
+                _A_pl[_ace_countvar] = "SH2C7ACK470M_BK_FR";
+                _A_pn[_ace_countvar] = "인타르시아 페이크 삭스";
+                _A_ct[_ace_countvar] = "SYSTEM HOMME";
+                _ace_countvar++;
+              </script>
+						<!-- AceCounter eCommerce (Cart_InOut) v7.5 End -->
+						<!-- Beshow Loop Start-->
+						<script type="text/javascript">
+                // 더한섬 추가 부분
+                var beshow_orderItemNumber_str = "SH2C7ACK470M_BK_FR"; // 상품코드 입력 (관리자에서 테깅시에 상품코드 SJ1I1WPC662W 부문만 입력 해야 함)
+                var beshow_orderItemNumber_arr =
+                  beshow_orderItemNumber_str.split("_");
+                var beshow_orderItemNumber = "";
+                if (beshow_orderItemNumber_arr.length > 0) {
+                  beshow_orderItemNumber = beshow_orderItemNumber_arr[0];
+                }
+                // 더한섬 추가 부분
+                strack.execute("setOrderItemNumber", beshow_orderItemNumber);
+                strack.execute("setOrderItemLink", "/ko/p/SH2C7ACK470M_BK_FR");
+                strack.execute(
+                  "setOrderItemImage",
+                  "http://newmedia.thehandsome.com/SH/2C/FW/SH2C7ACK470M_BK_S01.jpg"
+                );
+                strack.execute("setOrderItemName", "인타르시아 페이크 삭스");
+                strack.execute("setOrderItemPrice", "7000");
+                strack.execute("setOrderItemQuantity", "1");
+              </script>
+						<!-- Beshow Loop End -->
+						<!-- adinsight 주문 상품별 아이디 받아옴. start-->
+						<script type="text/javascript">
+                if (typeof TRS_PRODUCT == "undefined") {
+                  TRS_PRODUCT = "" + "SH2C7ACK470M_BK_FR"; // 상품아이디 변수(상품코드)
+                  TRS_ORDER_PRODUCT =
+                    "" +
+                    "SH2C7ACK470M_BK_FR" +
+                    "@" +
+                    "인타르시아 페이크 삭스" +
+                    "@" +
+                    "7000" +
+                    "@" +
+                    "1";
+                } else {
+                  TRS_PRODUCT = TRS_PRODUCT + " $ " + "SH2C7ACK470M_BK_FR"; // 상품아이디 변수(상품코드)
+                  TRS_ORDER_PRODUCT +=
+                    " $ " +
+                    "SH2C7ACK470M_BK_FR" +
+                    "@" +
+                    "인타르시아 페이크 삭스" +
+                    "@" +
+                    "7000" +
+                    "@" +
+                    "1";
+                }
+              </script>
+						<!-- adinsight 주문 상품별 아이디 받아옴. end-->
+					</ul>
+				</div>
+				<!-- df_box : 주문완료상품 e -->
+
+				<!-- 최종 결제금액 -->
+				<!-- df_box : 최종결제금액 s -->
+				<div class="df_box total_price_wrap">
+					<h3 class="df_box_tit">
+						최종 결제금액
+						<div class="pay_price" id="final_amount"></div>
+					</h3>
+					<ul class="total_price_detail">
+						<li>
+							<div class="ttpd_tit">상품 합계</div>
+							<div class="ttpd_con" id="total_amount"></div>
+						</li>
+
+						<li>
+							<div class="ttpd_tit">프로모션/쿠폰</div>
+							<div class="ttpd_con" id="discount"></div>
+						</li>
+					</ul>
+				</div>
+				<!-- 수정(47489) : 20180807 e -->
+				<!-- df_box : 최종결제금액 e -->
+
+				<!-- 결제 수단 -->
+				<!-- df_box : 주문완료_결제수단 s -->
+				<div class="df_box order_complete_payment_wrap">
+					<h3 class="df_box_tit">결제수단</h3>
+					<ul class="complete_payment_wrap">
+						<li class="cp_card_company">
+							<div class="cp_tit">카드사</div>
+							<div class="cp_con" id="card_info"></div>
+						</li>
+						<li class="cp_total_price">
+							<div class="cp_tit">결제금액</div>
+							<div class="cp_con" id="card_amount">
+								<b></b>
+							</div>
+						</li>
+					</ul>
+				</div>
+				<!-- df_box : 주문완료_결제수단 e -->
+				<!-- 구매 시 지급 포인트 -->
+				<!-- df_box : 적립예정포인트 s -->
+				<div class="df_box">
+					<h3 class="df_box_tit">
+						적립 예정 포인트 <span class="df_box_tit_sub">(수령 완료 후 10일 후 적립) </span>
+						<!-- tootip s -->
+						<span class="dpIB"><div class="icon_help btn_tooltip" data-tooltip-target="tooltip_buy_point_guide"></div></span>
+						<!-- tootip : contents_area s -->
+						<div class="tooltip_contens"></div>
+						<!-- tootip : contents_area e -->
+						<!-- tootip e -->
+					</h3>
+					<ul class="ul_dot point_back_wrap">
+						<li>
+							<div class="udot_tit">한섬마일리지</div>
+							<div class="udot_con">0M</div>
+						</li>
+						<li>
+							<div class="udot_tit">H.Point</div>
+							<div class="udot_con">0P</div>
+						</li>
+					</ul>
+				</div>
+				<!-- df_box : 적립예정포인트 e -->
+				<!-- 화면 이동 -->
+				<!-- order_complete_btn s -->
+				<div class="df_box order_complete_btn_wrap" id="checkoutConfirmationButtonArea">
+					<div class="btn_wrap btn_wrap_div2">
+						<a href="#;" class="btnstl6 solid_btn_gray" id="btnBasketContinue"><span>쇼핑계속하기</span></a> <a href="#;" class="btnstl6 solid_btn_blk"
+							id="btnMyorder"
+						><span>주문내역조회</span></a>
+					</div>
+				</div>
+				<!-- order_complete_btn e -->
+
+				<script type="text/javascript">
+            //<![CDATA[
+
+            if (
+              $("#checkoutConfirmationButtonArea .btn_athome_text").length > 0
+            ) {
+              $("#checkoutConfirmationButtonArea")
+                .removeClass("order_complete_btn_wrap")
+                .addClass("order_complete_athome_btn_wrap");
+            }
+            $(document).ready(function () {
+              $("#btnBasketContinue").on("click", function () {
+                continuePage();
+              });
+
+              $("#btnMyorder").on("click", function () {
+                myordersPage();
+              });
+            });
+
+            function continuePage() {
+              location.href = "/ko";
+            }
+
+            function myordersPage() {
+              location.href = "/ko/mypage/order/myorders";
+            }
+
+            function myordersAthomePage() {
+              location.href = "/ko/mypage/order/myordersAthome";
+            }
+
+            //]]>
+          </script>
+				<!-- hsome_divpop_list | í´íëª©ë¡ s -->
+				<div class="hsome_tooltip_list">
+					<!-- í´í : ì¼íë°±ì¶ê° s -->
+					<div class="tooltip_html">
+						<div class="tooltip_wrap tooltip_shoppingbag_add">
+							<div class="tltp_close_btn btn_tltp_close">
+								<span>닫기</span>
+							</div>
+							<h1 class="tltp_header">쇼핑백추가</h1>
+							<div class="tltp_content">
+								<div class="shoppingbag_img">
+									<img src="/_ui/handsomemobile/images/order/img_shoppingbag.jpg" alt="쇼핑백" />
+								</div>
+								<ul class="ul_dot_blk">
+									<li>선물용이나 이동 시, 편리하게 사용할 수 있는 쇼핑백에 포장해 드립니다.</li>
+									<li>브랜드 쇼핑백 또는 더한섬닷컴 전용 쇼핑백 중 1개로 무작위 발송되며, 고객님의 요청사항이 반영되지는 않습니다.</li>
+									<li>쇼핑백 선택 시, 기본 포장에 포함된 페이퍼 백은 동봉되지 않습니다.</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+					<!-- í´í : ì¼íë°±ì¶ê° e -->
+					<div class="tooltip_html">
+						<div class="tooltip_wrap tooltip_buy_delivery_charge">
+							<div class="tltp_close_btn btn_tltp_close">
+								<span>닫기</span>
+							</div>
+							<h1 class="tltp_header">배송비</h1>
+							<div class="tltp_content">
+								<ul class="ul_dot_blk">
+									<li>쿠폰/바우처 할인금액 및 한섬마일리지/H.Point 사용을 제외한 실 결제금액 기준 <strong>3만원 미만 결제 시 2,500원 배송비가 부과</strong>됩니다. (3만원 이상 구매 시 무료배송)
+									</li>
+									<li>도서산간 지역은 배송비가 추가 될 수 있습니다.</li>
+									<li>한섬마일리지, H.Point, e-money로 배송비 결제가 불가합니다.</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+					<!-- í´í : í¬ì¸í¸ì¬ì© s -->
+					<div class="tooltip_html">
+						<div class="tooltip_wrap tooltip_discout_info">
+							<div class="tltp_close_btn btn_tltp_close">
+								<span>닫기</span>
+							</div>
+							<h1 class="tltp_header">포인트 사용</h1>
+							<div class="tltp_content">
+								<div class="desc_box">보유 한섬마일리지 / H.Point / 기프트카드 금액을 확인하시고 사용하실 금액을 입력 후 [사용]을 선택하세요.</div>
+							</div>
+						</div>
+					</div>
+					<!-- í´í : í¬ì¸í¸ì¬ì© e -->
+
+					<!-- í´í : ì&nbsp;ë¦½ìì&nbsp;í¬ì¸í¸ s -->
+					<div class="tooltip_html">
+						<div class="tooltip_wrap tooltip_buy_point_guide">
+							<div class="tltp_close_btn btn_tltp_close">
+								<span>닫기</span>
+							</div>
+							<h1 class="tltp_header">적립 예정 포인트</h1>
+							<div class="tltp_content">
+								<ul class="ul_dot_blk">
+									<li>기존 마이너스 포인트를 보유하고 있는 고객은 포인트가 차감되어 적립됩니다. 적립 예정 포인트가 상이할 수 있습니다.</li>
+									<li>통합 멤버쉽으로 가입하시면, H.Point 적립 및 사용이 가능합니다.</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+					<!-- í´í : ì&nbsp;ë¦½ìì&nbsp;í¬ì¸í¸ e -->
+				</div>
+				<!-- hsome_divpop_list | í´íëª©ë¡ e -->
+			</div>
+			<!-- #2191 [모비온] 신규 광고 매체 스크립트 Enliple Tracker Start -->
+			<script type="text/javascript">
+          var ENP_VAR = { conversion: { product: [] } };
+          var ENP_TOTALQTY = 0;
+          var ENP_TOTALPRICE = 0;
+          // 주문한 각 제품들을 배열에 저장
+
+          ENP_TOTALQTY += 1;
+          ENP_TOTALPRICE += 7000;
+          ENP_VAR.conversion.product.push({
+            productCode: "SH2C7ACK470M",
+            productName: "인타르시아 페이크 삭스",
+            price: "7000.0",
+            dcPrice: "700.0",
+            qty: "1",
+          });
+
+          ENP_VAR.conversion.ordCode = "230205P16667327";
+          ENP_VAR.conversion.totalPrice = ENP_TOTALPRICE;
+          ENP_VAR.conversion.totalQty = ENP_TOTALQTY;
+
+          (function (a, g, e, n, t) {
+            a.enp =
+              a.enp ||
+              function () {
+                (a.enp.q = a.enp.q || []).push(arguments);
+              };
+            n = g.createElement(e);
+            n.async = !0;
+            n.defer = !0;
+            n.src =
+              "https://cdn.megadata.co.kr/dist/prod/enp_tracker_self_hosted.min.js";
+            t = g.getElementsByTagName(e)[0];
+            t.parentNode.insertBefore(n, t);
+          })(window, document, "script");
+          enp("create", "conversion", "thehandsome", { device: "M" }); // W:웹, M: 모바일, B: 반응형
+          enp("send", "conversion", "thehandsome");
+        </script>
+			<!-- #2191 [모비온] 신규 광고 매체 스크립트 Enliple Tracker End -->
+
+			<!-- AceCounter eCommerce (Buy_Finish) v7.5 Start -->
+			<script language="javascript" type="text/javascript">
+          var _AEC_order_code = "230205P16667327"; // 주문코드
+          var _amt = "8800"; // 총 구매액
+          AEC_B_L(); // 구매완료 함수
+        </script>
+			<!-- AceCounter eCommerce (Buy_Finish) v7.5 End -->
+			<!--Beshow Script Start -->
+			<script type="text/javascript">
+          strack.execute("setStore", "thehandsome");
+          strack.execute("setDomain", location.host);
+          strack.execute("setDevice", "2");
+          strack.execute("setUserId", "");
+          strack.execute("setOrderId", "230205P16667327");
+          strack.execute("setOrderPrice", "8800");
+          strack.execute("setOrderPhoneNumber", "");
+          strack.trackOrder();
+        </script>
+			<!--Beshow Script End-->
+			<script type="text/javascript">
+          if (typeof kakaoPixel !== "undefined") {
+            var kakaoTrackId = "3482319208237780781"; //개발
+            if (location.href.indexOf("www.thehandsome.com") > -1)
+              kakaoTrackId = "7855119525940511046"; //운영
+            kakaoPixel(kakaoTrackId).pageView();
+            kakaoPixel(kakaoTrackId).purchase({
+              total_quantity: "1", // 주문 내 상품 개수(optional)
+              total_price: "8800", // 주문 총 가격(optional)
+              currency: "KRW", // 주문 가격의 화폐 단위(optional, 기본 값은 KRW)
+              // 주문 내 상품 정보(optional)
+              products: [
+                {
+                  name: "인타르시아 페이크 삭스",
+                  quantity: "1",
+                  price: "7000",
+                },
+              ],
+            });
+          }
+        </script>
+			<!-- adinsight 주문 총금액 받아옴. start -->
+			<script language="javascript">
+          var TRS_AMT = "8800"; // 구매금액합계
+          var TRS_ORDER_ID = "230205P16667327"; // 주문번호
+        </script>
+			<!-- adinsight 주문 총금액 받아옴. end -->
+
+			<script type="text/javascript">
+          //<![CDATA[
+          var height = 20;
+          var num = 0;
+          var max = height * num;
+          var move = 0;
+          var lastChild;
+          var notiCnt = 0;
+          var curTabId = 0;
+
+          $(document).ready(function () {
+            //자동로그인
+
+            $(".chatbotlink").click(function () {
+              callChatbot();
+            });
+
+            // 2022.03.29 푸터 공지사항 추가
+            getFooterNotices("/ko/svcenter");
+          });
+
+          function moveDesktop() {
+            location.href =
+              location.href.replace("?uiel=Mobile", "") + "?uiel=Desktop";
+          }
+
+          $(function () {
+            var pcVersionButtons = null;
+            if (getCookie("app") != "android" && getCookie("app") != "ios") {
+              pcVersionButtons =
+                '<a href="javascript:moveDesktop();">PC버전</a>';
+              $("#pcVersion").html(pcVersionButtons);
+            } else {
+              $("#footerMenu").prop("class", "menu m3");
+            }
+
+            // 	if(getCookie("app") == "ios"){
+            // 	    $(".f_policy .language").hide(); //ios 메인 처음 진입시 language 노출되는 오류 수정
+            // 	}
+          });
+
+          function hpAutoLogin(data) {
+            if (data.succYn == "Y") {
+              $.ajax({
+                type: "GET",
+                url: "/ko/hpoint/simpleJoinMember",
+                data: { mcustNo: data.mcustNo },
+                success: function (data) {
+                  if (data.resultCode == "L") {
+                    $("#hcid").val(data.uid);
+                    $("#autologinForm").submit();
+                  }
+                },
+                error: function (e) {},
+              });
+            }
+          }
+
+          function familySiteSelect() {
+            $(".fixed_dim_layer").stop().show();
+            $(".family_site_popup_191108").stop().slideDown();
+          }
+          function familySiteSelectClosed() {
+            $(".family_site_popup_191108").stop().slideUp();
+            $(".fixed_dim_layer").stop().fadeOut(500);
+          }
+
+          //app 언어설정창 추가
+          function selectLangChg(obj) {}
+
+          //외부 브라우저로 링크 열기
+          function callWebBrowser() {
+            var appYn = "N";
+            if (getCookie("app") == null || getCookie("app") == "") {
+              //
+            } else {
+              // 앱 접속일 경우 앱 여부 Y
+              appYn = "Y";
+            }
+            var appOs = "";
+
+            if (appYn == "Y") {
+              if (appOs == "ios") {
+                webkit.messageHandlers.callWebBrowser.postMessage(
+                  "http://www.naver.com"
+                );
+              } else {
+                Android.callWebBrowser("http://www.naver.com");
+              }
+            }
+          }
+
+          /************************Footer Notice Start*********************/
+          function getFooterNotices(moveUrl) {
+            to_date = new Date();
+            $.ajax({
+              type: "get",
+              url: moveUrl + "/getFooterNotices?now=" + to_date.getTime(),
+              dataType: "json",
+              error: function (request, status, error) {
+                console.log(error);
+              },
+              success: function (data) {
+                notiCnt = data.length;
+                var noticeContent = "";
+                //var viewCnt = 0;
+                $.each(data, function () {
+                  //if(viewCnt < 4){
+                  var listTag = "<li>";
+                  listTag +=
+                    '<a href="' +
+                    moveUrl +
+                    "/mobilenotice?noticeCode=" +
+                    this.pk +
+                    '">' +
+                    this.subject +
+                    "</a>";
+                  listTag += "</li>";
+
+                  noticeContent += listTag;
+                  //viewCnt++;
+                  //}
+                });
+
+                $(".notice-wrap").html(noticeContent);
+              },
+            });
+          }
+          /**********************Footer Notice End****************************/
+          //]]>
+        </script>
+			<script>
+          $(window).load(function () {
+            function noticeRolling() {
+              if (notiCnt > 1) {
+                height = 20;
+                num = notiCnt;
+                max = height * num;
+                move += height;
+
+                //메인여부 체크(메인진입시 1개, 메인탭별 푸터 진입시 1개씩 추가)
+                if ($(".notice-wrap").length > 1) {
+                  $("#topNav1909 li").each(function (index) {
+                    if ($(this).hasClass("on")) {
+                      curTabId = index;
+                    }
+                  });
+                  $("footer#footer" + curTabId + " .notice-wrap").animate(
+                    { top: -move },
+                    600,
+                    function () {
+                      if (move >= max) {
+                        $(this).css("top", 0);
+                        move = 0;
+                      }
+                    }
+                  );
+                } else {
+                  $(".notice-wrap").animate({ top: -move }, 600, function () {
+                    if (move >= max) {
+                      $(this).css("top", 0);
+                      move = 0;
+                    }
+                  });
+                }
+              }
+            }
+            noticeRollingOff = setInterval(noticeRolling, 3000);
+
+            //메인여부 체크(메인진입시 1개, 메인탭별 푸터 진입시 1개씩 추가)
+            if ($(".notice-wrap").length > 1) {
+              $("#topNav1909 li").each(function (index) {
+                if ($(this).hasClass("on")) {
+                  curTabId = index;
+                }
+              });
+              $("footer#footer" + curTabId + " .notice-wrap").append(
+                $("footer#footer" + curTabId + " .notice-wrap li")
+                  .first()
+                  .clone()
+              );
+            } else {
+              $(".notice-wrap").append($(".notice-wrap li").first().clone());
+            }
+          });
+        </script>
+			<form id="autologinForm" name="autologinForm" action="/ko/hp/autologin" method="get">
+				<input type="hidden" name="hcid" id="hcid" value="e2gaf@naver.com" />
+			</form>
+			<!-- ################## footer ################## -->
+			<!-- 푸터 공지 추가 220404 -->
+			<footer id="footer" class="hsome_footer new181127 footer_kr">
+				<div class="main-notice">
+					<div class="tit-notice">공지</div>
+					<div class="list-notice">
+						<ul class="notice-wrap">
+							<li><a href="/ko/svcenter/mobilenotice?noticeCode=8804711059376">더한섬닷컴 편집/해외 브랜드 종료(예정) 안내(~2/22)</a></li>
+							<li><a href="/ko/svcenter/mobilenotice?noticeCode=8804711059376">더한섬닷컴 편집/해외 브랜드 종료(예정) 안내(~2/22)</a></li>
+						</ul>
+					</div>
+					<div class="btn-more">
+						<a href="/ko/svcenter/mobilenotice"><img src="http://cdn.thehandsome.com/_ui/handsomemobile/images/main/btn_arr_notice.png" alt="" /></a>
+					</div>
+				</div>
+				<div class="f_wrap">
+					<div class="f_menu re1911">
+						<!-- 수정 190207 -->
+						<ul class="top_line">
+							<li><a href="#"></a></li>
+							<li><a href="javascript:ftLogout();" class="login" style="float: left" onclick="GA_Event('공통', '푸터_메뉴', '로그아웃');">로그아웃<!-- 로그아웃 --></a></li>
+							<li><a href="/ko/svcenter/mobilemain?uiel=Mobile" class="customer" style="float: left; width: 32%"
+								onclick="GA_Event('공통', '푸터_메뉴', '고객센터');"
+							>고객센터<!--고객센터--></a></li>
+							<li><a href="/ko/store-finder/storeInformation?uiel=Mobile" class="storeinfo" style="float: left"
+								onclick="GA_Event('공통', '푸터_메뉴', '매장안내');"
+							>매장안내</a></li>
+						</ul>
+						<ul class="btm_line1911">
+							<li><a href="/ko/svcenter/theClubInfo?uiel=Mobile" class="memberBenefit" style="float: left; letter-spacing: -1px"
+								onclick="GA_Event('공통', '푸터_메뉴', '한섬 회원 혜택');"
+							>한섬 회원 혜택<!-- 한섬 회원 혜택 --></a></li>
+							<li><a href="http://www.handsome.co.kr/ko/company/aboutHandsome.do?leng=ko" target="_blank" style="float: left; letter-spacing: -1px"
+								onclick="GA_Event('공통', '푸터_메뉴', '회사소개');"
+							>회사소개</a></li>
+							<li id="family_site"><span class="language family_site1911 for_iph_css1911"
+								onclick="familySiteSelect();GA_Event('공통', '푸터_CNT', 'FAMILYSITE');"
+							>FAMILY SITE&nbsp;</span></li>
+						</ul>
+						<!-- 챗봇 테스트 -->
+					</div>
+
+					<div class="f_sns">
+						<a href="javascript:noLink();"
+							onclick="GA_Event('공통', '푸터_SNS', 'INSTAGRAM');window.open('https://instagram.com/thehandsome_official/','instagram');return false" class="ist"
+						>인스타그램</a> <a href="javascript:noLink();"
+							onclick="GA_Event('공통', '푸터_SNS', 'YOUTUBE');window.open('https://www.youtube.com/channel/UC0fmjgbVA8iZrPbIR3dppUQ','youtube');return false"
+							class="ytb"
+						>유튜브</a>
+					</div>
+					<div class="f_policy">
+						<a href="/ko/footer/footerTermBusiness?uiel=Mobile">서비스이용약관</a> <a href="/ko/footer/footerPrivacy?uiel=Mobile" style="font-weight: bold">개인정보처리방침</a>
+
+						<!-- web -->
+						<!-- 180706 추가// -->
+						<span class="language"> <select id="footerSelectLang" onchange="if(this.value) language(this.value);"
+							onclick="GA_Event('공통', '푸터_CNT', 'LANGUAGE');"
+						>
+								<option value="" selected="selected" disabled="" hidden="">LANGUAGE</option>
+								<option value="ko">한국어</option>
+								<option value="en">ENGLISH</option>
+								<option value="zh">中文</option>
+						</select>
+						</span>
+						<!-- //180706 추가 -->
+					</div>
+
+					<div class="f_copyright">COPYRIGHT © 2018 HANDSOME. ALL RIGHT RESERVED</div>
+
+					<a href="javascript:noLink();" class="f_info_viewer" onclick="GA_Event('공통', '푸터_CNT', 'INFO');"> <span class="f-txt">(주) 한섬 </span> <span
+						class="f-logo"
+					><img src="http://cdn.thehandsome.com/_ui/handsomemobile/images/common/mob-footer-handsome-logo.png" alt="" /></span>
+					</a>
+
+					<div class="f_info">
+						<div class="corp">
+							대표이사 : 김민덕 | 서울시 강남구 도산대로 523 한섬빌딩<br />TEL : 1800-5700 (유료) | FAX : 02-6078-2856 <br />개인정보보호책임자 : 윤인수 | 호스팅서비스 : (주) 한섬<br />사업자등록번호 :
+							120-81-26337<br />통신판매업신고번호 : 제 2009-서울강남-00826호
+						</div>
+						<div class="link">
+							<a href="https://recruit.ehyundai.com/recruit-info/announcement/list.nhd?pageNo=1&amp;hireGb=01&amp;coCd=HDHAN" target="_blank"
+								onclick="GA_Event('공통', '푸터_CNT', 'INFO_채용정보');"
+							>채용정보</a> <a href="http://www.handsome.co.kr/ko/sustainability/sharedGrowth01.do" target="_blank"
+								onclick="GA_Event('공통', '푸터_CNT', 'INFO_동반성장');"
+							>동반성장</a> <a href="http://www.handsome.co.kr/ko/sustainability/ecoFriendly01.do" target="_blank" onclick="GA_Event('공통', '푸터_CNT', 'INFO_환경경영');">환경경영</a>
+						</div>
+					</div>
+				</div>
+			</footer>
+		</div>
+	</div>
+</body>
+</html>

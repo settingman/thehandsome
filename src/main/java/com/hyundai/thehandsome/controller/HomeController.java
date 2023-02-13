@@ -1,4 +1,4 @@
-package com.hyundai.thehandsome.controller.member;
+package com.hyundai.thehandsome.controller;
 
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.User;
@@ -15,16 +15,21 @@ public class HomeController {
 	@GetMapping(value = "/")
 	public String memberForm(Model model) {
 
-		return "index2";
+		return "main";
 	}
 
-	@GetMapping(value = "/test")
-	public String memberForm(@AuthenticationPrincipal User user, Model model) {
+	@GetMapping(value = "/member/testpage")
+	public String main(Model model) {
+
+		return "mypage/mypage";
+	}
+
+	@GetMapping(value = "/main")
+	public String main2(Model model) {
 		log.info("exMember.....");
 		log.info("--------------");
-		log.info(user.toString());
 
-		return "index2";
+		return "main";
 	}
 
 }

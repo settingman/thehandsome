@@ -1,0 +1,2828 @@
+<html
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+>
+  <title>배송 | 더한섬닷컴</title>
+  <th:block th:replace="common/head :: headFragment"></th:block>
+  <body class="back" style="overflow: scroll">
+    <script>
+      (function () {
+        if (document.cookie.indexOf("thehyundai=true") > -1) {
+          var d = new Date();
+          d.setTime(d.getTime() + 365 * 24 * 60 * 60 * 1000);
+          document.cookie =
+            "sslvisit=true; expires=" + d.toUTCString() + "; path=/";
+        } else if (document.cookie.indexOf("rakuten=") > -1) {
+          var d = new Date();
+          d.setTime(d.getTime() + 365 * 24 * 60 * 60 * 1000);
+          document.cookie =
+            "sslvisit1=true; expires=" + d.toUTCString() + "; path=/";
+        } else if (document.cookie.indexOf("hyundaihmall=true") > -1) {
+          var d = new Date();
+          d.setTime(d.getTime() + 365 * 24 * 60 * 60 * 1000);
+          document.cookie =
+            "sslvisit2=true; expires=" + d.toUTCString() + "; path=/";
+        } else if (document.cookie.indexOf("fromSite") > -1) {
+          var d = new Date();
+          d.setTime(d.getTime() + 365 * 24 * 60 * 60 * 1000);
+          document.cookie =
+            "sslvisit3=" + "" + "; expires=" + d.toUTCString() + "; path=/";
+        } else if (document.cookie.indexOf("recommender") > -1) {
+          var d = new Date();
+          d.setTime(d.getTime() + 365 * 24 * 60 * 60 * 1000);
+          document.cookie = "sslvisit4=" + "" + "; path=/";
+        }
+      })();
+    </script>
+    <!-- Loading -->
+    <div style="display: none">
+      <div id="loadingBarDiv" style="display: none"></div>
+    </div>
+    <!-- //Loading -->
+    <form id="CSRFForm" action="/ko/checkout/ordersheet" method="post">
+      <div>
+        <input
+          type="hidden"
+          name="CSRFToken"
+          value="666aa296-2041-4046-a04b-4453916c3335"
+        />
+      </div>
+    </form>
+    <div
+      id="mapleMainPopwrap"
+      style="
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        width: 81.333333%;
+        z-index: 805;
+        transform: translate(-50%, -50%);
+        display: none;
+      "
+    ></div>
+    <div class="layerArea" id="mapleLayer" style="display: none">
+      <div class="layerBg"></div>
+    </div>
+    <!-- ################## hsome_allContents_wrapper | ë³¸ë¬¸ ì»¨íì¸&nbsp; ìì&shy; ################## -->
+    <div class="hsome_allContents_wrapper">
+      <div class="hsome_allContents">
+        <script type="text/javascript">
+          function goMainpage() {
+            window.sessionStorage.removeItem("moveYn");
+            location.href = "/ko/main";
+          }
+        </script>
+
+        <!-- ################## header ################## -->
+        <header class="hsome_header">
+          <h1 class="h_ttl ellipsis" id="headerTitle">
+            배송&amp;결제정보 입력
+          </h1>
+          <a href="/ko/main" class="h_top_home">
+            <span>홈</span>
+          </a>
+
+          <a href="javascript:noLink();" onclick="goBack();" class="h_prev"
+            >이전 페이지로 가기</a
+          >
+          <ul class="h_gnbMenu">
+            <li class="search">
+              <a
+                href="/ko/mobilecommon/search"
+                onclick="GA_Event('공통', '헤더', '검색');"
+              >
+                <span>search</span>
+              </a>
+            </li>
+            <li class="cart">
+              <a
+                href="/ko/shoppingbag"
+                onclick="GA_Event('공통', '헤더', '쇼핑백');"
+              >
+                <span>cart</span>
+                <i>0</i>
+              </a>
+            </li>
+          </ul>
+        </header>
+        <!-- //################## header ################## -->
+        <div id="contents" class="hsome_contents delivery_payment_wrap">
+          <form id="orderForm" action="/ko/checkout/ordersheet" method="POST">
+            <!-- 상품 리스트 -->
+            <div id="checkoutCartView">
+              <!-- 4pm service-->
+              <!-- //4pm service-->
+
+              <!-- df_box : 주문상품 s -->
+              <div id="__div_sl" class="df_box df_box_slide">
+                <h3 class="df_box_tit">
+                  주문상품
+                  
+                  <span class="df_box_tit_sub" id="quantity"></span>
+                </h3>
+                <script type="text/javascript">
+
+                  const cartList = JSON.parse(localStorage.getItem('checkCart'))
+                  let totalCart = 0;
+
+                  cartList.map(item => {
+                    totalCart+=item.realPcPrice;
+                  })
+
+                  console.log(totalCart);
+                  console.log(document.getElementById("total_amount"));
+
+                  document.getElementById("quantity").innerHTML = cartList.length + " 개"
+                  document.getElementById("total_amount3").innerHTML = totalCart;
+
+
+                localStorage.removeItem('userOrderRequest');
+                  var sa = [];
+                  function getOnlineStock(code) {
+                    $.ajax({
+                      type: "get",
+                      url: "/ko/mypage/order/getOnlineStock?code=" + code,
+                      dataType: "json",
+                      success: function (r) {
+                        if (!sa.includes(code)) {
+                          sa.push(code);
+                        }
+                        if ($.parseJSON(r)[code]) {
+                          $("p[name=__p_" + code + "]").show();
+                        }
+                      },
+                    });
+                  }
+                  function setOnlineStockPHide() {
+                    var s = false;
+                    $(".__p_sc").each(function () {
+                      if (!s) {
+                        if ($(this).is(":visible")) {
+                          s = true;
+                        }
+                      } else {
+                        $(this).hide();
+                      }
+                    });
+                  }
+                  var ph = true;
+                  $(document).ajaxComplete(function () {
+                    if (ph) {
+                      setOnlineStockPHide();
+                    }
+                  });
+                  $("#__div_sl").on("click", function () {
+                    if (
+                      $("#__div_sl").attr("class").indexOf("df_box_slide_on") <
+                      0
+                    ) {
+                      ph = false;
+                      sa.forEach(function (code) {
+                        getOnlineStock(code);
+                      });
+                    } else {
+                      setOnlineStockPHide();
+                    }
+                  });
+              
+                </script>
+                <ul class="order_gl_item goods_list_wrap">
+                  <li class="ogl_main_item item_info">
+                    <!-- goods_list_item s -->
+                    <a href="/ko/p/TH2D0LJM903M_BK_100">
+                      <div class="ogl_item gl_item">
+                        <div class="gl_tit">
+                          <img
+                            src="http://newmedia.thehandsome.com/TH/2D/SS/TH2D0LJM903M_BK_S01.jpg"
+                            alt=""
+                            class="gl_thumbimg"
+                          />
+                        </div>
+                        <ul class="gl_con">
+                          <li class="gl_con_brand"></li>
+
+                          <li id="orderItemList" class="gl_con_name" style="white-space: pre-line;" >램스킨 블루종 재킷</li>
+                          <li class="gl_con_option"></li>
+                          <li class="gl_con_price">
+                            <span id='item_price'></span>
+                            
+                          </li>
+                        </ul>
+                      </div>
+                    </a>
+                    <!-- goods_list_item e -->
+                  </li>
+                  <p
+                    name="__p_TH2D0LJM903M_BK_100"
+                    class="__p_sc"
+                    style="
+                      display: none;
+                      clear: both;
+                      color: #888;
+                      padding-top: 16px;
+                      font-size: 13px;
+                    "
+                  >
+                    해당 상품은 전국 매장을 통해 수급하여 배송 될 예정입니다.
+                    <br />
+                    불량 등의 이유로 수급이 어려울 경우, 취소될 수 있습니다.
+                    <br />
+                    <b>(평일 기준 5일 이상 소요 예정)</b>
+                    <script type="text/javascript">
+                      getOnlineStock("TH2D0LJM903M_BK_100");
+                    </script>
+                  </p>
+                  <script>
+                    var checktHandsomepointUsableAmount = parseInt("1590000.0");
+                    let orderList = ""
+                    JSON.parse(localStorage.getItem('checkCart')).map((item, index) => {
+                        if(index === 0) {
+                          orderList = item.pname;
+                        } else {
+                          orderList += " \n " + item.pname
+                        }
+                    })
+                    document.getElementById("orderItemList").innerHTML = orderList;
+                  </script>
+                </ul>
+
+                <div
+                  class="check_stl shoppingbag_add_check_wrap"
+                  onclick="$('#packopt').click();"
+                >
+                  <input type="checkbox" name="pack_option" id="packopt" />
+                  <label
+                    for="shoppingbag_add_check"
+                    class="shoppingbag_add_check"
+                  >
+                    친환경 쇼핑백을 추가합니다. (무료)
+                    <!-- tootip s -->
+                    <span class="dpIB">
+                      <div
+                        class="icon_help btn_tooltip"
+                        data-tooltip-target="tooltip_shoppingbag_add"
+                      ></div>
+                    </span>
+                    <!-- tootip : contents_area s -->
+                    <div class="tooltip_contens"></div>
+                    <!-- tootip : contents_area e -->
+                    <!-- tootip e -->
+                  </label>
+                </div>
+
+                <!-- 툴팁 : 쇼핑백추가 s -->
+                <div class="tooltip_html">
+                  <div class="tooltip_wrap tooltip_shoppingbag_add">
+                    <div class="tltp_close_btn btn_tltp_close">
+                      <span>닫기</span>
+                    </div>
+                    <h1 class="tltp_header">쇼핑백추가</h1>
+                    <div class="tltp_content">
+                      <div class="shoppingbag_img">
+                        <img
+                          src="/_ui/handsomemobile/images/order/img_shoppingbag.jpg"
+                          alt="쇼핑백"
+                        />
+                      </div>
+                      <ul class="ul_dot_blk">
+                        <li>
+                          선물용이나 이동 시 사용할 수 있는, 재활용이 가능한
+                          친환경 쇼핑백을 드립니다.
+                        </li>
+                        <li>
+                          더한섬닷컴 전용 친환경 쇼핑백만 발송되며, 브랜드
+                          쇼핑백은 발송이 어렵습니다.
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                <!-- 툴팁 : 쇼핑백추가 e -->
+              </div>
+              <!-- df_box : 주문상품 e -->
+            </div>
+            <!-- 주문자 정보 -->
+            <input
+              type="hidden"
+              name="ordererMobilePhone"
+              id="ordererMobilePhone"
+              value=""
+            />
+            <input
+              type="hidden"
+              name="ordererEmail"
+              id="ordererEmail"
+              value=""
+            />
+            <input type="hidden" name="pwdTypeChk" id="pwdTypeChk" value="" />
+            <input type="hidden" name="pwdEmptyChk" id="pwdEmptyChk" value="" />
+            <input
+              type="hidden"
+              name="pwdConfirmChk"
+              id="pwdConfirmChk"
+              value=""
+            />
+            <input type="hidden" name="authYn" id="authYn" value="" />
+
+            <input
+              type="hidden"
+              name="ordererName"
+              id="ordererName"
+            />
+
+            <!-- df_box : 주문자정보입력 s -->
+            <!-- df_box : 주문자정보입력 e -->
+            <script type="text/javascript"></script>
+            <!-- 배송지 정보 StorePickupYN == false -->
+            <!-- 수령 매장 정보	StorePickupYN == true -->
+            <!-- df_box : 배송지정보 s -->
+            <div class="df_box">
+              <h3 class="df_box_tit">
+                배송지 정보
+                <!-- tootip s 배송지안내 툴팁 삽입 20191022 남일희-->
+                <span class="dpIB">
+                  <div
+                    class="icon_help btn_tooltip"
+                    data-tooltip-target="tooltip_deliverymode_info"
+                  ></div>
+                </span>
+                <!-- tootip : contents_area s -->
+                <div class="tooltip_contens">
+                  <div
+                    class="tooltip_wrap tooltip_deliverymode_info"
+                    style="display: none"
+                  >
+                    <div class="tltp_close_btn btn_tltp_close">
+                      <span>닫기</span>
+                    </div>
+                    <h1 class="tltp_header">포인트 사용</h1>
+                    <div class="tltp_content">
+                      <ul class="ul_dot_blk">
+                        <li>
+                          기본배송지 변경은
+                          <strong>마이페이지&gt; [배송지관리]</strong>
+                          에서 가능합니다.
+                        </li>
+                        <li>
+                          기본배송지 설정 시 기본배송지가 최우선으로 노출
+                          됩니다.
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                <!-- tootip : contents_area e -->
+                <!-- tootip e -->
+              </h3>
+              <!-- tootip : contents_area e -->
+              <!-- select_list : 배송지리스트 s -->
+              <input type="hidden" id="defaultShipmentAddressPk" value="" />
+              <div class="select_list_wrap select_list_dlvr_adrs">
+                <!-- select_list : selected_item s -->
+                <!-- select_list : selected_item e -->
+                <!-- select_list : list_item s -->
+                <!-- select_list : list_item s -->
+
+                <div class="slcted_item slcted_noitem" id="dlvr_adrs_none">
+                  <div class="slct_con">
+                    &ZeroWidthSpace;
+                    <span class="dlvr_adrs_noitem">
+                      등록된 배송지가 확인되지 않습니다.
+                      <br />
+                      다른 배송지 찾기를 이용하여 배송지를 등록해 주세요.
+                      <!-- 등록된 배송지가 확인되지 않습니다.<br/>다른 배송지 찾기를 이용하여 배송지를 등록해 주세요. -->
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <!-- select_list : 배송지리스트 e -->
+
+              <!-- select_list : 배송지메세지리스트 s -->
+              <input
+                type="hidden"
+                id="selectedCompany"
+                name="selectedCompany"
+                value=""
+              />
+              <input
+                type="hidden"
+                id="isPermanentCompany"
+                name="isPermanentCompany"
+                value=""
+              />
+              <!-- 211026 공동현관 출입방법 S -->
+              <h3 class="df_box_tit enter-door211026">
+                배송 요청사항
+                <!-- tootip s -->
+                <span class="dpIB">
+                  <div
+                    class="icon_help btn_tooltip"
+                    data-tooltip-target="tooltip_discout_info2"
+                  ></div>
+                </span>
+                <!-- tootip : contents_area s -->
+                <div class="tooltip_contens">
+                  <div
+                    class="tooltip_wrap tooltip_discout_info2"
+                    style="display: none"
+                  >
+                    <div class="tltp_close_btn btn_tltp_close">
+                      <span>닫기</span>
+                    </div>
+                    <h1 class="tltp_header">배송요청사항</h1>
+                    <div class="tltp_content">
+                      <ul class="ul_dot_blk">
+                        <li>
+                          공동현관 출입번호가 정확하지 않을 경우, 배송 기사의
+                          판단에 따라 1층 공동현관 앞 또는 경비실에 배송될 수
+                          있습니다.
+                        </li>
+                        <li>새벽배송 시 배송 전 연락을 드리지 않습니다.</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                <!-- tootip : contents_area e -->
+                <!-- tootip e -->
+              </h3>
+              <!-- 211026 공동현관 출입방법 E-->
+              <div class="select_list_wrap select_list_dlvr_msg">
+                <!-- select_list : selected_item s -->
+                <div class="slcted_item">
+                  <div class="slct_con">
+                    <span class="gray_fc"
+                      >배송메세지를 선택해주세요. (선택)</span
+                    >
+                  </div>
+                </div>
+                <!-- select_list : selected_item e -->
+                <!-- select_list : list_item s -->
+                <ul class="slct_list_con">
+                  <li class="slct_list_item" style="cursor: pointer">
+                    <div class="radio_stl">
+                      <input
+                        type="radio"
+                        id="gl_radio_dlvr_msg_0"
+                        name="gl_radio_dlvr_msg"
+                        value=""
+                      />
+                      <label for="gl_radio_dlvr_msg_0">
+                        <div
+                          class="slct_con"
+                          deliveryrequestmessage="배송 전 연락 바랍니다"
+                        >
+                          배송 전 연락 바랍니다
+                        </div>
+                      </label>
+                    </div>
+                  </li>
+                  <li class="slct_list_item" style="cursor: pointer">
+                    <div class="radio_stl">
+                      <input
+                        type="radio"
+                        id="gl_radio_dlvr_msg_1"
+                        name="gl_radio_dlvr_msg"
+                        value=""
+                      />
+                      <label for="gl_radio_dlvr_msg_1">
+                        <div
+                          class="slct_con"
+                          deliveryrequestmessage="부재 시 문 앞에 놓아주세요"
+                        >
+                          부재 시 문 앞에 놓아주세요
+                        </div>
+                      </label>
+                    </div>
+                  </li>
+                  <li class="slct_list_item" style="cursor: pointer">
+                    <div class="radio_stl">
+                      <input
+                        type="radio"
+                        id="gl_radio_dlvr_msg_2"
+                        name="gl_radio_dlvr_msg"
+                        value=""
+                      />
+                      <label for="gl_radio_dlvr_msg_2">
+                        <div
+                          class="slct_con"
+                          deliveryrequestmessage="부재 시 경비실에 맡겨주세요"
+                        >
+                          부재 시 경비실에 맡겨주세요
+                        </div>
+                      </label>
+                    </div>
+                  </li>
+                  <li class="slct_list_item" style="cursor: pointer">
+                    <div class="radio_stl">
+                      <input
+                        type="radio"
+                        id="gl_radio_dlvr_msg_3"
+                        name="gl_radio_dlvr_msg"
+                        value=""
+                      />
+                      <label for="gl_radio_dlvr_msg_3">
+                        <div
+                          class="slct_con"
+                          deliveryrequestmessage="빠른 배송 부탁드립니다"
+                        >
+                          빠른 배송 부탁드립니다
+                        </div>
+                      </label>
+                    </div>
+                  </li>
+                  <li class="slct_list_item" style="cursor: pointer">
+                    <div class="radio_stl">
+                      <input
+                        type="radio"
+                        id="gl_radio_dlvr_msg_4"
+                        name="gl_radio_dlvr_msg"
+                        value=""
+                      />
+                      <label for="gl_radio_dlvr_msg_4">
+                        <div
+                          class="slct_con"
+                          deliveryrequestmessage="부재 시 핸드폰으로 연락바랍니다"
+                        >
+                          부재 시 핸드폰으로 연락바랍니다
+                        </div>
+                      </label>
+                    </div>
+                  </li>
+                  <li
+                    class="slct_list_item slct_list_item_self"
+                    style="cursor: pointer"
+                  >
+                    <div class="radio_stl">
+                      <input
+                        type="radio"
+                        id="gl_radio_dlvr_msg_5"
+                        name="gl_radio_dlvr_msg"
+                        value=""
+                      />
+                      <label for="gl_radio_dlvr_msg_5">
+                        <div class="slct_con" deliveryrequestmessage="직접입력">
+                          직접입력
+                        </div>
+                      </label>
+                    </div>
+                  </li>
+                </ul>
+                <!-- select_list : list_item e -->
+              </div>
+              <div class="slct_list_item_self_input">
+                <input
+                  type="text"
+                  onkeyup="chkword('orderr','orderr_text_length',20);;"
+                  onblur="chkword('orderr','orderr_text_length',20);"
+                  id="orderr"
+                  name="deliveryRequestContents"
+                  placeholder="20자 이내로 입력하세요."
+                  value=""
+                />
+              </div>
+
+              <!-- 211026 공동현관 출입방법 S -->
+              <div
+                class="select_list_wrap select_list_dlvr_msg enter-door211026"
+              >
+                <!-- select_list : selected_item s -->
+                <div class="slcted_item">
+                  <div class="slct_con">
+                    <span class="gray_fc"
+                      >공동현관 출입방법을 선택해주세요</span
+                    >
+                    <br />
+                    <span class="gray_fc2">-문 앞 배송 요청 시 필수사항</span>
+                  </div>
+                </div>
+                <!-- select_list : selected_item e -->
+                <!-- select_list : list_item s -->
+                <ul class="slct_list_con">
+                  <li class="slct_list_item">
+                    <div class="radio_stl">
+                      <input
+                        type="radio"
+                        id="enter_door_04"
+                        name="frontDoorSelectMessage"
+                        value="공동현관 출입번호"
+                      />
+                      <label for="enter_door_04">
+                        <div class="slct_con">공동현관 출입번호</div>
+                      </label>
+                      <input
+                        type="text"
+                        class="enter_door"
+                        id="fdMessage_4"
+                        placeholder="예) #12341234# (최대 15자)"
+                        onkeyup="chkword('fdMessage_4','frontDoorMessage_text_length',15);"
+                        onblur="chkword('fdMessage_4','frontDoorMessage_text_length',15);"
+                      />
+                    </div>
+                  </li>
+                  <li class="slct_list_item">
+                    <div class="radio_stl">
+                      <input
+                        type="radio"
+                        id="enter_door_05"
+                        name="frontDoorSelectMessage"
+                        value="자유 출입 가능"
+                      />
+                      <label for="enter_door_05">
+                        <div class="slct_con">자유 출입 가능</div>
+                      </label>
+                    </div>
+                  </li>
+                  <li class="slct_list_item">
+                    <div class="radio_stl">
+                      <input
+                        type="radio"
+                        id="enter_door_06"
+                        name="frontDoorSelectMessage"
+                        value="기타"
+                      />
+                      <label for="enter_door_06">
+                        <div class="slct_con">기타</div>
+                      </label>
+                      <input
+                        type="text"
+                        class="enter_door add_margin_bottom"
+                        id="fdMessage_6"
+                        placeholder="15자 이내로 입력하세요"
+                        onkeyup="chkword('fdMessage_6','frontDoorMessage_text_length',15);"
+                        onblur="chkword('fdMessage_6','frontDoorMessage_text_length',15);"
+                      />
+                    </div>
+                  </li>
+                </ul>
+                <!-- select_list : list_item e -->
+                <input
+                  type="hidden"
+                  name="frontDoorMessage"
+                  id="frontDoorMessage"
+                />
+              </div>
+              <!-- 211026 공동현관 출입방법 E -->
+
+              <a
+                href="/order/mydeliveryPopup?depth=1"
+                data-layerpop-depth="depth1"
+                class="btnstl arrow_btn btn_layerpopup_call btn_other_dlvr call_link_registe_mydelivery"
+                >다른 배송지 찾기</a
+              >
+
+              <!-- select_list : 배송지메세지리스트 s -->
+            </div>
+            <!-- df_box : 배송지정보 e -->
+
+            <script>
+            /**
+             * 1. param으로 받은 total_amount 와 quantity로 단가를 계산한다.
+             * 2. 원화로 변환한뒤 innerHTML로 값을 삽입한다.
+            */
+            (function calculateItemPrice(){
+              const cartList = JSON.parse(localStorage.getItem('checkCart'));
+              let i = 0;
+              cartList.map(item => {
+                i+=item.realPcPrice;
+              })
+            	const totalAmount = i;
+            	const quantity = cartList.length;
+            	const itemPrice = totalAmount / quantity;
+
+                var price = document.getElementById("item_price");
+				const itemPriceKRW = new Intl.NumberFormat('ko-KR', {
+				    style: 'currency',
+				    currency: 'KRW',
+				}); 
+				price.innerHTML = itemPriceKRW.format(itemPrice);
+              })();
+              
+              	$(document).ready(function(){
+
+              		$('.select_list_dlvr_msg').on('click', '.slct_list_con .slct_list_item', function(){ //select_list_wrap slide 클릭이벤트(배송메세지 > 직접입력)
+              			if($(this).hasClass('slct_list_item_self')){
+              				$('.slct_list_item_self_input').stop().slideDown();
+              			}else {
+              				$('.slct_list_item_self_input').stop().slideUp();
+              			}
+
+              		});
+
+              		$(document).on('change', '[name="gl_radio_dlvr_adrs"]', function () {
+              			selectedDelivery($(this).parent());
+              		});
+
+              		$(document).on('change', '[name="gl_radio_dlvr_msg"]', function () {
+              			if($(this).parent().parent().hasClass("slct_list_item_self")){
+              				$("input[name=deliveryRequestContents]").val('');
+              			} else {
+              				$("input[name=deliveryRequestContents]").val($(this).parent().find(".slct_con").attr("deliveryRequestMessage"));
+              			}
+              		});
+
+              		selectedDelivery($(".delivery_selected_item_area"));
+
+
+
+              		// VIP 배송사 선택 Radio 버튼 재선택시 해제 가능하도록 처리
+              	    var post_checked =$("#deilvy_rdo01").prop("checked");
+              	    var cj_checked =$("#deilvy_rdo02").prop("checked");
+              	    $(":radio[name='deilvy_rdo']").click(function(){
+
+              	        var _clickId = $(this).attr("id");
+              	        if(("deilvy_rdo01" == _clickId && post_checked == true)
+              	                ||("deilvy_rdo02" == _clickId && cj_checked == true)){
+              	            $(this).prop("checked",false);
+              	        }
+              	        post_checked =$("#deilvy_rdo01").prop("checked");
+              	        cj_checked =$("#deilvy_rdo02").prop("checked");
+              	    });
+              	    // VIP 배송사 선택 후 확인 버튼 클릭시
+              		$(".m_deilv_pop .btn_close200229,.m_deilv_pop .btn_confirm_200229").on("click",function(){
+              			if($(this).hasClass("btn_confirm_200229")){
+              				var selectedCompany = "";
+              		        var isPermanentCompany = false;
+              		        if($(":radio[id='deilvy_rdo01']").prop("checked")){
+              		           selectedCompany = "POST_OFFICE";
+              		           $(".m_deilvery_chk .m_deilvery_chk_on").show();
+              		           $(".m_deilvery_chk .m_deilvery_chk_off").hide();
+              		           $("#postOfficeDeliveryNotice").show();
+              		           $(".m_deilvery_chk .m_deilvery_chk_on em").text("우체국 택배로 배송됩니다.");
+              		        }else if($(":radio[id='deilvy_rdo02']").prop("checked")){
+              		            selectedCompany = "CJ_LOGISTICS";
+              		            $(".m_deilvery_chk .m_deilvery_chk_on").show();
+                                  $(".m_deilvery_chk .m_deilvery_chk_off").hide();
+              					$("#postOfficeDeliveryNotice").hide();
+                                  $(".m_deilvery_chk .m_deilvery_chk_on em").text("CJ대한통운으로 배송됩니다.");
+              		        }else{
+              		        	$(".m_deilvery_chk .m_deilvery_chk_on").hide();
+                                  $(".m_deilvery_chk .m_deilvery_chk_off").show();
+                                  $(":checkbox[id='nshow']").prop("checked",false);
+                                  isPermanentCompany = false;
+              		        }
+              		        if($(":checkbox[id='nshow']").prop("checked")){
+              		            isPermanentCompany = true;
+              		        }
+              		        $("#selectedCompany").val(selectedCompany);
+              		        $("#isPermanentCompany").val(isPermanentCompany);
+              			}
+              			$("#popback_200229").hide();
+              			/* $(".popback_200229 .bg200229").hide();
+                          $(".popback_200229 .m_deilv_pop").hide(); */
+
+              		})
+              	});
+
+              	// 배송지 찾기 선택 후 처리
+              	function fn_mydeliverycallback(cbdata){
+              		var deliveryName = cbdata.name;
+              		var deliveryCellPhone = cbdata.cellphone;
+              		var deliveryPostal = cbdata.zipcode;
+              		var deliveryLine1 = cbdata.address1;
+              		var deliveryLine2 = cbdata.address2;
+              		var deliveryLine2_raw = cbdata.address2_raw;
+              		var defaultShipmentAddress = cbdata.defaultShipmentAddress;
+              		var deliveryPk = cbdata.pk;
+
+              		if(	   deliveryName ==""
+              			|| deliveryCellPhone ==""
+              			|| deliveryPostal ==""
+              			|| deliveryLine1 ==""
+
+              			|| deliveryLine2 ==""
+
+              		   ){
+              			return;
+              		}
+
+
+                      var isQuick = false;
+
+
+                      if(isQuick){
+                          var checkCode = deliveryPostal.substring(0,2);
+                          if(!("01,02,03,04,05,06,07,08,09".indexOf(checkCode) > -1)){
+                              var lc = new alert('퀵배송 서비스 불가능  지역입니다.</br>배송지 변경 후 이용해 주세요.<br/>(서울 전 지역 가능, 향후 서비스 확대 예정입니다.)');
+                              return false;
+                          }
+                      }
+
+
+              		if($("#dlvr_adrs_none").length > 0){
+              			$("#dlvr_adrs_none").remove();
+              		}
+
+
+              		if($(".select_list_dlvr_adrs .slct_list_con").length > 0){
+
+              			$(".select_list_dlvr_adrs .slct_list_con input[type='radio']").attr("checked",false);
+
+              			if($(".select_list_dlvr_adrs .slct_list_con").css("display") =="block"){
+              				$(".select_list_dlvr_adrs .slct_list_con").hide();
+              				$(".select_list_dlvr_adrs .slct_list_con").parent().removeClass("select_list_wrap_on");
+              			}
+              		}
+
+
+              		fn_setShippingAddresses(defaultShipmentAddress,deliveryPk);
+
+              		var shippingAddressCnt = 0;
+              		$("#shippingAddressesArea .slct_con").each(function(){
+
+              			if($(this).find(".none_delivery_id").html() != defaultShipmentAddress){
+              				$(this).removeClass("bk_flag");
+              			}
+
+              			if($(this).find(".none_delivery_id").html() != deliveryPk){
+              				shippingAddressCnt++;
+              			}
+              		})
+
+
+              		$("#defaultShipmentAddressPk").val(defaultShipmentAddress);
+              		var bk_flag = "";
+
+              		if("ko" == "ko") {
+              			bk_flag = defaultShipmentAddress == deliveryPk ? "bk_flag" : "";
+              		}
+
+
+              		var changeItemDelivery ="";
+              		changeItemDelivery +='  <div class="' + (shippingAddressCnt > 0 ? "slcted_item" : "") + ' delivery_selected_item_area">';
+              		changeItemDelivery +='  	<div class="slct_con ' + bk_flag + '">';
+              		changeItemDelivery +='  		<span class="dlvr_adrs_name">'+deliveryName +'</span> / <span class="dlvr_adrs_phone">'+deliveryCellPhone +'</span><br />';
+              		changeItemDelivery +='  		 (<span class="dlvr_adrs_zipcode">'+deliveryPostal +'</span>) ';
+              		changeItemDelivery +='  		 <span class="dlvr_adrs_adrs">';
+              		changeItemDelivery +='  		 	<span class="address_line1">'+deliveryLine1 +'</span>';
+              		changeItemDelivery +='  		 	<span class="address_line2">'+deliveryLine2 +'</span>';
+              		changeItemDelivery +='  		 	<span class="none_delivery" style="display:none;">';
+              		changeItemDelivery +='  		 	 	<span class="none_delivery_id">'+cbdata.pk+'</span>';
+              		changeItemDelivery +='  		 	 	<span class="none_delivery_phone">'+cbdata.phone+'</span>';
+              		changeItemDelivery +='  		 	 	<span class="none_delivery_email">'+cbdata.email+'</span>';
+              		changeItemDelivery +='  		 	 	<span class="none_delivery_firstName">'+cbdata.firstName+'</span>';
+              		changeItemDelivery +='  		 	 	<span class="none_delivery_country">'+cbdata.country+'</span>';
+              		changeItemDelivery +='  		 	 	<span class="none_delivery_state">'+cbdata.state+'</span>';
+              		changeItemDelivery +='  		 	 	<span class="none_delivery_town">'+cbdata.town+'</span>';
+              		changeItemDelivery +='  		 	 	<span class="none_delivery_localFirstName">'+cbdata.localFirstName+'</span>';
+              		changeItemDelivery +='  		 	 	<span class="none_delivery_localLastName">'+cbdata.localLastName+'</span>';
+              		changeItemDelivery +='  		 	 	<span class="none_delivery_maxAmtForTax">'+cbdata.maxAmtForTax+'</span>';
+              		changeItemDelivery +='  		 	 	<span class="none_delivery_cellphone">'+cbdata.cellphone+'</span>';
+              		changeItemDelivery +='  		 	</span>';
+              		changeItemDelivery +='  		 </span>';
+              		changeItemDelivery +='  	</div> ';
+              		changeItemDelivery +='  </div>';
+
+              		if($(".delivery_selected_item_area").length > 0){
+              			$(".delivery_selected_item_area").remove();
+              		}
+              		$(".select_list_dlvr_adrs").prepend(changeItemDelivery);
+
+              		if( $('#address_line2_raw_callback').val() == undefined ) {
+              		    $('<input>').attr({type:'hidden',id:'address_line2_raw_callback',value:deliveryLine2_raw}).appendTo('body')
+              		}else {
+              		    $('#address_line2_raw_callback').val(deliveryLine2_raw);
+              		}
+
+              		selectedDelivery($(".delivery_selected_item_area"));
+              	}
+
+              	function selectedDelivery(useDelivery){
+
+              		if(useDelivery.length > 0){
+
+              			$('input[name=lastName]').val($.trim(useDelivery.find(".dlvr_adrs_name").html()));
+              		    $('input[name=addressId]').val($.trim(useDelivery.find(".none_delivery_id").html()));
+              		    $('input[name=postcode]').val($.trim(useDelivery.find(".dlvr_adrs_zipcode").html()));
+              		    $('input[name=line1]').val($.trim(useDelivery.find(".address_line1").html()));
+              		    if(  $('#address_line2_raw_callback').val() != undefined
+                               	&&  $('#address_line2_raw_callback').val() != '' ){
+              		        $('input[name=line2]').val($.trim($('#address_line2_raw_callback').val()));
+              		        $('#address_line2_raw_callback').val('')
+              		    }else if(  $('#address_line2_raw').val() != undefined
+              	                    &&  $('#address_line2_raw').val() != '' ){
+              		        $('input[name=line2]').val($.trim($('#address_line2_raw').val()));
+              		    }else{
+              		        $('input[name=line2]').val($.trim(useDelivery.find(".address_line2").html()));
+              		    }
+
+
+              		    var hp_num = $.trim(useDelivery.find(".dlvr_adrs_phone").html()).split("-");
+              		    $('input[name=hp_num1]').val(hp_num[0]);
+              		    $('input[name=hp_num2]').val(hp_num[1]);
+              		    $('input[name=hp_num3]').val(hp_num[2]);
+
+              		    var ph_num = $.trim(useDelivery.find(".none_delivery_phone").html()).split("-");
+              		    $('input[name=ph_num2]').val(ph_num[0]);
+              		    $('input[name=ph_num2]').val(ph_num[1]);
+              		    $('input[name=ph_num3]').val(ph_num[2]);
+
+              		    $('input[name=email]').val($.trim(useDelivery.find(".none_delivery_email").html()));
+
+              		    // 배송비 셋팅
+              		    setDeliveryMode();
+
+              			var defaultAddressPk = $("#defaultShipmentAddressPk").val();
+              			var deliveryPk = $.trim(useDelivery.find(".none_delivery_id").html());
+
+              			if(defaultAddressPk != "" && defaultAddressPk == deliveryPk){
+              				$(".delivery_selected_item_area .slct_con").addClass("bk_flag");
+              			} else {
+              				$(".delivery_selected_item_area .slct_con").removeClass("bk_flag");
+              			}
+
+              		}
+              	}
+
+
+              	function selectRegion(self, isCouponUpdate) {
+
+              		var region = $("#region").val();
+              		var totalPrice = $("#total").val();
+              		var deliveryCost = $("#cartDeliveryCost").val();
+              		var customDueAmount = $("#customDueAmount").val();
+              		var maxAmtForTax = self.find(".none_delivery_maxAmtForTax").html();
+
+              		totalPrice = totalPrice != null ? Number(totalPrice) : 0;
+              		deliveryCost = deliveryCost != null ? Number(deliveryCost) : 0;
+              		customDueAmount = customDueAmount != null ? Number(customDueAmount) : 0;
+              		maxAmtForTax = maxAmtForTax != null ? Number(maxAmtForTax) : 0;
+
+              		var subTotal = totalPrice - deliveryCost - customDueAmount;
+
+              		var applyChinaTariffProxyService = false
+              		if(region == "CN" && applyChinaTariffProxyService) {
+              			if(subTotal < maxAmtForTax) {
+              				var customDutiesPaymentYN = $("#customDutiesPaymentYN").val();
+              				if(customDutiesPaymentYN == 1 && isCouponUpdate == true){
+              					var la = new globalLayerAlert3();
+              					setDeliveryModeGlobal();
+              				} else {
+              					var lc = new globalLayerConfirm();
+              					lc.confirmAction = function () {
+              						var la = new globalLayerAlert('confirm');
+              						$("#customDutiesPaymentYN").val(1);
+              						setDeliveryModeGlobal();
+
+              					}
+
+              					lc.cancelAction = function () {
+              						var la = new globalLayerAlert('cancel');
+              						$("#customDutiesPaymentYN").val(0);
+              						setDeliveryModeGlobal();
+
+              					}
+              				}
+              			} else {
+              				var la = new globalLayerAlert2();
+              				$("#customDutiesPaymentYN").val(0);
+              				$('.con_tab01 .input_txt_box1910').val("");
+              				$('.con_tab02 .input_txt_box1910').val("");
+              				setDeliveryModeGlobal();
+              			}
+
+              			$("#customDutyVat").show();
+              		} else {
+              			$("#customDutiesPaymentYN").val(0);
+              			$("#customDutyVat").hide();
+              			$('.con_tab01 .input_txt_box1910').val("");
+              			$('.con_tab02 .input_txt_box1910').val("");
+              			setDeliveryModeGlobal();
+              		}
+              	};
+
+
+              	function fn_notUseCustomDutiesPayment(){
+              		$("#customDutiesPaymentYN").val(0);
+              // 		$("#customDutyVat").hide();
+              		$('.con_tab01 .input_txt_box1910').val("");
+              		$('.con_tab02 .input_txt_box1910').val("");
+              		setDeliveryModeGlobal();
+              	}
+
+              	function setDeliveryMode(){
+              	    var island = false;
+              	    if($("#adress").val() >= 63000 && $("#adress").val() <= 63644){
+              	        island = true;
+              	    }
+
+              	    var isQuick = false;
+
+
+              	    $.ajax({
+              	        type: "GET",
+              	        url: "/ko/checkout/deliveryMode",
+              	        dataType: "json",
+              	        data: {"island": island, "isQuick":isQuick},
+              	        success: function(data){
+              	        	$('#checkoutCartTotalPrice').html(data.totalPricePage);
+              	        	changeOrderButtonText();
+              				if(typeof fn_updateDiscInfo === "function") {
+              					fn_updateDiscInfo();
+              				}
+              	        	if (typeof showExchangeRate == "function") showExchangeRate();
+              	        }
+              	    });
+              	}
+
+
+              	function setDeliveryModeGlobal(){
+
+              		var isoCode = $('input[name=countryIso]').val();
+              		var customDueYn = $("#customDutiesPaymentYN").val();
+
+              		$.ajax({
+              			type: "GET",
+              			url: "/ko/checkout/deliveryModeGlobal",
+              			dataType: "json",
+              			data: {"isoCode": isoCode, "customDueYn":customDueYn},
+              			success: function(data){
+              				$('#checkoutCartTotalPrice').html(data.totalPricePage);
+              				if (typeof showExchangeRate == "function") showExchangeRate();
+              				// changeOrderButtonText();
+              				var totalPrice = $("#total").val();
+              				$("#doOrderBtn span b").html(addComma(Number(totalPrice)));
+              			}
+              		});
+              	}
+
+              	function fn_setShippingAddresses(defaultShipmentAddress, selectAddress){
+
+              		var nowDefaultAddress = $(".delivery_selected_item_area").find(".none_delivery_id").html()
+
+              		if(nowDefaultAddress != defaultShipmentAddress){
+              			$(".delivery_selected_item_area .slct_con").removeClass("bk_flag");
+              		}
+
+              		if(selectAddress == null || selectAddress == ""){
+              			selectAddress = nowDefaultAddress;
+              		}
+
+
+              		$("#defaultShipmentAddressPk").val(defaultShipmentAddress);
+
+              		$.ajax({
+              			type: "GET",
+              			url: "/ko/mypage/getNowShippingAddressList",
+              			dataType: "json",
+              			success: function(data){
+          					console.log("fn_setShippingAddresses 1043");
+
+              				var result = data.result;
+
+              				if(result == "SUCCESS"){
+              					var addressList = data.shippingAddresses;
+
+              					var changeItemDelivery ="";
+              					var shippingAddressCnt = 0;
+              					for(var i = 0 ; i < addressList.length; i++){
+
+              						var bk_flag = "";
+              						if("ko" == "ko"){
+              							bk_flag = defaultShipmentAddress == addressList[i].id ? "bk_flag" : "";
+              						}
+
+
+              						if(addressList[i].id != selectAddress){
+              							shippingAddressCnt++;
+              						}
+
+              						changeItemDelivery += "	<li class='slct_list_item'>";
+              						changeItemDelivery += "		<div class='radio_stl'>";
+              						changeItemDelivery += "			<input type='radio' id='gl_radio_dlvr_adrs_" + i + "' name='gl_radio_dlvr_adrs' value='' " + (selectAddress == addressList[i].id ? "checked='checked'" : "") + "/>";
+              						changeItemDelivery += "			<label for='gl_radio_dlvr_adrs_" + i + "'>";
+              						changeItemDelivery += "				<div class='slct_con " + bk_flag + "'>";
+              						changeItemDelivery += "					<span class='dlvr_adrs_name'>" + addressList[i].lastName + "</span> / <span class='dlvr_adrs_phone'>" + addressList[i].cellphone + "</span><br />";
+              						changeItemDelivery += "					(<span class='dlvr_adrs_zipcode'>" + addressList[i].postalCode + "</span>)";
+              						changeItemDelivery += "					<span class='dlvr_adrs_adrs'>";
+              						changeItemDelivery += "						<span class='address_line1'>" + addressList[i].line1 + "</span>";
+              						changeItemDelivery += "						<span class='address_line2'>" + addressList[i].line2 + "</span>";
+              						changeItemDelivery += "					</span>";
+              						changeItemDelivery += "					<span class='none_delivery' style='display:none;'>";
+              						changeItemDelivery += "						<span class='none_delivery_id'>" + addressList[i].id + "</span>";
+              						changeItemDelivery += "						<span class='none_delivery_phone'>" + addressList[i].phone + "</span>";
+              						changeItemDelivery += "						<span class='none_delivery_email'>" + addressList[i].email + "</span>";
+              						changeItemDelivery += "						<span class='none_delivery_firstName'>" + addressList[i].firstName + "</span>";
+              						changeItemDelivery += "						<span class='none_delivery_country'>" + addressList[i].country.isocode + "</span>";
+              						changeItemDelivery += "						<span class='none_delivery_state'>" + addressList[i].state + "</span>";
+              						changeItemDelivery += "						<span class='none_delivery_town'>" + addressList[i].town + "</span>";
+              						changeItemDelivery += "						<span class='none_delivery_localFirstName'>" + addressList[i].localFirstName + "</span>";
+              						changeItemDelivery += "						<span class='none_delivery_localLastName'>" + addressList[i].localLastName + "</span>";
+              						changeItemDelivery += "						<span class='none_delivery_maxAmtForTax'>" + addressList[i].country.maxAmtForTaxApply + "</span>";
+              						changeItemDelivery += "					</span>";
+              						changeItemDelivery += "				</div>";
+              						changeItemDelivery += "			</label>";
+              						changeItemDelivery += "		</div>";
+              						changeItemDelivery += "	</li>";
+              					}
+              					$("#shippingAddressesArea").html(changeItemDelivery);
+              					if(shippingAddressCnt > 0){
+              						$(".delivery_selected_item_area").removeClass("slcted_item");
+              						$(".delivery_selected_item_area").addClass("slcted_item");
+              					}
+              				} else {
+              					console.log("fn_setShippingAddresses 1097");
+              				}
+              			}
+              		});
+
+              	}
+
+              	// 글로벌 관세 2019.11.08 추가
+              	function dutyCkout1909(self){
+              		if($(self).val() == '1'){
+              			$('.con_tab01 .input_txt_box1910').removeAttr("disabled");
+              			$('.con_tab02 .input_txt_box1910').attr("disabled",true);
+              			$('.con_tab02 .input_txt_box1910').val("");
+              			$("#passport_err_msg").text('');
+              		}else{
+              			$('.con_tab02 .input_txt_box1910').removeAttr("disabled");
+              			$('.con_tab01 .input_txt_box1910').attr("disabled",true);
+              			$('.con_tab01 .input_txt_box1910').val("");
+              			$("#idcard_err_msg").text('');
+              		}
+              	}
+              	function openVipSelectDelivery(){
+                          var setIsPermanentCompany = $("#isPermanentCompany").val();
+                          var setSelectedCompany = $("#selectedCompany").val();
+                          $("#popback_200229").show();
+                          /* $(".popback_200229 .bg200229").show();
+                          $(".popback_200229 .m_deilv_pop").show(); */
+
+                          if(setSelectedCompany == 'POST_OFFICE'){
+                              $(":radio[id='deilvy_rdo01']").prop("checked",true);
+                              $(":radio[id='deilvy_rdo02']").prop("checked",false);
+                          }else if(setSelectedCompany == 'CJ_LOGISTICS'){
+                              $(":radio[id='deilvy_rdo01']").prop("checked",false);
+                              $(":radio[id='deilvy_rdo02']").prop("checked",true);
+                          }else{
+                              $(":radio[id='deilvy_rdo01']").prop("checked",false);
+                              $(":radio[id='deilvy_rdo02']").prop("checked",false);
+                          }
+
+                          if(setIsPermanentCompany == 'true'){
+                              $(":checkbox[id='nshow']").prop("checked",true);
+                          }else{
+                              $(":checkbox[id='nshow']").prop("checked",false);
+                          }
+              	}
+
+
+
+
+
+              	var globalLayerConfirm = function(msg){
+              		var alertTag = "";
+              		alertTag += '<div class="popback_191022">';
+              		alertTag += '	<div class="bg191022"></div>';
+              		alertTag += '	<div class="notipop_20191022">';
+              		alertTag += '		<div class="pop_cnt">';
+              		alertTag += '			<div class="notipop_20191022_cnt">';
+              		alertTag += '				<p>handsome.checkout.customduties.vat.lessthan80.confirm</p>';
+              		alertTag += '			</div>';
+              		alertTag += '			<div class="hs_pop_btn_wrap">';
+              		alertTag += '				<button class="hs_white_comm_btn">handsome.checkout.customduties.vat.lessthan80.confirm.btnCancel</button>';
+              		alertTag += '				<button class="hs_black_comm_btn">handsome.checkout.customduties.vat.lessthan80.confirm.btnOk</button>';
+              		alertTag += '			</div>';
+              // 		alertTag += '		<a href="#" onclick="fn_notUseCustomDutiesPayment();" class="btn_close191022 dvp_close_btn b-close" id="confirmCloseDiv">';
+              // 		alertTag += '			<img src="http://cdn.thehandsome.com/_ui/handsomemobile/images/common_sub/ico_close_14.png">';
+              // 		alertTag += '		</a>';
+              		alertTag += '	</div>';
+              		alertTag += '</div>';
+
+              		var t = this;
+              		this.confirmAction = function(){};
+              		this.cancelAction = function(){};
+
+              		$("#popAlertConfirmDiv").html(alertTag);
+
+              		$('.divpop_wrap_dev.pop_alert_confirm').bPopup({
+              			follow: [false, false],
+              			escClose:false,
+              			modalClose:false,
+              			opacity:0.3,
+              			positionStyle: 'fixed',
+              			onClose: function() {
+              				holdBodyHide();
+              				$("#popAlertConfirmDiv").html("");
+              			}
+              		});
+              		holdBodyShow();
+
+              		$("#popAlertConfirmDiv").find('.hs_white_comm_btn').click(function(){
+              			$("#confirmCloseDiv").click();
+              			t.cancelAction();
+              		});
+
+              		$("#popAlertConfirmDiv").find('.hs_black_comm_btn').click(function(){
+              			$("#confirmCloseDiv").click();
+              			t.confirmAction();
+              		});
+              	};
+
+              	var globalLayerAlert = function(type) {
+              		var alertTag = "";
+              		alertTag += "<div class=\"popback_191022\">";
+              		alertTag += "	<div class=\"bg191022\"></div>";
+              		alertTag += "	<div class=\"notipop_20191022\">";
+              		if(type == "confirm") {
+              		alertTag += "		<div class=\"pop_tltwrap3\">";
+              		alertTag += "			<h3>handsome.checkout.customduties.vat.lessthan80.confirmY.layer.title</h3>";
+              		alertTag += "		</div>";
+              		}
+              		alertTag += "		<div class=\"pop_cnt\">";
+              		alertTag += "			<div class=\"notipop_20191022_cnt\">";
+              		if(type == "confirm") {
+              		alertTag += "				<span class=\"reference_mark\">※</span>";
+              		alertTag += "				<p class=\"reference_mark_txt\">handsome.checkout.customduties.vat.lessthan80.confirmY.layer.content1</p>";
+              		alertTag += "				<span class=\"reference_mark\">※</span>";
+              		alertTag += "				<p class=\"reference_mark_txt\">handsome.checkout.customduties.vat.lessthan80.confirmY.layer.content2</p>";
+              		alertTag += "				<span class=\"reference_mark\">※</span>";
+              		alertTag += "				<p class=\"reference_mark_txt\">handsome.checkout.customduties.vat.lessthan80.confirmY.layer.content3</p>";
+              		} else {
+              		alertTag += "				<p>handsome.checkout.customduties.vat.lessthan80.confirmN.layer</p>";
+              		}
+              		alertTag += "			</div>";
+              		alertTag += "			<div class=\"hs_pop_btn_wrap\">";
+              		alertTag += "				<button class=\"hs_black_comm_btn\" id=\"layerBtn\">handsome.checkout.customduties.vat.lessthan80.confirm.btnOk</button>";
+              		alertTag += "			</div>";
+              		alertTag += "		<a href=\"#;\" class=\"btn_close191022 dvp_close_btn b-close\" id=\"alertCloseDiv\">";
+              		alertTag += "			<img src=\"http://cdn.thehandsome.com/_ui/handsomemobile/images/common_sub/ico_close_14.png\">";
+              		alertTag += "		</a>";
+              		alertTag += "	</div>";
+              		alertTag += "</div>";
+
+              		var t = this;
+              		this.confirmAction = function(){};
+
+              		$("#popAlertConfirmDiv").html(alertTag);
+
+              		$('.divpop_wrap_dev.pop_alert_confirm').bPopup({
+              			follow: [false, false],
+              			escClose:false,
+              			modalClose:false,
+              			opacity:0.3,
+              			positionStyle: 'fixed',
+              			onClose: function() {
+              				holdBodyHide();
+              				$("#popAlertConfirmDiv").html("");
+              			}
+              		});
+              		holdBodyShow();
+
+              		$("#popAlertConfirmDiv").find('.hs_black_comm_btn').click(function(){
+              			$("#alertCloseDiv").click();
+              			t.confirmAction();
+              		});
+              	};
+
+              	var globalLayerAlert2 = function() {
+              		var alertTag = "";
+              		alertTag += "<div class=\"popback_191022\">";
+              		alertTag += "	<div class=\"bg191022\"></div>";
+              		alertTag += "	<div class=\"notipop_20191022\">";
+              		alertTag += "		<div class=\"pop_cnt\">";
+              		alertTag += "			<div class=\"notipop_20191022_cnt\">";
+              		alertTag += "				<p>";
+              		alertTag += "					<span style='font-size:16px; font-weight:bold;'>handsome.checkout.customduties.over80.layer</span>";
+              		alertTag += "					<br>";
+              		alertTag += "					handsome.checkout.customduties.over80.layer2";
+              		alertTag += "				</p>";
+              		alertTag += "			</div>";
+              		alertTag += "			<div class=\"hs_pop_btn_wrap\">";
+              		alertTag += "				<button class=\"hs_black_comm_btn\" id=\"layerBtn\">handsome.checkout.customduties.vat.lessthan80.confirm.btnOk</button>";
+              		alertTag += "			</div>";
+              		alertTag += "		<a href=\"#;\" class=\"btn_close191022 dvp_close_btn b-close\" id=\"alertCloseDiv\">";
+              		alertTag += "			<img src=\"http://cdn.thehandsome.com/_ui/handsomemobile/images/common_sub/ico_close_14.png\">";
+              		alertTag += "		</a>";
+              		alertTag += "	</div>";
+              		alertTag += "</div>";
+
+              		var t = this;
+              		this.confirmAction = function(){};
+
+              		$("#popAlertConfirmDiv").html(alertTag);
+
+              		$('.divpop_wrap_dev.pop_alert_confirm').bPopup({
+              			follow: [false, false],
+              			escClose:false,
+              			modalClose:false,
+              			opacity:0.3,
+              			positionStyle: 'fixed',
+              			onClose: function() {
+              				holdBodyHide();
+              				$("#popAlertConfirmDiv").html("");
+              			}
+              		});
+              		holdBodyShow();
+
+              		$("#popAlertConfirmDiv").find('.hs_black_comm_btn').click(function(){
+              			$("#alertCloseDiv").click();
+              			t.confirmAction();
+              		});
+              	};
+
+
+              	var globalLayerAlert3 = function() {
+              		var alertTag = "";
+              		alertTag += "<div class='popback_191022'>";
+              		alertTag += "	<div class='bg191022'></div>";
+              		alertTag += "	<div class='notipop_20191022'>";
+              		alertTag += "		<div class='pop_cnt'>";
+              		alertTag += "			<div class='notipop_20191022_cnt' style='min-height: 0px;'>";
+              		alertTag += "				<p>";
+              		alertTag += "					handsome.checkout.customduties.coupon.layer";
+              		alertTag += "				</p>";
+              		alertTag += "			</div>";
+              		alertTag += "			<div class='hs_pop_btn_wrap'>";
+              		alertTag += "				<button class='hs_black_comm_btn' id='layerBtn'>handsome.checkout.customduties.vat.lessthan80.confirm.btnOk</button>";
+              		alertTag += "			</div>";
+              		alertTag += "		<a href='#;' class='btn_close191022 dvp_close_btn b-close' id='alertCloseDiv'>";
+              		alertTag += "			<img src='http://cdn.thehandsome.com/_ui/handsomemobile/images/common_sub/ico_close_14.png'>";
+              		alertTag += "		</a>";
+              		alertTag += "	</div>";
+              		alertTag += "</div>";
+
+              		var t = this;
+              		this.confirmAction = function(){};
+
+              		$("#popAlertConfirmDiv").html(alertTag);
+
+              		$('.divpop_wrap_dev.pop_alert_confirm').bPopup({
+              			follow: [false, false],
+              			escClose:false,
+              			modalClose:false,
+              			opacity:0.3,
+              			positionStyle: 'fixed',
+              			onClose: function() {
+              				holdBodyHide();
+              				$("#popAlertConfirmDiv").html("");
+              			}
+              		});
+              		holdBodyShow();
+
+              		$("#popAlertConfirmDiv").find('.hs_black_comm_btn').click(function(){
+              			$("#alertCloseDiv").click();
+              			t.confirmAction();
+              		});
+              	};
+            </script>
+            <input type="hidden" name="addressId" id="addressId" value="" />
+            <input type="hidden" name="lastName" id="rcpt_name" value="" />
+            <input type="hidden" name="postcode" id="adress" value="" />
+            <input type="hidden" name="line1" id="line1" value="" />
+            <input type="hidden" name="line2" id="line2" value="" />
+            <input type="hidden" name="hp_num1" id="hp" value="" />
+            <input type="hidden" name="hp_num2" id="hp_num2" value="" />
+            <input type="hidden" name="hp_num3" id="hp_num3" value="" />
+            <input type="hidden" name="ph_num1" id="ph" value="" />
+            <input type="hidden" name="ph_num2" id="ph_num2" value="" />
+            <input type="hidden" name="ph_num3" id="ph_num3" value="" />
+            <input type="hidden" name="email" id="email" value="" />
+
+            <script>
+              $(document).ready(function () {
+                $("input[name=deliveryRequestContents]").change(function () {
+                  chkword();
+                });
+              });
+
+              function chkword() {
+                var strValue = $("input[name=deliveryRequestContents]").val();
+                var strLen = strValue.length;
+                var maxByte = 20;
+                var str2 = "";
+
+                if (strLen > maxByte) {
+                  alert("20자 이내로 입력하세요.");
+                  str2 = strValue.substr(0, maxByte);
+                  $("input[name=deliveryRequestContents]").val(str2);
+                  strLen = str2.length;
+                }
+              }
+            </script>
+
+            <!-- 할인 ( 쿠폰, 보조결제수단 ) -->
+            <!-- ì¿&nbsp;í° ì&nbsp;ì© -->
+            <!-- df_box : ì¿&nbsp;í°ì&nbsp;ì© s -->
+
+            <th:block th:replace="order/coupon :: couponFragment"></th:block>
+       
+            <!-- df_box : ì¿&nbsp;í°ì&nbsp;ì© e -->
+
+         
+
+            <input type="hidden" name="chkAuth" id="chkAuth" value="" />
+            <input type="hidden" id="chk_giftAmount" value="" />
+            <input type="hidden" id="chk_pointAmount" value="" />
+
+            <th:block th:replace="order/paymentMethod :: paymentMethodFragment"></th:block>
+            
+         
+           
+
+            <input type="hidden" name="mode" value="" />
+            <input type="hidden" name="bankCardCode" value="" />
+            <input type="hidden" name="wpayToken" value="" />
+            <input type="hidden" name="cardQuota" value="" />
+            <input type="hidden" name="cardInterest" value="" />
+
+            <input
+              type="hidden"
+              id="discInfo_coupon"
+              name="couponCode"
+              value=""
+            />
+           
+
+            <div style="display: none">
+              <a
+                href="javascript:;"
+                id="btnWpayCookieSetting"
+                class="btn_plusbox btn_popup"
+                data-poptarget="pop_wpay_cookie_info"
+              >
+                <span></span>
+              </a>
+              <div class="divpop_wrap dvp_style_2 pop_wpay_cookie_info">
+                <div class="dvp_container">
+                  <div class="dvp_close_btn b-close">
+                    <span>닫기</span>
+                  </div>
+                  <h1 class="dvp_header">
+                    등록 및 결제창이 잘 안 열릴 경우,
+                    <br />
+                    <span class="point_fc">[브라우저 쿠키 설정]</span>
+                    을
+                    <span class="point_fc">‘항상허용’</span>
+                    으로
+                    <br />
+                    변경해주세요.
+                  </h1>
+                  <div class="dvp_content">
+                    <div class="dvp_tit">iOS</div>
+                    <ul class="ul_dot_blk">
+                      <li>홈 화면의 [설정] 메뉴 실행</li>
+                      <li>
+                        설정의 Safari 선택
+                        <br />
+                        <ul>
+                          <li>
+                            ① [방문기록 및 웹사이트 데이터 지우기]&gt;[방문기록
+                            및 데이터 지우기] 선택
+                          </li>
+                          <li>② [쿠키차단] 항목을 항상 허용으로 선택</li>
+                          <li>③ [사이트간 추적방지]를 미허용으로 선택</li>
+                          <li>
+                            ④ [고급] 메뉴의 [javascript] 항목을 허용으로 설정
+                          </li>
+                        </ul>
+                      </li>
+                      <li>Safari 실행 후 [개인정보 브라우징] 미허용</li>
+                      <li>브라우저 새로 고침</li>
+                    </ul>
+                    <div class="dvp_tit">Android(갤럭시 기준)</div>
+                    <ul class="ul_dot_blk">
+                      <li>홈 화면의 [인터넷] 실행</li>
+                      <li>
+                        우측상단(또는 좌측상단) 목록 버튼&gt;[설정] 선택
+                        <br />
+                        <ul>
+                          <li>① 개인정보보호&gt;[쿠키허용] 항목 선택</li>
+                          <li>
+                            ② 개인정보보호&gt;개인데이터삭제&gt;[방문기록, 캐시,
+                            쿠키 및 사이트데이터] 삭제
+                          </li>
+                          <li>
+                            ③ 고급&gt;자바스크립트 사용, 팝업차단 해제 선택
+                            브라우저 새로 고침
+                          </li>
+                        </ul>
+                      </li>
+                      <li>인터넷 실행 후 [개인정보 브라우징] 미허용</li>
+                      <li>브라우저 새로 고침</li>
+                    </ul>
+                    <div class="btn_wrap btn_wrap_div1">
+                      <a href="#none" class="btnstl3 solid_btn_blk b-close">
+                        <span>확인</span>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <script>
+              $(document).ready(function () {
+                // GA URL 적용
+                /*
+    ga_url = decodeURI(document.URL);
+    if(ga_url.indexOf('?') > -1){
+        ga_url = ga_url.substring(0,ga_url.indexOf('?'));
+    }
+ 	
+    ga_page_name = "주문서";
+    */
+
+                paymentMethodTab();
+
+                // 간편 결제 OR 일반 결제 탭 선택
+                $(".payment_choice_wrap .red_border_tab li").on(
+                  "click",
+                  function () {
+                    if ($(this).index() == 0) {
+                      checkoutWpay.resetGeneralPay();
+
+                      var easyPaySwiper = $("#card_easy_pay")[0].swiper;
+                      if (easyPaySwiper != null) {
+                        easyPaySwiper.destroy();
+                        $("#tabCardEasyPay").addClass("on");
+
+                        swiperCardActive("swiper_card_easy_pay");
+
+                        easyPaySwiper = $("#card_easy_pay")[0].swiper;
+                        easyPaySwiper.slideTo(0, 10, function () {});
+                        $(
+                          "#card_easy_pay input[name='card_choice']:eq(0)"
+                        ).trigger("click");
+                      }
+                      if ($("#paytype").val() == "LGCNS") {
+                        $("#paytype").val("Inicis");
+                      }
+
+                      // 20.05.20 이벤트 배너 비활성화
+                      $("#redVoucherBenefit").hide(); // 레드 바우처 NOTICE
+                      $(".hyRed_banner_wrap").hide(); // 레드 바우처 이벤트 배너
+                      $(".smilepay_banner_wrap").hide(); // 스마일페이 이벤트 배너
+                      $(".tosspay_banner_wrap").hide(); // 토스페이 이벤트 배너
+                      $(".hympoint_banner_wrap").hide(); // 현대 M포인트 이벤트 배너
+                      $("#cardBenefit").show(); // 카드 행사 혜택
+                      $(".general_pay_desc").removeClass("on"); // 계좌이체, 가상계좌 안내, 에스크로 안내
+                    } else {
+                      checkoutWpay.resetEasyPay();
+
+                      $("input[name=mode]").val("KO001");
+                      $(
+                        ".payment_choice_wrap .general_pay_list li:eq(0)"
+                      ).addClass("on");
+
+                      // 20.05.20 기본 이벤트 배너 (레드바우처 이벤트 배너 -> MPoint 이벤트 배너
+                      //$(".hyRed_banner_wrap").show();
+                      $(".hympoint_banner_wrap").show(); // 현대 M포인트 이벤트 배너
+                      $("#cardBenefit").show(); // 카드 행사 혜택
+                    }
+                  }
+                );
+
+                $("#general_pay").on(
+                  "click",
+                  ".general_pay_list li",
+                  function () {
+                    var tempVal = $(this).find("a").data("g-pay-kind");
+                    if (tempVal == "redvoucher") {
+                      var hasClass = $(this).find("a").hasClass("disable");
+                      if (hasClass) {
+                        return false;
+                      }
+                    }
+
+                    $("input[name=mode]").val(
+                      $(this).find("a").attr("data-g-pay-mode")
+                    );
+                    if ($(this).find("a").attr("data-g-pay-mode") == "KO006") {
+                      $("#paytype").val("LGCNS");
+                    } else {
+                      $("#paytype").val("Inicis");
+                    }
+                  }
+                );
+
+                checkRedVoucher();
+              });
+
+              function checkRedVoucher() {
+                var total = $.trim($("#total").val());
+                if (total == "") {
+                  total = 0;
+                }
+
+                var redVoucherYn = false;
+                if (parseInt(total) >= parseInt("300000")) {
+                  $(".gpd_a_hyundaiRed").removeClass("disable");
+                  redVoucherYn = true;
+                } else {
+                  // 레드 바우처 결제 수단 숨기기
+                  // 20.05.20 결제 금액 상관 없이 레드 바우처 무조건 노출로 변경 되어 주석 처리
+                  // $(".gpd_a_hyundaiRed").parent().hide();
+
+                  // 레드 바우처 결제 수단 비활성화
+                  // 20.05.20 결제 금액 30만원 이하이면 레드 바우처 결제 수단 비활성화
+                  var mode = $("[name='mode']").val();
+                  if (mode == "KO001-4") {
+                    $(".general_pay_list > li a").get(0).click();
+                  }
+                  $(".gpd_a_hyundaiRed").addClass("disable");
+                }
+              }
+
+              function paymentMethodTab() {
+                if ($("#card_easy_pay").length > 0) {
+                  checkoutWpay.drawCardListForCheckout();
+                }
+                $(
+                  ".payment_choice_wrap .red_border_tab li:first-child"
+                ).addClass("on");
+              }
+            </script>
+            <!-- 최종 결제금액 -->
+            <div id="checkoutCartTotalPrice">
+              <!-- df_box : ìµì¢ê²°ì&nbsp;ê¸ì¡ s -->
+              <div class="df_box total_price_wrap">
+                <h3 class="df_box_tit">
+                  최종 결제금액                  
+                  <div id="total_amount"  style="float: right;
+    font-size: 19px;
+    font-weight: 800;"></div>
+                </h3>
+
+                <ul class="total_price_detail">
+                  <li id="subtotal" class="sub_total190816">
+                    <div class="ttpd_tit">상품 합계</div>
+                    <div id="total_amount" class="ttpd_con"></div>
+                  </li>
+
+                  <li>
+                    <div class="ttpd_tit">
+                      배송비
+                      <!-- tootip s -->
+                      <span class="dpIB">
+                        <div
+                          class="icon_help btn_tooltip"
+                          data-tooltip-target="tooltip_buy_delivery_charge"
+                        ></div>
+                      </span>
+                      <!-- tootip : contents_area s -->
+                      <div class="tooltip_contens">
+                        <div class="tooltip_wrap tooltip_buy_delivery_charge">
+                          <div class="tltp_close_btn btn_tltp_close">
+                            <span>닫기</span>
+                          </div>
+                          <h1 class="tltp_header">배송비</h1>
+                          <div class="tltp_content">
+                            <ul class="ul_dot_blk">
+                              <li>
+                                쿠폰/바우처 할인금액 및 한섬마일리지/H.Point
+                                사용을 제외한 실 결제금액 기준
+                                <strong
+                                  >3만원 미만 결제 시 2,500원 배송비가
+                                  부과</strong
+                                >
+                                됩니다. (3만원 이상 구매 시 무료배송)
+                              </li>
+                              <li>
+                                도서산간 지역은 배송비가 추가 될 수 있습니다.
+                              </li>
+                              <li>
+                                한섬마일리지, H.Point, e-money로 배송비 결제가
+                                불가합니다.
+                              </li>
+                            </ul>
+                          </div>
+                        </div>
+                      </div>
+                      <!-- tootip : contents_area e -->
+                      <!-- tootip e -->
+                    </div>
+
+                    <div class="ttpd_con" id="deliveryFee">₩ 0</div>
+                  </li>
+                </ul>
+              </div>
+              <input type="hidden" name="total" id="total" />
+              <input
+                type="hidden"
+                name="cartDeliveryCost"
+                id="cartDeliveryCost"
+                value="0.0"
+              />
+              <input
+                type="hidden"
+                name="voucherRateCheck"
+                id="voucherRateCheck"
+                value=""
+              />
+              <input type="hidden" id="customDueAmount" value="0.0" />
+              <!-- df_box : ìµì¢ê²°ì&nbsp;ê¸ì¡ e -->
+            </div>
+            <!-- 구매 시 지급 포인트 -->
+            <!-- lang : ko -->
+            <!--known Member-->
+            <!-- ê°í¸íìì´ ìë ë s -->
+            <!-- df_box : ì&nbsp;ë¦½ìì&nbsp;í¬ì¸í¸ s -->
+            <div class="df_box">
+              <h3 class="df_box_tit">
+                적립 예정 포인트
+                <span class="df_box_tit_sub">(수령 완료 후 10일 후 적립) </span>
+                <!-- tootip s -->
+                <span class="dpIB">
+                  <div
+                    class="icon_help btn_tooltip"
+                    data-tooltip-target="tooltip_buy_point_guide"
+                  ></div>
+                </span>
+                <!-- tootip : contents_area s -->
+                <div class="tooltip_contens"></div>
+                <!-- tootip : contents_area e -->
+                <!-- tootip e -->
+              </h3>
+
+              <!-- í´í : ì&nbsp;ë¦½ìì&nbsp;í¬ì¸í¸ s ê°í¸íì ìë ëë§-->
+              <div class="tooltip_html">
+                <div class="tooltip_wrap tooltip_buy_point_guide">
+                  <div class="tltp_close_btn btn_tltp_close">
+                    <span>닫기</span>
+                  </div>
+                  <h1 class="tltp_header">적립 예정 포인트</h1>
+                  <div class="tltp_content">
+                    <ul class="ul_dot_blk">
+                      <li>
+                        기존 마이너스 포인트를 보유하고 있는 고객은 포인트가
+                        차감되어 적립됩니다. 적립 예정 포인트가 상이할 수
+                        있습니다.
+                      </li>
+                      <li>
+                        통합 멤버쉽으로 가입하시면, H.Point 적립 및 사용이
+                        가능합니다.
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              <!-- í´í : ì&nbsp;ë¦½ìì&nbsp;í¬ì¸í¸ e -->
+
+              <ul class="ul_dot point_back_wrap">
+                <li>
+                  <div class="udot_tit">한섬마일리지</div>
+                  <div class="udot_con">
+                    <span id="txtAccumulationPoint">79,500</span>
+                    M
+                  </div>
+                </li>
+                <li>
+                  <div class="udot_tit">H.Point</div>
+                  <div class="udot_con">
+                    <span id="txtAccumulationHPoint">1,590</span>
+                    P
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <!-- df_box : ì&nbsp;ë¦½ìì&nbsp;í¬ì¸í¸ e -->
+            <!-- ê°í¸íìì´ ìë ë  e -->
+            <!--known Member-->
+
+            <!--Unknown Member-->
+            <input
+              type="hidden"
+              name="accumulationPoint"
+              id="accumulationPoint"
+              value="79500"
+            />
+            <input
+              type="hidden"
+              name="accumulationHPoint"
+              id="accumulationHPoint"
+              value="1590"
+            />
+            <!--unknown Member-->
+            <!-- lang : ko -->
+            <!-- 구매자 동의 -->
+            <!-- df_box : êµ¬ë§¤ìëì s -->
+            <div class="df_box df_box_slide agree_buyer_wrap">
+              <div class="check_stl df_box_tit">
+                <input type="checkbox" id="agree" value="" />
+                <label for="agree">
+                  <h3 class="df_box_tit">[필수] 구매자 동의</h3>
+                </label>
+              </div>
+              <div class="df_box_slide_con desc_box">
+                주문할 상품의 상품명, 가격, 배송정보 등을 확인하였으며,
+                <br />
+                구매 진행에 동의합니다. (전자상거래법 제 8조 2항)
+              </div>
+            </div>
+            <!-- df_box : êµ¬ë§¤ìëì e -->
+            <div>
+              <input
+                type="hidden"
+                name="CSRFToken"
+                value="666aa296-2041-4046-a04b-4453916c3335"
+              />
+            </div>
+          </form>
+          <!-- 결제처리 -->
+          <!-- Smile Pay 연동 스크립트 포함 Start -->
+          <script
+            src="https://pg.cnspay.co.kr/dlp/scripts/smilepay.js"
+            charset="euc-kr"
+          ></script>
+          <!-- Smile Pay 연동 스크립트 포함 End -->
+          <!-- payment_btn s -->
+          <!-- 수정(47489) : 20180807 s -->
+          <div class="df_box payment_btn_wrap last_box fs1904">
+            <ul class="btn_wrap btn_wrap_div1">
+              <li class="pymt_call_pg">
+                <a href="#none" class="btnstl6 solid_btn_point" id="doOrderBtn">
+                  <span>
+                    <span id="total_amount" ></b>
+                    원&nbsp;주문하기
+                  </span>
+                  <!-- <span>
+                    <sp id="total_amount" ></b>
+                    원&nbsp;주문하기
+                  </span> -->
+                </a>
+              </li>
+            </ul>
+          </div>
+          <!-- 수정(47489) : 20180807 e -->
+          <!-- payment_btn e -->
+
+          <div id="payinfo">
+            <form id="PAY_FORM" method="post" accept-charset="euc-kr"></form>
+          </div>
+          <script>
+          (function calculateItemPrice(){
+            const cartList = JSON.parse(localStorage.getItem('checkCart'));
+            let i = 0;
+            cartList.map(item => {
+              i+=item.realPcPrice;
+            })
+            const totalAmount = i;
+          	
+            var price = document.querySelectorAll("#total_amount");
+			const itemPriceKRW = new Intl.NumberFormat('ko-KR', {
+				    style: 'currency',
+				    currency: 'KRW',
+				}); 
+            price.forEach((el)=> el.innerHTML = itemPriceKRW.format(totalAmount));
+            })();
+          </script>
+
+          <script>
+            var referUrl = window.location.pathname;
+            var quickDeliveryCostAlert = true;
+            function showExchangeRate() {
+              var sumPrice = parseFloat($("#total").val());
+
+              var addHtml = "";
+
+              var currecy = "CNY";
+              var rate = "181.49";
+              var simbol = "¥";
+
+              var exchangeAmt =
+                Math.round((parseFloat(sumPrice) / parseFloat(rate)) * 100) /
+                100;
+
+              addHtml +=
+                '<span class="frgn_price_1">' +
+                simbol +
+                addComma(exchangeAmt) +
+                "</span>";
+
+              var currecy = "USD";
+              var rate = "1219.3";
+              var simbol = "$";
+
+              var exchangeAmt =
+                Math.round((parseFloat(sumPrice) / parseFloat(rate)) * 100) /
+                100;
+
+              addHtml +=
+                '<span class="frgn_price_2">' +
+                simbol +
+                addComma(exchangeAmt) +
+                "</span>";
+
+              $("#exchangeDiv").html(
+                addHtml +
+                  "<br>이것은 예상 가격이며 환율 및 수수료로 인해 실제 가격과 다를 수 있습니다."
+              );
+              $("#exchangeDiv").show();
+            }
+
+            $(document).ready(function () {
+              $.cookie("handsomeappreturnurl", location.href, { path: "/" });
+
+              $("#doOrderBtn").on("click", function (e) {
+                if (orderProcessing == true) {
+                  new alert("처리중입니다.");
+                  return;
+                }
+
+                doOrder();
+              });
+
+              $("#point_useall").click(function () {
+                if ($("#point_useall").is(":checked") && parseInt(0) > 0) {
+                  var usepoint =
+                    $("#total").val() - $("#cartDeliveryCost").val();
+                  if (parseInt(0) > usepoint) {
+                    $("#pointpay").val(usepoint);
+                    $("#pointpay").prop("readonly", true);
+                  } else {
+                    $("#pointpay").val("0");
+                    $("#pointpay").prop("readonly", true);
+                  }
+                } else {
+                  $("#pointpay").val("");
+                  $("#pointpay").prop("readonly", false);
+                  $("#point_useall").prop("checked", false);
+                }
+
+                var point = "0";
+                if ($.trim(point)) {
+                  point = 0;
+                }
+
+                if (point < 1) {
+                  $("#pointpay").prop("readonly", true);
+                }
+              });
+
+              $("#pointpay").blur(function () {
+                if (parseInt(0) > 0 && $("#pointpay").val() >= parseInt(0)) {
+                  $("#pointpay").val("0");
+                  if ($("#pointpay").val() > 0) {
+                    $("#point_useall").prop("checked", true);
+                  }
+                }
+              });
+
+              // H.Point Start  ##########################################################
+              $("#hpoint_useall").click(function () {
+                if ($("#hpoint_useall").is(":checked") && parseInt(0) > 0) {
+                  var usehpoint =
+                    $("#total").val() - $("#cartDeliveryCost").val();
+                  if (parseInt(0) > usehpoint) {
+                    $("#hpointpay").val(usehpoint);
+                    $("#hpointpay").prop("readonly", true);
+                  } else {
+                    $("#hpointpay").val("0");
+                    $("#hpointpay").prop("readonly", true);
+                  }
+                } else {
+                  $("#hpointpay").val("");
+                  $("#hpointpay").prop("readonly", false);
+                  $("#hpoint_useall").prop("checked", false);
+                }
+
+                var point = "0";
+                if ($.trim(point)) {
+                  point = 0;
+                }
+
+                if (point < 1) {
+                  $("#hpointpay").prop("readonly", true);
+                }
+              });
+              $("#hpointpay").blur(function () {
+                if (parseInt(0) > 0 && $("#hpointpay").val() >= parseInt(0)) {
+                  $("#hpointpay").val("0");
+                  if ($("#hpointpay").val() > 0) {
+                    $("#hpoint_useall").prop("checked", true);
+                  }
+                }
+              });
+              // H.Point End ##############################################################
+
+              $("#voucherCode").on("input", function () {
+                this.value = this.value.toUpperCase();
+              });
+
+              $("#gc_useall").click(function () {
+                if ($("#gc_useall").is(":checked") && parseInt(0) > 0) {
+                  var usegift =
+                    $("#total").val() - $("#cartDeliveryCost").val();
+                  if (parseInt(0) > usegift) {
+                    $("#giftpay").val(usegift);
+                    $("#giftpay").prop("readonly", true);
+                  } else {
+                    $("#giftpay").val("0");
+                    $("#giftpay").prop("readonly", true);
+                  }
+                } else {
+                  $("#giftpay").val("");
+                  $("#giftpay").prop("readonly", false);
+                  $("#gc_useall").prop("checked", false);
+                }
+
+                var giftpay = "0";
+                if ($.trim(giftpay)) {
+                  giftpay = 0;
+                }
+
+                if (giftpay < 1) {
+                  $("#giftpay").prop("readonly", true);
+                }
+              });
+
+              $("#giftpay").blur(function () {
+                if (parseInt(0) > 0 && $("#giftpay").val() >= parseInt(0)) {
+                  $("#giftpay").val("0");
+                  if ($("#giftpay").val() > 0) {
+                    $("#gc_useall").prop("checked", true);
+                  }
+                }
+              });
+
+              $("#adress").change(function () {
+                setDeliveryMode();
+              });
+
+              $(".pop_cls").on("click", function () {
+                hideShowLayer();
+                $(".popwrap").hide();
+              });
+
+              // 국내 주문: 배송비/총결제금액 등 셋팅
+
+              setDeliveryMode();
+
+              // 해외 주문 배송지 입력시 영어/숫자만 입력 가능하도록 제한 2016.09.12 simgoon
+            });
+            var orderProcessing = false;
+            function doOrder() {
+              if ($("#agree02").is(":checked")) {
+                var commissionAgreeYN =
+                  "<input type=hidden name='commissionAgree' value='Y'>";
+                $("#orderForm").append(commissionAgreeYN);
+              } else {
+                var commissionAgreeYN =
+                  "<input type=hidden name='commissionAgree' value='N'>";
+                $("#orderForm").append(commissionAgreeYN);
+              }
+
+              var inputNumberchk = /^[0-9]+$/;
+
+              if (parseInt($("#total").val()) == 0) {
+                orderProcessing = true;
+              }
+
+              //
+              //
+              //
+              if (
+                $("#chk_giftAmount").val().length > 0 &&
+                $("#chk_pointAmount").val().length > 0
+              ) {
+                alert(
+                  "한섬마일리지와 기프트카드는 함께 사용할 수 없습니다."
+                );
+                $("#chk_giftAmount").focus();
+                return;
+              }
+
+              if ($("#adress").val() == "") {
+            	  alert("배송지 주소 우편번호를 입력해 주세요.");
+                $("#adress").focus();
+                return;
+              }
+
+              if ($("#line1").val() == "") {
+            	  alert("배송지 주소 첫번째 주소를 입력해 주세요.");
+                $("#line1").focus();
+                return;
+              }
+
+              // 2018.03.28 egeg92 매장수령추가
+              if ($.trim($("#line2").val()) == "") {
+            	  alert("나머지 주소를 입력해 주세요.");
+                $("#line2").focus();
+                return;
+              }
+
+              if ($.trim($("#rcpt_name").val()) == "") {
+            	  alert("수령인을 입력해 주세요.");
+                $("#rcpt_name").focus();
+                return;
+              }
+
+              // 2018.03.28 egeg92 매장수령추가
+
+              if ($("#rcpt_name").length > 0) {
+                if ($("#rcpt_name").val().length > 10) {
+                	alert("수령인은 10자리 이하로 입력해주세요.");
+                  $("#rcpt_name").focus();
+                  return;
+                }
+              }
+
+              if (
+                $("#hp").val() == "" ||
+                $("#hp_num2").val() == "" ||
+                $("#hp_num3").val() == ""
+              ) {
+            	  alert("배송지 주소 휴대폰 번호를 입력해 주세요.");
+                $("#hp").focus();
+                return;
+              }
+
+              //현관출입 hyunbae
+
+              var selectedMessage = $(
+                "input[name=frontDoorSelectMessage]:checked"
+              );
+              if ($.trim($("#orderr").val()) === "부재 시 문 앞에 놓아주세요") {
+                if (typeof selectedMessage.val() === "undefined") {
+                	alert("공동현관 출입방법을 선택해주세요.");
+                  return;
+                } else if (selectedMessage.val() === "자유 출입 가능") {
+                  $("#frontDoorMessage").val("자유출입가능");
+                } else {
+                  var message = selectedMessage.find("~ input").val();
+                  $("#frontDoorMessage").val(message);
+                  if ($.trim($("#frontDoorMessage").val()) == "") {
+                	  alert("공동현관 출입방법을 입력해 주세요");
+                    return;
+                  }
+                }
+              } else if (
+                $.trim($("#orderr").val()) !== "부재 시 문 앞에 놓아주세요" &&
+                $.trim($("#orderr").val()) !== "직접입력"
+              ) {
+                if (selectedMessage.val() === "자유 출입 가능") {
+                  $("#frontDoorMessage").val("자유출입가능");
+                } else {
+                  var message = selectedMessage.find("~ input").val();
+                  $("#frontDoorMessage").val(message);
+                }
+              }
+              // # => 특수문자 치환
+              if ($("#frontDoorMessage").val()) {
+                $("#frontDoorMessage").val(
+                  $("#frontDoorMessage").val().replace(/#/gi, "＃")
+                );
+              }
+
+              if (!$("#agree").is(":checked")) {
+            	  alert("구매자 동의 항목을 체크하여 주세요.");
+                $("#agree").focus();
+                return;
+              }
+
+              // 2017.01.31 - 이현승, 휴대폰번호 데이터 검증 (숫자만입력가능.) >>>> START
+
+              var hp = $("#hp").val();
+              var hpNum2 = $("#hp_num2").val();
+              var hpNum3 = $("#hp_num3").val();
+
+             
+
+           
+
+              // 2017.01.31 - 이현승, 휴대폰번호 데이터 검증 (숫자만입력가능.) >>>> END
+
+              //delivery address email
+              if (
+                $.trim($("#mail").val()) != "" &&
+                $.trim($("#emailDely").val()) != ""
+              ) {
+                $("#email").val(
+                  $.trim($("#mail").val()) + "@" + $("#emailDely").val()
+                );
+              }
+
+              if (parseInt($("#total").val()) == 0) {
+                //결제금액이 0원이지만, 결제수단이 '원클릭결제'일 경우 유지 (20200319 GA전자상거래 사용)
+                if ($('input[name="mode"]').val() == "KO001-3") {
+                } else {
+                  $('input[name="mode"]').val("KO001");
+                }
+              }
+            //  if ($('input[name="mode"]').val() == "") {
+           //     alert("결제수단을 선택해 주세요.");
+          //      return;
+         //     }
+
+              if (
+                $("#pointpay").length > 1 &&
+                $("#pointpay").val() != "" &&
+                $("#pointpay").val() > parseInt(0)
+              ) {
+                alert(
+                  "한섬마일리지 사용액은 결제할 금액보다 같거나 작아야 합니다."
+                );
+                return;
+              }
+
+              if (
+                $("#hpointpay").length > 1 &&
+                $("#hpointpay").val() != "" &&
+                $("#hpointpay").val() > parseInt(0)
+              ) {
+                alert(
+                  "H.Point 사용액은 결제할 금액보다 같거나 작아야 합니다."
+                );
+                return;
+              }
+
+              if (
+                $("#giftpay").length > 1 &&
+                $("#giftpay").val() != "" &&
+                $("#giftpay").val() > parseInt(0)
+              ) {
+                alert(
+                  "기프트카드 사용액은 결제할 금액보다 같거나 작아야 합니다."
+                );
+                return;
+              }
+
+              if ($("#pointpay").length > 0) {
+                if ($("#pointpay").val() == "") {
+                  $("#pointpay").val("0");
+                }
+                $("#pointpay").val(
+                  $("#pointpay")
+                    .val()
+                    .replace(/[^0-9]/g, "")
+                );
+              } else {
+                addHiddenInput($("#orderForm"), "pointpay", "0");
+              }
+              if ($("#hpointpay").length > 0) {
+                if ($("#hpointpay").val() == "") {
+                  $("#hpointpay").val("0");
+                }
+                $("#hpointpay").val(
+                  $("#hpointpay")
+                    .val()
+                    .replace(/[^0-9]/g, "")
+                );
+              } else {
+                addHiddenInput($("#orderForm"), "hpointpay", "0");
+              }
+              if ($("#giftpay").length > 0) {
+                if ($("#giftpay").val() == "") {
+                  $("#giftpay").val("0");
+                }
+                $("#giftpay").val(
+                  $("#giftpay")
+                    .val()
+                    .replace(/[^0-9]/g, "")
+                );
+              } else {
+                addHiddenInput($("#orderForm"), "giftpay", "0");
+              }
+
+              if ($('input[name="mode"]').val() == "KO001-3") {
+                var $wpayCardCode = $("input[name=card_choice]:checked");
+                var $wpayInstallment = $wpayCardCode
+                  .parent()
+                  .parent()
+                  .find("#card_pay_term_" + $wpayCardCode.val());
+                //var $wpayInstallment = $("#card_pay_term_" + $wpayCardCode.val());
+
+                $("input[name=wpayToken]").val($wpayCardCode.data("token"));
+                $("input[name=cardQuota]").val($wpayInstallment.val());
+                $("input[name=cardInterest]").val(
+                  $wpayInstallment
+                    .find("option:selected")
+                    .data("nointstallment") || "N"
+                );
+              }
+            const orderList = JSON.parse(localStorage.getItem("checkCart"));
+              let total_amount = 0;
+              let item_name = "";
+              orderList.map((item, index) => {
+                total_amount += item.realPcPrice;
+                if(index === 0) {
+                  item_name = item.pname;
+                } else {
+                  item_name += ", " + item.pname;
+                }
+              })
+  	      	const quantity = orderList.length;
+
+              console.log(item_name + "\n" + total_amount);
+
+
+
+              const userRequest = localStorage.getItem("userOrderRequest");
+          	  const parsed = JSON.parse(userRequest);
+          	  parsed.item_name = item_name;
+          	parsed.quantity= quantity;
+          	  // 쿠폰을 사용하지 않은경우 가격지정
+          		parsed.obeforeprice=total_amount;
+          		parsed.oafterprice=total_amount;
+              $.ajax({
+                type: "GET",
+                url: `/order/pay?cid=TC0ONETIME&partner_order_id=1001&partner_user_id=itsme&item_name=${item_name}&quantity=${quantity}&total_amount=${total_amount}&tax_free_amount=0`,
+                success: function (data) {
+          	      const resParsed =JSON.parse(data);
+          	      const {next_redirect_pc_url, tid} = resParsed;
+          	      parsed.tid = tid;
+          	      const stringified = JSON.stringify(parsed);
+          	      localStorage.setItem("userOrderRequest",stringified);
+          	      const payUrl = `${next_redirect_pc_url}?tid=${tid}&cid=TC0ONETIME&partner_order_id=1001&partner_user_id=itsme`;
+                  window.location.href=payUrl;
+                  
+                }, //,
+                error: function(xhr,  Status, error) {
+                alert('sendRequest error : ' + xhr.status + " ( " + error + " ) " );
+                }
+              });
+            }
+
+            function placeorder() {
+              showLoadingOrderProcessing();
+
+              var referUrlTag =
+                "<input type=hidden name='wpayReferUrl' id='wpayReferUrl' value='" +
+                window.location.pathname +
+                "'>";
+              $("#orderForm").append(referUrlTag);
+
+              $.ajax({
+                type: "POST",
+                url: "/ko/checkout/placeorder",
+                dataType: "json",
+                data: $("#orderForm").serialize(),
+                success: function (data) {
+                  if (data.errorMsg != null && data.errorMsg.length > 0) {
+                    var error = data.errorMsg;
+                    if (
+                      error == "VoucherUseError" ||
+                      error == "PaymentAmountCheckError"
+                    ) {
+                      var message = "";
+                      if (error == "VoucherUseError") {
+                        message =
+                          "일시적인 오류가 발생하였습니다. <br/> 쇼핑백으로 이동합니다. ";
+                        var lc = new alert(message);
+                        lc.confirmAction = function () {
+                          location.href = "/ko/shoppingbag";
+                        };
+                      } else {
+                        location.href = "/ko/shoppingbag";
+                      }
+                    } else if (error == "CellPhoneIsEmptyError") {
+                      var lc = new alert(
+                        "배송지 주소/수령인/휴대폰번호를 입력하여 주십시오"
+                      );
+                      lc.confirmAction = function () {
+                        $("#deliveryInfo").show();
+                        $("#hp_num2").focus();
+                      };
+                      return;
+                    } else if (
+                      error == "CellPhoneIsNumericError_KO" ||
+                      error == "CellPhoneIsNumericError"
+                    ) {
+                      var alertMsg =
+                        error.indexOf("_KO") > 0
+                          ? "전화번호는 숫자만 입력가능 합니다."
+                          : "checkout.shipto.phone.msg";
+                      var lc = new alert(alertMsg);
+                      lc.confirmAction = function () {
+                        $("#deliveryInfo").show();
+                        $("#hp_num2").focus();
+                      };
+                      return;
+                    } else if (error == "PhoneIsNumericError") {
+                      var lc = new alert(
+                        "전화번호는 숫자만 입력가능 합니다."
+                      );
+                      lc.confirmAction = function () {
+                        $("#deliveryInfo").show();
+                        $("#ph_num2").focus();
+                      };
+                      return;
+                    } else if (error == "OrderMobilePhoneIsNumericError") {
+                      var lc = new alert(
+                        "전화번호는 숫자만 입력가능 합니다."
+                      );
+                      lc.confirmAction = function () {
+                        $("#hp1").focus();
+                      };
+                      return;
+                    } else if (error == "VirtualAccountStopCustomer") {
+                      var lc = new alert(
+                        "고객님은 [가상계좌 주문] 이용불가 대상입니다<br>다른 결제수단 이용 부탁드립니다. 감사합니다."
+                      );
+                      lc.confirmAction = function () {};
+                      return;
+                    } else {
+                      $("#agree").prop("checked", false);
+                      $("#payinfo").html(data.errorMsg);
+                      alert(
+                        $(
+                          "일시적인 오류가 발생하였습니다. <br/> 브라우저를 닫고 다시 주문해 주시기 바라며, 계속 주문이 안되신다면 다른 컴퓨터 또는 다른 모바일기기에서 주문을 시도해 주시기 바랍니다."
+                        ).val()
+                      );
+                      return;
+                    }
+                  } else {
+                    if ($("#paytype").val() == "LGCNS") {
+                      $("#PAY_FORM").html(data.smilePayinfo);
+                      getTxnId();
+                    } else {
+                      $("#paytype").val("Inicis");
+                      $("#PAY_FORM").html(data.inicisPayinfo);
+
+                      if ($("[name='mode']").val() == "KO001-3") {
+                        var wpayData = WPAY.convertFormToJSON($("#PAY_FORM"));
+                        //WPAY.open(function () {
+                        WPAY.paymentAuthSubmit(wpayData);
+                        //});
+                      } else {
+                        goIniPay();
+                      }
+                    }
+                  }
+                },
+                error: function (xhr, Status, error) {
+                  console.debug(error);
+                  alert(
+                    "일시적인 오류가 발생하였습니다. <br/> 브라우저를 닫고 다시 주문해 주시기 바라며, 계속 주문이 안되신다면 다른 컴퓨터 또는 다른 모바일기기에서 주문을 시도해 주시기 바랍니다."
+                  );
+                  return;
+                },
+              }).always(function () {
+                hideLoadingOrderProcessing();
+              });
+            }
+
+            var launchIniPayAlipay = function () {
+              var $this = this;
+
+              /**
+               * form submit
+               */
+              var $inipayForm = $("#PAY_FORM");
+              $inipayForm.attr({
+                action: $inipayForm.find('[id="pgpaymenturl"]').val(),
+                target: "_self",
+              });
+              $inipayForm.submit();
+            };
+
+            function validationOrderchk() {
+              var inputTextchk = /^[0-9a-zA-Z\s]+$/;
+              var inputadresschk = /^[0-9a-zA-Z-\s/-]+$/;
+              var inputNumberchk = /^[0-9]+$/;
+
+              if (
+                !inputTextchk.test($("#rcpt_name").val()) &&
+                $("#rcpt_name").val().length > 0
+              ) {
+                var lc = new alert(
+                  "Contact Name : " + "checkout.shipto.onlyeng.msg"
+                );
+                lc.confirmAction = function () {
+                  $("#rcpt_name").focus();
+                };
+                return false;
+              }
+              //     if (!inputadresschk.test($("#line1").val()) && ($("#line1").val().length > 0) ) {
+              //         var lc = new layerAlert("Street address : "+"checkout.shipto.onlyeng.msg" );
+              //         lc.confirmAction = function(){$("#line1").focus();};
+              //         return false;
+              //     }
+              //     if (!inputadresschk.test($("#line2").val()) && ($("#line2").val().length > 0) ) {
+              //         var lc = new layerAlert("Street address2 : "+"checkout.shipto.onlyeng.msg" );
+              //         lc.confirmAction = function(){$("#line2").focus();};
+              //         return false;
+              //     }
+              //     if (!inputTextchk.test($("#City").val()) && ($("#City").val().length > 0) ) {
+              //         var lc = new layerAlert("City : "+"checkout.shipto.onlyeng.msg" );
+              //         lc.confirmAction = function(){$("#City").focus();};
+              //         return false;
+              //     }
+              //     if (!inputTextchk.test($("#State").val()) && ($("#State").val().length > 0) ) {
+              //         var lc = new layerAlert("State : "+"checkout.shipto.onlyeng.msg" );
+              //         lc.confirmAction = function(){$("#State").focus();};
+              //         return false;
+              //     }
+              //     if (!inputTextchk.test($("#adress").val()) && ($("#adress").val().length > 0) ) {
+              //         var lc = new layerAlert("Zip/Postal Code : "+"checkout.shipto.zipcode.msg" );
+              //         lc.confirmAction = function(){$("#adress").focus();};
+              //         return false;
+              //     }
+              if (
+                !inputNumberchk.test($("#Phone").val()) &&
+                $("#Phone").val().length > 0
+              ) {
+                var lc = new alert(
+                  "Phone number : " + "checkout.shipto.phone.msg"
+                );
+                lc.confirmAction = function () {
+                  $("#Phone").focus();
+                };
+                return false;
+              }
+            }
+
+            function setDeliveryMode() {
+              var island = false;
+              if ($("#adress").val() >= 63000 && $("#adress").val() <= 63644) {
+                island = true;
+              }
+
+              var isQuick = false;
+
+              $.ajax({
+                type: "GET",
+                url: "/ko/checkout/deliveryMode",
+                dataType: "json",
+                data: { island: island, isQuick: isQuick },
+                success: function (data) {
+                  $("#checkoutCartTotalPrice").html(data.totalPricePage);
+                  changeOrderButtonText();
+                  if (typeof fn_updateDiscInfo === "function") {
+                    fn_updateDiscInfo();
+                  }
+                  if (
+                    Number($("#cartDeliveryCost").val()) > 0 &&
+                    quickDeliveryCostAlert == true
+                  ) {
+                    quickDeliveryCostAlert = false;
+                  }
+                },
+              });
+            }
+
+            function f_guestAddress() {
+              $("input[name=lastName]").val($("#ordererName").val());
+
+              //var hp_num = $('#order_hp').text().split("-");
+              $("#hp").val($("#hp0").val()).prop("selected", "selected");
+              $("input[name=hp_num2]").val($("#hp1").val());
+              $("input[name=hp_num3]").val($("#hp2").val());
+
+              $("input[name=mail]").val($("#order_email").val());
+              if ($("#emailDomainSel").val() == "") {
+                $("input[name=emailDely]").val($("#emailDomain").val());
+              } else {
+                $("#emailDelySel")
+                  .val($("#emailDomainSel").val())
+                  .prop("selected", "selected");
+                $("input[name=emailDely]").hide();
+              }
+            }
+
+            function chkword(targetID, lengthID, maxLength) {
+              var strValue = $("#" + targetID).val();
+              var strLen = strValue.length;
+              var maxByte = parseInt(maxLength);
+              var str2 = "";
+
+              if (strLen > maxByte) {
+                alert(maxByte + "자를 초과 입력 할 수 없습니다.");
+                str2 = strValue.substr(0, maxByte);
+                $("#" + targetID).val(str2);
+                strLen = str2.length;
+              }
+
+              $("#" + lengthID).text(strLen);
+            }
+
+            function changeOrderButtonText() {
+              var $doOrderBtn = $("#doOrderBtn");
+              var totalPrice = parseInt($("#total").val(), 10);
+              var buttnHtml = "";
+              buttnHtml += "<span>";
+              buttnHtml += "<b>" + addComma(totalPrice) + "</b> ";
+              buttnHtml += "원&nbsp;주문하기";
+              buttnHtml += "</span>";
+              $doOrderBtn.html(buttnHtml);
+            }
+
+            window.onpageshow = function (event) {
+              if (event.persisted) {
+                document.location.reload();
+              }
+            };
+
+            function setEcommerceData(action) {
+              var mode = $('input[name="mode"]').val();
+              var paymentType = "";
+              if (typeof mode != undefined && mode !== null && mode !== "") {
+                if (mode == "KO001-3") {
+                  paymentType = "1CLICK 결제";
+                } else if (mode == "KO001") {
+                  paymentType = "신용카드";
+                } else if (mode == "KO002") {
+                  paymentType = "실시간 계좌이체";
+                } else if (mode == "INIKakao") {
+                  paymentType = "카카오페이";
+                } else if (mode == "KO003") {
+                  paymentType = "가상계좌";
+                } else if (mode == "KO006") {
+                  paymentType = "스마일페이";
+                } else if (mode == "KO001-4") {
+                  paymentType = "현대카드 레드쇼핑바우처";
+                }
+              }
+
+              var stepLevel = "1";
+              var actionField = { step: stepLevel }; //결제단계
+              if (action == "Checkout2(바로주문)") {
+                stepLevel = "2";
+                actionField = { step: stepLevel, option: paymentType }; //결제단계 및 결제수단;
+              }
+
+              dataLayer.push({
+                event: "ga_event",
+                layerCategory: "Ecommerce",
+                layerAction: "Checkout",
+                layerLabel: "바로주문",
+                ecommerce: {
+                  currencyCode: "KRW", //통화
+                  checkout: {
+                    actionField: actionField,
+                    produorderForm: [
+                      /* 변형 제품(옵션) */
+
+                      /* 상품 정상이월세일 */
+
+                      {
+                        id: "TH2D0LJM903M", //상품코드
+                        name: "램스킨 블루종 재킷", //상품명
+                        brand: "TIME HOMME", //상품 브랜드
+
+                        category:
+                          decodeURIComponent("MEN") +
+                          "/" +
+                          decodeURIComponent("OUTER") +
+                          "/" +
+                          decodeURIComponent("JACKET"), //상품 카테고리
+                        variant: "BLACK_100", //변형 제품(옵션)
+                        quantity: "1", //상품 수량
+                        dimension19: "정상상품_정상가", //상품 정상이월세일
+                      },
+                    ],
+                  },
+                },
+              });
+              dataLayer.push({
+                layerCategory: undefined,
+                layerAction: undefined,
+                layerLabel: undefined,
+                nonInteraction: false,
+                ecommerce: undefined,
+              });
+            }
+          </script>
+          <!-- hsome_divpop_list | í´íëª©ë¡ s -->
+          <div class="hsome_tooltip_list">
+            <!-- í´í : ì¼íë°±ì¶ê° s -->
+            <div class="tooltip_html">
+              <div class="tooltip_wrap tooltip_shoppingbag_add">
+                <div class="tltp_close_btn btn_tltp_close">
+                  <span>닫기</span>
+                </div>
+                <h1 class="tltp_header">쇼핑백추가</h1>
+                <div class="tltp_content">
+                  <div class="shoppingbag_img">
+                    <img
+                      src="/_ui/handsomemobile/images/order/img_shoppingbag.jpg"
+                      alt="쇼핑백"
+                    />
+                  </div>
+                  <ul class="ul_dot_blk">
+                    <li>
+                      선물용이나 이동 시, 편리하게 사용할 수 있는 쇼핑백에
+                      포장해 드립니다.
+                    </li>
+                    <li>
+                      브랜드 쇼핑백 또는 더한섬닷컴 전용 쇼핑백 중 1개로 무작위
+                      발송되며, 고객님의 요청사항이 반영되지는 않습니다.
+                    </li>
+                    <li>
+                      쇼핑백 선택 시, 기본 포장에 포함된 페이퍼 백은 동봉되지
+                      않습니다.
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <!-- í´í : ì¼íë°±ì¶ê° e -->
+            <div class="tooltip_html">
+              <div class="tooltip_wrap tooltip_buy_delivery_charge">
+                <div class="tltp_close_btn btn_tltp_close">
+                  <span>닫기</span>
+                </div>
+                <h1 class="tltp_header">배송비</h1>
+                <div class="tltp_content">
+                  <ul class="ul_dot_blk">
+                    <li>
+                      쿠폰/바우처 할인금액 및 한섬마일리지/H.Point 사용을 제외한
+                      실 결제금액 기준
+                      <strong>3만원 미만 결제 시 2,500원 배송비가 부과</strong>
+                      됩니다. (3만원 이상 구매 시 무료배송)
+                    </li>
+                    <li>도서산간 지역은 배송비가 추가 될 수 있습니다.</li>
+                    <li>
+                      한섬마일리지, H.Point, e-money로 배송비 결제가 불가합니다.
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <!-- í´í : í¬ì¸í¸ì¬ì© s -->
+            <div class="tooltip_html">
+              <div class="tooltip_wrap tooltip_discout_info">
+                <div class="tltp_close_btn btn_tltp_close">
+                  <span>닫기</span>
+                </div>
+                <h1 class="tltp_header">포인트 사용</h1>
+                <div class="tltp_content">
+                  <div class="desc_box">
+                    보유 한섬마일리지 / H.Point / 기프트카드 금액을 확인하시고
+                    사용하실 금액을 입력 후 [사용]을 선택하세요.
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- í´í : í¬ì¸í¸ì¬ì© e -->
+
+            <!-- í´í : ì&nbsp;ë¦½ìì&nbsp;í¬ì¸í¸ s -->
+            <div class="tooltip_html">
+              <div class="tooltip_wrap tooltip_buy_point_guide">
+                <div class="tltp_close_btn btn_tltp_close">
+                  <span>닫기</span>
+                </div>
+                <h1 class="tltp_header">적립 예정 포인트</h1>
+                <div class="tltp_content">
+                  <ul class="ul_dot_blk">
+                    <li>
+                      기존 마이너스 포인트를 보유하고 있는 고객은 포인트가
+                      차감되어 적립됩니다. 적립 예정 포인트가 상이할 수
+                      있습니다.
+                    </li>
+                    <li>
+                      통합 멤버쉽으로 가입하시면, H.Point 적립 및 사용이
+                      가능합니다.
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <!-- í´í : ì&nbsp;ë¦½ìì&nbsp;í¬ì¸í¸ e -->
+          </div>
+          <!-- hsome_divpop_list | í´íëª©ë¡ e -->
+        </div>
+        <div class="m_popModalBg_ldg" style="display: none"></div>
+        <div
+          class="divpop_wrap dvp_style_3 privacy_info_popwrap_01"
+          style="display: none"
+        >
+          <div class="dvp_container">
+            <div class="dvp_close_btn b-close">
+              <span>닫기</span>
+            </div>
+            <h1 class="dvp_header">개인정보 제3자 제공 동의</h1>
+            <div class="dvp_content">
+              <div class="desc_box" style="font-size: 3.2vw; line-height: 1.5">
+                ‘아워레가시’ 브랜드 정보 공유 및 마케팅 활용 목적으로 동의하신
+                고객님에 한하여 최소한의 개인정보가 제 3자에게 제공됩니다.
+                <br />
+                고객님께서는 개인정보 제 3자 제공에 대해 ‘동의’ 또는 ‘거부’를
+                선택할 수 있으며, 선택에 관계없이 제품 구매가 가능합니다.
+                개인정보 제공 관련 구체적인 내용은 아래와 같습니다.
+                <ol style="padding: 3.4vw 0 0 3.4vw">
+                  <li style="list-style: inherit">
+                    <strong>제공받는 자</strong>
+                    : 국내 소재 OUR LEGACY의 대리인
+                    <br />
+                    (한섬과 OUR LEGACY 독점 계약 종료 시 사업을 이어받을 국내
+                    신규 사업자)
+                  </li>
+                  <li style="list-style: inherit">
+                    <strong>제공 항목</strong>
+                    : 성명 및 이메일 주소
+                  </li>
+                  <li style="list-style: inherit">
+                    <strong>이용 목적</strong>
+                    : 마케팅 활용 및 브랜드 정보 공유
+                  </li>
+                  <li style="list-style: inherit">
+                    <strong>보유 및 이용기간</strong>
+                    : 회원탈퇴시 또는 동의 철회시까지
+                  </li>
+                </ol>
+              </div>
+              <div class="btn_wrap btn_wrap_div1">
+                <a href="#none" class="btnstl3 solid_btn_blk b-close">
+                  <span>확인</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+	<div class="hsome_layerpop_contents lp_depth1"></div> 
+	<div class="hsome_layerpop_contents lp_depth2"></div>
+  </body>
+</html>

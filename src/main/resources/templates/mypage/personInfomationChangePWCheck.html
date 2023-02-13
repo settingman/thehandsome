@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+
+
+<!--
+ @Date : 2023. 02. 06.
+ @작성자 : 박성환
+ @설명 :  비밀번호 재확인 페이지 ( 2중 보안)
+-->
+
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<title>개인정보 변경 비밀번호 체크 | 더한섬닷컴</title>
+
+
+	<head>
+
+
+<!-- csrf 가 null 인 케이스에 발생한 문제:
+	로그인하지 않았을 때 csrf가 null이므로 에러가 터졌다.
+	다음과 같이 null 이 아닐 경우에만 csrf.token 등을 참조하도록 수정했다. -->
+<meta charset="UTF-8">
+<meta name="_csrf" th:content="${_csrf?.token}" th:if="${_csrf} ne null">
+<meta name="_csrf_header" th:content="${_csrf?.headerName}" th:if="${_csrf} ne null">
+<meta name="HandheldFriendly" content="true" />
+<meta name="viewport" content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, width=device-width" />
+
+<script src="https://kit.fontawesome.com/c2edef0625.js" crossorigin="anonymous"></script>
+
+
+
+
+<link href="https://www.thehandsome.com/_ui/handsomemobile/css/handsomecss/font_443.css" rel="stylesheet" type="text/css" />
+<link href="https://www.thehandsome.com/_ui/handsomemobile/css/handsomecss/jquery-ui.css" rel="stylesheet" type="text/css" />
+<link href="https://www.thehandsome.com/_ui/handsomemobile/css/handsomecss/selectordie.css" rel="stylesheet" type="text/css" />
+<link href="https://www.thehandsome.com/_ui/handsomemobile/css/handsomecss/default.css?202200826" rel="stylesheet" type="text/css" />
+<link href="https://www.thehandsome.com/_ui/handsomemobile/css/handsomecss/display.css?20221107" rel="stylesheet" type="text/css" />
+<link href="https://www.thehandsome.com/_ui/handsomemobile/css/handsomecss/assist.css?20220929" rel="stylesheet" type="text/css" />
+<link href="https://www.thehandsome.com/_ui/handsomemobile/css/handsomecss/devAssist.css" rel="stylesheet" type="text/css" />
+
+<link href="https://www.thehandsome.com/_ui/handsomemobile/css/handsomecss/popup.css" rel="stylesheet" type="text/css" />
+
+
+
+
+<script type="text/javascript">
+	var handsomeUserLoginYn = "N";
+</script>
+<script type="text/javascript">
+	var isoKoYn = "Y";
+</script>
+<script type="text/javascript">
+	var handsomeIsoCode = "ko";
+	var handsomeContextPath = "/ko";
+</script>
+
+<script type="text/javascript" src="https://www.thehandsome.com/_ui/handsomemobile/js/jquery.min.js"></script>
+<script type="text/javascript" src="https://www.thehandsome.com/_ui/handsomemobile/js/jquery.vticker.js"></script>
+<script type="text/javascript" src="https://www.thehandsome.com/_ui/handsomemobile/js/masonry.pkgd.min.js"></script>
+<script type="text/javascript" src="https://www.thehandsome.com/_ui/handsomemobile/js/imagesloaded.pkgd.min.js"></script>
+<script type="text/javascript" src="https://www.thehandsome.com/_ui/handsomemobile/js/jquery.form.min.js"></script>
+<script type="text/javascript" src="https://www.thehandsome.com/_ui/handsomemobile/js/jquery.cookie.js"></script>
+<script type="text/javascript" src="https://www.thehandsome.com/_ui/handsomemobile/js/jquery-ui.min.js"></script>
+<script type="text/javascript" src="https://www.thehandsome.com/_ui/handsomemobile/js/selectordie.min.js"></script>
+<script type="text/javascript" src="https://www.thehandsome.com/_ui/handsomemobile/js/jquery.bpopup.min.js"></script>
+<script type="text/javascript" src="https://www.thehandsome.com/_ui/handsomemobile/js/echarts.min.js"></script>
+<!-- 마이페이지 오류로인한 주석처리 - 박성환  -->
+<script type="text/javascript" src="https://www.thehandsome.com/_ui/handsomemobile/js/assist_common.js?v=20220630"></script>
+<script type="text/javascript" src="https://www.thehandsome.com/_ui/handsomemobile/js/assist_new.js"></script>
+<script type="text/javascript" src="https://www.thehandsome.com/_ui/handsomemobile/js/handsome.js"></script>
+<script type="text/javascript" src="https://www.thehandsome.com/_ui/handsomemobile/js/common_function.js"></script>
+<script type="text/javascript" src="https://www.thehandsome.com/_ui/handsomemobile/js/json2.js"></script>
+<script type="text/javascript" src="https://www.thehandsome.com/_ui/handsomemobile/js/SsoAjax.js"></script>
+
+
+<script type="text/javascript" src="https://www.thehandsome.com/_ui/handsomemobile/js/makePCookie.js"></script>
+<script type="text/javascript" src="https://www.thehandsome.com/_ui/handsomemobile/js/content.js"></script>
+<script type="text/javascript" src="https://www.thehandsome.com/_ui/handsomemobile/js/e-smart-zoom-jquery.min.js"></script>
+<script type="text/javascript" src="https://www.thehandsome.com/_ui/handsomemobile/js/popup.js"></script>
+<script type="text/javascript" src="https://www.thehandsome.com/_ui/handsomemobile/js/simplepagination.js"></script>
+<script type="text/javascript" src="https://www.thehandsome.com/_ui/handsomemobile/js/netfunnel.js" charset="UTF-8"></script>
+<script type="text/javascript" src="https://www.thehandsome.com/_ui/handsomemobile/js/netfunnel_skin.js" charset="UTF-8"></script>
+
+<script type="text/javascript" src="https://www.thehandsome.com/_ui/handsomemobile/js/unorm.js"></script>
+
+<style media="screen">
+.blsmflw1 {
+	animation: target_image 1.5s;
+	animation-iteration-count: 2;
+	transform-origin: 50% 50%;
+}
+</style>
+
+
+<script>
+	// 검색 결과 페이지
+	if (window.location.pathname.indexOf("/hssearch/searchCount") > -1) {
+		var groobeeKeyword = ""; //검색_검색어(검색결과페이지일때 사용)
+		groobee("SE", {
+			keyword : groobeeKeyword
+		});
+	}
+</script>
+
+<link rel="stylesheet" type="text/css" href="//code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css" />
+<link rel="stylesheet" type="text/css" href="//static.groobee.io/dist/g2/css/grb-recommend-list_v2.css" />
+<link rel="stylesheet" type="text/css" href="//static.groobee.io/dist/g2/css/custom-swiper.css" />
+	</head>
+
+<body>
+
+<script type="text/javascript" th:inline="javascript">
+				//<![CDATA[
+				$(document)
+						.ready(
+								function() {
+									
+									console.log("ready");
+									var userid = [[${#authentication.name}]];
+									console.log(userid);
+									
+									//아이디 마스킹
+									$(".user_id").html(
+											maskingId(userid));
+
+									capsLockCheck("j_password");
+
+									//inputDataValidationCheck('j_password');
+
+									$("#login_btn")
+											.click(
+													function() {
+														
+													
+														
+														if ($.trim($(
+																"#j_username")
+																.val()) == "") {
+															location.href = "/member/login";
+														}
+
+														if ($.trim($(
+																"#j_password")
+																.val()) == "") {
+															$("#msgErr").show();
+															$("#msgErr")
+																	.text(
+																			"비밀번호를 입력하세요.");
+															//$('#msgErr').text("Please enter your password");
+															$("#j_password")
+																	.focus();
+															return;
+														}
+
+														var pw = $(
+																"#j_password")
+																.val();
+														
+														$("#mpassword").val(pw);
+														
+														$("#personInfomationChangePage").submit();
+																																								
+														
+																
+													});
+
+									$("#cancle_btn").click(function() {
+										location.href = "/ko/";
+									});
+
+									$("#j_password").keypress(function(event) {
+										if (event.which == 13) {
+											event.preventDefault();
+											$("#login_btn").click();
+											$(this).blur();
+										}
+									});
+
+									$("#findPWBtn")
+											.click(
+													function() {
+														location.href = "/member/findIdPwPage";
+													});
+								});
+
+				//]]>
+			</script>
+
+
+
+	<div class="hsome_allContents_wrapper">
+		<div class="hsome_allContents">
+	
+
+			<header class="hsome_header">
+				<h1 class="h_ttl ellipsis" id="headerTitle">비밀번호 재확인</h1>
+				<a href="javascript:noLink();" onclick="goBack();" class="h_prev">이전 페이지로 가기</a>
+				<ul class="h_gnbMenu">
+					<li class="search"><a href="/ko/mobilecommon/search" onclick="GA_Event('공통', '헤더', '검색');"><span>search</span></a></li>
+					<li class="cart"><a href="/ko/shoppingbag" onclick="GA_Event('공통', '헤더', '쇼핑백');"><span>cart</span><i>0</i></a></li>
+				</ul>
+			</header>
+			<!-- //################## header ################## -->
+
+			<!-- 아이디값이 마스킹 되기전에 보이기때문에 마스킹 처리를 해준후 보여지기위해
+			th:inline="javascript" 를 사용하여 자바스크립트에 처리후 뿌려준다. -->
+
+			<form id="bioLoginForm" method="post" action="/ko/member/bioCheck">
+				<input type="hidden" id="bio_userId" name="j_username" />
+				<input type="hidden" id="bio_CSRFToken" name="CSRFToken" />
+				<input type="hidden" id="bio_authToken" name="authToken" />
+				<input type="hidden" id="successPageUrl" name="successPageUrl" />
+			</form>
+			<form id="personInfomationChangePage" name="manToManInquiryForm" action="/mypage/personInfomationChangePWCheck" method="post">
+				<input type="hidden" name="directInto" value="NO" />
+				<div>
+					<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+					<input type="hidden" id="mpassword" name="mpassword" title="비밀번호를 입력하세요." placeholder="비밀번호를 입력하세요." />
+				</div>
+			</form>
+			<!-- contents s -->
+			<div id="contents" class="hsome_contents mp_confirm_pw_wrap">
+				<div class="gray_tab">고객님의 정보보호를 위하여 비밀번호를 다시 한 번 확인합니다.</div>
+				<div class="mp_input_wrap">
+					<div class="user_id_wrap">
+						<span class="user_id"> </span>
+					</div>
+					<!-- input_box s -->
+					<div class="input_box">
+						<div class="ipt_con">
+							<input type="password" id="j_password" name="mpassword" title="비밀번호를 입력하세요." placeholder="비밀번호를 입력하세요." />
+							<p class="err_box" id="msgErr"></p>
+						</div>
+					</div>
+					<!-- input_box e -->
+
+					<div class="btn_wrap btn_wrap_div1 mt25 pb0" id="findPW" style="display: none">
+						<a href="#none" class="btnstl3 border_btn_gray" id="findPWBtn"><span>비밀번호 찾기</span></a>
+					</div>
+
+					<div class="btn_wrap btn_wrap_div2 last_box">
+						<a href="#none" class="btnstl3 border_btn_gray" id="cancle_btn"><span>취소</span></a> <a href="#none" class="btnstl3 solid_btn_blk btn_save"
+							id="login_btn"
+						><span>확인</span></a>
+					</div>
+				</div>
+			</div>
+			<!-- contents e -->
+		</div>
+	</div>
+
+	<script th:inline="javascript">
+	
+	// 23/02/06 _ 비밀번호 틀렸을때 alert
+	
+ 
+	var msg = [[${msg}]];
+    console.log(msg);
+    if(msg === '비밀번호를 다시 확인해 주세요.') {
+        alert("비밀번호를 다시 확인해 주세요.");
+    }
+	</script>
+	<th:block th:replace="common/footer :: footFragment"></th:block>
+</body>
+<!-- This script is for AceCounter START -->
+</html>

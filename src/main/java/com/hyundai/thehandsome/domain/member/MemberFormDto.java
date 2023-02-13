@@ -14,12 +14,17 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
- * @Date : 2023. 1. 30.
+ * @since   : 2023. 2. 3.
  * @FileName: MemberFormDto.java
- * @작성자 : 박성환
- * @설명 : 회원가입 화면에서 넘어오는 가입정보 DTO
- */
+ * @author  : 박성환
+ * @설명    : @
 
+ * <pre>
+ *   수정일         수정자               수정내용
+ * ----------      --------    ---------------------------
+ * 2023. 2. 3.     박성환      회원가입 화면에서 넘어오는 가입정보 DTO
+ * </pre>
+ */
 @NoArgsConstructor
 @Setter
 @Getter
