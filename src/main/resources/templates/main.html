@@ -2527,6 +2527,9 @@
           },
         });
       }
+      
+      
+      
 
       /* 홈 영역 컨텐츠 가로 슬라이드  */
       var chkMain = true;
@@ -2903,6 +2906,7 @@
           horiSlider.destroy();
         }
         main_Home_Hori_Slide(0);
+        main_Parent_Verti_slide(1);
 
         $('img.lazy_main').lazyload({
           placeholder: '/_ui/handsomemobile/images/common/no_img.gif', // 로딩이미지
@@ -3198,7 +3202,7 @@
           }
         }
 
-        main_Parent_Verti_slide(1);
+        main_Parent_Verti_slide(3);
         mainNewTab();
         $('#contents-newitem .gender > ul li').each(function (i) {
           if ($(this).hasClass('on')) {
