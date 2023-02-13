@@ -8,6 +8,7 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
   <title>상품 | 더한섬닷컴</title>
 
+  <script type="text/javascript" src="/js/productList.js"></script>
   <th:block th:replace="common/head :: headFragment"></th:block>
   <body class="back">
     <div style="display: none">
@@ -30,7 +31,8 @@
         z-index: 805;
         transform: translate(-50%, -50%);
         display: none;
-      "></div>
+      "
+    ></div>
 
     <div class="layerArea" id="mapleLayer" style="display: none">
       <div class="layerBg"></div>
@@ -50,9 +52,6 @@
           <h1 class="h_ttl ellipsis" id="headerTitle">
             <a href="javascript:noLink();" onclick="openGnbPopup();" class="select_">여성</a>
           </h1>
-          <script type="text/javascript">
-            $(document).ready(function () {});
-          </script>
 
           <a href="javascript:noLink();" onclick="goBack();GA_Event('카테고리_리스트', '헤더', '이전');" class="h_prev"
             >이전 페이지로 가기</a
@@ -94,67 +93,11 @@
         <div class="hs_product_list_wrap">
           <div class="cate_wrap191028">
             <!--previous_category191028 -->
-            <div class="previous_category191028">
-              <div class="cate_icon">
-                <a href="#;" onclick="GA_Event('카테고리_리스트', '카테고리', '이전카테고리');">이전카테고리아이콘</a>
-              </div>
-              <div class="cate_list">
-                <ul>
-                  <li><a href="/product/ProductList/we" class="two_link">전체보기</a></li>
-                  <li><a href="/product/ProductList/we05" class="two_link">아우터</a></li>
-                  <li><a href="/product/ProductList/we10" class="two_link">니트</a></li>
-                  <li><a href="/product/ProductList/we01" class="two_link">탑</a></li>
-                  <li><a href="/product/ProductList/we04" class="two_link">드레스</a></li>
-                  <li><a href="/product/ProductList/we02" class="two_link">팬츠</a></li>
-                  <li><a href="/product/ProductList/we03" class="two_link">스커트</a></li>
-                  <li><a href="/product/ProductList/we09" class="two_link">SPECIAL SHOP*</a></li>
-                </ul>
-                <a href="#;" class="btn_ul_close191028"> <span>닫기</span> </a>
-              </div>
-            </div>
+
             <!--//previous_category191028 -->
 
             <!-- flag_wrap -->
-            <div
-              class="flag_wrap case swiper-container depth2 swiper-container-horizontal swiper-container-free-mode swiper-container-android swiper-container-wp8-horizontal">
-              <!-- //전체보기 아닌 case(이전카테고리 노출될경우) class 추가-->
-              <ul class="swiper-wrapper" style="transform: translate3d(0px, 0px, 0px)">
-                <!-- //아울렛 전체보기 임시주석처리 -->
-                <li class="swiper-slide flag swiper-slide-active" id="categoryNav01" style="margin-right: 6px">
-                  <a
-                    href="/product/ProductList/we05/"
-                    class="name"
-                    onclick="GA_Event('카테고리_리스트', '카테고리', '아우터&nbsp;전체');"
-                    >아우터&nbsp;전체</a
-                  >
-                </li>
-                <!-- #1141 - 상위 카테고리(여성/남성/패션잡화/라이프스타일 처리) -->
-                <li class="swiper-slide flag on swiper-slide-next" style="margin-right: 6px">
-                  <a href="/c/we051/" class="name" onclick="GA_Event('카테고리_리스트', '카테고리', '재킷');">재킷</a>
-                </li>
-                <li class="swiper-slide flag" style="margin-right: 6px">
-                  <a href="/c/we052/" class="name" onclick="GA_Event('카테고리_리스트', '카테고리', '점퍼');">점퍼</a>
-                </li>
-                <li class="swiper-slide flag" style="margin-right: 6px">
-                  <a href="/c/we015/" class="name" onclick="GA_Event('카테고리_리스트', '카테고리', '가디건/베스트');"
-                    >가디건/베스트</a
-                  >
-                </li>
-                <li class="swiper-slide flag" style="margin-right: 6px">
-                  <a href="/c/we053/" class="name" onclick="GA_Event('카테고리_리스트', '카테고리', '트렌치 코트');"
-                    >트렌치 코트</a
-                  >
-                </li>
-                <li class="swiper-slide flag" style="margin-right: 6px">
-                  <a href="/c/we054/" class="name" onclick="GA_Event('카테고리_리스트', '카테고리', '코트');">코트</a>
-                </li>
-                <li class="swiper-slide flag" style="margin-right: 6px">
-                  <a href="/c/we055/" class="name" onclick="GA_Event('카테고리_리스트', '카테고리', '다운/패딩');"
-                    >다운/패딩</a
-                  >
-                </li>
-              </ul>
-            </div>
+
             <!--// flag_wrap -->
           </div>
           <script type="text/javascript">
@@ -190,36 +133,8 @@
           </div>
           <!--// sort_tit -->
           <!-- filter_wrap -->
-          <div class="filter_wrap fix hsDelivery1902">
+          <div class="filter_wrap fix hsDelivery1902" style="height: 20px">
             <div>
-              <div
-                class="shipping swiper-container fil swiper-container-horizontal swiper-container-free-mode swiper-container-android swiper-container-wp8-horizontal">
-                <div class="hs_float_check swiper-wrapper">
-                  <span class="hs_check01 swiper-slide swiper-slide-active">
-                    <input
-                      type="checkbox"
-                      name="checkSale"
-                      id="checkSale"
-                      onclick="setCheckSaleCode();GA_Event('카테고리_리스트', '필터', 'SALE');"
-                      style="cursor: pointer" />
-                    <label for="checkSale" style="cursor: pointer">SALE</label>
-                  </span>
-                  <span class="hs_check01" id="hsDelivery" style="display: none">
-                    <input
-                      type="checkbox"
-                      name="checkDelivery"
-                      id="checkDelivery"
-                      onclick="setCheckDeliveryCode();GA_Event('카테고리_리스트', '필터', '한섬딜리버리');"
-                      style="cursor: pointer" />
-                    <label for="checkDelivery" style="cursor: pointer">한섬딜리버리</label>
-                    <div class="fitguide_tooltip">
-                      <div class="hs_tooltip_wrap">
-                        <a href="#" class="ico_btn">한섬딜리버리란?</a>
-                      </div>
-                    </div>
-                  </span>
-                </div>
-              </div>
               <div class="filter">
                 <a
                   href=".product_filter_pop"
@@ -241,8 +156,11 @@
           <div class="hs_product_list" id="hsProductList">
             <ul id="listBody">
               <li th:each="pInfo : ${pList}" class="float active" id="listBody1_li8">
-                <a th:href="|/product/ProductDetail/${pInfo.colorList[0].PCID}|" class="categoryImgBox"
-                th:id="|${pInfo.pid}_link|">
+                <a
+                  th:href="|/product/ProductDetail/${pInfo.colorList[0].PCID}|"
+                  class="categoryImgBox"
+                  th:id="|${pInfo.pid}_link|"
+                >
                   <div class="img">
                     <img
                       th:src="${pInfo.colorList[0].PCIMG1}"
@@ -251,7 +169,8 @@
                       th:alt="${pInfo.pname}"
                       text="http://newmedia.thehandsome.com/SJ/2D/SS/SJ2D1WJC361W_BK_T01.jpg"
                       class="respon_image lazy"
-                      style="display: block" />
+                      style="display: block"
+                    />
                   </div>
                 </a>
                 <div class="info_cont">
@@ -261,11 +180,16 @@
                       href="javascript:noLink();"
                       th:data-pid="${pInfo.pid}"
                       th:data-pcid="${color.PCID}"
-                      th:onclick="|chgColor(this.getAttribute('data-pid'), this.getAttribute('data-pcid'))|">
+                      th:data-mid="${mid}"
+                      th:onclick="${mid != null} ?
+                              |chgColor(this.getAttribute('data-pid'), this.getAttribute('data-pcid')); + getIsLiked(this.getAttribute('data-pcid'), this.getAttribute('data-mid')); |:
+                              |chgColor(this.getAttribute('data-pid'), this.getAttribute('data-pcid'));| "
+                    >
                       <button
                         th:class="${stat.index} == 0 ? 'chip on' : 'chip'"
                         th:id="${color.PCID}"
-                        th:style="|background:${color.PCCOLORCODE} url(${color.PCCHIPIMG})|"></button>
+                        th:style="|background:${color.PCCOLORCODE} url(${color.PCCHIPIMG})|"
+                      ></button>
                     </a>
                   </div>
                   <p class="brand">[[${pInfo.bname}]]</p>
@@ -273,15 +197,19 @@
                   <p class="price" id="listPrice8">
                     <span
                       id="price_SJ2D1WJC361W_BK"
-                      th:text="'₩'+ ${#numbers.formatInteger(pInfo.pcprice, 0, 'COMMA')}"></span>
+                      th:text="'₩'+ ${#numbers.formatInteger(pInfo.pcprice, 0, 'COMMA')}"
+                    ></span>
                   </p>
                 </div>
                 <button
                   type="button"
                   class="like"
+                  th:like-data="${pInfo.colorList[0].PCID}"
+                  th:classappend="${pInfo.colorList[0].isLiked} == true ? on"
                   th:id="${pInfo.pid}+Like"
                   onclick="callWishListClick($(this), this.getAttribute('data-value'), '%uB9B0%uB128%20%uBE14%uB80C%uB4DC%20%uBC84%uD2BC%20%uC5C5%20%uC2F1%uAE00%20%uC7AC%uD0B7', '1','8');"
-                  th:data-value="${pInfo.colorList[0].PCID}">
+                  th:data-value="${pInfo.colorList[0].PCID}"
+                >
                   찜하기
                 </button>
               </li>
@@ -315,7 +243,8 @@
                         style="cursor: pointer"
                         id="br_BR01"
                         name="BR01"
-                        onclick="brandFilterClick('BR01','TIME');" />
+                        onclick="brandFilterClick('BR01','TIME');"
+                      />
                       <label style="cursor: pointer">TIME</label>
                     </li>
                     <li class="hs_check01" style="cursor: pointer" onclick="filterClick('#br_BR02');">
@@ -325,7 +254,8 @@
                         style="cursor: pointer"
                         id="br_BR02"
                         name="BR02"
-                        onclick="brandFilterClick('BR02','MINE');" />
+                        onclick="brandFilterClick('BR02','MINE');"
+                      />
                       <label style="cursor: pointer">MINE</label>
                     </li>
                     <li class="hs_check01" style="cursor: pointer" onclick="filterClick('#br_BR19');">
@@ -335,7 +265,8 @@
                         style="cursor: pointer"
                         id="br_BR19"
                         name="BR19"
-                        onclick="brandFilterClick('BR19','LANVIN COLLECTION');" />
+                        onclick="brandFilterClick('BR19','LANVIN COLLECTION');"
+                      />
                       <label style="cursor: pointer">LANVIN COLLECTION</label>
                     </li>
                     <li class="hs_check01" style="cursor: pointer" onclick="filterClick('#br_BR63');">
@@ -345,7 +276,8 @@
                         style="cursor: pointer"
                         id="br_BR63"
                         name="BR63"
-                        onclick="brandFilterClick('BR63','LANVIN BLANC');" />
+                        onclick="brandFilterClick('BR63','LANVIN BLANC');"
+                      />
                       <label style="cursor: pointer">LANVIN BLANC</label>
                     </li>
                     <li class="hs_check01" style="cursor: pointer" onclick="filterClick('#br_BR03');">
@@ -355,7 +287,8 @@
                         style="cursor: pointer"
                         id="br_BR03"
                         name="BR03"
-                        onclick="brandFilterClick('BR03','SYSTEM');" />
+                        onclick="brandFilterClick('BR03','SYSTEM');"
+                      />
                       <label style="cursor: pointer">SYSTEM</label>
                     </li>
                     <li class="hs_check01" style="cursor: pointer" onclick="filterClick('#br_BR04');">
@@ -365,7 +298,8 @@
                         style="cursor: pointer"
                         id="br_BR04"
                         name="BR04"
-                        onclick="brandFilterClick('BR04','SJSJ');" />
+                        onclick="brandFilterClick('BR04','SJSJ');"
+                      />
                       <label style="cursor: pointer">SJSJ</label>
                     </li>
                     <li class="hs_check01" style="cursor: pointer" onclick="filterClick('#br_BR06');">
@@ -375,7 +309,8 @@
                         style="cursor: pointer"
                         id="br_BR06"
                         name="BR06"
-                        onclick="brandFilterClick('BR06','TIME HOMME');" />
+                        onclick="brandFilterClick('BR06','TIME HOMME');"
+                      />
                       <label style="cursor: pointer">TIME HOMME</label>
                     </li>
                     <li class="hs_check01" style="cursor: pointer" onclick="filterClick('#br_BR07');">
@@ -385,7 +320,8 @@
                         style="cursor: pointer"
                         id="br_BR07"
                         name="BR07"
-                        onclick="brandFilterClick('BR07','SYSTEM HOMME');" />
+                        onclick="brandFilterClick('BR07','SYSTEM HOMME');"
+                      />
                       <label style="cursor: pointer">SYSTEM HOMME</label>
                     </li>
                     <li class="hs_check01" style="cursor: pointer" onclick="filterClick('#br_BR08');">
@@ -395,7 +331,8 @@
                         style="cursor: pointer"
                         id="br_BR08"
                         name="BR08"
-                        onclick="brandFilterClick('BR08','the CASHMERE');" />
+                        onclick="brandFilterClick('BR08','the CASHMERE');"
+                      />
                       <label style="cursor: pointer">the CASHMERE</label>
                     </li>
                     <li class="hs_check01" style="cursor: pointer" onclick="filterClick('#br_BR31');">
@@ -405,7 +342,8 @@
                         style="cursor: pointer"
                         id="br_BR31"
                         name="BR31"
-                        onclick="brandFilterClick('BR31','LÄTT');" />
+                        onclick="brandFilterClick('BR31','LÄTT');"
+                      />
                       <label style="cursor: pointer">LÄTT</label>
                     </li>
                     <li class="hs_check01" style="cursor: pointer" onclick="filterClick('#br_BR43');">
@@ -415,7 +353,8 @@
                         style="cursor: pointer"
                         id="br_BR43"
                         name="BR43"
-                        onclick="brandFilterClick('BR43','OBZEE');" />
+                        onclick="brandFilterClick('BR43','OBZEE');"
+                      />
                       <label style="cursor: pointer">OBZEE</label>
                     </li>
                     <li class="hs_check01" style="cursor: pointer" onclick="filterClick('#br_BR45');">
@@ -425,7 +364,8 @@
                         style="cursor: pointer"
                         id="br_BR45"
                         name="BR45"
-                        onclick="brandFilterClick('BR45','O!@@!2nd');" />
+                        onclick="brandFilterClick('BR45','O!@@!2nd');"
+                      />
                       <label style="cursor: pointer">O'2nd</label>
                     </li>
                     <li class="hs_check01" style="cursor: pointer" onclick="filterClick('#br_BR44');">
@@ -435,7 +375,8 @@
                         style="cursor: pointer"
                         id="br_BR44"
                         name="BR44"
-                        onclick="brandFilterClick('BR44','CLUB MONACO');" />
+                        onclick="brandFilterClick('BR44','CLUB MONACO');"
+                      />
                       <label style="cursor: pointer">CLUB MONACO</label>
                     </li>
                     <li class="hs_check01" style="cursor: pointer" onclick="filterClick('#br_BR61');">
@@ -445,7 +386,8 @@
                         style="cursor: pointer"
                         id="br_BR61"
                         name="BR61"
-                        onclick="brandFilterClick('BR61','oera');" />
+                        onclick="brandFilterClick('BR61','oera');"
+                      />
                       <label style="cursor: pointer">oera</label>
                     </li>
                     <li class="hs_check01" style="cursor: pointer" onclick="filterClick('#br_BR21');">
@@ -455,7 +397,8 @@
                         style="cursor: pointer"
                         id="br_BR21"
                         name="BR21"
-                        onclick="brandFilterClick('BR21','BALLY');" />
+                        onclick="brandFilterClick('BR21','BALLY');"
+                      />
                       <label style="cursor: pointer">BALLY</label>
                     </li>
                     <li class="hs_check01" style="cursor: pointer" onclick="filterClick('#br_BR20');">
@@ -465,7 +408,8 @@
                         style="cursor: pointer"
                         id="br_BR20"
                         name="BR20"
-                        onclick="brandFilterClick('BR20','LANVIN PARIS');" />
+                        onclick="brandFilterClick('BR20','LANVIN PARIS');"
+                      />
                       <label style="cursor: pointer">LANVIN PARIS</label>
                     </li>
                     <li class="hs_check01" style="cursor: pointer" onclick="filterClick('#br_BR41');">
@@ -475,7 +419,8 @@
                         style="cursor: pointer"
                         id="br_BR41"
                         name="BR41"
-                        onclick="brandFilterClick('BR41','3.1 Phillip Lim');" />
+                        onclick="brandFilterClick('BR41','3.1 Phillip Lim');"
+                      />
                       <label style="cursor: pointer">3.1 Phillip Lim</label>
                     </li>
                     <li class="hs_check01" style="cursor: pointer" onclick="filterClick('#br_BR64');">
@@ -485,7 +430,8 @@
                         style="cursor: pointer"
                         id="br_BR64"
                         name="BR64"
-                        onclick="brandFilterClick('BR64','OUR LEGACY');" />
+                        onclick="brandFilterClick('BR64','OUR LEGACY');"
+                      />
                       <label style="cursor: pointer">OUR LEGACY</label>
                     </li>
                     <li class="hs_check01" style="cursor: pointer" onclick="filterClick('#br_BR37');">
@@ -495,7 +441,8 @@
                         style="cursor: pointer"
                         id="br_BR37"
                         name="BR37"
-                        onclick="brandFilterClick('BR37','ROCHAS');" />
+                        onclick="brandFilterClick('BR37','ROCHAS');"
+                      />
                       <label style="cursor: pointer">ROCHAS</label>
                     </li>
                     <li class="hs_check01" style="cursor: pointer" onclick="filterClick('#br_BR15');">
@@ -505,7 +452,8 @@
                         style="cursor: pointer"
                         id="br_BR15"
                         name="BR15"
-                        onclick="brandFilterClick('BR15','TOM GREYHOUND');" />
+                        onclick="brandFilterClick('BR15','TOM GREYHOUND');"
+                      />
                       <label style="cursor: pointer">TOM GREYHOUND</label>
                     </li>
                     <li class="hs_check01" style="cursor: pointer" onclick="filterClick('#br_BR35');">
@@ -515,7 +463,8 @@
                         style="cursor: pointer"
                         id="br_BR35"
                         name="BR35"
-                        onclick="brandFilterClick('BR35','FOURM THE STORE');" />
+                        onclick="brandFilterClick('BR35','FOURM THE STORE');"
+                      />
                       <label style="cursor: pointer">FOURM THE STORE</label>
                     </li>
                     <li class="hs_check01" style="cursor: pointer" onclick="filterClick('#br_BR30');">
@@ -525,7 +474,8 @@
                         style="cursor: pointer"
                         id="br_BR30"
                         name="BR30"
-                        onclick="brandFilterClick('BR30','FOURM STUDIO');" />
+                        onclick="brandFilterClick('BR30','FOURM STUDIO');"
+                      />
                       <label style="cursor: pointer">FOURM STUDIO</label>
                     </li>
                     <li class="hs_check01" style="cursor: pointer" onclick="filterClick('#br_BR32');">
@@ -535,7 +485,8 @@
                         style="cursor: pointer"
                         id="br_BR32"
                         name="BR32"
-                        onclick="brandFilterClick('BR32','FOURM MEN!@@!S LOUNGE');" />
+                        onclick="brandFilterClick('BR32','FOURM MEN!@@!S LOUNGE');"
+                      />
                       <label style="cursor: pointer">FOURM MEN'S LOUNGE</label>
                     </li>
                     <li class="hs_check01" style="cursor: pointer" onclick="filterClick('#br_BR16');">
@@ -545,7 +496,8 @@
                         style="cursor: pointer"
                         id="br_BR16"
                         name="BR16"
-                        onclick="brandFilterClick('BR16','MUE');" />
+                        onclick="brandFilterClick('BR16','MUE');"
+                      />
                       <label style="cursor: pointer">MUE</label>
                     </li>
                     <li class="hs_check01" style="cursor: pointer" onclick="filterClick('#br_BR47');">
@@ -555,7 +507,8 @@
                         style="cursor: pointer"
                         id="br_BR47"
                         name="BR47"
-                        onclick="brandFilterClick('BR47','H : SCENE');" />
+                        onclick="brandFilterClick('BR47','H : SCENE');"
+                      />
                       <label style="cursor: pointer">H : SCENE</label>
                     </li>
                     <li class="hs_check01" style="cursor: pointer" onclick="filterClick('#br_BR62');">
@@ -565,7 +518,8 @@
                         style="cursor: pointer"
                         id="br_BR62"
                         name="BR62"
-                        onclick="brandFilterClick('BR62','Liquides Perfume Bar');" />
+                        onclick="brandFilterClick('BR62','Liquides Perfume Bar');"
+                      />
                       <label style="cursor: pointer">Liquides Perfume Bar</label>
                     </li>
                   </ul>
@@ -583,7 +537,8 @@
                         type="checkbox"
                         id="clr_BEIGE"
                         name="BEIGE"
-                        onclick="colorFilterClick('BEIGE');" />
+                        onclick="colorFilterClick('BEIGE');"
+                      />
                       <label style="cursor: pointer">
                         <span class="color" style="background: #fae7c4"></span> <span class="txt">BEIGE</span>
                       </label>
@@ -594,7 +549,8 @@
                         type="checkbox"
                         id="clr_BLACK"
                         name="BLACK"
-                        onclick="colorFilterClick('BLACK');" />
+                        onclick="colorFilterClick('BLACK');"
+                      />
                       <label style="cursor: pointer">
                         <span class="color" style="background: #000000"></span> <span class="txt">BLACK</span>
                       </label>
@@ -605,7 +561,8 @@
                         type="checkbox"
                         id="clr_BLUE"
                         name="BLUE"
-                        onclick="colorFilterClick('BLUE');" />
+                        onclick="colorFilterClick('BLUE');"
+                      />
                       <label style="cursor: pointer">
                         <span class="color" style="background: #0f45bc"></span> <span class="txt">BLUE</span>
                       </label>
@@ -616,7 +573,8 @@
                         type="checkbox"
                         id="clr_BROWN"
                         name="BROWN"
-                        onclick="colorFilterClick('BROWN');" />
+                        onclick="colorFilterClick('BROWN');"
+                      />
                       <label style="cursor: pointer">
                         <span class="color" style="background: #673915"></span> <span class="txt">BROWN</span>
                       </label>
@@ -627,7 +585,8 @@
                         type="checkbox"
                         id="clr_BURGUNDY"
                         name="BURGUNDY"
-                        onclick="colorFilterClick('BURGUNDY');" />
+                        onclick="colorFilterClick('BURGUNDY');"
+                      />
                       <label style="cursor: pointer">
                         <span class="color" style="background: #741313"></span> <span class="txt">BURGUNDY</span>
                       </label>
@@ -638,7 +597,8 @@
                         type="checkbox"
                         id="clr_CAMEL"
                         name="CAMEL"
-                        onclick="colorFilterClick('CAMEL');" />
+                        onclick="colorFilterClick('CAMEL');"
+                      />
                       <label style="cursor: pointer">
                         <span class="color" style="background: #876c41"></span> <span class="txt">CAMEL</span>
                       </label>
@@ -649,7 +609,8 @@
                         type="checkbox"
                         id="clr_GOLD"
                         name="GOLD"
-                        onclick="colorFilterClick('GOLD');" />
+                        onclick="colorFilterClick('GOLD');"
+                      />
                       <label style="cursor: pointer">
                         <span class="color" style="background: #ffc733"></span> <span class="txt">GOLD</span>
                       </label>
@@ -660,7 +621,8 @@
                         type="checkbox"
                         id="clr_GREEN"
                         name="GREEN"
-                        onclick="colorFilterClick('GREEN');" />
+                        onclick="colorFilterClick('GREEN');"
+                      />
                       <label style="cursor: pointer">
                         <span class="color" style="background: #0f6f0e"></span> <span class="txt">GREEN</span>
                       </label>
@@ -671,7 +633,8 @@
                         type="checkbox"
                         id="clr_GREY"
                         name="GREY"
-                        onclick="colorFilterClick('GREY');" />
+                        onclick="colorFilterClick('GREY');"
+                      />
                       <label style="cursor: pointer">
                         <span class="color" style="background: #444445"></span> <span class="txt">GREY</span>
                       </label>
@@ -682,7 +645,8 @@
                         type="checkbox"
                         id="clr_IVORY"
                         name="IVORY"
-                        onclick="colorFilterClick('IVORY');" />
+                        onclick="colorFilterClick('IVORY');"
+                      />
                       <label style="cursor: pointer">
                         <span class="color" style="background: #fff8d9"></span> <span class="txt">IVORY</span>
                       </label>
@@ -693,7 +657,8 @@
                         type="checkbox"
                         id="clr_KHAKI"
                         name="KHAKI"
-                        onclick="colorFilterClick('KHAKI');" />
+                        onclick="colorFilterClick('KHAKI');"
+                      />
                       <label style="cursor: pointer">
                         <span class="color" style="background: #465626"></span> <span class="txt">KHAKI</span>
                       </label>
@@ -704,7 +669,8 @@
                         type="checkbox"
                         id="clr_LAVENDER"
                         name="LAVENDER"
-                        onclick="colorFilterClick('LAVENDER');" />
+                        onclick="colorFilterClick('LAVENDER');"
+                      />
                       <label style="cursor: pointer">
                         <span class="color" style="background: #9c81bb"></span> <span class="txt">LAVENDER</span>
                       </label>
@@ -715,7 +681,8 @@
                         type="checkbox"
                         id="clr_METAL"
                         name="METAL"
-                        onclick="colorFilterClick('METAL');" />
+                        onclick="colorFilterClick('METAL');"
+                      />
                       <label style="cursor: pointer">
                         <span class="color" style="background: #9d9fa2"></span> <span class="txt">METAL</span>
                       </label>
@@ -726,7 +693,8 @@
                         type="checkbox"
                         id="clr_MINT"
                         name="MINT"
-                        onclick="colorFilterClick('MINT');" />
+                        onclick="colorFilterClick('MINT');"
+                      />
                       <label style="cursor: pointer">
                         <span class="color" style="background: #95d0ab"></span> <span class="txt">MINT</span>
                       </label>
@@ -737,7 +705,8 @@
                         type="checkbox"
                         id="clr_MULTI"
                         name="MULTI"
-                        onclick="colorFilterClick('MULTI');" />
+                        onclick="colorFilterClick('MULTI');"
+                      />
                       <label style="cursor: pointer">
                         <span class="color" style="background: #534741"></span> <span class="txt">MULTI</span>
                       </label>
@@ -748,7 +717,8 @@
                         type="checkbox"
                         id="clr_NAVY"
                         name="NAVY"
-                        onclick="colorFilterClick('NAVY');" />
+                        onclick="colorFilterClick('NAVY');"
+                      />
                       <label style="cursor: pointer">
                         <span class="color" style="background: #061836"></span> <span class="txt">NAVY</span>
                       </label>
@@ -759,7 +729,8 @@
                         type="checkbox"
                         id="clr_OLIVE"
                         name="OLIVE"
-                        onclick="colorFilterClick('OLIVE');" />
+                        onclick="colorFilterClick('OLIVE');"
+                      />
                       <label style="cursor: pointer">
                         <span class="color" style="background: #5d682d"></span> <span class="txt">OLIVE</span>
                       </label>
@@ -770,7 +741,8 @@
                         type="checkbox"
                         id="clr_ORANGE"
                         name="ORANGE"
-                        onclick="colorFilterClick('ORANGE');" />
+                        onclick="colorFilterClick('ORANGE');"
+                      />
                       <label style="cursor: pointer">
                         <span class="color" style="background: #ee6423"></span> <span class="txt">ORANGE</span>
                       </label>
@@ -781,7 +753,8 @@
                         type="checkbox"
                         id="clr_PINK"
                         name="PINK"
-                        onclick="colorFilterClick('PINK');" />
+                        onclick="colorFilterClick('PINK');"
+                      />
                       <label style="cursor: pointer">
                         <span class="color" style="background: #ea589b"></span> <span class="txt">PINK</span>
                       </label>
@@ -792,7 +765,8 @@
                         type="checkbox"
                         id="clr_PURPLE"
                         name="PURPLE"
-                        onclick="colorFilterClick('PURPLE');" />
+                        onclick="colorFilterClick('PURPLE');"
+                      />
                       <label style="cursor: pointer">
                         <span class="color" style="background: #833b95"></span> <span class="txt">PURPLE</span>
                       </label>
@@ -803,7 +777,8 @@
                         type="checkbox"
                         id="clr_RED"
                         name="RED"
-                        onclick="colorFilterClick('RED');" />
+                        onclick="colorFilterClick('RED');"
+                      />
                       <label style="cursor: pointer">
                         <span class="color" style="background: #ec1e24"></span> <span class="txt">RED</span>
                       </label>
@@ -814,7 +789,8 @@
                         type="checkbox"
                         id="clr_SILVER"
                         name="SILVER"
-                        onclick="colorFilterClick('SILVER');" />
+                        onclick="colorFilterClick('SILVER');"
+                      />
                       <label style="cursor: pointer">
                         <span class="color" style="background: #c0c0c0"></span> <span class="txt">SILVER</span>
                       </label>
@@ -825,7 +801,8 @@
                         type="checkbox"
                         id="clr_SKY"
                         name="SKY"
-                        onclick="colorFilterClick('SKY');" />
+                        onclick="colorFilterClick('SKY');"
+                      />
                       <label style="cursor: pointer">
                         <span class="color" style="background: #a2d6f3"></span> <span class="txt">SKY</span>
                       </label>
@@ -836,7 +813,8 @@
                         type="checkbox"
                         id="clr_VIOLET"
                         name="VIOLET"
-                        onclick="colorFilterClick('VIOLET');" />
+                        onclick="colorFilterClick('VIOLET');"
+                      />
                       <label style="cursor: pointer">
                         <span class="color" style="background: #4c2b7b"></span> <span class="txt">VIOLET</span>
                       </label>
@@ -847,7 +825,8 @@
                         type="checkbox"
                         id="clr_WHITE"
                         name="WHITE"
-                        onclick="colorFilterClick('WHITE');" />
+                        onclick="colorFilterClick('WHITE');"
+                      />
                       <label style="cursor: pointer">
                         <span class="color white" style="background: #ffffff"></span> <span class="txt">WHITE</span>
                       </label>
@@ -858,7 +837,8 @@
                         type="checkbox"
                         id="clr_YELLOW"
                         name="YELLOW"
-                        onclick="colorFilterClick('YELLOW');" />
+                        onclick="colorFilterClick('YELLOW');"
+                      />
                       <label style="cursor: pointer">
                         <span class="color" style="background: #ffea0a"></span> <span class="txt">YELLOW</span>
                       </label>
@@ -878,7 +858,8 @@
                         type="checkbox"
                         id="sz_XXXS"
                         name="XXXS"
-                        onclick="sizeFilterClick('XXXS');" />
+                        onclick="sizeFilterClick('XXXS');"
+                      />
                       <label style="cursor: pointer">XXXS</label>
                     </li>
                     <li class="hs_box_check" onclick="filterClick('#sz_XXS');">
@@ -915,7 +896,8 @@
                         type="checkbox"
                         id="sz_XXXL"
                         name="XXXL"
-                        onclick="sizeFilterClick('XXXL');" />
+                        onclick="sizeFilterClick('XXXL');"
+                      />
                       <label style="cursor: pointer">XXXL</label>
                     </li>
                     <li class="hs_box_check" onclick="filterClick('#sz_XXXXL');">
@@ -924,7 +906,8 @@
                         type="checkbox"
                         id="sz_XXXXL"
                         name="XXXXL"
-                        onclick="sizeFilterClick('XXXXL');" />
+                        onclick="sizeFilterClick('XXXXL');"
+                      />
                       <label style="cursor: pointer">XXXXL</label>
                     </li>
                     <li class="hs_box_check" onclick="filterClick('#sz_FREE');">
@@ -933,7 +916,8 @@
                         type="checkbox"
                         id="sz_FREE"
                         name="FREE"
-                        onclick="sizeFilterClick('FREE');" />
+                        onclick="sizeFilterClick('FREE');"
+                      />
                       <label style="cursor: pointer">FREE</label>
                     </li>
                     <li class="hs_box_check" onclick="filterClick('#sz_ETC');">
@@ -956,7 +940,8 @@
                         style="cursor: pointer"
                         id="price01"
                         name="price01"
-                        onclick="priceFilterClick('1','￦100,000 이하');" />
+                        onclick="priceFilterClick('1','￦100,000 이하');"
+                      />
                       <label style="cursor: pointer">￦100,000 이하</label>
                     </li>
                     <li class="hs_check01" style="cursor: pointer" onclick="filterClick('#price02');">
@@ -966,7 +951,8 @@
                         style="cursor: pointer"
                         id="price02"
                         name="price02"
-                        onclick="priceFilterClick('2','￦100,000 ~ ￦300,000');" />
+                        onclick="priceFilterClick('2','￦100,000 ~ ￦300,000');"
+                      />
                       <label style="cursor: pointer">￦100,000 ~ ￦300,000</label>
                     </li>
                     <li class="hs_check01" style="cursor: pointer" onclick="filterClick('#price03');">
@@ -976,7 +962,8 @@
                         style="cursor: pointer"
                         id="price03"
                         name="price03"
-                        onclick="priceFilterClick('3','￦300,000 ~ ￦500,000');" />
+                        onclick="priceFilterClick('3','￦300,000 ~ ￦500,000');"
+                      />
                       <label style="cursor: pointer">￦300,000 ~ ￦500,000</label>
                     </li>
                     <li class="hs_check01" style="cursor: pointer" onclick="filterClick('#price04');">
@@ -986,7 +973,8 @@
                         style="cursor: pointer"
                         id="price04"
                         name="price04"
-                        onclick="priceFilterClick('4','￦500,000 ~ ￦1,000,000');" />
+                        onclick="priceFilterClick('4','￦500,000 ~ ￦1,000,000');"
+                      />
                       <label style="cursor: pointer">￦500,000 ~ ￦1,000,000</label>
                     </li>
                     <li class="hs_check01" style="cursor: pointer" onclick="filterClick('#price05');">
@@ -996,7 +984,8 @@
                         style="cursor: pointer"
                         id="price05"
                         name="price05"
-                        onclick="priceFilterClick('5','￦1,000,000 이상');" />
+                        onclick="priceFilterClick('5','￦1,000,000 이상');"
+                      />
                       <label style="cursor: pointer">￦1,000,000 이상</label>
                     </li>
                   </ul>
@@ -1005,7 +994,7 @@
             </ul>
             <div class="hs_btm_btnwrap">
               <button type="button" class="hs_btm_btn gray" onclick="filterResetBtnClick();">초기화</button>
-              <button type="button" class="hs_btm_btn black" onclick="filterApply();">적용</button>
+              <button type="button" class="hs_btm_btn black" onclick="getFilter();">적용</button>
             </div>
           </div>
           <a href="#" class="pop-comm-cls" id="filterLayerPopupClose">닫기</a>
@@ -1191,7 +1180,8 @@
                 <select
                   id="footerSelectLang"
                   onchange="if(this.value) language(this.value);"
-                  onclick="GA_Event('공통', '푸터_CNT', 'LANGUAGE');">
+                  onclick="GA_Event('공통', '푸터_CNT', 'LANGUAGE');"
+                >
                   <option value="" selected="selected" disabled="" hidden="">LANGUAGE</option>
                   <option value="ko">한국어</option>
                   <option value="en">ENGLISH</option>
@@ -1400,7 +1390,8 @@
                     <a
                       href="/product/ProductList/br15/br15"
                       class="two_link"
-                      onclick="GA_Event('편집샵_카테고리','3DEPTH','TOM GREYHOUND_전체보기');">
+                      onclick="GA_Event('편집샵_카테고리','3DEPTH','TOM GREYHOUND_전체보기');"
+                    >
                       전체보기
                     </a>
                   </li>
@@ -1408,13 +1399,15 @@
                     <a
                       href="/product/ProductList/br15/br15?subBrand=TN"
                       class="two_link"
-                      onclick="GA_Event('편집샵_카테고리','3DEPTH','TOM GREYHOUND_TOM GREYHOUND');">
+                      onclick="GA_Event('편집샵_카테고리','3DEPTH','TOM GREYHOUND_TOM GREYHOUND');"
+                    >
                       TOM GREYHOUND</a
                     >
                     <a
                       href="/product/ProductList/br15/br15?subBrand=TN"
                       class="ico-pb-all"
-                      onclick="GA_Event('편집샵_카테고리','3DEPTH','TOM GREYHOUND_TOM GREYHOUND');">
+                      onclick="GA_Event('편집샵_카테고리','3DEPTH','TOM GREYHOUND_TOM GREYHOUND');"
+                    >
                       <img src="http://cdn.thehandsome.com/_ui/handsomemobile/images/common/ico_pb.png" alt="ico_pb" />
                     </a>
                   </li>
@@ -1422,7 +1415,8 @@
                     <a
                       href="/product/ProductList/br15/br15?subBrand=TG13"
                       class="two_link"
-                      onclick="GA_Event('편집샵_카테고리','3DEPTH','TOM GREYHOUND_R13');">
+                      onclick="GA_Event('편집샵_카테고리','3DEPTH','TOM GREYHOUND_R13');"
+                    >
                       R13</a
                     >
                   </li>
@@ -1430,7 +1424,8 @@
                     <a
                       href="/product/ProductList/br15/br15?subBrand=TGOS"
                       class="two_link"
-                      onclick="GA_Event('편집샵_카테고리','3DEPTH','TOM GREYHOUND_OPERA SPORT');">
+                      onclick="GA_Event('편집샵_카테고리','3DEPTH','TOM GREYHOUND_OPERA SPORT');"
+                    >
                       OPERA SPORT</a
                     >
                   </li>
@@ -1438,7 +1433,8 @@
                     <a
                       href="/product/ProductList/br15/br15?subBrand=TGGX"
                       class="two_link"
-                      onclick="GA_Event('편집샵_카테고리','3DEPTH','TOM GREYHOUND_GANNI');">
+                      onclick="GA_Event('편집샵_카테고리','3DEPTH','TOM GREYHOUND_GANNI');"
+                    >
                       GANNI</a
                     >
                   </li>
@@ -1446,7 +1442,8 @@
                     <a
                       href="/product/ProductList/br15/br15?subBrand=TGTM"
                       class="two_link"
-                      onclick="GA_Event('편집샵_카테고리','3DEPTH','TOM GREYHOUND_TOTEME');">
+                      onclick="GA_Event('편집샵_카테고리','3DEPTH','TOM GREYHOUND_TOTEME');"
+                    >
                       TOTEME</a
                     >
                   </li>
@@ -1454,7 +1451,8 @@
                     <a
                       href="/product/ProductList/br15/br15?subBrand=TGRX"
                       class="two_link"
-                      onclick="GA_Event('편집샵_카테고리','3DEPTH','TOM GREYHOUND_REST &amp;amp;amp; RECREATION');">
+                      onclick="GA_Event('편집샵_카테고리','3DEPTH','TOM GREYHOUND_REST &amp;amp;amp; RECREATION');"
+                    >
                       REST &amp; RECREATION</a
                     >
                   </li>
@@ -1462,7 +1460,8 @@
                     <a
                       href="/product/ProductList/br15/br15?subBrand=TGDU"
                       class="two_link"
-                      onclick="GA_Event('편집샵_카테고리','3DEPTH','TOM GREYHOUND_DUNST');">
+                      onclick="GA_Event('편집샵_카테고리','3DEPTH','TOM GREYHOUND_DUNST');"
+                    >
                       DUNST</a
                     >
                   </li>
@@ -1470,7 +1469,8 @@
                     <a
                       href="/product/ProductList/br15/br15?subBrand=TG29"
                       class="two_link"
-                      onclick="GA_Event('편집샵_카테고리','3DEPTH','TOM GREYHOUND_PUMA');">
+                      onclick="GA_Event('편집샵_카테고리','3DEPTH','TOM GREYHOUND_PUMA');"
+                    >
                       PUMA</a
                     >
                   </li>
@@ -1478,7 +1478,8 @@
                     <a
                       href="/product/ProductList/br15/br15?subBrand=TGDI"
                       class="two_link"
-                      onclick="GA_Event('편집샵_카테고리','3DEPTH','TOM GREYHOUND_ADIDAS');">
+                      onclick="GA_Event('편집샵_카테고리','3DEPTH','TOM GREYHOUND_ADIDAS');"
+                    >
                       ADIDAS</a
                     >
                   </li>
@@ -1486,7 +1487,8 @@
                     <a
                       href="/product/ProductList/br15/br15?subBrand=TGGW"
                       class="two_link"
-                      onclick="GA_Event('편집샵_카테고리','3DEPTH','TOM GREYHOUND_GLOWNY');">
+                      onclick="GA_Event('편집샵_카테고리','3DEPTH','TOM GREYHOUND_GLOWNY');"
+                    >
                       GLOWNY</a
                     >
                   </li>
@@ -1494,7 +1496,8 @@
                     <a
                       href="/product/ProductList/br15/br15?subBrand=TG4Q"
                       class="two_link"
-                      onclick="GA_Event('편집샵_카테고리','3DEPTH','TOM GREYHOUND_AGOLDE');">
+                      onclick="GA_Event('편집샵_카테고리','3DEPTH','TOM GREYHOUND_AGOLDE');"
+                    >
                       AGOLDE</a
                     >
                   </li>
@@ -1502,7 +1505,8 @@
                     <a
                       href="/product/ProductList/br15/br15?subBrand=TGYY"
                       class="two_link"
-                      onclick="GA_Event('편집샵_카테고리','3DEPTH','TOM GREYHOUND_LEE.Y');">
+                      onclick="GA_Event('편집샵_카테고리','3DEPTH','TOM GREYHOUND_LEE.Y');"
+                    >
                       LEE.Y</a
                     >
                   </li>
@@ -1510,7 +1514,8 @@
                     <a
                       href="/product/ProductList/br15/br15?subBrand=TGZO"
                       class="two_link"
-                      onclick="GA_Event('편집샵_카테고리','3DEPTH','TOM GREYHOUND_MOTHER DENIM');">
+                      onclick="GA_Event('편집샵_카테고리','3DEPTH','TOM GREYHOUND_MOTHER DENIM');"
+                    >
                       MOTHER DENIM</a
                     >
                   </li>
@@ -1518,7 +1523,8 @@
                     <a
                       href="/product/ProductList/br15/br15?subBrand=TGAL"
                       class="two_link"
-                      onclick="GA_Event('편집샵_카테고리','3DEPTH','TOM GREYHOUND_ALIGHIERI');">
+                      onclick="GA_Event('편집샵_카테고리','3DEPTH','TOM GREYHOUND_ALIGHIERI');"
+                    >
                       ALIGHIERI</a
                     >
                   </li>
@@ -1526,7 +1532,8 @@
                     <a
                       href="/product/ProductList/br15/br15?subBrand=TGSK"
                       class="two_link"
-                      onclick="GA_Event('편집샵_카테고리','3DEPTH','TOM GREYHOUND_SHOREDITCH SKI CLUB');">
+                      onclick="GA_Event('편집샵_카테고리','3DEPTH','TOM GREYHOUND_SHOREDITCH SKI CLUB');"
+                    >
                       SHOREDITCH SKI CLUB</a
                     >
                   </li>
@@ -1534,7 +1541,8 @@
                     <a
                       href="/product/ProductList/br15/br15?subBrand=TGED"
                       class="two_link"
-                      onclick="GA_Event('편집샵_카테고리','3DEPTH','TOM GREYHOUND_EDMMOND STUDIO');">
+                      onclick="GA_Event('편집샵_카테고리','3DEPTH','TOM GREYHOUND_EDMMOND STUDIO');"
+                    >
                       EDMMOND STUDIO</a
                     >
                   </li>
@@ -1542,7 +1550,8 @@
                     <a
                       href="/product/ProductList/br15/br15?subBrand=TGVL"
                       class="two_link"
-                      onclick="GA_Event('편집샵_카테고리','3DEPTH','TOM GREYHOUND_MUVEIL');">
+                      onclick="GA_Event('편집샵_카테고리','3DEPTH','TOM GREYHOUND_MUVEIL');"
+                    >
                       MUVEIL</a
                     >
                   </li>
@@ -1550,7 +1559,8 @@
                     <a
                       href="/product/ProductList/br15/br15?subBrand=TGJF"
                       class="two_link"
-                      onclick="GA_Event('편집샵_카테고리','3DEPTH','TOM GREYHOUND_JAMES PERSE');">
+                      onclick="GA_Event('편집샵_카테고리','3DEPTH','TOM GREYHOUND_JAMES PERSE');"
+                    >
                       JAMES PERSE</a
                     >
                   </li>
@@ -1558,7 +1568,8 @@
                     <a
                       href="/product/ProductList/br15/br15?subBrand=TGWD"
                       class="two_link"
-                      onclick="GA_Event('편집샵_카테고리','3DEPTH','TOM GREYHOUND_WILD DONKEY');">
+                      onclick="GA_Event('편집샵_카테고리','3DEPTH','TOM GREYHOUND_WILD DONKEY');"
+                    >
                       WILD DONKEY</a
                     >
                   </li>
@@ -1566,7 +1577,8 @@
                     <a
                       href="/product/ProductList/br15/br15?subBrand=TGRT"
                       class="two_link"
-                      onclick="GA_Event('편집샵_카테고리','3DEPTH','TOM GREYHOUND_RUE MADAM PARIS');">
+                      onclick="GA_Event('편집샵_카테고리','3DEPTH','TOM GREYHOUND_RUE MADAM PARIS');"
+                    >
                       RUE MADAM PARIS</a
                     >
                   </li>
@@ -1574,7 +1586,8 @@
                     <a
                       href="/product/ProductList/br15/br15?subBrand=TGSL"
                       class="two_link"
-                      onclick="GA_Event('편집샵_카테고리','3DEPTH','TOM GREYHOUND_SELETTI');">
+                      onclick="GA_Event('편집샵_카테고리','3DEPTH','TOM GREYHOUND_SELETTI');"
+                    >
                       SELETTI</a
                     >
                   </li>
@@ -1582,7 +1595,8 @@
                     <a
                       href="/product/ProductList/br15/br15?subBrand=TGCP"
                       class="two_link"
-                      onclick="GA_Event('편집샵_카테고리','3DEPTH','TOM GREYHOUND_ROHE');">
+                      onclick="GA_Event('편집샵_카테고리','3DEPTH','TOM GREYHOUND_ROHE');"
+                    >
                       ROHE</a
                     >
                   </li>
@@ -1590,7 +1604,8 @@
                     <a
                       href="/product/ProductList/br15/br15?subBrand=TGHK"
                       class="two_link"
-                      onclick="GA_Event('편집샵_카테고리','3DEPTH','TOM GREYHOUND_HVISK');">
+                      onclick="GA_Event('편집샵_카테고리','3DEPTH','TOM GREYHOUND_HVISK');"
+                    >
                       HVISK</a
                     >
                   </li>
@@ -1598,7 +1613,8 @@
                     <a
                       href="/product/ProductList/br15/br15?subBrand=TGX3"
                       class="two_link"
-                      onclick="GA_Event('편집샵_카테고리','3DEPTH','TOM GREYHOUND_XIRENA');">
+                      onclick="GA_Event('편집샵_카테고리','3DEPTH','TOM GREYHOUND_XIRENA');"
+                    >
                       XIRENA</a
                     >
                   </li>
@@ -1606,7 +1622,8 @@
                     <a
                       href="/product/ProductList/br15/br15?subBrand=TGOR"
                       class="two_link"
-                      onclick="GA_Event('편집샵_카테고리','3DEPTH','TOM GREYHOUND_WEHOURS');">
+                      onclick="GA_Event('편집샵_카테고리','3DEPTH','TOM GREYHOUND_WEHOURS');"
+                    >
                       WEHOURS</a
                     >
                   </li>
@@ -1614,7 +1631,8 @@
                     <a
                       href="/product/ProductList/br15/br15?subBrand=TGD6"
                       class="two_link"
-                      onclick="GA_Event('편집샵_카테고리','3DEPTH','TOM GREYHOUND_DROGHERIA CRIVELLINI');">
+                      onclick="GA_Event('편집샵_카테고리','3DEPTH','TOM GREYHOUND_DROGHERIA CRIVELLINI');"
+                    >
                       DROGHERIA CRIVELLINI</a
                     >
                   </li>
@@ -1622,7 +1640,8 @@
                     <a
                       href="/product/ProductList/br15/br15?subBrand=TGHC"
                       class="two_link"
-                      onclick="GA_Event('편집샵_카테고리','3DEPTH','TOM GREYHOUND_HOTEL CERRITOS');">
+                      onclick="GA_Event('편집샵_카테고리','3DEPTH','TOM GREYHOUND_HOTEL CERRITOS');"
+                    >
                       HOTEL CERRITOS</a
                     >
                   </li>
@@ -1630,7 +1649,8 @@
                     <a
                       href="/product/ProductList/br15/br15?subBrand=TGRR"
                       class="two_link"
-                      onclick="GA_Event('편집샵_카테고리','3DEPTH','TOM GREYHOUND_RECREATIONAL HABITS');">
+                      onclick="GA_Event('편집샵_카테고리','3DEPTH','TOM GREYHOUND_RECREATIONAL HABITS');"
+                    >
                       RECREATIONAL HABITS</a
                     >
                   </li>
@@ -1651,7 +1671,8 @@
                     <a
                       href="/product/ProductList/br35/br35"
                       class="two_link"
-                      onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_전체보기');">
+                      onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_전체보기');"
+                    >
                       전체보기
                     </a>
                   </li>
@@ -1659,13 +1680,15 @@
                     <a
                       href="/product/ProductList/br35/br35?subBrand=YN"
                       class="two_link"
-                      onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_FOURM THE STORE');">
+                      onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_FOURM THE STORE');"
+                    >
                       FOURM THE STORE</a
                     >
                     <a
                       href="/product/ProductList/br35/br35?subBrand=YN"
                       class="ico-pb-all"
-                      onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_FOURM THE STORE');">
+                      onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_FOURM THE STORE');"
+                    >
                       <img src="http://cdn.thehandsome.com/_ui/handsomemobile/images/common/ico_pb.png" alt="ico_pb" />
                     </a>
                   </li>
@@ -1673,7 +1696,8 @@
                     <a
                       href="/product/ProductList/br35/br35?subBrand=YSZS"
                       class="two_link"
-                      onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_SAINT JAMES');">
+                      onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_SAINT JAMES');"
+                    >
                       SAINT JAMES</a
                     >
                   </li>
@@ -1681,7 +1705,8 @@
                     <a
                       href="/product/ProductList/br35/br35?subBrand=YSZO"
                       class="two_link"
-                      onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_MOTHER DENIM');">
+                      onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_MOTHER DENIM');"
+                    >
                       MOTHER DENIM</a
                     >
                   </li>
@@ -1689,7 +1714,8 @@
                     <a
                       href="/product/ProductList/br35/br35?subBrand=YSHS"
                       class="two_link"
-                      onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_HOUSE OF SUNNY');">
+                      onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_HOUSE OF SUNNY');"
+                    >
                       HOUSE OF SUNNY</a
                     >
                   </li>
@@ -1697,7 +1723,8 @@
                     <a
                       href="/product/ProductList/br35/br35?subBrand=YSNS"
                       class="two_link"
-                      onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_RE/DONE');">
+                      onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_RE/DONE');"
+                    >
                       RE/DONE</a
                     >
                   </li>
@@ -1705,7 +1732,8 @@
                     <a
                       href="/product/ProductList/br35/br35?subBrand=YSFE"
                       class="two_link"
-                      onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_FRAME');">
+                      onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_FRAME');"
+                    >
                       FRAME</a
                     >
                   </li>
@@ -1713,7 +1741,8 @@
                     <a
                       href="/product/ProductList/br35/br35?subBrand=YSJS"
                       class="two_link"
-                      onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_JOSHUA SANDERS');">
+                      onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_JOSHUA SANDERS');"
+                    >
                       JOSHUA SANDERS</a
                     >
                   </li>
@@ -1721,7 +1750,8 @@
                     <a
                       href="/product/ProductList/br35/br35?subBrand=YSAB"
                       class="two_link"
-                      onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_ANINE BING');">
+                      onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_ANINE BING');"
+                    >
                       ANINE BING</a
                     >
                   </li>
@@ -1729,7 +1759,8 @@
                     <a
                       href="/product/ProductList/br35/br35?subBrand=YSFS"
                       class="two_link"
-                      onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_FRONT STREET 8');">
+                      onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_FRONT STREET 8');"
+                    >
                       FRONT STREET 8</a
                     >
                   </li>
@@ -1737,7 +1768,8 @@
                     <a
                       href="/product/ProductList/br35/br35?subBrand=YSRP"
                       class="two_link"
-                      onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_REPLUME');">
+                      onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_REPLUME');"
+                    >
                       REPLUME</a
                     >
                   </li>
@@ -1745,7 +1777,8 @@
                     <a
                       href="/product/ProductList/br35/br35?subBrand=YSEK"
                       class="two_link"
-                      onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_EENK');">
+                      onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_EENK');"
+                    >
                       EENK</a
                     >
                   </li>
@@ -1753,7 +1786,8 @@
                     <a
                       href="/product/ProductList/br35/br35?subBrand=YSTC"
                       class="two_link"
-                      onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_TACH CLOTHING');">
+                      onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_TACH CLOTHING');"
+                    >
                       TACH CLOTHING</a
                     >
                   </li>
@@ -1761,7 +1795,8 @@
                     <a
                       href="/product/ProductList/br35/br35?subBrand=YSOS"
                       class="two_link"
-                      onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_OSOI');">
+                      onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_OSOI');"
+                    >
                       OSOI</a
                     >
                   </li>
@@ -1769,7 +1804,8 @@
                     <a
                       href="/product/ProductList/br35/br35?subBrand=YSKA"
                       class="two_link"
-                      onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_KARHU');">
+                      onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_KARHU');"
+                    >
                       KARHU</a
                     >
                   </li>
@@ -1777,7 +1813,8 @@
                     <a
                       href="/product/ProductList/br35/br35?subBrand=YSVJ"
                       class="two_link"
-                      onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_VEJA');">
+                      onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_VEJA');"
+                    >
                       VEJA</a
                     >
                   </li>
@@ -1785,7 +1822,8 @@
                     <a
                       href="/product/ProductList/br35/br35?subBrand=YS46"
                       class="two_link"
-                      onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_JUMPER 1234');">
+                      onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_JUMPER 1234');"
+                    >
                       JUMPER 1234</a
                     >
                   </li>
@@ -1793,7 +1831,8 @@
                     <a
                       href="/product/ProductList/br35/br35?subBrand=YSRT"
                       class="two_link"
-                      onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_ROTATE');">
+                      onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_ROTATE');"
+                    >
                       ROTATE</a
                     >
                   </li>
@@ -1801,7 +1840,8 @@
                     <a
                       href="/product/ProductList/br35/br35?subBrand=YS4D"
                       class="two_link"
-                      onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_GRLFRND');">
+                      onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_GRLFRND');"
+                    >
                       GRLFRND</a
                     >
                   </li>
@@ -1809,7 +1849,8 @@
                     <a
                       href="/product/ProductList/br35/br35?subBrand=YSML"
                       class="two_link"
-                      onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_MADLUV');">
+                      onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_MADLUV');"
+                    >
                       MADLUV</a
                     >
                   </li>
@@ -1817,7 +1858,8 @@
                     <a
                       href="/product/ProductList/br35/br35?subBrand=YS8B"
                       class="two_link"
-                      onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_JAMIE WANDER');">
+                      onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_JAMIE WANDER');"
+                    >
                       JAMIE WANDER</a
                     >
                   </li>
@@ -1825,7 +1867,8 @@
                     <a
                       href="/product/ProductList/br35/br35?subBrand=YSND"
                       class="two_link"
-                      onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_BONNE MAISON');">
+                      onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_BONNE MAISON');"
+                    >
                       BONNE MAISON</a
                     >
                   </li>
@@ -1833,7 +1876,8 @@
                     <a
                       href="/product/ProductList/br35/br35?subBrand=YSOT"
                       class="two_link"
-                      onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_ROSEANNA');">
+                      onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_ROSEANNA');"
+                    >
                       ROSEANNA</a
                     >
                   </li>
@@ -1841,7 +1885,8 @@
                     <a
                       href="/product/ProductList/br35/br35?subBrand=YSGS"
                       class="two_link"
-                      onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_GCDS');">
+                      onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_GCDS');"
+                    >
                       GCDS</a
                     >
                   </li>
@@ -1849,7 +1894,8 @@
                     <a
                       href="/product/ProductList/br35/br35?subBrand=YSTB"
                       class="two_link"
-                      onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_KSUBI');">
+                      onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_KSUBI');"
+                    >
                       KSUBI</a
                     >
                   </li>
@@ -1857,7 +1903,8 @@
                     <a
                       href="/product/ProductList/br35/br35?subBrand=YSKT"
                       class="two_link"
-                      onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_KITRI');">
+                      onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_KITRI');"
+                    >
                       KITRI</a
                     >
                   </li>
@@ -1865,7 +1912,8 @@
                     <a
                       href="/product/ProductList/br35/br35?subBrand=YS4Q"
                       class="two_link"
-                      onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_AGOLDE');">
+                      onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_AGOLDE');"
+                    >
                       AGOLDE</a
                     >
                   </li>
@@ -1873,7 +1921,8 @@
                     <a
                       href="/product/ProductList/br35/br35?subBrand=YSPD"
                       class="two_link"
-                      onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_PAIRS DELI&amp;amp;amp;GROCERY');">
+                      onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_PAIRS DELI&amp;amp;amp;GROCERY');"
+                    >
                       PAIRS DELI&amp;GROCERY</a
                     >
                   </li>
@@ -1881,7 +1930,8 @@
                     <a
                       href="/product/ProductList/br35/br35?subBrand=YSF5"
                       class="two_link"
-                      onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_FIORUCCI');">
+                      onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_FIORUCCI');"
+                    >
                       FIORUCCI</a
                     >
                   </li>
@@ -1889,7 +1939,8 @@
                     <a
                       href="/product/ProductList/br35/br35?subBrand=YSRX"
                       class="two_link"
-                      onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_RIXO');">
+                      onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_RIXO');"
+                    >
                       RIXO</a
                     >
                   </li>
@@ -1897,7 +1948,8 @@
                     <a
                       href="/product/ProductList/br35/br35?subBrand=YSGR"
                       class="two_link"
-                      onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_G KERO');">
+                      onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_G KERO');"
+                    >
                       G KERO</a
                     >
                   </li>
@@ -1905,7 +1957,8 @@
                     <a
                       href="/product/ProductList/br35/br35?subBrand=YSHO"
                       class="two_link"
-                      onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_HOLZWEILER');">
+                      onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_HOLZWEILER');"
+                    >
                       HOLZWEILER</a
                     >
                   </li>
@@ -1913,7 +1966,8 @@
                     <a
                       href="/product/ProductList/br35/br35?subBrand=YSGE"
                       class="two_link"
-                      onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_GESTUZ');">
+                      onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_GESTUZ');"
+                    >
                       GESTUZ</a
                     >
                   </li>
@@ -1921,7 +1975,8 @@
                     <a
                       href="/product/ProductList/br35/br35?subBrand=YSET"
                       class="two_link"
-                      onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_ETRE CECILE');">
+                      onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_ETRE CECILE');"
+                    >
                       ETRE CECILE</a
                     >
                   </li>
@@ -1929,7 +1984,8 @@
                     <a
                       href="/product/ProductList/br35/br35?subBrand=YSPA"
                       class="two_link"
-                      onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_PAIRS');">
+                      onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_PAIRS');"
+                    >
                       PAIRS</a
                     >
                   </li>
@@ -1937,7 +1993,8 @@
                     <a
                       href="/product/ProductList/br35/br35?subBrand=YSIP"
                       class="two_link"
-                      onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_IPANEMA');">
+                      onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM THE STORE_IPANEMA');"
+                    >
                       IPANEMA</a
                     >
                   </li>
@@ -1958,7 +2015,8 @@
                     <a
                       href="/product/ProductList/br30/br30"
                       class="two_link"
-                      onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM STUDIO_전체보기');">
+                      onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM STUDIO_전체보기');"
+                    >
                       전체보기
                     </a>
                   </li>
@@ -1966,13 +2024,15 @@
                     <a
                       href="/product/ProductList/br30/br30?subBrand=CN"
                       class="two_link"
-                      onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM STUDIO_FOURM STUDIO');">
+                      onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM STUDIO_FOURM STUDIO');"
+                    >
                       FOURM STUDIO</a
                     >
                     <a
                       href="/product/ProductList/br30/br30?subBrand=CN"
                       class="ico-pb-all"
-                      onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM STUDIO_FOURM STUDIO');">
+                      onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM STUDIO_FOURM STUDIO');"
+                    >
                       <img src="http://cdn.thehandsome.com/_ui/handsomemobile/images/common/ico_pb.png" alt="ico_pb" />
                     </a>
                   </li>
@@ -1980,7 +2040,8 @@
                     <a
                       href="/product/ProductList/br30/br30?subBrand=CS71"
                       class="two_link"
-                      onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM STUDIO_LE17SEPTEMBRE');">
+                      onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM STUDIO_LE17SEPTEMBRE');"
+                    >
                       LE17SEPTEMBRE</a
                     >
                   </li>
@@ -1988,7 +2049,8 @@
                     <a
                       href="/product/ProductList/br30/br30?subBrand=CSMG"
                       class="two_link"
-                      onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM STUDIO_MARGESHERWOOD');">
+                      onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM STUDIO_MARGESHERWOOD');"
+                    >
                       MARGESHERWOOD</a
                     >
                   </li>
@@ -1996,7 +2058,8 @@
                     <a
                       href="/product/ProductList/br30/br30?subBrand=CSMS"
                       class="two_link"
-                      onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM STUDIO_MATIAS');">
+                      onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM STUDIO_MATIAS');"
+                    >
                       MATIAS</a
                     >
                   </li>
@@ -2004,7 +2067,8 @@
                     <a
                       href="/product/ProductList/br30/br30?subBrand=CS51"
                       class="two_link"
-                      onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM STUDIO_REJINA PYO');">
+                      onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM STUDIO_REJINA PYO');"
+                    >
                       REJINA PYO</a
                     >
                   </li>
@@ -2012,7 +2076,8 @@
                     <a
                       href="/product/ProductList/br30/br30?subBrand=CSLV"
                       class="two_link"
-                      onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM STUDIO_LVIR');">
+                      onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM STUDIO_LVIR');"
+                    >
                       LVIR</a
                     >
                   </li>
@@ -2020,7 +2085,8 @@
                     <a
                       href="/product/ProductList/br30/br30?subBrand=CSZ8"
                       class="two_link"
-                      onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM STUDIO_ERIKA CAVALLINI');">
+                      onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM STUDIO_ERIKA CAVALLINI');"
+                    >
                       ERIKA CAVALLINI</a
                     >
                   </li>
@@ -2028,7 +2094,8 @@
                     <a
                       href="/product/ProductList/br30/br30?subBrand=CSMJ"
                       class="two_link"
-                      onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM STUDIO_MIJEONG PARK');">
+                      onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM STUDIO_MIJEONG PARK');"
+                    >
                       MIJEONG PARK</a
                     >
                   </li>
@@ -2036,7 +2103,8 @@
                     <a
                       href="/product/ProductList/br30/br30?subBrand=CSNL"
                       class="two_link"
-                      onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM STUDIO_NEUL');">
+                      onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM STUDIO_NEUL');"
+                    >
                       NEUL</a
                     >
                   </li>
@@ -2044,7 +2112,8 @@
                     <a
                       href="/product/ProductList/br30/br30?subBrand=CSGM"
                       class="two_link"
-                      onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM STUDIO_GREY MANSION');">
+                      onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM STUDIO_GREY MANSION');"
+                    >
                       GREY MANSION</a
                     >
                   </li>
@@ -2052,7 +2121,8 @@
                     <a
                       href="/product/ProductList/br30/br30?subBrand=CSLE"
                       class="two_link"
-                      onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM STUDIO_LEMELS');">
+                      onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM STUDIO_LEMELS');"
+                    >
                       LEMELS</a
                     >
                   </li>
@@ -2060,7 +2130,8 @@
                     <a
                       href="/product/ProductList/br30/br30?subBrand=CSLS"
                       class="two_link"
-                      onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM STUDIO_LSA INTERNATIONAL');">
+                      onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM STUDIO_LSA INTERNATIONAL');"
+                    >
                       LSA INTERNATIONAL</a
                     >
                   </li>
@@ -2068,7 +2139,8 @@
                     <a
                       href="/product/ProductList/br30/br30?subBrand=CSCS"
                       class="two_link"
-                      onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM STUDIO_CA4LA');">
+                      onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM STUDIO_CA4LA');"
+                    >
                       CA4LA</a
                     >
                   </li>
@@ -2076,7 +2148,8 @@
                     <a
                       href="/product/ProductList/br30/br30?subBrand=CSCT"
                       class="two_link"
-                      onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM STUDIO_CATERINA BERTINI');">
+                      onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM STUDIO_CATERINA BERTINI');"
+                    >
                       CATERINA BERTINI</a
                     >
                   </li>
@@ -2084,7 +2157,8 @@
                     <a
                       href="/product/ProductList/br30/br30?subBrand=CSHY"
                       class="two_link"
-                      onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM STUDIO_HAY');">
+                      onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM STUDIO_HAY');"
+                    >
                       HAY</a
                     >
                   </li>
@@ -2092,7 +2166,8 @@
                     <a
                       href="/product/ProductList/br30/br30?subBrand=CSMZ"
                       class="two_link"
-                      onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM STUDIO_MAISON LOUIS MARIE');">
+                      onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM STUDIO_MAISON LOUIS MARIE');"
+                    >
                       MAISON LOUIS MARIE</a
                     >
                   </li>
@@ -2100,7 +2175,8 @@
                     <a
                       href="/product/ProductList/br30/br30?subBrand=CSCZ"
                       class="two_link"
-                      onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM STUDIO_CRYSTAL HAZE');">
+                      onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM STUDIO_CRYSTAL HAZE');"
+                    >
                       CRYSTAL HAZE</a
                     >
                   </li>
@@ -2108,7 +2184,8 @@
                     <a
                       href="/product/ProductList/br30/br30?subBrand=CSD7"
                       class="two_link"
-                      onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM STUDIO_ALLUDE');">
+                      onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM STUDIO_ALLUDE');"
+                    >
                       ALLUDE</a
                     >
                   </li>
@@ -2116,7 +2193,8 @@
                     <a
                       href="/product/ProductList/br30/br30?subBrand=CSGG"
                       class="two_link"
-                      onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM STUDIO_GI&amp;#039;N&amp;#039;GI');">
+                      onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM STUDIO_GI&amp;#039;N&amp;#039;GI');"
+                    >
                       GI'N'GI</a
                     >
                   </li>
@@ -2124,7 +2202,8 @@
                     <a
                       href="/product/ProductList/br30/br30?subBrand=CSIN"
                       class="two_link"
-                      onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM STUDIO_INOUI EDITION');">
+                      onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM STUDIO_INOUI EDITION');"
+                    >
                       INOUI EDITION</a
                     >
                   </li>
@@ -2145,7 +2224,8 @@
                     <a
                       href="/product/ProductList/br32/br32"
                       class="two_link"
-                      onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM MEN&amp;#039;S LOUNGE_전체보기');">
+                      onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM MEN&amp;#039;S LOUNGE_전체보기');"
+                    >
                       전체보기
                     </a>
                   </li>
@@ -2153,7 +2233,8 @@
                     <a
                       href="/product/ProductList/br32/br32?subBrand=HSPO"
                       class="two_link"
-                      onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM MEN&amp;#039;S LOUNGE_POP TRADING COMPANY');">
+                      onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM MEN&amp;#039;S LOUNGE_POP TRADING COMPANY');"
+                    >
                       POP TRADING COMPANY</a
                     >
                   </li>
@@ -2161,7 +2242,8 @@
                     <a
                       href="/product/ProductList/br32/br32?subBrand=HSSS"
                       class="two_link"
-                      onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM MEN&amp;#039;S LOUNGE_STANCE SEOUL');">
+                      onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM MEN&amp;#039;S LOUNGE_STANCE SEOUL');"
+                    >
                       STANCE SEOUL</a
                     >
                   </li>
@@ -2169,7 +2251,8 @@
                     <a
                       href="/product/ProductList/br32/br32?subBrand=HSRN"
                       class="two_link"
-                      onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM MEN&amp;#039;S LOUNGE_NORTH WORKS');">
+                      onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM MEN&amp;#039;S LOUNGE_NORTH WORKS');"
+                    >
                       NORTH WORKS</a
                     >
                   </li>
@@ -2177,7 +2260,8 @@
                     <a
                       href="/product/ProductList/br32/br32?subBrand=HS0T"
                       class="two_link"
-                      onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM MEN&amp;#039;S LOUNGE_WILD DONKEY');">
+                      onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM MEN&amp;#039;S LOUNGE_WILD DONKEY');"
+                    >
                       WILD DONKEY</a
                     >
                   </li>
@@ -2185,7 +2269,8 @@
                     <a
                       href="/product/ProductList/br32/br32?subBrand=HSXQ"
                       class="two_link"
-                      onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM MEN&amp;#039;S LOUNGE_JOHNSTONS OF ELGIN');">
+                      onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM MEN&amp;#039;S LOUNGE_JOHNSTONS OF ELGIN');"
+                    >
                       JOHNSTONS OF ELGIN</a
                     >
                   </li>
@@ -2193,7 +2278,8 @@
                     <a
                       href="/product/ProductList/br32/br32?subBrand=HSXY"
                       class="two_link"
-                      onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM MEN&amp;#039;S LOUNGE_BEGG x CO');">
+                      onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM MEN&amp;#039;S LOUNGE_BEGG x CO');"
+                    >
                       BEGG x CO</a
                     >
                   </li>
@@ -2201,7 +2287,8 @@
                     <a
                       href="/product/ProductList/br32/br32?subBrand=HSKA"
                       class="two_link"
-                      onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM MEN&amp;#039;S LOUNGE_KASSIOPEA');">
+                      onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM MEN&amp;#039;S LOUNGE_KASSIOPEA');"
+                    >
                       KASSIOPEA</a
                     >
                   </li>
@@ -2209,7 +2296,8 @@
                     <a
                       href="/product/ProductList/br32/br32?subBrand=HSOC"
                       class="two_link"
-                      onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM MEN&amp;#039;S LOUNGE_OROBIANCO');">
+                      onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM MEN&amp;#039;S LOUNGE_OROBIANCO');"
+                    >
                       OROBIANCO</a
                     >
                   </li>
@@ -2217,7 +2305,8 @@
                     <a
                       href="/product/ProductList/br32/br32?subBrand=HSXV"
                       class="two_link"
-                      onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM MEN&amp;#039;S LOUNGE_MADOVA');">
+                      onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM MEN&amp;#039;S LOUNGE_MADOVA');"
+                    >
                       MADOVA</a
                     >
                   </li>
@@ -2225,7 +2314,8 @@
                     <a
                       href="/product/ProductList/br32/br32?subBrand=HSHN"
                       class="two_link"
-                      onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM MEN&amp;#039;S LOUNGE_HOWLIN');">
+                      onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM MEN&amp;#039;S LOUNGE_HOWLIN');"
+                    >
                       HOWLIN</a
                     >
                   </li>
@@ -2233,7 +2323,8 @@
                     <a
                       href="/product/ProductList/br32/br32?subBrand=HSBE"
                       class="two_link"
-                      onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM MEN&amp;#039;S LOUNGE_BEARBRICK');">
+                      onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM MEN&amp;#039;S LOUNGE_BEARBRICK');"
+                    >
                       BEARBRICK</a
                     >
                   </li>
@@ -2241,7 +2332,8 @@
                     <a
                       href="/product/ProductList/br32/br32?subBrand=HSPT"
                       class="two_link"
-                      onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM MEN&amp;#039;S LOUNGE_PHILIPPE AUDIBERT');">
+                      onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM MEN&amp;#039;S LOUNGE_PHILIPPE AUDIBERT');"
+                    >
                       PHILIPPE AUDIBERT</a
                     >
                   </li>
@@ -2249,7 +2341,8 @@
                     <a
                       href="/product/ProductList/br32/br32?subBrand=HSIN"
                       class="two_link"
-                      onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM MEN&amp;#039;S LOUNGE_INOUITOOSH');">
+                      onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM MEN&amp;#039;S LOUNGE_INOUITOOSH');"
+                    >
                       INOUITOOSH</a
                     >
                   </li>
@@ -2257,7 +2350,8 @@
                     <a
                       href="/product/ProductList/br32/br32?subBrand=HS2K"
                       class="two_link"
-                      onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM MEN&amp;#039;S LOUNGE_KARHU');">
+                      onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM MEN&amp;#039;S LOUNGE_KARHU');"
+                    >
                       KARHU</a
                     >
                   </li>
@@ -2265,7 +2359,8 @@
                     <a
                       href="/product/ProductList/br32/br32?subBrand=HSMH"
                       class="two_link"
-                      onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM MEN&amp;#039;S LOUNGE_MARSHALL');">
+                      onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM MEN&amp;#039;S LOUNGE_MARSHALL');"
+                    >
                       MARSHALL</a
                     >
                   </li>
@@ -2273,7 +2368,8 @@
                     <a
                       href="/product/ProductList/br32/br32?subBrand=HSPE"
                       class="two_link"
-                      onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM MEN&amp;#039;S LOUNGE_PUEBCO');">
+                      onclick="GA_Event('편집샵_카테고리','3DEPTH','FOURM MEN&amp;#039;S LOUNGE_PUEBCO');"
+                    >
                       PUEBCO</a
                     >
                   </li>
@@ -2294,7 +2390,8 @@
                     <a
                       href="/product/ProductList/br16/br16"
                       class="two_link"
-                      onclick="GA_Event('편집샵_카테고리','3DEPTH','MUE_전체보기');">
+                      onclick="GA_Event('편집샵_카테고리','3DEPTH','MUE_전체보기');"
+                    >
                       전체보기
                     </a>
                   </li>
@@ -2302,7 +2399,8 @@
                     <a
                       href="/product/ProductList/br16/br16?subBrand=MU5E"
                       class="two_link"
-                      onclick="GA_Event('편집샵_카테고리','3DEPTH','MUE_ESSENTIALS | Fear of God');">
+                      onclick="GA_Event('편집샵_카테고리','3DEPTH','MUE_ESSENTIALS | Fear of God');"
+                    >
                       ESSENTIALS | Fear of God</a
                     >
                   </li>
@@ -2310,7 +2408,8 @@
                     <a
                       href="/product/ProductList/br16/br16?subBrand=MUT0"
                       class="two_link"
-                      onclick="GA_Event('편집샵_카테고리','3DEPTH','MUE_AUTRY');">
+                      onclick="GA_Event('편집샵_카테고리','3DEPTH','MUE_AUTRY');"
+                    >
                       AUTRY</a
                     >
                   </li>
@@ -2318,7 +2417,8 @@
                     <a
                       href="/product/ProductList/br16/br16?subBrand=MUMY"
                       class="two_link"
-                      onclick="GA_Event('편집샵_카테고리','3DEPTH','MUE_MIHARA YASUHIRO');">
+                      onclick="GA_Event('편집샵_카테고리','3DEPTH','MUE_MIHARA YASUHIRO');"
+                    >
                       MIHARA YASUHIRO</a
                     >
                   </li>
@@ -2326,7 +2426,8 @@
                     <a
                       href="/product/ProductList/br16/br16?subBrand=MU0P"
                       class="two_link"
-                      onclick="GA_Event('편집샵_카테고리','3DEPTH','MUE_MUSEUM OF PEACE&amp;amp;QUIET');">
+                      onclick="GA_Event('편집샵_카테고리','3DEPTH','MUE_MUSEUM OF PEACE&amp;amp;QUIET');"
+                    >
                       MUSEUM OF PEACE&amp;QUIET</a
                     >
                   </li>
@@ -2334,7 +2435,8 @@
                     <a
                       href="/product/ProductList/br16/br16?subBrand=MUJ9"
                       class="two_link"
-                      onclick="GA_Event('편집샵_카테고리','3DEPTH','MUE_JACQUEMUS');">
+                      onclick="GA_Event('편집샵_카테고리','3DEPTH','MUE_JACQUEMUS');"
+                    >
                       JACQUEMUS</a
                     >
                   </li>
@@ -2342,7 +2444,8 @@
                     <a
                       href="/product/ProductList/br16/br16?subBrand=MU0H"
                       class="two_link"
-                      onclick="GA_Event('편집샵_카테고리','3DEPTH','MUE_HOMME GIRLS');">
+                      onclick="GA_Event('편집샵_카테고리','3DEPTH','MUE_HOMME GIRLS');"
+                    >
                       HOMME GIRLS</a
                     >
                   </li>
@@ -2350,7 +2453,8 @@
                     <a
                       href="/product/ProductList/br16/br16?subBrand=MUUN"
                       class="two_link"
-                      onclick="GA_Event('편집샵_카테고리','3DEPTH','MUE_EMOTIONALLY UNAVAILABLE');">
+                      onclick="GA_Event('편집샵_카테고리','3DEPTH','MUE_EMOTIONALLY UNAVAILABLE');"
+                    >
                       EMOTIONALLY UNAVAILABLE</a
                     >
                   </li>
@@ -2358,7 +2462,8 @@
                     <a
                       href="/product/ProductList/br16/br16?subBrand=MUYX"
                       class="two_link"
-                      onclick="GA_Event('편집샵_카테고리','3DEPTH','MUE_KHAITE');">
+                      onclick="GA_Event('편집샵_카테고리','3DEPTH','MUE_KHAITE');"
+                    >
                       KHAITE</a
                     >
                   </li>
@@ -2366,7 +2471,8 @@
                     <a
                       href="/product/ProductList/br16/br16?subBrand=MUGF"
                       class="two_link"
-                      onclick="GA_Event('편집샵_카테고리','3DEPTH','MUE_GALLERY DEPARTMENT');">
+                      onclick="GA_Event('편집샵_카테고리','3DEPTH','MUE_GALLERY DEPARTMENT');"
+                    >
                       GALLERY DEPARTMENT</a
                     >
                   </li>
@@ -2374,7 +2480,8 @@
                     <a
                       href="/product/ProductList/br16/br16?subBrand=MU7M"
                       class="two_link"
-                      onclick="GA_Event('편집샵_카테고리','3DEPTH','MUE_MARINE SERRE');">
+                      onclick="GA_Event('편집샵_카테고리','3DEPTH','MUE_MARINE SERRE');"
+                    >
                       MARINE SERRE</a
                     >
                   </li>
@@ -2382,7 +2489,8 @@
                     <a
                       href="/product/ProductList/br16/br16?subBrand=MU6O"
                       class="two_link"
-                      onclick="GA_Event('편집샵_카테고리','3DEPTH','MUE_MM6 MAISON MARGIELA');">
+                      onclick="GA_Event('편집샵_카테고리','3DEPTH','MUE_MM6 MAISON MARGIELA');"
+                    >
                       MM6 MAISON MARGIELA</a
                     >
                   </li>
@@ -2390,7 +2498,8 @@
                     <a
                       href="/product/ProductList/br16/br16?subBrand=MUNS"
                       class="two_link"
-                      onclick="GA_Event('편집샵_카테고리','3DEPTH','MUE_RE/DONE');">
+                      onclick="GA_Event('편집샵_카테고리','3DEPTH','MUE_RE/DONE');"
+                    >
                       RE/DONE</a
                     >
                   </li>
@@ -2398,7 +2507,8 @@
                     <a
                       href="/product/ProductList/br16/br16?subBrand=MUP7"
                       class="two_link"
-                      onclick="GA_Event('편집샵_카테고리','3DEPTH','MUE_PACO RABANNE');">
+                      onclick="GA_Event('편집샵_카테고리','3DEPTH','MUE_PACO RABANNE');"
+                    >
                       PACO RABANNE</a
                     >
                   </li>
@@ -2419,7 +2529,8 @@
                     <a
                       href="/product/ProductList/br47/br47"
                       class="two_link"
-                      onclick="GA_Event('편집샵_카테고리','3DEPTH','H : SCENE_전체보기');">
+                      onclick="GA_Event('편집샵_카테고리','3DEPTH','H : SCENE_전체보기');"
+                    >
                       전체보기
                     </a>
                   </li>
@@ -2427,13 +2538,15 @@
                     <a
                       href="/product/ProductList/br47/br47?subBrand=ON"
                       class="two_link"
-                      onclick="GA_Event('편집샵_카테고리','3DEPTH','H : SCENE_H:SCENE');">
+                      onclick="GA_Event('편집샵_카테고리','3DEPTH','H : SCENE_H:SCENE');"
+                    >
                       H:SCENE</a
                     >
                     <a
                       href="/product/ProductList/br47/br47?subBrand=ON"
                       class="ico-pb-all"
-                      onclick="GA_Event('편집샵_카테고리','3DEPTH','H : SCENE_H:SCENE');">
+                      onclick="GA_Event('편집샵_카테고리','3DEPTH','H : SCENE_H:SCENE');"
+                    >
                       <img src="http://cdn.thehandsome.com/_ui/handsomemobile/images/common/ico_pb.png" alt="ico_pb" />
                     </a>
                   </li>
@@ -2441,7 +2554,8 @@
                     <a
                       href="/product/ProductList/br47/br47?subBrand=ONYN"
                       class="two_link"
-                      onclick="GA_Event('편집샵_카테고리','3DEPTH','H : SCENE_YUN');">
+                      onclick="GA_Event('편집샵_카테고리','3DEPTH','H : SCENE_YUN');"
+                    >
                       YUN</a
                     >
                   </li>
@@ -2449,7 +2563,8 @@
                     <a
                       href="/product/ProductList/br47/br47?subBrand=ONAP"
                       class="two_link"
-                      onclick="GA_Event('편집샵_카테고리','3DEPTH','H : SCENE_APPEAR SEOUL');">
+                      onclick="GA_Event('편집샵_카테고리','3DEPTH','H : SCENE_APPEAR SEOUL');"
+                    >
                       APPEAR SEOUL</a
                     >
                   </li>
@@ -2465,7 +2580,8 @@
                     >Liquides Perfume Bar<img
                       class="icon-new-m"
                       src="http://cdn.thehandsome.com/_ui/handsomemobile/images/common_sub/icon_new_m.png"
-                      alt="newIcon" />
+                      alt="newIcon"
+                    />
                   </a>
                 </div>
                 <ul class="two_depth twoDepthNavPopup">
@@ -2473,7 +2589,8 @@
                     <a
                       href="/product/ProductList/br62/br62"
                       class="two_link"
-                      onclick="GA_Event('편집샵_카테고리','3DEPTH','Liquides Perfume Bar_전체보기');">
+                      onclick="GA_Event('편집샵_카테고리','3DEPTH','Liquides Perfume Bar_전체보기');"
+                    >
                       전체보기
                     </a>
                   </li>
@@ -2481,7 +2598,8 @@
                     <a
                       href="/product/ProductList/br62/br62?subBrand=LPBD"
                       class="two_link"
-                      onclick="GA_Event('편집샵_카테고리','3DEPTH','Liquides Perfume Bar_BDK');">
+                      onclick="GA_Event('편집샵_카테고리','3DEPTH','Liquides Perfume Bar_BDK');"
+                    >
                       BDK</a
                     >
                   </li>
@@ -2489,7 +2607,8 @@
                     <a
                       href="/product/ProductList/br62/br62?subBrand=LPCR"
                       class="two_link"
-                      onclick="GA_Event('편집샵_카테고리','3DEPTH','Liquides Perfume Bar_Carine Roitfeld');">
+                      onclick="GA_Event('편집샵_카테고리','3DEPTH','Liquides Perfume Bar_Carine Roitfeld');"
+                    >
                       Carine Roitfeld</a
                     >
                   </li>
@@ -2497,7 +2616,8 @@
                     <a
                       href="/product/ProductList/br62/br62?subBrand=LPDO"
                       class="two_link"
-                      onclick="GA_Event('편집샵_카테고리','3DEPTH','Liquides Perfume Bar_D&amp;#039;ORSAY');">
+                      onclick="GA_Event('편집샵_카테고리','3DEPTH','Liquides Perfume Bar_D&amp;#039;ORSAY');"
+                    >
                       D'ORSAY</a
                     >
                   </li>
@@ -2505,7 +2625,8 @@
                     <a
                       href="/product/ProductList/br62/br62?subBrand=LPFR"
                       class="two_link"
-                      onclick="GA_Event('편집샵_카테고리','3DEPTH','Liquides Perfume Bar_FRAPIN');">
+                      onclick="GA_Event('편집샵_카테고리','3DEPTH','Liquides Perfume Bar_FRAPIN');"
+                    >
                       FRAPIN</a
                     >
                   </li>
@@ -2513,7 +2634,8 @@
                     <a
                       href="/product/ProductList/br62/br62?subBrand=LPGB"
                       class="two_link"
-                      onclick="GA_Event('편집샵_카테고리','3DEPTH','Liquides Perfume Bar_GOLDFIELD &amp;amp; BANKS');">
+                      onclick="GA_Event('편집샵_카테고리','3DEPTH','Liquides Perfume Bar_GOLDFIELD &amp;amp; BANKS');"
+                    >
                       GOLDFIELD &amp; BANKS</a
                     >
                   </li>
@@ -2521,7 +2643,8 @@
                     <a
                       href="/product/ProductList/br62/br62?subBrand=LPOB"
                       class="two_link"
-                      onclick="GA_Event('편집샵_카테고리','3DEPTH','Liquides Perfume Bar_OBVIOUS');">
+                      onclick="GA_Event('편집샵_카테고리','3DEPTH','Liquides Perfume Bar_OBVIOUS');"
+                    >
                       OBVIOUS</a
                     >
                   </li>
@@ -2529,7 +2652,8 @@
                     <a
                       href="/product/ProductList/br62/br62?subBrand=LPRF"
                       class="two_link"
-                      onclick="GA_Event('편집샵_카테고리','3DEPTH','Liquides Perfume Bar_Regime des Fleurs');">
+                      onclick="GA_Event('편집샵_카테고리','3DEPTH','Liquides Perfume Bar_Regime des Fleurs');"
+                    >
                       Regime des Fleurs</a
                     >
                   </li>
@@ -2537,7 +2661,8 @@
                     <a
                       href="/product/ProductList/br62/br62?subBrand=LPVG"
                       class="two_link"
-                      onclick="GA_Event('편집샵_카테고리','3DEPTH','Liquides Perfume Bar_VERONIQUE GABAI');">
+                      onclick="GA_Event('편집샵_카테고리','3DEPTH','Liquides Perfume Bar_VERONIQUE GABAI');"
+                    >
                       VERONIQUE GABAI</a
                     >
                   </li>
@@ -2545,7 +2670,8 @@
                     <a
                       href="/product/ProductList/br62/br62?subBrand=LPAM"
                       class="two_link"
-                      onclick="GA_Event('편집샵_카테고리','3DEPTH','Liquides Perfume Bar_AMEN');">
+                      onclick="GA_Event('편집샵_카테고리','3DEPTH','Liquides Perfume Bar_AMEN');"
+                    >
                       AMEN</a
                     >
                   </li>
@@ -2571,12 +2697,18 @@
                     >
                   </li>
                   <li class="two_lists">
-                    <a href="/product/ProductList/we10/ed" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','여성_니트');"
+                    <a
+                      href="/product/ProductList/we10/ed"
+                      class="two_link"
+                      onclick="GA_Event('편집샵_카테고리','3DEPTH','여성_니트');"
                       >니트</a
                     >
                   </li>
                   <li class="two_lists">
-                    <a href="/product/ProductList/we01/ed" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','여성_탑');"
+                    <a
+                      href="/product/ProductList/we01/ed"
+                      class="two_link"
+                      onclick="GA_Event('편집샵_카테고리','3DEPTH','여성_탑');"
                       >탑</a
                     >
                   </li>
@@ -2589,7 +2721,10 @@
                     >
                   </li>
                   <li class="two_lists">
-                    <a href="/product/ProductList/we02/ed" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','여성_팬츠');"
+                    <a
+                      href="/product/ProductList/we02/ed"
+                      class="two_link"
+                      onclick="GA_Event('편집샵_카테고리','3DEPTH','여성_팬츠');"
                       >팬츠</a
                     >
                   </li>
@@ -2625,17 +2760,26 @@
                     >
                   </li>
                   <li class="two_lists">
-                    <a href="/product/ProductList/me10/ed" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','남성_니트');"
+                    <a
+                      href="/product/ProductList/me10/ed"
+                      class="two_link"
+                      onclick="GA_Event('편집샵_카테고리','3DEPTH','남성_니트');"
                       >니트</a
                     >
                   </li>
                   <li class="two_lists">
-                    <a href="/product/ProductList/me01/ed" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','남성_탑');"
+                    <a
+                      href="/product/ProductList/me01/ed"
+                      class="two_link"
+                      onclick="GA_Event('편집샵_카테고리','3DEPTH','남성_탑');"
                       >탑</a
                     >
                   </li>
                   <li class="two_lists">
-                    <a href="/product/ProductList/me02/ed" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','남성_팬츠');"
+                    <a
+                      href="/product/ProductList/me02/ed"
+                      class="two_link"
+                      onclick="GA_Event('편집샵_카테고리','3DEPTH','남성_팬츠');"
                       >팬츠</a
                     >
                   </li>
@@ -2718,7 +2862,10 @@
                     >
                   </li>
                   <li class="two_lists">
-                    <a href="/product/ProductList/be04/ed" class="two_link" onclick="GA_Event('편집샵_카테고리','3DEPTH','뷰티_향수');"
+                    <a
+                      href="/product/ProductList/be04/ed"
+                      class="two_link"
+                      onclick="GA_Event('편집샵_카테고리','3DEPTH','뷰티_향수');"
                       >향수</a
                     >
                   </li>
@@ -3922,13 +4069,15 @@ layer popup 형식의 confirm 창
               <img
                 id="reply_view_img1"
                 src="http://www.thehandsome.com/_ui/handsomemobile/images/common/no_img.jpg"
-                alt="" />
+                alt=""
+              />
             </div>
             <div class="swiper-slide">
               <img
                 id="reply_view_img2"
                 src="http://www.thehandsome.com/_ui/handsomemobile/images/common/no_img.jpg"
-                alt="" />
+                alt=""
+              />
             </div>
           </div>
           <div class="swiper-pagination"></div>
@@ -3967,14 +4116,16 @@ layer popup 형식의 confirm 창
                 <img
                   id="replyTempImgSrc"
                   src="http://www.thehandsome.com/_ui/handsomemobile/images/common/no_img.jpg"
-                  alt="" />
+                  alt=""
+                />
                 <a href="javascript:hideReplyTempImg();" class="del">삭제</a>
               </span>
               <span class="thumb" id="replyProductImg" style="display: none">
                 <img
                   id="replyProductImgSrc"
                   src="http://www.thehandsome.com/_ui/handsomemobile/images/common/no_img.jpg"
-                  alt="" />
+                  alt=""
+                />
                 <a href="javascript:hideReplyProductImg();" class="del">삭제</a>
               </span>
             </div>
@@ -3999,7 +4150,8 @@ layer popup 형식의 confirm 창
                   cols="30"
                   rows="1"
                   placeholder="내용입력"
-                  onblur="snsHideBottom();"></textarea>
+                  onblur="snsHideBottom();"
+                ></textarea>
                 <p class="byte_check">(<span id="counter">0</span>/300)</p>
               </div>
               <!-- //작성영역 -->
@@ -4018,14 +4170,16 @@ layer popup 형식의 confirm 창
                       id="replyAttachFilePath"
                       onchange="readURL(this)"
                       onclick="GA_Event('스타일라이브_댓글', '이미지등록', '클릭');"
-                      accept="image/*" />
+                      accept="image/*"
+                    />
                   </div>
                   <div class="etc_btn prod">
                     <button
                       type="button"
                       id="origin_btn"
                       class="up"
-                      onclick="getProductSearchPageInReply();GA_Event('스타일라이브_댓글', '상품검색', '클릭');">
+                      onclick="getProductSearchPageInReply();GA_Event('스타일라이브_댓글', '상품검색', '클릭');"
+                    >
                       <i class="prod"></i> <span>상품찾기</span>
                     </button>
                     <button
@@ -4033,7 +4187,8 @@ layer popup 형식의 confirm 창
                       style="display: none"
                       type="button"
                       class="up"
-                      onclick="getProductSearchPageInReplyOnProductDetail();">
+                      onclick="getProductSearchPageInReplyOnProductDetail();"
+                    >
                       <i class="prod"></i> <span>상품찾기</span>
                     </button>
                   </div>
@@ -4069,15 +4224,8 @@ layer popup 형식의 confirm 창
     <!-- 댓글신고 -->
     <div
       id="hs_pro_view_layer"
-      style="
-        display: none;
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: rgba(0, 0, 0, 0.7);
-      "></div>
+      style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, 0.7)"
+    ></div>
     <div class="hsome_layer_popup04 hs_sns_reply_report_pop">
       <h2 class="pop-comm-ttl">댓글 신고</h2>
       <div class="pop-comm-cnts">
@@ -4102,7 +4250,8 @@ layer popup 형식의 confirm 창
               cols="30"
               rows="6"
               maxlength="300"
-              placeholder="기타 사유 입력"></textarea>
+              placeholder="기타 사유 입력"
+            ></textarea>
             <input type="hidden" id="reportPostId" name="reportPostId" />
             <input type="hidden" id="reportReplyId" name="reportReplyId" />
           </div>
@@ -4239,7 +4388,8 @@ layer popup 형식의 confirm 창
     <!-- 결제시도시 처리중 layper 별도 표시 200217 nih -->
     <div
       class="pop_loading_oneclick200210_wrap"
-      style="width: 100%; height: 100%; position: fixed; top: 0; left: 0; z-index: 9998; display: none">
+      style="width: 100%; height: 100%; position: fixed; top: 0; left: 0; z-index: 9998; display: none"
+    >
       <div
         class="pop_loading_oneclick200210"
         style="
@@ -4251,11 +4401,13 @@ layer popup 형식의 confirm 창
           left: 50%;
           transform: translate3d(-50%, -50%, 0);
           z-index: 9999;
-        ">
+        "
+      >
         <img
           src="http://cdn.thehandsome.com/_ui/handsomemobile/images/common/Spinner_1s_105px.png"
           alt="loading"
-          style="display: block; width: 32px; height: 32px; margin: 30px auto 15px auto" />
+          style="display: block; width: 32px; height: 32px; margin: 30px auto 15px auto"
+        />
         <p style="color: #fff; text-align: center">
           <span style="color: #fff; font-size: 15px">처리중입니다.</span>
         </p>
@@ -4269,7 +4421,8 @@ layer popup 형식의 confirm 창
         <div class="loading_box2004">
           <img
             src="http://cdn.thehandsome.com/_ui/handsomemobile/images/common/Spinner_1s_105px.png"
-            alt="loading_bar" />
+            alt="loading_bar"
+          />
           <p class="loading_txt">이미지가 업로드 중입니다.</p>
         </div>
       </div>
@@ -4293,7 +4446,8 @@ layer popup 형식의 confirm 창
       id="chatbotForm"
       action="https://talk.thehandsome.com/front/v1/jsp/view/chat.jsp"
       method="post"
-      target="chatwindow">
+      target="chatwindow"
+    >
       <input type="hidden" name="token" id="chatbot_token" />
       <input type="hidden" name="talkId" id="chatbot_talkId" />
       <div>
@@ -4895,7 +5049,7 @@ layer popup 형식의 confirm 창
         $(".hsome_quickMenu .shop a").click();
       }
 
-      <!-- 클롭 모나코 팝업 -->
+      // <!-- 클롭 모나코 팝업 -->
       function layerPopup1(division) {
         var documentResult = "";
 
@@ -4954,9 +5108,22 @@ layer popup 형식의 confirm 창
 
         $form.submit();
       }
-
-      <!-- 클롭 모나코 팝업 -->
       $(document).ready(function () {
+        const url = $(location).attr("pathname").split("/")[3];
+        if (url.length == 2) {
+          getSecondDepth(url);
+        } else {
+          getThirdDepth(url);
+        }
+      });
+      // <!-- 클롭 모나코 팝업 -->
+      $(document).ready(function () {
+        const url = $(location).attr("pathname").split("/")[3];
+        if (url.length == 2) {
+          getSecondDepth(url);
+        } else {
+          getThirdDepth(url);
+        }
         //이전카테고리추가 191028
         $(document).on("click", ".previous_category191028 .cate_icon", function () {
           if (!$(this).hasClass("on")) {
@@ -4972,7 +5139,7 @@ layer popup 형식의 confirm 창
           $(this).closest(".cate_list").closest(".previous_category191028").find(".cate_icon").removeClass("on");
         });
 
-        <!-- 클롭 모나코 팝업 -->
+        // <!-- 클롭 모나코 팝업 -->
         if ($("#brandCode").val() == "br44" || $("#brandCode").val() == "BR44") {
           var todayDate = new Date();
 
@@ -4984,7 +5151,7 @@ layer popup 형식의 confirm 창
             }
           }
         }
-        <!-- 클롭 모나코 팝업 -->
+        // <!-- 클롭 모나코 팝업 -->
 
         var reviewYn = "Y";
         var subBrand = "";
@@ -6254,15 +6421,6 @@ layer popup 형식의 confirm 창
 
       function colorColdoutCheck() {}
 
-      // 컬러칩 누를시 이미지 변경
-      function chgColor(pid, pcid) {
-        var url = $("#" + pid).attr("src");
-        var target = url.substring(url.lastIndexOf("/") + 1, url.lastIndexOf("_"));
-        url = url.replace(target, pcid);
-        $("#" + pid).attr("src", url);
-        $("#" + pid+"_link").attr("href", "/product/ProductDetail/"+pcid);
-      }
-
       function chgColorChip(index, code) {
         //중복 호출 방지(동일한 이미지가 중복으로 호출시 에러 이미지로 판단)
         if ($("[targetCode='" + code + "']").length == 0) {
@@ -6394,39 +6552,28 @@ layer popup 형식의 confirm 창
 
       // wishList AJAX
       function addWishList(productBaseCode) {
-    	  
-    	  
-    	  const productCode = productBaseCode.split("_")[0]+"Like";
-    	  
+        const productCode = productBaseCode.split("_")[0] + "Like";
+
         $.ajax({
           url: "/product/addWishlist/",
           type: "GET",
           data: { productCode: productBaseCode, type: "toggle" },
           success: function (msg) {
-        	  
-        	  console.log(productCode);
-        	  if (msg=="insert"){
-        		  console.log("insert");
-        		$("#"+productCode).addClass('on');
-        		conseol.log(productCode);
-        		  
-        	  }else{
-        		  console.log("delete");
-        		  $("#"+productCode).removeClass('on');
-        		  
-        	  }
-        	  
+            console.log(productCode);
+            if (msg == "insert") {
+              console.log("insert");
+              $("#" + productCode).addClass("on");
+              console.log(productCode);
+            } else {
+              console.log("delete");
+              $("#" + productCode).removeClass("on");
+            }
           },
           error: function (xhr, Status, error) {},
         });
       }
 
-      var flagWrapSwiper = new Swiper(".flag_wrap.case.swiper-container", {
-        slidesPerView: "auto",
-        freeMode: true,
-        spaceBetween: 6,
-        freeModeMomentumBounce: false,
-      });
+      
 
       $(document).on("click", ".hs_product_list .chip", function () {
         $(this).closest("li").find(".chip").removeClass("on");

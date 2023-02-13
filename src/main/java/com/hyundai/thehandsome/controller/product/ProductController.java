@@ -1,5 +1,6 @@
 package com.hyundai.thehandsome.controller.product;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 
@@ -14,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.hyundai.thehandsome.Vo.product.CatePListVO;
 import com.hyundai.thehandsome.Vo.product.ListVO;
 import com.hyundai.thehandsome.Vo.product.detail.ProductDetailVO;
-import com.hyundai.thehandsome.service.ProductListService;
+import com.hyundai.thehandsome.service.product.ProductListService;
 
 import lombok.extern.log4j.Log4j2;
 
@@ -30,7 +31,8 @@ import lombok.extern.log4j.Log4j2;
  * ----------  --------    ---------------------------
  * 2023.02.01  	박세영        		최초 생성
  * 2023.02.04  	박세영        getProductItem() 추가
- * 2023.02.04  	박세영        getProductList() 브랜드까지 완성
+ * 2023.02.04  	박세영        ProductDetail() 기능 추가
+ * 2023.02.10  	박세영        getProductList() brand 기능 추가
  *          </pre>
  */
 
@@ -41,18 +43,24 @@ public class ProductController {
 	@Autowired
 	private ProductListService plistService;
 
-	@GetMapping(value = { "/ProductList/{category}", "/ProductList/{category}/{brand}" })
-	public String getProductList(@PathVariable("category") String category,
-			@PathVariable(required = false) String brand, Model model) {
+	@GetMapping(value = { "/ProductList/{category}", "/ProductList/{category}/br{brand}",
+						  "/ProductList/br{brand}" })
+	public String getProductList(@PathVariable(required = false) String category,
+			@PathVariable(required = false) String brand, Model model, Principal principal) {
 		log.info("getProductList-----------------");
 		try {
-			// out of bound 예방을 위해 다섯자리로 맞춤, brand 해결
-			category = String.format("%-5s", category);
-			if (brand == null)
-				brand = "";
-
-			List<CatePListVO> pList = plistService.getPListWithCategory(category, brand);
+			// input null 처리
+			if (category == null) category = "";
+			if (brand == null) brand = "";
+			
+			// out of bound 예방을 위해 다섯자리로 맞춤
+			String categoryCode = String.format("%-5s", category);
+			// 전체 item list 불러오기
+			List<CatePListVO> pList = plistService.getPListWithCategory(categoryCode, brand, principal);
 			model.addAttribute("pList", pList);
+			
+			if (principal != null) model.addAttribute("mid", principal.getName());
+
 			return "/product/ProductList";
 		} catch (Exception e) {
 			throw e;

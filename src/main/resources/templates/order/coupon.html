@@ -1,0 +1,609 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<meta charset="utf-8">
+  <th:block th:fragment="couponFragment">
+    <div class="df_box">
+      <h3 class="df_box_tit">쿠폰 및 혜택 적용</h3>
+      <div id="voucherArea" class="couponselectArea">
+        <div class="text_coupon_slct_wrap online_coupon_box">
+          <div class="select_box">
+            <select id="selectVoucher">
+              <option value="">쿠폰을 선택해 주세요.</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="coupon_insert">
+        <input
+          type="text"
+          name="voucherCode"
+          id="voucherCode"
+          placeholder="쿠폰 코드를 입력해 주세요."
+        />
+        <a href="#none" class="btnstl2 border_btn_blk btn_input_apply">적용</a>
+        <a href="#none" class="btn_input_reset">
+          <span>초기화</span>
+        </a>
+      </div>
+
+      <div id="pvoucherArea" class="couponselectArea"></div>
+    </div>
+    <script>
+      $(document).ready(function () {
+        $("#voucherCode")
+          .parent(".coupon_insert")
+          .on("click", ".btn_input_apply", function (e) {
+            // ì¿&nbsp;í°ì&nbsp;ì©ê´ë&nbsp;¨ : ì&nbsp;ì©ë²í¼
+            e.preventDefault();
+            voucherToggleBtnInputApply($(this));
+         //   const couponName = $("#voucherCode").val();
+         //   console.log(couponName);
+         //   $.ajax({
+          //      type: "GET",
+          //      url: "/member/coupon?couponname=" + couponName,
+          //      dataType: "json",
+         //       contentType: "application/json; charset=utf-8",
+          //      success: function (data) {
+          //        console.log(data)
+                  
+         //       }, //,
+           //     error: function(xhr,  Status, error) {
+           //     	console.log('sendRequest error : ' + xhr.status + " ( " + error + " ) " );
+           //     }
+          //    }).always(function () {
+          //      self.removeClass("on");
+          //      hideLoadingLp();
+          //    });
+           // voucherToggleBtnInputApply($(this));
+          });
+        $("#voucherCode")
+          .parent(".coupon_insert")
+          .on("click", ".btn_input_apply_cancle", function (e) {
+            // ì¿&nbsp;í°ì&nbsp;ì©ê´ë&nbsp;¨ : ì·¨ìë²í¼
+            e.preventDefault();
+            releaseVoucher($(this), $("#voucherCode").val(), true);
+          });
+        $("#pvoucherCode")
+          .parent(".coupon_insert")
+          .on("click", ".btn_input_apply", function (e) {
+            // ì¿&nbsp;í°ì&nbsp;ì©ê´ë&nbsp;¨ : ì&nbsp;ì©ë²í¼
+            e.preventDefault();
+            pvoucherToggleBtnInputApply($(this));
+          });
+        $("#pvoucherCode")
+          .parent(".coupon_insert")
+          .on("click", ".btn_input_apply_cancle", function (e) {
+            // ì¿&nbsp;í°ì&nbsp;ì©ê´ë&nbsp;¨ : ì·¨ìë²í¼
+            e.preventDefault();
+            releasePVoucher($(this), $("#pvoucherCode").val(), true);
+          });
+
+        //coupon, vvip select
+        $("#lp_radio_dlvr_adrs_01").on("click", function (e) {
+          var selectVoucher = $("#selectVoucher");
+          var selectVoucherLength = $("#selectVoucher option").length;
+
+          var pselectVoucher = $("#pselectVoucher");
+          var pselectVoucherLnegth = $("#pselectVoucher option").length;
+
+          var vipDiscountCheck = $("#vipDiscountCheck");
+
+          if (selectVoucher.val() == "" && selectVoucherLength > 0) {
+            $("#selectVoucher option:eq(1)").prop("selected", true);
+            selectVoucher.change();
+          }
+
+          if (pselectVoucher.val() == "" && pselectVoucherLnegth > 0) {
+            $("#pselectVoucher option:eq(1)").prop("selected", true);
+            pselectVoucher.change();
+          }
+
+          if (vipDiscountCheck.is(":checked")) {
+            vipDiscountCheck.prop("checked", false);
+            setVipDiscountAmountValue(vipDiscountCheck);
+          }
+        });
+
+        $("#lp_radio_dlvr_adrs_02").on("click", function (e) {
+          var voucherCode = $("#voucherCode").val().trim();
+
+          if (voucherCode.length > 0) {
+            releaseVoucher(
+              $(".coupon_insert .btn_input_apply_cancle"),
+              voucherCode,
+              true
+            );
+          }
+
+          $(".vvip_familyBenefit_price_btn").show();
+        });
+
+        // ì¿&nbsp;í°ì&nbsp;í
+        $(".couponselectArea")
+          .find("select")
+          .on("change", function () {
+            var whereSelected = $(this).attr("id");
+            var codeObj;
+            var buttonObj;
+            var vipDiscountCheck = $("#vipDiscountCheck");
+
+            if (whereSelected == "selectVoucher") {
+              codeObj = $("#voucherCode");
+              buttonObj = codeObj.parent(".coupon_insert").find(".btnstl2");
+              voucherToggleBtnInputApply(buttonObj);
+
+              $("#lp_radio_dlvr_adrs_01").prop("checked", true);
+              $(".vvip_familyBenefit_price_btn").hide();
+
+              if (vipDiscountCheck.is(":checked")) {
+                vipDiscountCheck.prop("checked", false);
+                setVipDiscountAmountValue(vipDiscountCheck);
+              }
+            } else if (whereSelected == "pselectVoucher") {
+              codeObj = $("#pvoucherCode");
+              buttonObj = codeObj.parent(".coupon_insert").find(".btnstl2");
+              pvoucherToggleBtnInputApply(buttonObj);
+
+              $("#lp_radio_dlvr_adrs_01").prop("checked", true);
+              $(".vvip_familyBenefit_price_btn").hide();
+
+              if (vipDiscountCheck.is(":checked")) {
+                vipDiscountCheck.prop("checked", false);
+                setVipDiscountAmountValue(vipDiscountCheck);
+              }
+            } else {
+              return;
+            }
+          });
+
+        $("#voucherCode").on("input", function () {
+          this.value = this.value.toUpperCase();
+        });
+
+        if ($("#selectVoucher option").length <= 1) {
+          $("#voucherArea").hide();
+        }
+
+        $(".vvip_familyBenefit_price_btn").hide();
+      });
+
+      function voucherToggleBtnInputApply(objBtn) {
+        
+        var result = null;
+        if (
+          $("#voucherCode").val() != "" &&
+          objBtn.hasClass("btn_input_apply_cancle")
+        ) {
+          result = releaseVoucher(objBtn, $("#voucherCode").val(), false);
+        }
+
+        if (result != null) {
+          result.done(function (data) {
+            if (
+              $("#selectVoucher option:selected").index() > 0 ||
+              ($("#selectVoucher option:selected").index() == 0 &&
+                $("#voucherCode").val() != "")
+            ) {
+              redeemVoucher(objBtn);
+            }
+          });
+        } else {
+          if (
+            $("#selectVoucher option:selected").index() > 0 ||
+            ($("#selectVoucher option:selected").index() == 0 &&
+              $("#voucherCode").val() != "")
+          ) {
+            if (objBtn.hasClass("btn_input_apply")) {
+            	console.log('redeem')
+              redeemVoucher(objBtn);
+            } else {
+              releaseVoucher(objBtn, $("#voucherCode").val(), true);
+            }
+          }
+        }
+      }
+
+      function voucherUncheck(areaName) {
+        $("#" + areaName).val("");
+      }
+
+      function redeemVoucher(self) {
+      	console.log('redeemVoucher')
+
+     
+          redeemVoucherConfirmed(self);
+        
+      }
+
+      function redeemVoucherConfirmed(self) {
+        var code =
+          $("#selectVoucher option:selected").val() != ""
+            ? $("#selectVoucher option:selected").val()
+            : $("#voucherCode").val();
+        if (code == "") {
+          layerAlert("정확한 쿠폰 코드를 다시 입력해 주시기 바랍니다.");
+          voucherUncheck("selectVoucher");
+          return;
+        }
+
+        if ($("#voucherCode").val() != "") {
+          var tmpCode = $("#voucherCode").val();
+          $("#voucherCode").val(tmpCode.toUpperCase());
+        }
+
+        if ($(self).hasClass("on")) {
+          layerAlert("처리중입니다.");
+          return;
+        }
+        $(self).addClass("on");
+
+        // íë¬ì¤ ì¿&nbsp;í° release
+        if ($("#pvoucherArea").length > 0) {
+          var pvoucherReleaseResult = null;
+          if (
+            $("#pvoucherCode").val() != "" &&
+            $("#pvoucherCode")
+              .parent(".coupon_insert")
+              .find(".btnstl2")
+              .hasClass("btn_input_apply_cancle")
+          ) {
+            pvoucherReleaseResult = releasePVoucher(
+              $("#pvoucherCode").parent(".coupon_insert").find(".btnstl2"),
+              $("#pvoucherCode").val(),
+              false
+            );
+          }
+          if (pvoucherReleaseResult != null) {
+            pvoucherReleaseResult.done(function (data) {
+              redeemVoucherCall(self, code);
+            });
+          } else {
+        	  console.log("redeemVoucherCall");
+            redeemVoucherCall(self, code);
+          }
+        }
+      }
+
+      function redeemVoucherCall(self, code) {
+        showLoadingLp();
+        $.ajax({
+          type: "GET",
+          url: "/order/coupon?couponname=" + code,
+          dataType: "json",
+          contentType: "application/json; charset=utf-8",
+          success: function (data) {
+        	  console.log("redeemVoucherCall",data);
+            	// 로컬스토리지에서 정보
+            	const userRequest = localStorage.getItem("userOrderRequest");
+            	const parsed = JSON.parse(userRequest);
+            	// 저장된 정보가 없을경우 새로 생성하고 아니면 갱신
+                if(!parsed){
+                	const saveToLocalStorage = {
+                			cpid: data.cpid
+                	}
+                	const stringified = JSON.stringify(saveToLocalStorage);
+                	localStorage.setItem("userOrderRequest", stringified);
+                }else{
+                	parsed.cpid = data.cpid;
+                	const stringified = JSON.stringify(parsed);
+                	localStorage.setItem("userOrderRequest", stringified);
+                }
+
+           
+              $("#voucherCode").val(code);
+              $("#voucherCode").prop("disabled", true);
+
+              self
+                .removeClass("btn_input_apply")
+                .addClass("btn_input_apply_cancle");
+              self.html("취소");
+
+              // íì¬ë§ì¼ë¦¬ì§ ì´ê¸°í
+              $("#pointpay").val("");
+              $("#pointpay").prop("readonly", false);
+              $("#btnUsePoint")
+                .removeClass("btn_input_apply_cancle")
+                .addClass("btn_input_apply");
+              $("#btnUsePoint").html("적용");
+              $("#mpg_all_use_1").attr("checked", false);
+              // H.Point ì´ê¸°í
+              $("#hpointpay").val("");
+              $("#hpointpay").prop("readonly", false);
+              $("#btnUseHPoint")
+                .removeClass("btn_input_apply_cancle")
+                .addClass("btn_input_apply");
+              $("#btnUseHPoint").html("적용");
+              $("#mpg_all_use_2").attr("checked", false);
+              // ê¸°íí¸ì¹´ë ì´ê¸°í
+              $("#giftpay").val("");
+              $("#giftpay").prop("readonly", false);
+              $("#btnUseGiftAmount")
+                .removeClass("btn_input_apply_cancle")
+                .addClass("btn_input_apply");
+              $("#btnUseGiftAmount").html("적용");
+              $("#mpg_all_use_3").attr("checked", false);
+              // eê¸°íí¸ì¹´ë ì´ê¸°í
+              $("#egiftpay").val("");
+              $("#egiftpay").prop("readonly", false);
+              $("#btnUseEGiftAmount")
+                .removeClass("btn_input_apply_cancle")
+                .addClass("btn_input_apply");
+              $("#btnUseEGiftAmount").html("적용");
+              $("#mpg_all_use_4").attr("checked", false);
+
+              discountApply(data, true);
+            
+          }, //,
+          //error: function(xhr,  Status, error) {
+          //alert('sendRequest error : ' + xhr.status + " ( " + error + " ) " );
+          //}
+        }).always(function () {
+          $(self).removeClass("on");
+          hideLoadingLp();
+        });
+      }
+
+      function releaseVoucher(self, releaseVoucher, isViewReload) {
+        var result = $.Deferred();
+        var code = null;
+        if (releaseVoucher == "undefined" || releaseVoucher == "") {
+          code =
+            $("#selectVoucher option:selected").val() != ""
+              ? $("#selectVoucher option:selected").val() != ""
+              : $("#voucherCode").val();
+        } else {
+          code = releaseVoucher;
+        }
+		console.log("code",code);
+        if (code == "") {
+          layerAlert("정확한 쿠폰 코드를 다시 입력해 주시기 바랍니다.");
+          voucherUncheck("voucherArea");
+          return;
+        }
+
+        if ($("#voucherCode").val() != "") {
+          var tmpCode = $("#voucherCode").val();
+          $("#voucherCode").val(tmpCode.toUpperCase());
+        }
+
+        if ($(self).hasClass("on")) {
+          layerAlert("처리중입니다.");
+          return;
+        }
+        $(self).addClass("on");
+
+        showLoadingLp();
+      
+           
+              $("#voucherCode").val("");
+              $("#voucherCode").prop("disabled", false);
+              if ($("#selectVoucher option:selected").val() == code) {
+                voucherUncheck("selectVoucher");
+              }
+              self
+                .removeClass("btn_input_apply_cancle")
+                .addClass("btn_input_apply");
+              self.html("적용");
+		// 프로모션 쿠폰칸다시 원상복구
+        	cancelDiscountApply();
+		
+        	// 로컬스토리지에서 정보
+        	const userRequest = localStorage.getItem("userOrderRequest");
+        	const parsed = JSON.parse(userRequest);
+        	// 저장된 정보가 있을경우 cpid 삭
+            if(parsed){
+            	delete parsed.cpid;
+            	const stringified = JSON.stringify(parsed);
+            	localStorage.setItem("userOrderRequest", stringified);
+            }
+        
+          $(self).removeClass("on");
+          hideLoadingLp();
+          result.resolve();
+       
+
+        return result.promise();
+      }
+
+      function vipDiscountToggleBtn(objBtn) {
+        if ($(objBtn).hasClass("btn_input_apply")) {
+          redeemVipDiscount($(objBtn));
+        } else if ($(objBtn).hasClass("btn_input_apply_cancel")) {
+          var voucherCode = $("#voucherCode").val().trim();
+
+          if (voucherCode.length > 0) {
+            releaseVoucher(
+              $(".coupon_insert .btn_input_apply_cancle"),
+              voucherCode,
+              true
+            );
+          }
+
+          releaseVipDiscount($(objBtn));
+        }
+      }
+
+      function redeemVipDiscount(self) {
+        if (
+          "" == "" ||
+          ("false" == "false" && ("" == "V4" || "" == "V5" || "" == "V6"))
+        ) {
+          return;
+        }
+
+        if ($("#vipDiscountAmountText").val() == "") {
+          layerAlert("한섬 VVIP 혜택 사용을 체크 하셔야 합니다.");
+          return;
+        }
+
+        if (self.hasClass("on")) {
+          layerAlert("처리중입니다.");
+          return;
+        }
+        self.addClass("on");
+
+        $("#vipDiscountAmount").val($("#vipDiscountAmountValue").val());
+
+        showLoadingLp();
+        $.ajax({
+          type: "GET",
+          url: "/ko/checkout/redeemVipDiscount",
+          contentType: "application/json; charset=utf-8",
+          dataType: "json",
+          data: {
+            vipDiscountAmount: $("#vipDiscountAmount").val(),
+            vipCustNo: $("#vipCustNoTemp").val(),
+          },
+          success: function (data) {
+            if (data == "NEED_LOGIN") {
+              alert("need login");
+              location.href = "/ko/member/login";
+            }
+
+            if (data.errorMsg != "") {
+              layerAlert(data.errorMsg);
+              $("#vipDiscountAmount").val("");
+              return;
+            } else {
+              $("#pointpay").val("");
+              $("#pointpay").prop("readonly", false);
+              $("#btnUsePoint")
+                .removeClass("btn_input_apply_cancle")
+                .addClass("btn_input_apply");
+              $("#btnUsePoint").html("적용");
+              $("#mpg_all_use_1").attr("checked", false);
+
+              $("#hpointpay").val("");
+              $("#hpointpay").prop("readonly", false);
+              $("#btnUseHPoint")
+                .removeClass("btn_input_apply_cancle")
+                .addClass("btn_input_apply");
+              $("#btnUseHPoint").html("적용");
+              $("#mpg_all_use_2").attr("checked", false);
+
+              $("#giftpay").val("");
+              $("#giftpay").prop("readonly", false);
+              $("#btnUseGiftAmount")
+                .removeClass("btn_input_apply_cancle")
+                .addClass("btn_input_apply");
+              $("#btnUseGiftAmount").html("적용");
+              $("#mpg_all_use_3").attr("checked", false);
+
+              $("#egiftpay").val("");
+              $("#egiftpay").prop("readonly", false);
+              $("#btnUseEGiftAmount")
+                .removeClass("btn_input_apply_cancle")
+                .addClass("btn_input_apply");
+              $("#btnUseEGiftAmount").html("적용");
+              $("#mpg_all_use_4").attr("checked", false);
+
+              discountApply(data, true);
+
+              self
+                .removeClass("btn_input_apply")
+                .addClass("btn_input_apply_cancel");
+              self.html("취소");
+            }
+          }, //,
+          //error: function(xhr,  Status, error) {
+          //alert('sendRequest error : ' + xhr.status + " ( " + error + " ) " );
+          //}
+        }).always(function () {
+          $(self).removeClass("on");
+          hideLoadingLp();
+        });
+      }
+
+      function releaseVipDiscount(self) {
+        if (self.hasClass("on")) {
+          layerAlert("처리중입니다.");
+          return;
+        }
+        self.addClass("on");
+
+        showLoadingLp();
+        $.ajax({
+          type: "GET",
+          url: "/ko/checkout/releaseVipDiscount",
+          dataType: "json",
+          contentType: "application/json; charset=utf-8",
+          data: { vipDiscountAmount: $("#vipDiscountAmount").val() },
+          success: function (data) {
+            if (data == "NEED_LOGIN") {
+              alert("need login");
+              location.href = "/ko/member/login";
+            }
+
+            if (data.errorMsg != "") {
+              layerAlert(data.errorMsg);
+              return;
+            } else {
+              $("#vipDiscountAmountText").val("");
+              $("#vipDiscountAmount").val("");
+              $("#vipDiscountCheck").prop("checked", false);
+
+              self
+                .removeClass("btn_input_apply_cancel")
+                .addClass("btn_input_apply");
+              self.html("적용");
+
+              discountApply(data, true);
+            }
+          }, //,
+          //error: function(xhr,  Status, error) {
+          //alert('sendRequest error : ' + xhr.status + " ( " + error + " ) " );
+          //}
+        }).always(function () {
+          self.removeClass("on");
+          hideLoadingLp();
+        });
+      }
+
+      function setVipDiscountAmountValue(obj, discountAmount) {
+        if ($(obj).is(":checked")) {
+          $("#vipDiscountAmountText").val(discountAmount + " 원");
+          $("#vipDiscountAmountValue").val(discountAmount.replace(/,/g, ""));
+
+          redeemVipDiscount($(".vvip_familyBenefit_input_btn"));
+        } else {
+          if ($("#vipDiscountAmount").val() == "") {
+            $("#vipDiscountAmountText").val("");
+            $("#vipDiscountAmountValue").val(0);
+          }
+          releaseVipDiscount($(".vvip_familyBenefit_input_btn"));
+        }
+      }
+
+      function inNumberToValue(obj) {
+        inNumber($(obj));
+        return parseInt($(obj).val() || 0, 10);
+      }
+    </script>
+
+    <!-- ë³´ì¡°ê²°ì&nbsp;ìë¨ -->
+    <script>
+      function fnHpointChargeLink() {
+        var hpointChargeUrl =
+          "https://www.h-point.co.kr/pe/preppoint/prepPayRequest.shd";
+
+        var appYn = "N";
+        if (getCookie("app") == null || getCookie("app") == "") {
+          //
+        } else {
+          appYn = "Y";
+        }
+        var appOs = "";
+
+        if (appYn == "Y") {
+          if (appOs == "ios") {
+            webkit.messageHandlers.callWebBrowser.postMessage(hpointChargeUrl);
+          } else {
+            Android.callWebBrowser(hpointChargeUrl);
+          }
+        } else {
+          window.open(hpointChargeUrl);
+        }
+      }
+    </script>
+  </th:block>
+</html>

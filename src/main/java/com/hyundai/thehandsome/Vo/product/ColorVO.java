@@ -9,4 +9,5 @@ public class ColorVO {
 	private String PCIMG1;
 	private String PCCHIPIMG;
 	private String PCCOLORCODE;
+	private boolean isLiked;
 }

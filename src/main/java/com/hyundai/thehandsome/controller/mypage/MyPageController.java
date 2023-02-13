@@ -18,7 +18,7 @@ import com.hyundai.thehandsome.Vo.product.CatePListVO;
 import com.hyundai.thehandsome.domain.mypage.WishList;
 import com.hyundai.thehandsome.mapper.MyPageMapper;
 import com.hyundai.thehandsome.security.dto.SecurityMember;
-import com.hyundai.thehandsome.service.ProductListService;
+import com.hyundai.thehandsome.service.product.ProductListService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
