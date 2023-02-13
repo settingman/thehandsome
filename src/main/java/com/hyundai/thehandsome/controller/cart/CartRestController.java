@@ -1,13 +1,14 @@
 package com.hyundai.thehandsome.controller.cart;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,8 +18,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hyundai.thehandsome.Vo.CartVO;
-import com.hyundai.thehandsome.Vo.UpdateCartCountReq;
+import com.hyundai.thehandsome.domain.cart.Cart;
 import com.hyundai.thehandsome.service.CartService;
+
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * @filename CartRestController
@@ -35,7 +38,7 @@ import com.hyundai.thehandsome.service.CartService;
  * </pre>
  */
 
-
+@Slf4j
 @RestController
 @RequestMapping("/cart")
 public class CartRestController {
@@ -53,24 +56,25 @@ public class CartRestController {
         System.out.println("mid = " + mid);
         mid=mid.replace(',', '.');
         System.out.println(mid);
+        log.info(service.cSelectAll(mid) + "!");
         return service.cSelectAll(mid);
     }
     
     // 추가
-    @GetMapping("/insert/{mid}/{psid}/{pquantity}")
-    public String insert(@PathVariable("mid") String mid,
-                                    @PathVariable("psid") String psid,
-                                    @PathVariable("pquantity") int pquantity) {
-        System.out.println(mid + psid + pquantity);
-        CartVO cart = new CartVO();
-        cart.setMid(mid);
-        cart.setPsid(psid);
-        cart.setPquantity(pquantity);
-        if(service.checkCart(cart)>0) {
-            return "invalid";
-        }
+    @GetMapping("/cartProduct/{psid}")
+    public String insert(@PathVariable("psid") String psid,
+                         HttpServletResponse response) throws IOException {
+    	log.info("cartProduct GetMapping >>>>>>>>>>>>>>>>>>");
+    	Cart cart = new Cart();
+    	cart.setMid("dev");
+    	cart.setPsid(psid);
+    	cart.setPQuantity(1);
+    	log.info("cart : {}",cart);
         service.cInsert(cart);
-        return "valid";
+        return "Success";
+//        String redirect_uri="http://localhost:8080/cart";
+//        return redirect_uri;
+       
     }
     
     // 삭제 - 기능구현 완료 + redirect 구현완료

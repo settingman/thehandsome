@@ -1,62 +1,90 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-        
-        
+
+
 <mapper namespace="com.hyundai.thehandsome.mapper.CartMapper">
 
 	<!-- 장바구니에 데이터 넣기 -->
-	<insert id ="insert" parameterType="com.hyundai.thehandsome.domain.cart.Cart">
-	insert into cart 
-	values( #{mid}, #{psid}, #{pQuantity})
+	<insert id="insert"
+		parameterType="com.hyundai.thehandsome.domain.cart.Cart">
+		insert into cart
+		values( #{mid}, #{psid}, #{pQuantity})
 	</insert>
-	
-	<!-- 뷰에서  가져오기 -->
-	<select id="selectList" resultType = "com.hyundai.thehandsome.Vo.CartVO">
-	SELECT * 
-	FROM v_cart
-	where mid = #{mid}
+
+	<!-- 뷰에서 가져오기 -->
+	<select id="selectList"
+		resultType="com.hyundai.thehandsome.Vo.CartVO">
+		SELECT *
+		FROM v_cart
+		where mid = #{mid}
 	</select>
-	
-	
-	
+
 
 	<!-- 장바구니 품목 전체 삭제 -->
-	<delete id = "deleteAll">
+	<delete id="deleteAll">
 		delete from cart where mid = #{mid}
 	</delete>
-	
+
 	<!-- 장바구니 선택 품목 삭제 -->
-	<delete id = "delete">
-		delete from cart where mid = #{mid} and psid = #{psid}	
+	<delete id="delete">
+		delete from cart where mid = #{mid} and psid =
+		#{psid}
 	</delete>
-	
+
+	<!-- 상품에 해당하는 사이즈만 select -->
+	<select id="selectSizes" resultType="String">
+		select ps.psize from
+		product_stock ps
+		left outer join product_color pc
+		on pc.pcid = ps.pcid
+		where ps.pcid = #{pcid}
+	</select>
+
+
+
 
 	<!-- 장바구니 선택 품목 사이즈 변경 -->
 	<update id="update">
-		update cart 
-		set 
-		psid = 
+		update cart
+		set
+		psid =
 		(select pcid from product_color
-		where pcid like REGEXP_SUBSTR(#{psid},1,1)||'%'
-		and pccolorcode = #{pccolorcode})||'_'||#{psize}
-		, 
+		where pcid like
+		REGEXP_SUBSTR(#{psid},1,1)||'%'
+		and pccolorcode =
+		#{pccolorcode})||'_'||#{psize}
+		,
 		pquantity = #{pquantity}
-		where psid=#{psid} and  mid = #{mid}
+		where
+		psid=#{psid} and mid = #{mid}
+
+
+
+		<!-- update cart set psid =
+		REGEXP_SUBSTR(#{psid},'[^_]+',1,1)||'_'||#{pccolorcode}||'_'||#{psize}
+		, pquantity = #{pquantity}
+		where psid=#{psid} and
+		mid =#{mid} -->
+
+
 	</update>
-	
+
 	<!-- 장바구니 중복 확인 -->
 	<select id="checkCart" resultType="int">
 		select count(*)
 		from cart
-		where mid = #{mid} and psid = #{psid}
+		where
+		mid = #{mid} and psid = #{psid}
 	</select>
-	
+
 	<!-- 상품 재고량 확인 -->
 	<select id="checkStoct" resultType="int">
 		select psstock
-		from product_stock, member
-		where member.id=#{mid} and product_stock.psid=#{psid}
+		from
+		product_stock, member
+		where member.id=#{mid} and
+		product_stock.psid=#{psid}
 	</select>
 
 </mapper>

@@ -222,7 +222,7 @@ $(function() {
     }
 
     // 장바구니 추가 버튼
-    $(".btn bg_black save_btn").on("click", function(e) {
+/*    $(".btn bg_black save_btn").on("click", function(e) {
         e.preventDefault();
         form.pquantity = $(".pquantity").val();
 
@@ -235,6 +235,6 @@ $(function() {
                 alert("변경되었습니다.")
             }
         })
-    });
+    });*/
 
 })

@@ -70,7 +70,7 @@ function Add_Cart(){
             type: 'GET',
             success: function(result){
                 console.log("result : "+ result);
-                location.href = "http://localhost:8080/cart";
+                location.href = "/cart";
             }
         })   
 } // 이거는 수정 금지
@@ -100,7 +100,7 @@ $("#insertProduct").on("click", function() {
 
 
 
- $(".hs_btm_btn black trigger cart").on("click", function(e) {
+/* $(".hs_btm_btn black trigger cart").on("click", function(e) {
         e.preventDefault();
         form.pquantity = $(".pquantity").val();
         form.psid = $(".psid").val();
@@ -116,6 +116,6 @@ $("#insertProduct").on("click", function() {
                 alert("변경되었습니다.")
             }
         })
-    });
+    });*/
 
 

@@ -9,6 +9,7 @@ import org.apache.ibatis.annotations.Update;
 
 import com.hyundai.thehandsome.Vo.CartVO;
 import com.hyundai.thehandsome.Vo.UpdateCartCountReq;
+import com.hyundai.thehandsome.domain.cart.Cart;
 
 /**
  * @filename CartMapper
@@ -30,8 +31,13 @@ public interface CartMapper {
 	// 장바구니에 있는 상품 view에 출력하기
 	public List<CartVO> selectList(String mid);
 	
+	
+	// 상품에 매핑되는 사이즈 가져오기
+		public List<String> selectSizes(String pcid);
+	
+	
 	// 장바구니에 상품 넣기
-	public void insert(CartVO cart);
+	public void insert(Cart cart);
 	
 	// 장바구니 내 모든 상품 삭제
 	public void deleteAll(CartVO cart);
@@ -53,7 +59,8 @@ public interface CartMapper {
 	public int checkStock(@Param("mid") String mid, @Param("psid") String psid); 
 	
 	// 상품 수량 업데이트
-	@Update("update CART set PQUANTITY=#{count} where MID=#{mid} and PSID = #{psId}")
+	@Update("update CART set PQUANTITY=#{count},"
+			+ "psid = REGEXP_SUBSTR(#{psId},'[^_]+',1,1)||'_'||REGEXP_SUBSTR(#{psId},'[^_]+',1,2)||'_'||#{sized}  where MID=#{mid} and PSID = #{psId}")
 	public void updateCartCount(UpdateCartCountReq updateCartCountReq);
 
 	// 상품 수량 업데이트에 필요한 정보 가져오기

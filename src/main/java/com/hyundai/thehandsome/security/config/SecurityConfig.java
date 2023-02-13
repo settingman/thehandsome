@@ -60,9 +60,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	// Application 접근 정보 설정
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-
-		http.authorizeRequests().antMatchers("/member/**").permitAll() // 누구나 mypage 접근허용 - 02/03 mypage
+		http.authorizeRequests()
+		
+				.antMatchers("/member/**").permitAll() // 누구나 mypage 접근허용 - 02/03 mypage
 																						// 테스트때문에
+				.antMatchers("/cart/**").permitAll()
 				.antMatchers("/", "/mypage/mypage").hasRole("USER") // USER, ADMIN만 접근 가능
 				.antMatchers("/admin").hasRole("ADMIN") // ADMIN만 접근 가능
 				.anyRequest().permitAll(); // 접근 제한을 수동으로 걸어주고 나머지는 접근 제한 OK

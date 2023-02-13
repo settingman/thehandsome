@@ -2,7 +2,11 @@ package com.hyundai.thehandsome.controller.cart;
 
 import com.hyundai.thehandsome.Vo.UpdateCartCountReq;
 import com.hyundai.thehandsome.service.CartService;
+
+import jdk.internal.org.jline.utils.Log;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,6 +26,7 @@ import java.util.HashMap;
  * </pre>
  */
 
+@Slf4j
 @RestController
 @RequiredArgsConstructor
 public class CartRealRestController {
@@ -30,6 +35,8 @@ public class CartRealRestController {
 
     @PostMapping("/cart/updateCartCount")
     public HashMap<Object, Object> updateCartCount(@RequestBody UpdateCartCountReq updateCartCountReq) {
+    	log.info(updateCartCountReq.getPsId());
+    	log.info(updateCartCountReq.getSized());
         cartService.updateCartCount(updateCartCountReq);
         HashMap<Object, Object> result = new HashMap<>();
         result.put("code", "0000");

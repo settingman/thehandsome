@@ -22,6 +22,7 @@ public class UpdateCartCountReq {
     private String mid;
     private String psId;
     private int count;
+    private String sized;
     
     public void convert(int countNow) {
         this.count = count + countNow;
