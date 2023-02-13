@@ -60,3 +60,62 @@ function getImage(PCID, name) {
     $("#prodImages").html(imgList);
   });
 }
+
+function Add_Cart(){
+	console.log("장바구니에 추가 완료")
+	var psid = $('#psid').text();
+	console.log("psid : "+psid)
+   $.ajax({
+            url: '/cart/cartProduct/'+psid,
+            type: 'GET',
+            success: function(result){
+                console.log("result : "+ result);
+                location.href = "http://localhost:8080/cart";
+            }
+        })   
+} // 이거는 수정 금지
+
+/* 장바구니 연동 - 최태승 */
+/*
+$("#insertProduct").on("click", function() {
+	var psid = $('#psid').text();
+	console.log("psid : "+psid)
+   $.ajax({
+            url: '/cart/cartProduct/'+psid,
+            type: 'GET',
+            data: {
+				mid : 'dev',
+				psi : psid,
+				pQuantity : 1
+			},
+            success: function(result){
+				console.log("쇼핑백 담기 = " + result)
+                alert("변경되었습니다.")
+                location.href = "http://localhost:8080/cart";
+            }, error:function(result) {
+				alert('문제 발생');
+			}
+		});
+});*/
+
+
+
+ $(".hs_btm_btn black trigger cart").on("click", function(e) {
+        e.preventDefault();
+        form.pquantity = $(".pquantity").val();
+        form.psid = $(".psid").val();
+        form.mid = $(".mid").val();
+
+        console.log("장바구니로 상품 보내기");
+        
+        $.ajax({
+            url: '/cart/insert',
+            type: 'GET',
+            data: form,
+            success: function(result){
+                alert("변경되었습니다.")
+            }
+        })
+    });
+
+
