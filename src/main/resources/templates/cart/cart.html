@@ -46,8 +46,9 @@
 
 			<div class="cart_all">
 				<div class="check_item">
-					<input type="checkbox" name="" id="check_all"> <label
-						for="check_all">담은 상품(<span class="count2">[[${cartlist.size}]] </span>개)
+					<input type="checkbox" name="" id="check_all"> 
+						<!-- for="check_all">담은 상품(<span class="count2">[[${cartlist.size}]] </span>개) -->
+						<label for="check_all">담은 상품(<span class="count2">[[${#lists.size(cartlist)}]] </span>개)
 					</label>
 				</div>
 			</div>
@@ -64,13 +65,13 @@
 								<label th:for="'gl_check_'+${idx.count}"></label>
 							</div>
 							<ul class="prd_status">
-								<li><span class="sold_out">sold out</span></li>
+								<li><span class="sold_out"></span></li>
 								<li><span class="quick_delivery">4PM</span></li>
 							</ul>
 							<button type="button" class="like_btn">좋아요</button>
 							
 							<form id="delete_form" 
-							 th:action="@{/cart/delete/{mid}/{psid}(mid = ${item.mid}, psid=${item.psid})}"\th:method="post">
+							 th:action="@{/cart/delete/{mid}/{psid}(mid = ${item.mid}, psid=${item.psid})}" method="post">
     						<input type="hidden" name="_method" value="delete"/>	
     						<a onclick="if (confirm('정말로 삭제하시겠습니까?')) document.getElementById('delete_form').submit();" 
     						class="del_btn">삭제</a>
