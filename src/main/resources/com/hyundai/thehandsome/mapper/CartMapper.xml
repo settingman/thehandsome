@@ -6,9 +6,9 @@
 <mapper namespace="com.hyundai.thehandsome.mapper.CartMapper">
 
 	<!-- 장바구니에 데이터 넣기 -->
-	<insert id ="insert" parameterType="com.hyundai.thehandsome.Vo.CartVO">
+	<insert id ="insert" parameterType="com.hyundai.thehandsome.domain.cart.Cart">
 	insert into cart 
-	values( #{mid}, #{psid}, #{pquantity})
+	values( #{mid}, #{psid}, #{pQuantity})
 	</insert>
 	
 	<!-- 뷰에서  가져오기 -->
