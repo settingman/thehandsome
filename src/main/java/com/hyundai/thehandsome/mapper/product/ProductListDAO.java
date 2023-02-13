@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 import com.hyundai.thehandsome.Vo.product.CatePListVO;
 import com.hyundai.thehandsome.Vo.product.ColorVO;
 import com.hyundai.thehandsome.Vo.product.detail.ProductDetailVO;
+import com.hyundai.thehandsome.domain.Criteria;
 
 /**
  * ProductListDAO
@@ -28,7 +29,8 @@ import com.hyundai.thehandsome.Vo.product.detail.ProductDetailVO;
 @Mapper
 public interface ProductListDAO {
 	// Product List 불러오기
-	List<CatePListVO> getPListWithCategory(String depth1name, 
+	List<CatePListVO> getPListWithCategory(Criteria cri,
+  										   String depth1name, 
 										   String depth2name, 
 										   String depth3name,
 										   int brand);

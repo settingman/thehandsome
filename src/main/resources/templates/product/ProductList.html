@@ -7,7 +7,13 @@
 -->
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
   <title>상품 | 더한섬닷컴</title>
-
+  <style>
+    .swiper-slide.flag.swiper-slide-active, 
+    .swiper-slide.flag.swiper-slide-next,
+    .swiper-slide.flag {
+      width: fit-content;
+    }
+  </style>
   <script type="text/javascript" src="/js/productList.js"></script>
   <th:block th:replace="common/head :: headFragment"></th:block>
   <body class="back">
@@ -5115,6 +5121,7 @@ layer popup 형식의 confirm 창
         } else {
           getThirdDepth(url);
         }
+        YesScroll();
       });
       // <!-- 클롭 모나코 팝업 -->
       $(document).ready(function () {

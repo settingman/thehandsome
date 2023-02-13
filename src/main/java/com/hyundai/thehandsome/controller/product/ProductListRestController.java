@@ -1,5 +1,6 @@
 package com.hyundai.thehandsome.controller.product;
 
+import java.security.Principal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,9 +8,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.hyundai.thehandsome.Vo.product.CatePListVO;
+import com.hyundai.thehandsome.domain.Criteria;
 import com.hyundai.thehandsome.service.product.ProductListService;
 
 import lombok.extern.log4j.Log4j2;
@@ -56,6 +60,14 @@ public class ProductListRestController {
 		ResponseEntity<Boolean> isLiked 
 			= new ResponseEntity<Boolean>(plistService.getIsLiked(pcid, mid),HttpStatus.OK);
 		return isLiked;
+	}
+	
+	@PostMapping("/getList")
+	public ResponseEntity<List<CatePListVO>> getPListWithCategory(int currentPage, String categoryCode, String brand, Principal principal){
+		Criteria cri = new Criteria(currentPage, 14);
+		ResponseEntity<List<CatePListVO>> productList
+			= new ResponseEntity<List<CatePListVO>>(plistService.getPListWithCategory(cri, categoryCode,  brand, principal),HttpStatus.OK);
+	return productList;
 	}
 
 }

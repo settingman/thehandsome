@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.hyundai.thehandsome.Vo.product.CatePListVO;
 import com.hyundai.thehandsome.Vo.product.detail.ProductDetailVO;
+import com.hyundai.thehandsome.domain.Criteria;
 import com.hyundai.thehandsome.domain.mypage.WishList;
 
 /**
@@ -26,7 +27,7 @@ import com.hyundai.thehandsome.domain.mypage.WishList;
 
 public interface ProductListService {
 	// 리스트 정보 받아오기
-	List<CatePListVO> getPListWithCategory(String categoryCode, String brand, Principal principal);
+	List<CatePListVO> getPListWithCategory(Criteria cri, String categoryCode, String brand, Principal principal);
 	List<CatePListVO> getPListWithLikes(List<WishList> wishList);
 	
 	// 좋아요 여부 확인
