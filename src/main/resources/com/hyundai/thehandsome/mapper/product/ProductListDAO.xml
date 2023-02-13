@@ -7,19 +7,19 @@
 	<select id="getPListWithCategory"
 		resultType="com.hyundai.thehandsome.Vo.product.CatePListVO">
 		<![CDATA[
-		SELECT SEQ, bname, pname, pcprice, pid
+		SELECT DISTINCT SEQ, bname, pname, pcprice, pid
 		FROM (
 		    SELECT DISTINCT /*+ INDEX_ASC(product_common PRODUCT_COMMON_PK) */
 		    ROWNUM AS SEQ, brand.bname, pcommon.pname, pcolor.pcprice, pcommon.pid
 		    FROM product_common pcommon
 		
-		    INNER JOIN product_color pcolor
+		    LEFT JOIN (SELECT DISTINCT PID, PCPRICE FROM product_color) pcolor
 		    ON pcommon.pid = pcolor.pid
 		
-		    INNER JOIN brand
+		    LEFT JOIN brand
 		    ON brand.bno = pcommon.bno
 		
-		    INNER JOIN pid_with_category_view v
+		    LEFT JOIN pid_with_category_view v
 		    ON v.pid = pcommon.pid
 		]]>
 		<where>
