@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.hyundai.thehandsome.Vo.CartVO;
 import com.hyundai.thehandsome.service.CartService;
 
+import jdk.internal.org.jline.utils.Log;
+
 /**
  * @filename CartController
  * @author 최태승 
@@ -36,6 +38,8 @@ public class CartController {
     public String home(Model model) {
     	String mid = "dev";  	
     	List<CartVO> cartList = service.cSelectAll(mid);
+    	
+    	
 
 		int i = 1;
 
@@ -44,6 +48,8 @@ public class CartController {
 			i+=1;
 			cartVO.convert();
 		}
+		
+	
 
     	model.addAttribute("cartlist", cartList);
     	System.out.println("log : cart");

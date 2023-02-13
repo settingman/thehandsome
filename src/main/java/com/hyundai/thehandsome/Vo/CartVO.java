@@ -1,5 +1,7 @@
 package com.hyundai.thehandsome.Vo;
 
+import java.util.List;
+
 import lombok.Data;
 
 /**
@@ -32,6 +34,11 @@ public class CartVO {
 	private String psize; // 사이즈
 	private String pcolorname; // 색상명
 	private String pcchipimg; // 칩 이미지
+	
+	private String sized;
+	private String pcid;
+	
+	private List<String> sizeList;
 	
 	private int index; // 인덱스
 

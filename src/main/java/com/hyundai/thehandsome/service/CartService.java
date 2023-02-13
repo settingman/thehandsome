@@ -1,8 +1,10 @@
 package com.hyundai.thehandsome.service;
 
 import java.util.List;
+
 import com.hyundai.thehandsome.Vo.CartVO;
 import com.hyundai.thehandsome.Vo.UpdateCartCountReq;
+import com.hyundai.thehandsome.domain.cart.Cart;
 
 /**
  * @filename CartService
@@ -22,7 +24,7 @@ import com.hyundai.thehandsome.Vo.UpdateCartCountReq;
 public interface CartService {
 
 	// insert
-	public void cInsert(CartVO cart);
+	public void cInsert(Cart cart);
 
 	// select
 	public List<CartVO> cSelectAll(String mid);
@@ -37,10 +39,10 @@ public interface CartService {
 	public void cUpdate(CartVO cart);
 	
 	// 장바구니 중복 검사
-	public int checkCart(CartVO cart);
+	public int checkCart(Cart cart);
 	
 	// 재고 검사
-	public int checkStock(CartVO cart);
+	public int checkStock(Cart cart);
 	
 	// 상품 개수 업데이트
 	public void updateCartCount(UpdateCartCountReq updateCartCountReq);

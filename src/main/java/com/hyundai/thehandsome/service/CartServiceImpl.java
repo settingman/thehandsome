@@ -7,7 +7,11 @@ import org.springframework.stereotype.Service;
 
 import com.hyundai.thehandsome.Vo.CartVO;
 import com.hyundai.thehandsome.Vo.UpdateCartCountReq;
+import com.hyundai.thehandsome.domain.cart.Cart;
 import com.hyundai.thehandsome.mapper.CartMapper;
+
+import jdk.internal.org.jline.utils.Log;
+import lombok.extern.slf4j.Slf4j;
 
 
 /**
@@ -26,21 +30,50 @@ import com.hyundai.thehandsome.mapper.CartMapper;
 
 
 @Service
-
+@Slf4j
 public class CartServiceImpl implements CartService{
 	
 	@Autowired
 	private CartMapper cartMapper;
 
 	@Override
-	public void cInsert(CartVO cart) {
-		cartMapper.insert(cart);		
+	public void cInsert(Cart cart) {
+		if(checkCart(cart) > 0) {
+			UpdateCartCountReq req = new UpdateCartCountReq();
+			req.setMid(cart.getMid());
+			req.setPsId(cart.getPsid());
+			req.setCount(1);
+			updateCartCount(req);
+		} else {
+			cartMapper.insert(cart);
+		}	
 	}
-
+	
 	@Override
 	public List<CartVO> cSelectAll(String mid) {
-		return cartMapper.selectList(mid);
+		List<CartVO> cartList = cartMapper.selectList(mid);
+		
+	
+		
+		for(CartVO cart : cartList) {
+			String pcid = cart.getPcid();
+			if(pcid==null) {
+				cartList.remove(0);
+				return cartList;
+			}
+			
+
+			cart.setSizeList(cartMapper.selectSizes(pcid));
+			// 여기에는 파라미터로 pcid가 들어가도록 하기
+			// psid를 문자열 잘라서 넣기
+			
+			log.info(cart.getSizeList().get(0));
+			
+		}
+		return cartList;
 	}
+
+
 
 	@Override
 	public void cDeleteAll(CartVO cart) {
@@ -61,12 +94,12 @@ public class CartServiceImpl implements CartService{
 	}
 
 	@Override
-	public int checkCart(CartVO cart) {
+	public int checkCart(Cart cart) {
 		return cartMapper.checkCart(cart.getMid(), cart.getPsid());
 	}
 
 	@Override
-	public int checkStock(CartVO cart) {
+	public int checkStock(Cart cart) {
 		return cartMapper.checkStock(cart.getMid(), cart.getPsid());
 	}
 	

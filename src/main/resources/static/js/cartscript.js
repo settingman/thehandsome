@@ -55,7 +55,12 @@ $(function(){
     // checkbox
     $('#check_all').on('change', function(){
         let allCheck = $(this).is(':checked');
-        $('.cart_list input[type="checkbox"]').prop('checked', allCheck);
+        if(allCheck){
+			$('.cart_list input[type="checkbox"]:not(:checked)').click();
+		}else{
+			$('.cart_list input[type="checkbox"]:checked').click();
+		}
+        //$('.cart_list input[type="checkbox"]').prop('checked', allCheck);
 
         
         $('.p_cart .fix_bar .check_off').css('display', allCheck ? 'none' : 'block');
