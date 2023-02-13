@@ -3220,6 +3220,7 @@
                     <!-- <button type="button" class="copy">CM2D0KTO509W_LP</button> -->
                     <!-- after -->
                     <button
+                      id="psid"
                       type="button"
                       class="copy btn_clipboard"
                       data-clipboard-action="copy"
@@ -3256,12 +3257,12 @@
                 <div class="hs_btn_size_wrap">
                   <p class="tit">사이즈</p>
                   <div class="size_area" id="size_btn_area">
-                    <span class="size">
+                    <!-- <span class="size">
                       <button type="button" class="btn" onclick="sizeBtnClick(this)" data-value="85">85</button>
                     </span>
                     <span class="size">
                       <button type="button" class="btn" onclick="sizeBtnClick(this)" data-value="90">90</button>
-                    </span>
+                    </span> -->
                   </div>
 
                   <!-- 재입고알림 툴팁 -->
@@ -4128,10 +4129,10 @@
                           la = new layerAlert("삭제 되었습니다.");
                           location.replace("/ko/p/" + $("#productCode").val() + "?returnType=writeReview");
                         },
-                        error: function () {
-                          la = new layerAlert("[Error] " + error);
-                          return;
-                        },
+                        // error: function () {
+                        //   la = new layerAlert("[Error] " + error);
+                        //   return;
+                        // },
                       });
                     };
                   }
@@ -6046,11 +6047,11 @@ dataLayer에 남아 있는 경우에는 전자상거래 단계만을 위해 사�
                         // 							exchangeRateHtml();
                       }, 400);
                     },
-                    error: function (xhr, Status, error) {
-                      hst_btm_btnwrap = false;
+                    // error: function (xhr, Status, error) {
+                    //   hst_btm_btnwrap = false;
 
-                      var la = new layerAlert("[Error] " + error);
-                    },
+                    //   var la = new layerAlert("[Error] " + error);
+                    // },
                   });
                   // }, 300);
 
@@ -6418,49 +6419,49 @@ $('.hs_btm_btnwrap button').click(function(){//바로구매 버튼 클릭
                   );
                   var productCode = checkedColor.replace("info_", "") + "_" + checkedSize;
 
-                  $.ajax({
-                    url: "/ko/shoppingbag/checkQuick",
-                    type: "GET",
-                    data: { zipcode: $("#quickPostalcode").val(), productCode: productCode },
-                    async: false,
-                    success: function (data) {
-                      if (data == "time") {
-                        var la = new layerAlert("퀵배송 주문이 종료되었습니다.</br>내일 00~10시에 다시 이용해 주세요.");
-                        la.confirmAction = function () {
-                          return;
-                        };
-                        checkQuickProcess = true;
-                      } else if (data == "zipcode") {
-                        var la = new layerAlert(
-                          "퀵배송 서비스 불가능  지역입니다.</br>배송지 변경 후 이용해 주세요.<br/>(서울 전 지역 가능, 향후 서비스 확대 예정입니다.)"
-                        );
-                        la.confirmAction = function () {
-                          return;
-                        };
-                        checkQuickProcess = true;
-                      } else if (data == "MaxQty") {
-                        var la = new layerAlert("퀵배송 주문이 마감되었습니다. 내일 다시 이용해 주세요.");
-                        la.confirmAction = function () {
-                          return;
-                        };
-                        checkQuickProcess = true;
-                      } else if (data == "stock") {
-                        var la = new layerAlert(
-                          "퀵배송 대상 상품의 빠른 재고 소진으로<br/>서비스 대상에서 제외되었습니다."
-                        );
-                        la.confirmAction = function () {
-                          return;
-                        };
-                        checkQuickProcess = true;
-                      }
-                    },
-                    error: function (xhr, Status, error) {
-                      checkQuickProcess = true;
-                      var la = new layerAlert(error);
-                      la.confirmAction = function () {
-                        return;
-                      };
-                    },
+                  // $.ajax({
+                  //   url: "/ko/shoppingbag/checkQuick",
+                  //   type: "GET",
+                  //   data: { zipcode: $("#quickPostalcode").val(), productCode: productCode },
+                  //   async: false,
+                  //   success: function (data) {
+                  //     if (data == "time") {
+                  //       var la = new layerAlert("퀵배송 주문이 종료되었습니다.</br>내일 00~10시에 다시 이용해 주세요.");
+                  //       la.confirmAction = function () {
+                  //         return;
+                  //       };
+                  //       checkQuickProcess = true;
+                  //     } else if (data == "zipcode") {
+                  //       var la = new layerAlert(
+                  //         "퀵배송 서비스 불가능  지역입니다.</br>배송지 변경 후 이용해 주세요.<br/>(서울 전 지역 가능, 향후 서비스 확대 예정입니다.)"
+                  //       );
+                  //       la.confirmAction = function () {
+                  //         return;
+                  //       };
+                  //       checkQuickProcess = true;
+                  //     } else if (data == "MaxQty") {
+                  //       var la = new layerAlert("퀵배송 주문이 마감되었습니다. 내일 다시 이용해 주세요.");
+                  //       la.confirmAction = function () {
+                  //         return;
+                  //       };
+                  //       checkQuickProcess = true;
+                  //     } else if (data == "stock") {
+                  //       var la = new layerAlert(
+                  //         "퀵배송 대상 상품의 빠른 재고 소진으로<br/>서비스 대상에서 제외되었습니다."
+                  //       );
+                  //       la.confirmAction = function () {
+                  //         return;
+                  //       };
+                  //       checkQuickProcess = true;
+                  //     }
+                  //   },
+                  //   error: function (xhr, Status, error) {
+                  //     checkQuickProcess = true;
+                  //     var la = new layerAlert(error);
+                  //     la.confirmAction = function () {
+                  //       return;
+                  //     };
+                  //   },
                   });
                 });
               });
@@ -6697,7 +6698,8 @@ $('.hs_btm_btnwrap button').click(function(){//바로구매 버튼 클릭
               <button
                 type="button"
                 class="hs_btm_btn black trigger cart"
-                onclick="GA_Event('상품_상세', '하단 고정 버튼', '쇼핑백담기');">
+                onclick="Add_Cart()"
+                id="insertProduct">
                 쇼핑백 담기
               </button>
               <button
@@ -9434,11 +9436,11 @@ $('.hs_btm_btnwrap button').click(function(){//바로구매 버튼 클릭
                   }
                   loading = false;
                 },
-                error: function (xhr, Status, error) {
-                  loading = false;
-                  var la = new layerAlert("[Error] " + error);
-                  return;
-                },
+                // error: function (xhr, Status, error) {
+                //   loading = false;
+                //   var la = new layerAlert("[Error] " + error);
+                //   return;
+                // },
               });
             }
           }
@@ -9661,12 +9663,12 @@ $('.hs_btm_btnwrap button').click(function(){//바로구매 버튼 클릭
                 <p class="opt_name">사이즈</p>
                 <div class="hs_btn_size_wrap">
                   <div class="size_area">
-                    <span class="size">
+                    <!-- <span class="size">
                       <button type="button" class="btn" data-value="85" data-kr-size="" data-erp-size="2">85</button>
                     </span>
                     <span class="size">
                       <button type="button" class="btn" data-value="90" data-kr-size="" data-erp-size="3">90</button>
-                    </span>
+                    </span> -->
                   </div>
                 </div>
               </div>
@@ -11756,10 +11758,10 @@ $('.hs_star_score_wrap .hs_star_score .btn').on('click', function() {
                             $("#packopt").attr("readonly", true);
                           }
                         },
-                        error: function () {
-                          var la = new layerAlert("[Error] " + error);
-                          return;
-                        },
+                        // error: function () {
+                        //   var la = new layerAlert("[Error] " + error);
+                        //   return;
+                        // },
                       });
                     }
                   }
@@ -11990,9 +11992,9 @@ $('.hs_star_score_wrap .hs_star_score .btn').on('click', function() {
                       return;
                     }
                   },
-                  error: function (xhr, Status, error) {
-                    var la = new layerAlert(error);
-                  },
+                  // error: function (xhr, Status, error) {
+                  //   var la = new layerAlert(error);
+                  // },
                 });
               }
             });
