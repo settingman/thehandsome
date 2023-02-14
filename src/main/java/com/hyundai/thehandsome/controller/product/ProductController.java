@@ -31,6 +31,7 @@ import lombok.extern.log4j.Log4j2;
  * 2023.02.04  	박세영        getProductItem() 추가
  * 2023.02.04  	박세영        ProductDetail() 기능 추가
  * 2023.02.10  	박세영        getProductList() brand 기능 추가
+ * 2023.02.10  	박세영        getProductList() member 기능 추가
  *          </pre>
  */
 

@@ -41,6 +41,7 @@ public class ProductListServiceImpl implements ProductListService {
 	@Autowired
 	private ProductListDAO plistDAO;
 
+//	categoryCode, brand, 유저 정보에 따라 14개 단위로 상품 리스트를 불러온다. 페이징을 포함한다.
 	@Override
 	public List<CatePListVO> getPListWithCategory(Criteria cri, String categoryCode, String brand,
 			Principal principal) {
@@ -81,6 +82,7 @@ public class ProductListServiceImpl implements ProductListService {
 		}
 	}
 
+//	PCID를 통해 각 상품의 상세 정보를 불러오는 Service
 	@Override
 	public ProductDetailVO getProductDetail(String PCID) {
 		try {
@@ -94,7 +96,8 @@ public class ProductListServiceImpl implements ProductListService {
 			throw e;
 		}
 	}
-
+	
+	// PCID를 통해 각 상품의 상세 이미지를 불러오는 Service
 	@Override
 	public List<String> getProductImg(String PCID) {
 		try {
@@ -108,6 +111,7 @@ public class ProductListServiceImpl implements ProductListService {
 		}
 	}
 
+	
 	@Override
 	public List<CatePListVO> getPListWithLikes(List<WishList> wishList) {
 
@@ -140,7 +144,8 @@ public class ProductListServiceImpl implements ProductListService {
 			return list;
 		
 	}
-
+	
+	//각 depth input에 따라 다음 카테고리 depth를 받아오는 Service
 	@Override
 	public List<String> getCategory(String depth1) {
 		List<String> list = plistDAO.getCategory12(depth1);
@@ -153,6 +158,7 @@ public class ProductListServiceImpl implements ProductListService {
 		return list;
 	}
 
+	//PCID, MID를 통해 마이위시 여부를 판별하는 Service
 	@Override
 	public Boolean getIsLiked(String PCID, String MID) {
 		MID = (MID == null) ? "" : MID;
