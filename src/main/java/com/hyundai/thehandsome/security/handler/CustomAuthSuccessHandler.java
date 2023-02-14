@@ -40,11 +40,8 @@ public class CustomAuthSuccessHandler extends SimpleUrlAuthenticationSuccessHand
 	@Override
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
 			Authentication authentication) throws IOException {
-
 		clearSession(request);
-
 		SavedRequest savedRequest = requestCache.getRequest(request, response);
-
 		/**
 		 * prevPage가 존재하는 경우 = 사용자가 직접 /auth/login 경로로 로그인 요청 기존 Session의 prevPage
 		 * attribute 제거
@@ -53,7 +50,6 @@ public class CustomAuthSuccessHandler extends SimpleUrlAuthenticationSuccessHand
 		if (prevPage != null) {
 			request.getSession().removeAttribute("prevPage");
 		}
-
 		// 기본 URI
 		String uri = "/";
 
@@ -71,7 +67,6 @@ public class CustomAuthSuccessHandler extends SimpleUrlAuthenticationSuccessHand
 				uri = prevPage;
 			}
 		}
-
 		redirectStrategy.sendRedirect(request, response, uri);
 	}
 

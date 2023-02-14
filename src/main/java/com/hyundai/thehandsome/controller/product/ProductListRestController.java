@@ -29,6 +29,7 @@ import lombok.extern.log4j.Log4j2;
  * ----------  --------    ---------------------------
  * 2023.02.10  	박세영        최초 생성, getCategoryDepth 추가
  * 2023.02.11  	박세영        최초 생성, isLiked 추가
+ * 2023.02.12  	박세영        getPListWithCategory 추가
  *        </pre>
  */
 @Log4j2

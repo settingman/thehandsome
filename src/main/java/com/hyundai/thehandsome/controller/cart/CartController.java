@@ -35,8 +35,8 @@ public class CartController {
 	private CartService service;
 
     @RequestMapping(value = "", method = RequestMethod.GET)
-    public String home(Model model) {
-    	String mid = "dev";  	
+    public String home(Model model, Principal principal) {
+    	String mid = principal.getName();  	
     	List<CartVO> cartList = service.cSelectAll(mid);
     	
     	

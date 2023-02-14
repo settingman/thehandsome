@@ -2324,7 +2324,7 @@
           	      const stringified = JSON.stringify(parsed);
           	      localStorage.setItem("userOrderRequest",stringified);
           	      const payUrl = `${next_redirect_pc_url}?tid=${tid}&cid=TC0ONETIME&partner_order_id=1001&partner_user_id=itsme`;
-                  window.location.href=payUrl;
+                  window.location.href=encodeURI(payUrl);
                   
                 }, //,
                 error: function(xhr,  Status, error) {

@@ -1,19 +1,16 @@
 package com.hyundai.thehandsome.controller.cart;
 
 import java.io.IOException;
+import java.security.Principal;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -63,10 +60,12 @@ public class CartRestController {
     // 추가
     @GetMapping("/cartProduct/{psid}")
     public String insert(@PathVariable("psid") String psid,
-                         HttpServletResponse response) throws IOException {
+                         HttpServletResponse response, Principal principal) throws IOException {
     	log.info("cartProduct GetMapping >>>>>>>>>>>>>>>>>>");
     	Cart cart = new Cart();
-    	cart.setMid("dev");
+    	
+    	String mid = principal.getName();
+    	cart.setMid(mid);
     	cart.setPsid(psid);
     	cart.setPQuantity(1);
     	log.info("cart : {}",cart);
