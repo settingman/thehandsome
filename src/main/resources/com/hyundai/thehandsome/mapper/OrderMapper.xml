@@ -8,9 +8,9 @@
 	<insert id="save"
 		parameterType="com.hyundai.thehandsome.domain.order.OrderRequest">
 		INSERT INTO
-		    ORDERS( OID, ORECEIVER, OADDRESS1, OADDRESS2, OZIPCODE, OPHONE, OTEL, OMEMO, OBEFOREPRICE, OAFTERPRICE, OSTATUS, MID, PMCODE, CPID, OEMAIL)
+		    ORDERS( OID, ORECEIVER, OADDRESS1, OADDRESS2, OZIPCODE, OPHONE, OTEL, OMEMO, OBEFOREPRICE, OAFTERPRICE, OSTATUS, MID, PMCODE, ODATE, CPID, OEMAIL)
 		VALUES(#{oid}, #{oreceiver}, #{oaddress1}, #{oaddress2}, #{ozipcode}, #{ophone}, #{otel}, #{omemo}, #{obeforePrice}, #{oafterPrice}, '주문완료', #{mid}
-			, 'pmcode1', #{cpid}, #{oemail})
+			, 'pmcode1', SYSDATE, #{cpid}, #{oemail})
 	</insert>
 
 	<insert id="saveItem"

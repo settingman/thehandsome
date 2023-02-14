@@ -35,10 +35,11 @@ public class CartServiceImpl implements CartService{
 	
 	@Autowired
 	private CartMapper cartMapper;
-
+	
+	// insert
 	@Override
 	public void cInsert(Cart cart) {
-		if(checkCart(cart) > 0) {
+		if(checkCart(cart) > 0) { // 중복 상품이 담겨 있으면 수량 증가
 			UpdateCartCountReq req = new UpdateCartCountReq();
 			req.setMid(cart.getMid());
 			req.setPsId(cart.getPsid());
@@ -74,24 +75,21 @@ public class CartServiceImpl implements CartService{
 	}
 
 
-
+	// 상품 전체 삭제
 	@Override
 	public void cDeleteAll(CartVO cart) {
 		cartMapper.deleteAll(cart);
 		
 	}
-
+	
+	// 개별 상품 삭제
 	@Override
 	public void cDelete(String mid, String psid) {
 		cartMapper.delete(mid, psid);
 		
 	}
 
-	@Override
-	public void cUpdate(CartVO cart) {
-        cartMapper.update(cart.getMid(), cart.getPsid(), cart.getPquantity(),
-        				  cart.getPsize(), cart.getPccolorcode());	
-	}
+
 
 	@Override
 	public int checkCart(Cart cart) {
@@ -106,7 +104,7 @@ public class CartServiceImpl implements CartService{
 	@Override
 	public void updateCartCount(UpdateCartCountReq updateCartCountReq) {
 		int countNow = cartMapper.findByMidPsId(updateCartCountReq.getMid(), updateCartCountReq.getPsId());
-		updateCartCountReq.convert(countNow);
+		updateCartCountReq.convert(countNow);	
 		cartMapper.updateCartCount(updateCartCountReq);
 	}
 	

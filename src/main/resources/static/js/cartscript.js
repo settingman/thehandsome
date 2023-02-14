@@ -60,7 +60,6 @@ $(function(){
 		}else{
 			$('.cart_list input[type="checkbox"]:checked').click();
 		}
-        //$('.cart_list input[type="checkbox"]').prop('checked', allCheck);
 
         
         $('.p_cart .fix_bar .check_off').css('display', allCheck ? 'none' : 'block');

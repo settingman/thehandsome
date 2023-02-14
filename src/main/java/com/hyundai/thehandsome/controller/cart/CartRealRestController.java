@@ -32,9 +32,11 @@ import java.util.HashMap;
 public class CartRealRestController {
 
     private final CartService cartService;
-
+    
+    // 장바구니 정보 변경
     @PostMapping("/cart/updateCartCount")
-    public HashMap<Object, Object> updateCartCount(@RequestBody UpdateCartCountReq updateCartCountReq) {
+    public HashMap<Object, Object> updateCartCount(
+    		@RequestBody UpdateCartCountReq updateCartCountReq) {
     	log.info(updateCartCountReq.getPsId());
     	log.info(updateCartCountReq.getSized());
         cartService.updateCartCount(updateCartCountReq);

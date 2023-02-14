@@ -4,6 +4,18 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * @filename OrderRequest
+ * @author 최태승 
+ * @since 2023.02.06
+ * 주문 DTO
+ * 
+ * <pre>
+ * 수정일        	수정자       			수정내용
+ * ----------  --------    ---------------------------
+ * 2023.02.06  	최태승        최초 생성 
+ * </pre>
+ */
 
 @Data
 @AllArgsConstructor
@@ -27,5 +39,13 @@ public class OrderRequest {
     private String pmmethod; // 결제방식
     private String pmcompany; // 지불회사
     private String mid;
+	public void setTotalPrice(int i) {
+		// TODO Auto-generated method stub
+		
+	}
+	public void setPaymentType(String string) {
+		// TODO Auto-generated method stub
+		
+	}
 
 }
