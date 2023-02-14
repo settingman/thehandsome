@@ -65,7 +65,7 @@ $(function() {
         if(Number(document.getElementById('total2').innerHTML) < 1) {
             alert("상품을 선택해 주세요.");
         } else {
-            location.href = 'http://localhost:8080/order/order';
+            location.href = 'http://192.168.0.101.nip.io:8080/order/order';
         }
     });
 

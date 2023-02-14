@@ -14,7 +14,7 @@ console.log("TEST");
 
 /*사이즈 버튼 추가 ajax*/
 function getStock(PCID) {
-  $.getJSON("http://localhost:8080/info/stock/" + PCID, function (data) {
+  $.getJSON("http://192.168.0.101.nip.io:8080/info/stock/" + PCID, function (data) {
     let sizeButton = "";
     $(data).each(function () {
       sizeButton += `
@@ -28,7 +28,7 @@ function getStock(PCID) {
 }
 
 function getImage(PCID, name) {
-  $.getJSON("http://localhost:8080/info/imgList/" + PCID, function (data) {
+  $.getJSON("http://192.168.0.101.nip.io:8080/info/imgList/" + PCID, function (data) {
     let imgList ="";
     console.log(data);
     $(data).each(function(){

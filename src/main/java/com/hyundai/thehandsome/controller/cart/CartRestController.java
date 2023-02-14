@@ -84,7 +84,7 @@ public class CartRestController {
         System.out.println("삭제 완료");
         System.out.println("psid : " + psid);
         service.cDelete(mid,psid);
-        String redirect_uri="http://localhost:8080/cart";
+        String redirect_uri="http://192.168.0.101.nip.io:8080/cart";
     	response.sendRedirect(redirect_uri);
         return redirect_uri;
     }

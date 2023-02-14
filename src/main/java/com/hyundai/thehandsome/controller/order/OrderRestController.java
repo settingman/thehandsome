@@ -117,9 +117,9 @@ public class OrderRestController {
         params.add("quantity", quantity);
         params.add("total_amount", total_amount);
         params.add("tax_free_amount", tax_free_amount);
-        params.add("approval_url", "http://localhost:8080/order/complete"); // 원하는대로 수정가능
-        params.add("cancel_url", "http://localhost:8080/?data=cancel"); // 원하는대로 수정가능
-        params.add("fail_url", "http://localhost:8080/?data=fail"); // 원하는대로 수정가능
+        params.add("approval_url", "http://192.168.0.101.nip.io:8080/order/complete"); // 원하는대로 수정가능
+        params.add("cancel_url", "http://192.168.0.101.nip.io:8080/?data=cancel"); // 원하는대로 수정가능
+        params.add("fail_url", "http://192.168.0.101.nip.io:8080/?data=fail"); // 원하는대로 수정가능
 
         HttpEntity<MultiValueMap<String, String>> kakaopay = new HttpEntity<>(params, httpHeaders);
 
