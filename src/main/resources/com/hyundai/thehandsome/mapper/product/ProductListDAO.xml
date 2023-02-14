@@ -63,8 +63,6 @@
 		INNER JOIN brand
 		brand ON brand.bno =
 		pcommon.bno
-		INNER JOIN pid_with_category_view v ON
-		v.pid = pcommon.pid
 		WHERE pcommon.pid IN
 
 		<foreach collection='list' index='index' item='pidList'

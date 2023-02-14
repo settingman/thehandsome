@@ -114,11 +114,23 @@ public class MyPageController {
 		
 		List<WishList> wishList = myPageMapper.findWishlist(principal.getName());
 		
+		
+		
+		
 		try {
+			log.info("cate");
 			List<CatePListVO> pList = plistService.getPListWithLikes(wishList);;
 						
+			for(CatePListVO cate: pList) {
+				log.info(cate.getPid());
+				
+			}
+			
+			
 			model.addAttribute("pList", pList);
+			
 			return "/mypage/myWish";		
+			
 		} catch (Exception e) {
 			throw e;
 		}
