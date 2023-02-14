@@ -43,9 +43,10 @@ public class ProductListServiceImpl implements ProductListService {
 
 //	categoryCode, brand, 유저 정보에 따라 14개 단위로 상품 리스트를 불러온다. 페이징을 포함한다.
 	@Override
-	public List<CatePListVO> getPListWithCategory(Criteria cri, String categoryCode, String brand, Principal principal) {
+	public List<CatePListVO> getPListWithCategory(Criteria cri, String categoryCode, String brand,
+			Principal principal) {
 		try {
-			
+
 			// 파라미터들 null 예외 처리
 			String depth1 = "";
 			String depth2 = "";
@@ -54,21 +55,21 @@ public class ProductListServiceImpl implements ProductListService {
 
 			if (categoryCode != null && categoryCode != "") {
 				depth1 = categoryCode.substring(0, 2);
-				depth2 = (categoryCode.length() ==4 ? categoryCode.substring(2, 4) : "");
-				depth3 = (categoryCode.length() ==5 ? categoryCode.substring(4, 5) : "");
+				depth2 = (categoryCode.length() == 4 ? categoryCode.substring(2, 4) : "");
+				depth3 = (categoryCode.length() == 5 ? categoryCode.substring(4, 5) : "");
 			}
 
 			if (brand != null && brand != "") {
 				bno = Integer.parseInt(brand);
 			}
-			
+
 			String mid = (principal == null) ? "" : principal.getName();
-			
+
 			// 상품 list 불러오기
 			List<CatePListVO> list = plistDAO.getPListWithCategory(cri, depth1, depth2, depth3, bno);
 			for (CatePListVO item : list) {
 				item.setColorList(plistDAO.getProductColor(item.getPid()));
-				for(ColorVO color : item.getColorList()) {
+				for (ColorVO color : item.getColorList()) {
 					color.setLiked(plistDAO.isLiked(mid, color.getPCID()));
 				}
 				log.info(item);
@@ -118,19 +119,30 @@ public class ProductListServiceImpl implements ProductListService {
 
 		for (WishList Wish : wishList) {
 			pIdList.add(Wish.productCode.split("_")[0]);
+
 		}
 
-		try {
-			List<CatePListVO> list = plistDAO.getPListWithLikes(pIdList);
+		for (String pid : pIdList) {
+			log.info("PID");
+			log.info(pid);
+		}
+
+		
+		log.info("plistDAO strat");
+		List<CatePListVO> list = plistDAO.getPListWithLikes(pIdList);
+		log.info(list.isEmpty());
+
+		for (CatePListVO c : list) {
+			log.info("plistDAO");
+			log.info(c.toString());
+		}
+
 			for (CatePListVO item : list) {
 				item.setColorList(plistDAO.getProductColor(item.getPid()));
 				log.info(item);
 			}
 			return list;
-		} catch (Exception e) {
-			log.info(e.getMessage());
-			throw e;
-		}
+		
 	}
 	
 	//각 depth input에 따라 다음 카테고리 depth를 받아오는 Service
