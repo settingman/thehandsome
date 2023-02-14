@@ -1540,36 +1540,6 @@
                   window.location.href = "/ko/c/" + categori + "/" + categori + "?subBrand=" + subBrandCd;
                 }
 
-                // 환율 계산 script 추가
-                function showExchangeRate(price) {
-                  // 		var exchangeRateList = '[{symbol=¥, exchangeRate=181.49, currencyCode=CNY}, {symbol=$, exchangeRate=1219.3, currencyCode=USD}]';
-                  //
-
-                  // 		var sumPrice = parseFloat(495000);
-                  // 		var addHtml = "";
-
-                  //
-                  // 			var currecy = "CNY";
-                  // 			var rate = "181.49";
-                  // 			var simbol = "¥";
-
-                  // 			var exchangeAmt = Math.round(parseFloat(sumPrice) / parseFloat(rate) * 100) / 100 ;
-                  // 			addHtml += "<span>"+simbol+numberWithCommas(exchangeAmt)+"</span>";
-                  //
-                  // 			var currecy = "USD";
-                  // 			var rate = "1219.3";
-                  // 			var simbol = "$";
-
-                  // 			var exchangeAmt = Math.round(parseFloat(sumPrice) / parseFloat(rate) * 100) / 100 ;
-                  // 			addHtml += "<span>"+simbol+numberWithCommas(exchangeAmt)+"</span>";
-                  //
-
-                  // 		$(".global_price").append(addHtml);
-                  var sumPrice = parseFloat(price);
-                  var addHtml = "<span>₩" + numberWithCommas(sumPrice);
-                  +"</span>";
-                  $(".hs_prd_info_wrap .hs_vw_global_info .global_price").html(addHtml);
-                }
 
                 function numberWithCommas(x) {
                   // 세자리마다 콤마(,) 추가
