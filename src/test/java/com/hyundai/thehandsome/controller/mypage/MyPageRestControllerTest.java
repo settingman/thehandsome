@@ -2,26 +2,34 @@ package com.hyundai.thehandsome.controller.mypage;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.sql.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.hyundai.thehandsome.domain.member.Member;
-import com.hyundai.thehandsome.domain.member.MemberRole;
 import com.hyundai.thehandsome.domain.mypage.Voucher;
 import com.hyundai.thehandsome.domain.mypage.WishList;
 import com.hyundai.thehandsome.mapper.MemberMapper;
 import com.hyundai.thehandsome.mapper.MyPageMapper;
 
 import lombok.extern.slf4j.Slf4j;
+/**
+ * @since   : 2023. 2. 14.
+ * @FileName: MyPageRestControllerTest.java
+ * @author  : 박성환
+ * @설명    : MypageRestController Test
+
+ * <pre>
+ *   수정일         수정자               수정내용
+ * ----------      --------    ---------------------------
+ * 2023. 2. 10.     박성환      최초생성
+ * </pre>
+ */
 @Slf4j
 @SpringBootTest
 @Transactional

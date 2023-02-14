@@ -50,6 +50,7 @@ public class MailServiceImpl {
 		return mailVo;
 	}
 
+	
 	/** 이메일 전송 **/
 	public void sendMail(MailVo mailVo) {
 		SimpleMailMessage mailMessage = new SimpleMailMessage();
@@ -63,6 +64,8 @@ public class MailServiceImpl {
 
 		log.info("메일 전송 완료");
 	}
+	
+	
 	
 	public String getTmpPassword() {
 		char[] charSet = new char[] { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F',

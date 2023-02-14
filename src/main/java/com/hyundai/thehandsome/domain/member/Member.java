@@ -20,7 +20,7 @@ import lombok.Setter;
  *   수정일         수정자               수정내용
  * ----------      --------    ---------------------------
  * 2023. 2. 3.     박성환      DateBase Member Object
- * </pre>
+ * </pre>t
  */
 @NoArgsConstructor
 @Getter

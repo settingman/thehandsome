@@ -47,6 +47,7 @@ public class MemberService implements UserDetailsService {
 		return memberMapper.findById(member.getMId());
 	}
 
+	
 	// 회원가입 중복확인
 	public void validateDuplicateMember(Member member) {
 		Member findMember = memberMapper.findById(member.getMId());

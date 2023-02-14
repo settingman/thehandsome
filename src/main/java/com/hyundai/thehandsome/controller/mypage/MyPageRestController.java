@@ -60,8 +60,6 @@ public class MyPageRestController {
 	@RequestMapping(value = "/voucher", produces = "application/json; charset=UTF-8", method = RequestMethod.GET)
 	public void ajaxVoucher(String id_sel, HttpServletResponse response, Principal principal) throws Exception {
 
-		log.info(id_sel);
-
 		// Y일때 사용완료 쿠폰 나오기 : CPSTATUS = 0
 		// N일때 사용안한 쿠폰 나오기 : CPSTATUS = 1
 
@@ -73,29 +71,23 @@ public class MyPageRestController {
 			id_sel = "0";
 
 		Gson gson = new Gson();
-
 		// 회원 아이디로 보유 쿠폰 조회하여 voucher 객체를 만들어 준뒤 넣어주기.
 
 		Map<String, Object> data = new HashMap<>();
 		List<Voucher> voucherList = myPageMapper.findVoucher(principal.getName(), id_sel);
 
 		for (Voucher voucher : voucherList) {
-
-			log.info(voucher.toString());
-
 			if (voucher.getValue() > 100)
 				voucher.currency = "₩";
 			else
 				voucher.currency = null;
 		}
-
 		/*
 		 * Voucher voucher3 = new Voucher("2023-02-01",
 		 * "아울렛 및 라이프스타일 뷰티 상품군 제외 (온라인 전용, 3만원 이상 구매 시 사용 가능)",
 		 * "VP2-302-FM1-A03-76LFSE", "[1000만원] 박세영 쿠폰", 10000000, null, "2024-07-31",
 		 * "₩"); ;
 		 */
-
 		data.put("results", voucherList);
 
 		response.setCharacterEncoding("UTF-8");

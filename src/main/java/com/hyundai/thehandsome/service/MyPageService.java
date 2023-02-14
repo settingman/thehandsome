@@ -45,12 +45,9 @@ public class MyPageService {
 
 		if (pId == null) {
 			
-			Date nowDate = new Date();					
-	        
+			Date nowDate = new Date();						        
 			SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd"); 
-	   
-			String strNowDate = simpleDateFormat.format(nowDate); 
-			
+	   		String strNowDate = simpleDateFormat.format(nowDate); 			
 			
 			mypageMapper.insertWishlist(mId, productCode,strNowDate);
 			return "insert";

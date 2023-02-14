@@ -80,11 +80,7 @@ public class MemberRestController {
 			return "/member/findidpwpage";
 		}
 
-		log.info("findPw");
-
 		String tmpPassword = mailService.getTmpPassword();
-
-		log.info(tmpPassword);
 
 		/** 임시 비밀번호 저장 **/
 		mailService.updatePassword(tmpPassword, mId);
