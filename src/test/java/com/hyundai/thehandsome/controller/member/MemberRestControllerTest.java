@@ -19,6 +19,18 @@ import com.hyundai.thehandsome.mapper.MemberMapper;
 import lombok.extern.slf4j.Slf4j;
 
 
+/**
+ * @since   : 2023. 2. 14.
+ * @FileName: MemberRestControllerTest.java
+ * @author  : 박성환
+ * @설명    : MemberReestController Test
+
+ * <pre>
+ *   수정일         수정자               수정내용
+ * ----------      --------    ---------------------------
+ * 2023. 2. 14.     박성환      최초생성
+ * </pre>
+ */
 @Slf4j
 @SpringBootTest
 @Transactional

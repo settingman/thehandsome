@@ -16,16 +16,27 @@ import com.hyundai.thehandsome.domain.member.MemberRole;
 import com.hyundai.thehandsome.domain.mypage.Order;
 
 import lombok.extern.slf4j.Slf4j;
+
+/**
+ * @since : 2023. 2. 14.
+ * @FileName: MemberMapperTest.java
+ * @author : 박성환
+ * @설명 : MemberMapper Test
+ * 
+ *     <pre>
+ *   수정일         수정자               수정내용
+ * ----------      --------    ---------------------------
+ * 2023. 2. 08.     박성환      최초생성
+ *     </pre>
+ */
 @Slf4j
 @SpringBootTest
 @Transactional
 public class MemberMapperTest {
-	
-	
+
 	@Autowired
 	MemberMapper memberMapper;
-	
-	
+
 	@Autowired
 	OrderMapper orderMapper;
 
@@ -36,31 +47,28 @@ public class MemberMapperTest {
 
 	@Test
 	public void testSave() {
-		Member member = new Member("test.com","1234","테스트","01011111111","test.com","08101","테스트주소1","테스트주소2",new Date(199912123),1,MemberRole.USER);
-		
-		DuplicateKeyException e = assertThrows(DuplicateKeyException.class,
-		 		() -> memberMapper.save(member));//예외가 발생해야 한다.
-				
+		Member member = new Member("test.com", "1234", "테스트", "01011111111", "test.com", "08101", "테스트주소1", "테스트주소2",
+				new Date(199912123), 1, MemberRole.USER);
+
+		DuplicateKeyException e = assertThrows(DuplicateKeyException.class, () -> memberMapper.save(member));// 예외가 발생해야
+																												// 한다.
+
 	}
-	
+
 	@Test
 	public void testFindB() {
-		List<Order> order =orderMapper.findOrder("dev");
+		List<Order> order = orderMapper.findOrder("dev");
 		log.info(order.toString());
 	}
-	
-	
 
 	@Test
 	public void testFindByNameBirth() {
-		memberMapper.findByNameBirth("테스트","950908");
+		memberMapper.findByNameBirth("테스트", "950908");
 	}
 
 	@Test
 	public void testFindByNameId() {
-		memberMapper.findByNameId("테스트","test.com");
+		memberMapper.findByNameId("테스트", "test.com");
 	}
-
-
 
 }

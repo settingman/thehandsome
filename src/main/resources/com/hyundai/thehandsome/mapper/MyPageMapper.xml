@@ -26,11 +26,13 @@
 		and PID=#{productCode}
 	</select>
 
+
 	<insert id="insertWishlist">
 		INSERT INTO LIKES
 		VALUES( #{productCode} , #{mId},
 		#{sysdate})
 	</insert>
+
 
 	<delete id="deleteWishlist">
 		delete from LIKES
