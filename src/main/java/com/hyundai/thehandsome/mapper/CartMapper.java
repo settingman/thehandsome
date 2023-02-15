@@ -58,15 +58,16 @@ public interface CartMapper {
 	// 상품 재고 확인
 	public int checkStock(@Param("mid") String mid, @Param("psid") String psid); 
 	
-	// 상품 수량 업데이트
+	// 상품 수량 + 사이즈 업데이트
 	@Update("update CART set PQUANTITY=#{count},"
-			+ "psid = REGEXP_SUBSTR(#{psId},'[^_]+',1,1)||'_'||REGEXP_SUBSTR(#{psId},'[^_]+',1,2)||'_'||#{sized}  where MID=#{mid} and PSID = #{psId}")
+			+ "psid = REGEXP_SUBSTR(#{psId},'[^_]+',1,1)||"
+			+ "'_'||REGEXP_SUBSTR(#{psId},'[^_]+',1,2)||'_'||"
+			+ "#{sized}  where MID=#{mid} and PSID = #{psId}")
 	public void updateCartCount(UpdateCartCountReq updateCartCountReq);
 
 	// 상품 수량 업데이트에 필요한 정보 가져오기
 	@Select("select PQUANTITY from CART where MID=#{mid} and PSID = #{psId}")
 	public int findByMidPsId(@Param("mid")String mid, @Param("psId") String psId);
-	
 	
 	
 }

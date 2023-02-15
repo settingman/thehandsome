@@ -61,6 +61,7 @@ function getImage(PCID, name) {
   });
 }
 
+/* 장바구니 연동 - 최태승 */
 function Add_Cart(){
 	console.log("장바구니에 추가 완료")
 	var psid = $('#psid').text();
@@ -73,7 +74,9 @@ function Add_Cart(){
                 location.href = "/cart";
             }
         })   
-} // 이거는 수정 금지
+} 
+
+
 
 /* 장바구니 연동 - 최태승 */
 /*
