@@ -60,7 +60,7 @@ public class MyPageController {
 		
 		List<Order> orderList = orderMapper.findOrder(principal.getName());
 		
-		
+		log.info(orderList.get(0).toString());
 		
 		model.addAttribute("orderList", orderList);
 

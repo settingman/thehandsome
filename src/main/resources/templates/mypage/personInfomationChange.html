@@ -506,7 +506,7 @@ $(document).ready(function(){
 	    
 		//비밀번호변경
 		$("#pwChangeBtn").click(function() {
-			location.href="/mypage/changePw"
+			callLayerPopup('/mypage/changePw','depth1');
 		});
 	}
     
@@ -699,7 +699,7 @@ function transMember(){
 					<div class="gray_tab">
 						<h4 class="title">비밀번호를 변경하고 싶으세요?</h4>
 						<div class="btn_wrap btn_wrap_div1">
-							<a href="/mypage/changePw" class="btnstl3 solid_btn_blk btn_layerpopup_call" id="pwChangeBtn">비밀번호 변경</a>
+							<a href="#none" class="btnstl3 solid_btn_blk btn_layerpopup_call" id="pwChangeBtn">비밀번호 변경</a>
 						</div>
 					</div>
 					<div class="mp_input_wrap">
