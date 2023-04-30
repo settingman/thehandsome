@@ -42,7 +42,7 @@
  
  ```
  * 역할: 상품, 장바구니   
- * E-mail: 
+ * E-mail: sy.park.HUB@gmail.com
  ```
 
 ## 4. 요구 사항 
